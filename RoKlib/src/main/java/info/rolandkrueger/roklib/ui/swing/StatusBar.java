@@ -1,25 +1,21 @@
 /*
- * $Id: StatusBar.java 178 2010-10-31 18:01:20Z roland $
  * Copyright (C) 2007 Roland Krueger
  * 
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.ui.swing;
 
@@ -34,28 +30,21 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 /**
- * This class represents a status bar that can be used to display status
- * messages in a windowed application. The area of a status bar is divided into
- * two parts. The bar's left half is used as display for general messages. Here,
- * all types of messages can be displayed by the application. If desired, the
- * right half of a status bar can be filled with specialized message fields.
- * Such fields can be used to show the status of a some special part of the
- * application. In a client-server application, it is conceivable to show the
- * server address a client is connected to in such a field, for example. These
- * specialized message fields are added to a status bar with
+ * This class represents a status bar that can be used to display status messages in a windowed application. The area of
+ * a status bar is divided into two parts. The bar's left half is used as display for general messages. Here, all types
+ * of messages can be displayed by the application. If desired, the right half of a status bar can be filled with
+ * specialized message fields. Such fields can be used to show the status of a some special part of the application. In
+ * a client-server application, it is conceivable to show the server address a client is connected to in such a field,
+ * for example. These specialized message fields are added to a status bar with
  * {@link StatusBar#addElement(String, String)}.<br>
  * <br>
- * It is possible to display messages in the message area of a status bar that
- * will be shown for a certain predefined period of time. This is done with
- * {@link StatusBar#setTimedMessage(String)}. If the delay of a timed message -
- * which can be defined through the constructor
- * {@link StatusBar#StatusBar(long)} or with
- * {@link StatusBar#setMessageDelay(long)} - has elapsed, the timed message is
- * replaced by the ready message as provided by
- * {@link StatusBar#setReadyMessage(String)}.<br>
+ * It is possible to display messages in the message area of a status bar that will be shown for a certain predefined
+ * period of time. This is done with {@link StatusBar#setTimedMessage(String)}. If the delay of a timed message - which
+ * can be defined through the constructor {@link StatusBar#StatusBar(long)} or with
+ * {@link StatusBar#setMessageDelay(long)} - has elapsed, the timed message is replaced by the ready message as provided
+ * by {@link StatusBar#setReadyMessage(String)}.<br>
  * <br>
- * <b>Example:</b> The following code will create a status bar as sketched
- * below: <blockquote>
+ * <b>Example:</b> The following code will create a status bar as sketched below: <blockquote>
  * 
  * <pre>
  * StatusBar bar = new StatusBar ();
@@ -74,19 +63,18 @@ import javax.swing.border.EtchedBorder;
  */
 public class StatusBar extends JPanel implements HoverListener
 {
-  private static final long serialVersionUID = 1777229355563005791L;
+  private static final long     serialVersionUID = 1777229355563005791L;
 
-  private JLabel mInfoLabel;
-  private JPanel mElementsPanel;
-  private Timer mTimer;
-  private long mDelay;
-  private String mReadyText = "";
-  private String mCurrentMessage = "";
+  private JLabel                mInfoLabel;
+  private JPanel                mElementsPanel;
+  private Timer                 mTimer;
+  private long                  mDelay;
+  private String                mReadyText       = "";
+  private String                mCurrentMessage  = "";
   private ArrayList<BarElement> mElements;
 
   /**
-   * Default constructor. The duration of displaying a timed message is set to 2
-   * seconds.
+   * Default constructor. The duration of displaying a timed message is set to 2 seconds.
    * 
    * @see StatusBar#setTimedMessage(String)
    */
@@ -118,7 +106,8 @@ public class StatusBar extends JPanel implements HoverListener
 
   public void hoverStarted (Hoverable source)
   {
-    if (source.getHoverText () == null) return;
+    if (source.getHoverText () == null)
+      return;
     mInfoLabel.setText (source.getHoverText ());
   }
 
@@ -128,8 +117,8 @@ public class StatusBar extends JPanel implements HoverListener
   }
 
   /**
-   * Sets the ready message for this status bar. This message will be displayed
-   * in the message area if no other message is currently being shown.
+   * Sets the ready message for this status bar. This message will be displayed in the message area if no other message
+   * is currently being shown.
    * 
    * @param msg
    *          the ready message for this status bar.
@@ -142,11 +131,10 @@ public class StatusBar extends JPanel implements HoverListener
   }
 
   /**
-   * A timed message will be displayed in the message area for a certain amount
-   * of time. This time can be configured either through the constructor
-   * {@link StatusBar#StatusBar(long)} or through method
-   * {@link StatusBar#setMessageDelay(long)}. After the delay has elapsed, the
-   * status bar's ready message is displayed again.
+   * A timed message will be displayed in the message area for a certain amount of time. This time can be configured
+   * either through the constructor {@link StatusBar#StatusBar(long)} or through method
+   * {@link StatusBar#setMessageDelay(long)}. After the delay has elapsed, the status bar's ready message is displayed
+   * again.
    * 
    * @param msg
    *          the message to be displayed for some time
@@ -167,13 +155,11 @@ public class StatusBar extends JPanel implements HoverListener
   }
 
   /**
-   * Sets the amount of time in milliseconds of how long a timed message will be
-   * displayed.
+   * Sets the amount of time in milliseconds of how long a timed message will be displayed.
    * 
    * @see StatusBar#setTimedMessage(String)
    * @param delay
-   *          the amount of time in milliseconds of how long a timed message
-   *          will be displayed
+   *          the amount of time in milliseconds of how long a timed message will be displayed
    */
   public void setMessageDelay (long delay)
   {
@@ -181,27 +167,22 @@ public class StatusBar extends JPanel implements HoverListener
   }
 
   /**
-   * Adds a specialized message field to the right half of the status bar. The
-   * specified <code>text</code> will be displayed in that field. The given
-   * <code>helpText</code> will be displayed in the general message area while
-   * the mouse cursor hovers over the specialized message field. Both of these
-   * text messages can be changed with
-   * {@link StatusBar#setElementText(int, String)} and
-   * {@link StatusBar#setElementHelpText(int, String)}, respectively. The
-   * <code>int</code> value that is returned by this method is the
-   * identification number of the new specialized message field. This number is
-   * needed for the first parameter of the <code>setElement*</code> methods and
-   * indicates the field that is meant to be changed.
+   * Adds a specialized message field to the right half of the status bar. The specified <code>text</code> will be
+   * displayed in that field. The given <code>helpText</code> will be displayed in the general message area while the
+   * mouse cursor hovers over the specialized message field. Both of these text messages can be changed with
+   * {@link StatusBar#setElementText(int, String)} and {@link StatusBar#setElementHelpText(int, String)}, respectively.
+   * The <code>int</code> value that is returned by this method is the identification number of the new specialized
+   * message field. This number is needed for the first parameter of the <code>setElement*</code> methods and indicates
+   * the field that is meant to be changed.
    * 
    * @see StatusBar#setElementHelpText(int, String)
    * @see StatusBar#setElementText(int, String)
    * @param text
    *          the text that will be displayed in the text area
    * @param helpText
-   *          help text for the text area that will be displayed in the general
-   *          text area when the mouse hovers over the new text area
-   * @return an identification number that is needed to refer to the newly added
-   *         text area
+   *          help text for the text area that will be displayed in the general text area when the mouse hovers over the
+   *          new text area
+   * @return an identification number that is needed to refer to the newly added text area
    */
   public int addElement (String text, String helpText)
   {
@@ -221,18 +202,15 @@ public class StatusBar extends JPanel implements HoverListener
   }
 
   /**
-   * Sets the text displayed by the spezialized message area with the given
-   * identification number.
+   * Sets the text displayed by the spezialized message area with the given identification number.
    * 
    * @param elementNr
-   *          identification number as provided by
-   *          {@link StatusBar#addElement(String, String)} which refers to the
+   *          identification number as provided by {@link StatusBar#addElement(String, String)} which refers to the
    *          message field that is to be changed by this method
    * @param text
    *          the text to be displayed by the message field
    * @throws ArrayIndexOutOfBoundsException
-   *           if the message field denoted by <code>elementNr</code> does not
-   *           exist
+   *           if the message field denoted by <code>elementNr</code> does not exist
    */
   public void setElementText (int elementNr, String text)
   {
@@ -242,18 +220,15 @@ public class StatusBar extends JPanel implements HoverListener
   }
 
   /**
-   * Sets the help text that belongs to the spezialized message area with the
-   * given identification number.
+   * Sets the help text that belongs to the spezialized message area with the given identification number.
    * 
    * @param elementNr
-   *          identification number as provided by
-   *          {@link StatusBar#addElement(String, String)} which refers to the
+   *          identification number as provided by {@link StatusBar#addElement(String, String)} which refers to the
    *          message field that is to be changed by this method
    * @param helpText
    *          the text to be displayed by the message field
    * @throws ArrayIndexOutOfBoundsException
-   *           if the message field denoted by <code>elementNr</code> does not
-   *           exist
+   *           if the message field denoted by <code>elementNr</code> does not exist
    */
   public void setElementHelpText (int elementNr, String helpText)
   {
@@ -271,8 +246,8 @@ public class StatusBar extends JPanel implements HoverListener
   {
     private static final long serialVersionUID = 9159375387417999283L;
 
-    private String mHelpText;
-    private HoverManager mHoverManager;
+    private String            mHelpText;
+    private HoverManager      mHoverManager;
 
     public BarElement (String text, String helpText)
     {

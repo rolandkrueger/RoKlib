@@ -1,25 +1,21 @@
 /*
- * $Id: AbstractHoverableAction.java 178 2010-10-31 18:01:20Z roland $
  * Copyright (C) 2007 Roland Krueger
  * 
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.ui.swing;
 
@@ -32,15 +28,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JToolBar;
 
 /**
- * This subclass of {@link javax.swing.AbstractAction} enhances the action
- * classes with the ability of using hover messages. If the user points at one
- * of the GUI representations of the {@link AbstractHoverableAction}, a
- * predefined message can be displayed by all {@link HoverListener}s that have
- * been registered as listeners with the action object.<br>
+ * This subclass of {@link javax.swing.AbstractAction} enhances the action classes with the ability of using hover
+ * messages. If the user points at one of the GUI representations of the {@link AbstractHoverableAction}, a predefined
+ * message can be displayed by all {@link HoverListener}s that have been registered as listeners with the action object.<br>
  * <br>
- * In order for this feature to work, an {@link AbstractHoverableAction} must be
- * added to a menu bar or a tool bar by using methods
- * {@link AbstractHoverableAction#attachToMenu(JMenu)} and
+ * In order for this feature to work, an {@link AbstractHoverableAction} must be added to a menu bar or a tool bar by
+ * using methods {@link AbstractHoverableAction#attachToMenu(JMenu)} and
  * {@link AbstractHoverableAction#attachToToolbar(JToolBar)}, respectively.
  * 
  * @see Hoverable
@@ -52,9 +45,9 @@ public abstract class AbstractHoverableAction extends AbstractAction implements 
 {
   private static final long serialVersionUID = 2709720096565522081L;
 
-  protected JButton mButton;
-  protected JMenuItem mMenuItem;
-  private HoverManager mHoverManager;
+  protected JButton         mButton;
+  protected JMenuItem       mMenuItem;
+  private HoverManager      mHoverManager;
 
   /**
    * Constructs a new {@link AbstractHoverableAction}.
@@ -68,9 +61,8 @@ public abstract class AbstractHoverableAction extends AbstractAction implements 
   }
 
   /**
-   * Attach this {@link AbstractHoverableAction} to the given toolbar. By using
-   * this method, the correct {@link java.awt.event.MouseListener}s will be
-   * registered so that hover events will correctly by disseminated.
+   * Attach this {@link AbstractHoverableAction} to the given toolbar. By using this method, the correct
+   * {@link java.awt.event.MouseListener}s will be registered so that hover events will correctly by disseminated.
    * 
    * @param toolbar
    *          target toolbar that this action will be added to
@@ -82,9 +74,8 @@ public abstract class AbstractHoverableAction extends AbstractAction implements 
   }
 
   /**
-   * Attach this {@link AbstractHoverableAction} to the given menu. By using
-   * this method, the correct {@link java.awt.event.MouseListener}s will be
-   * registered so that hover events will correctly by disseminated.
+   * Attach this {@link AbstractHoverableAction} to the given menu. By using this method, the correct
+   * {@link java.awt.event.MouseListener}s will be registered so that hover events will correctly by disseminated.
    * 
    * @param menu
    *          target menu that this action will be added to

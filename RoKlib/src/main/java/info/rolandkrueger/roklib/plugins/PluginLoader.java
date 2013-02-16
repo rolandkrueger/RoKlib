@@ -1,5 +1,4 @@
 /*
- * $Id: PluginLoader.java 178 2010-10-31 18:01:20Z roland $
  * Copyright (C) 2007 Roland Krueger
  * Created on 03.11.2009
  *
@@ -7,23 +6,17 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
- */
-/**
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.plugins;
 
@@ -50,7 +43,7 @@ public class PluginLoader<P extends AbstractPlugin>
 {
   public final static String PLUGIN_MAINCLASS_PROPERTY = "PluginMainClass";
 
-  private Set<String> mPropertiesToLoad;
+  private Set<String>        mPropertiesToLoad;
 
   public PluginLoader ()
   {
@@ -71,11 +64,13 @@ public class PluginLoader<P extends AbstractPlugin>
     }
   }
 
-  public P loadPlugin (File fromFile) throws IOException, InvalidManifestException,
-      ClassNotFoundException, InstantiationException, IllegalAccessException
+  public P loadPlugin (File fromFile) throws IOException, InvalidManifestException, ClassNotFoundException,
+      InstantiationException, IllegalAccessException
   {
-    if (! fromFile.exists ()) throw new FileNotFoundException ();
-    if (! fromFile.canRead ()) throw new IOException ("Cannot read from file.");
+    if (!fromFile.exists ())
+      throw new FileNotFoundException ();
+    if (!fromFile.canRead ())
+      throw new IOException ("Cannot read from file.");
 
     try
     {
@@ -87,15 +82,15 @@ public class PluginLoader<P extends AbstractPlugin>
   }
 
   @SuppressWarnings ("unchecked")
-  public P loadPlugin (URL fromURL) throws IOException, InvalidManifestException,
-      ClassNotFoundException, InstantiationException, IllegalAccessException
+  public P loadPlugin (URL fromURL) throws IOException, InvalidManifestException, ClassNotFoundException,
+      InstantiationException, IllegalAccessException
   {
     JarInputStream jarInputStream = new JarInputStream (fromURL.openStream ());
     Manifest manifest = jarInputStream.getManifest ();
     if (manifest == null)
     {
-      throw new InvalidManifestException (String.format (
-          "Plugin loaded from URL %s doesn't contain a manifest file.", fromURL.toString ()));
+      throw new InvalidManifestException (String.format ("Plugin loaded from URL %s doesn't contain a manifest file.",
+          fromURL.toString ()));
     }
 
     Attributes attributes = manifest.getMainAttributes ();
@@ -109,11 +104,10 @@ public class PluginLoader<P extends AbstractPlugin>
       }
     }
 
-    if (! properties.containsKey (PLUGIN_MAINCLASS_PROPERTY))
+    if (!properties.containsKey (PLUGIN_MAINCLASS_PROPERTY))
     {
-      throw new InvalidManifestException (String.format (
-          "Manifest attribute '%s' not found in plugin at URL %s.", PLUGIN_MAINCLASS_PROPERTY,
-          fromURL.toString ()));
+      throw new InvalidManifestException (String.format ("Manifest attribute '%s' not found in plugin at URL %s.",
+          PLUGIN_MAINCLASS_PROPERTY, fromURL.toString ()));
     }
 
     URLClassLoader classLoader = new URLClassLoader (new URL[] { fromURL });

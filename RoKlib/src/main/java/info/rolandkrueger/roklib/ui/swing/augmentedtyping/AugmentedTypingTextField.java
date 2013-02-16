@@ -1,5 +1,4 @@
 /*
- * $Id: AugmentedTypingTextField.java 264 2011-01-29 12:00:44Z roland $
  * Copyright (C) 2007 Roland Krueger
  * Created on 02.02.2007
  *
@@ -7,20 +6,17 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.ui.swing.augmentedtyping;
 
@@ -43,17 +39,17 @@ import javax.swing.event.ListDataListener;
 
 public class AugmentedTypingTextField extends JComboBox implements KeyListener
 {
-  private static final long serialVersionUID = 1637805828266123965L;
+  private static final long                 serialVersionUID = 1637805828266123965L;
 
   private AugmentedTypingTextFieldDataModel mDataModel;
-  private Map<Character, Character[]> mCharacterMapping;
-  private AugmentedTypingTextFieldEditor mEditor;
+  private Map<Character, Character[]>       mCharacterMapping;
+  private AugmentedTypingTextFieldEditor    mEditor;
 
   public AugmentedTypingTextField ()
   {
     this (new DefaultIPAKeyMapping ());
   }
-  
+
   public AugmentedTypingTextField (AugmentedTypingKeyMapping characterMapping)
   {
     super ();
@@ -97,7 +93,7 @@ public class AugmentedTypingTextField extends JComboBox implements KeyListener
 
   public void keyTyped (KeyEvent keyEvent)
   {
-    if (! keyEvent.isActionKey ())
+    if (!keyEvent.isActionKey ())
     {
       // handle the Escape-key
       if (keyEvent.getKeyChar () == KeyEvent.VK_ESCAPE)
@@ -126,20 +122,20 @@ public class AugmentedTypingTextField extends JComboBox implements KeyListener
       }
       if (mDataModel.getSize () > 0)
       {
-        mDataModel.setIPASelectedIndex (- 1);
-        setSelectedIndex (- 1);
+        mDataModel.setIPASelectedIndex (-1);
+        setSelectedIndex (-1);
       }
     }
   }
 
   public void keyPressed (KeyEvent keyEvent)
   {
-    if (mDataModel.getSize () == 0) return;
+    if (mDataModel.getSize () == 0)
+      return;
     if (keyEvent.getKeyCode () == KeyEvent.VK_DOWN)
     {
       // Down arrow key pressed
-      if (mDataModel.getIPASelectedIndex () == mDataModel.getSize () - 1
-          || mDataModel.getIPASelectedIndex () == - 1)
+      if (mDataModel.getIPASelectedIndex () == mDataModel.getSize () - 1 || mDataModel.getIPASelectedIndex () == -1)
       {
         mDataModel.setIPASelectedIndex (0);
         setSelectedIndex (0);
@@ -175,9 +171,8 @@ public class AugmentedTypingTextField extends JComboBox implements KeyListener
   }
 
   /**
-   * Cause an update of the editor component. This will happen each time that an
-   * entry of this component's popup menu was selected either by mouse or by the
-   * arrow keys.
+   * Cause an update of the editor component. This will happen each time that an entry of this component's popup menu
+   * was selected either by mouse or by the arrow keys.
    */
   private void updateEditorComponent ()
   {
@@ -199,11 +194,11 @@ public class AugmentedTypingTextField extends JComboBox implements KeyListener
    */
   private class AugmentedTypingTextFieldDataModel implements ComboBoxModel
   {
-    private Character[] mData;
+    private Character[]            mData;
     private List<ListDataListener> mDataListeners;
-    private Character mSelectedItem;
-    private Character mMouseSelectedItem;
-    private int mSelectedIndex = - 1;
+    private Character              mSelectedItem;
+    private Character              mMouseSelectedItem;
+    private int                    mSelectedIndex = -1;
 
     private AugmentedTypingTextFieldDataModel ()
     {
@@ -222,8 +217,7 @@ public class AugmentedTypingTextField extends JComboBox implements KeyListener
       ArrayList<ListDataListener> tmpList = new ArrayList<ListDataListener> (mDataListeners);
       for (ListDataListener listener : tmpList)
       {
-        listener.contentsChanged (new ListDataEvent (this, ListDataEvent.CONTENTS_CHANGED, 0,
-            mData.length));
+        listener.contentsChanged (new ListDataEvent (this, ListDataEvent.CONTENTS_CHANGED, 0, mData.length));
       }
     }
 
@@ -242,10 +236,10 @@ public class AugmentedTypingTextField extends JComboBox implements KeyListener
 
     public void setIPASelectedIndex (int index)
     {
-      if (mData.length == 0 || index == - 1)
+      if (mData.length == 0 || index == -1)
       {
         mSelectedItem = null;
-        mSelectedIndex = - 1;
+        mSelectedIndex = -1;
       } else
       {
         assert index < mData.length && index >= 0 : String.format ("index is %d", index);
@@ -291,17 +285,16 @@ public class AugmentedTypingTextField extends JComboBox implements KeyListener
     }
 
     /**
-     * Exchanges the character at the caret position with the provided new
-     * character.
+     * Exchanges the character at the caret position with the provided new character.
      * 
      * @param newChar
-     *          a character that is used to replace the character at the caret
-     *          position
+     *          a character that is used to replace the character at the caret position
      */
     public void swapChar (Character newChar)
     {
       int caretPos = mTextField.getCaretPosition ();
-      if (caretPos == 0) return;
+      if (caretPos == 0)
+        return;
       String text = mTextField.getText ();
       mTextField.setText (String.format ("%s%c%s", text.substring (0, caretPos - 1), newChar,
           text.substring (caretPos, text.length ())));

@@ -1,5 +1,4 @@
 /*
- * $Id: SortableFilterableTableDataModel.java 178 2010-10-31 18:01:20Z roland $
  * Copyright (C) 2007-2010 Roland Krueger
  * Created on 03.02.2010
  * 
@@ -7,20 +6,17 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.util.tables.filtertable;
 
@@ -37,8 +33,8 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
-public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeader> extends
-    AbstractTableModel implements TableModelListener
+public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeader> extends AbstractTableModel implements
+    TableModelListener
 {
   private static final long serialVersionUID = 2016102798175233234L;
 
@@ -47,19 +43,19 @@ public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeade
     NONE, PREFIX_SIMILARITY, INFIX, BOTH
   };
 
-  private List<TableDataRow<T>> mTableRows;
-  private List<TableDataColumn<T, H>> mTableColumns;
-  private List<TableDataRow<T>> mVisibleRows;
-  private int mColumnCount;
-  private List<Comparator<T>> mColumnComparators;
-  private List<Class<?>> mColumnClasses;
-  private int mCurrentAddColumnIndex = 0;
-  private TableDataRow<T> mCurrentRow;
-  private int mSortColumnIndex = - 1;
-  private SortOrder mSortOrder;
-  private final StringComparator mStringComparator = new StringComparator ();
-  private final NumberComparator mnNumberComparator = new NumberComparator ();
-  private TableModel mDataFromTableModel;
+  private List<TableDataRow<T>>                  mTableRows;
+  private List<TableDataColumn<T, H>>            mTableColumns;
+  private List<TableDataRow<T>>                  mVisibleRows;
+  private int                                    mColumnCount;
+  private List<Comparator<T>>                    mColumnComparators;
+  private List<Class<?>>                         mColumnClasses;
+  private int                                    mCurrentAddColumnIndex = 0;
+  private TableDataRow<T>                        mCurrentRow;
+  private int                                    mSortColumnIndex       = -1;
+  private SortOrder                              mSortOrder;
+  private final StringComparator                 mStringComparator      = new StringComparator ();
+  private final NumberComparator                 mnNumberComparator     = new NumberComparator ();
+  private TableModel                             mDataFromTableModel;
   private List<ISortableFilterableTableListener> mListeners;
 
   public SortableFilterableTableDataModel (TableModel tableModel, SearchMode searchCapability)
@@ -163,43 +159,37 @@ public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeade
 
   public synchronized SortableFilterableTableDataModel<T, H> addData (int data, T additional)
   {
-    updateInsertData (getCurrentAddRow ().addCellData (mCurrentAddColumnIndex, data)
-        .setAdditionalData (additional));
+    updateInsertData (getCurrentAddRow ().addCellData (mCurrentAddColumnIndex, data).setAdditionalData (additional));
     return this;
   }
 
   public synchronized SortableFilterableTableDataModel<T, H> addData (long data, T additional)
   {
-    updateInsertData (getCurrentAddRow ().addCellData (mCurrentAddColumnIndex, data)
-        .setAdditionalData (additional));
+    updateInsertData (getCurrentAddRow ().addCellData (mCurrentAddColumnIndex, data).setAdditionalData (additional));
     return this;
   }
 
   public synchronized SortableFilterableTableDataModel<T, H> addData (double data, T additional)
   {
-    updateInsertData (getCurrentAddRow ().addCellData (mCurrentAddColumnIndex, data)
-        .setAdditionalData (additional));
+    updateInsertData (getCurrentAddRow ().addCellData (mCurrentAddColumnIndex, data).setAdditionalData (additional));
     return this;
   }
 
   public synchronized SortableFilterableTableDataModel<T, H> addData (float data, T additional)
   {
-    updateInsertData (getCurrentAddRow ().addCellData (mCurrentAddColumnIndex, data)
-        .setAdditionalData (additional));
+    updateInsertData (getCurrentAddRow ().addCellData (mCurrentAddColumnIndex, data).setAdditionalData (additional));
     return this;
   }
 
   public synchronized SortableFilterableTableDataModel<T, H> addData (byte data, T additional)
   {
-    updateInsertData (getCurrentAddRow ().addCellData (mCurrentAddColumnIndex, data)
-        .setAdditionalData (additional));
+    updateInsertData (getCurrentAddRow ().addCellData (mCurrentAddColumnIndex, data).setAdditionalData (additional));
     return this;
   }
 
   public synchronized SortableFilterableTableDataModel<T, H> addData (char data, T additional)
   {
-    updateInsertData (getCurrentAddRow ().addCellData (mCurrentAddColumnIndex, data)
-        .setAdditionalData (additional));
+    updateInsertData (getCurrentAddRow ().addCellData (mCurrentAddColumnIndex, data).setAdditionalData (additional));
     return this;
   }
 
@@ -208,15 +198,15 @@ public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeade
     TableDataRow<T> row = getCurrentAddRow ();
     TableDataColumn<T, H> col = mTableColumns.get (mCurrentAddColumnIndex);
     TableCellData<T> cellData = row.addCellData (mCurrentAddColumnIndex, label, col.isNumeric ());
-    if (col.isNumeric () && ! cellData.isNumeric ()) col.setNumeric (false);
+    if (col.isNumeric () && !cellData.isNumeric ())
+      col.setNumeric (false);
     return cellData;
   }
 
   private TableDataRow<T> getCurrentAddRow ()
   {
     if (mDataFromTableModel != null)
-      throw new IllegalStateException (
-          "Cannot add data. Data is already defined through a TableModel.");
+      throw new IllegalStateException ("Cannot add data. Data is already defined through a TableModel.");
     if (mCurrentRow == null)
     {
       mCurrentRow = new TableDataRow<T> (mColumnCount, mTableRows.size ());
@@ -230,8 +220,7 @@ public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeade
 
   private void updateInsertData (TableCellData<T> cellData)
   {
-    mTableColumns.get (mCurrentAddColumnIndex).addToSearchTree (cellData.getStringValue (),
-        mCurrentRow);
+    mTableColumns.get (mCurrentAddColumnIndex).addToSearchTree (cellData.getStringValue (), mCurrentRow);
     if (mCurrentAddColumnIndex == mColumnCount - 1)
     {
       mCurrentAddColumnIndex = 0;
@@ -323,8 +312,8 @@ public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeade
     }
   }
 
-  public synchronized void setMatchSimilarFilter (String filter, int distance, int lengthTolerance,
-      int columnIndex, boolean applyFilter)
+  public synchronized void setMatchSimilarFilter (String filter, int distance, int lengthTolerance, int columnIndex,
+      boolean applyFilter)
   {
     checkColumnIndex (columnIndex);
     mTableColumns.get (columnIndex).setMatchSimilarFilter (filter, distance, lengthTolerance);
@@ -357,8 +346,7 @@ public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeade
     return mTableColumns.get (columnIndex).getHeader ();
   }
 
-  public synchronized Comparator<T> setColumnSortingComparator (Comparator<T> comparator,
-      int columnIndex)
+  public synchronized Comparator<T> setColumnSortingComparator (Comparator<T> comparator, int columnIndex)
   {
     checkColumnIndex (columnIndex);
     if (mColumnComparators == null)
@@ -403,7 +391,8 @@ public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeade
   public Class<?> getColumnClass (int columnIndex)
   {
     Class<?> result = mColumnClasses.get (columnIndex);
-    if (result == null) return String.class;
+    if (result == null)
+      return String.class;
     return result;
   }
 
@@ -416,7 +405,8 @@ public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeade
   {
     checkColumnIndex (columnIndex);
     H header = mTableColumns.get (columnIndex).getHeader ();
-    if (header == null) return "";
+    if (header == null)
+      return "";
     return header.getHeadline ();
   }
 
@@ -448,7 +438,8 @@ public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeade
     String oldValue = cellData.getStringValue ();
     String newValue = aValue.toString ();
     cellData.setStringValue (newValue, column.isNumeric ());
-    if (column.isNumeric () && ! cellData.isNumeric ()) column.setNumeric (false);
+    if (column.isNumeric () && !cellData.isNumeric ())
+      column.setNumeric (false);
     column.updateSearchTree (oldValue, newValue, row);
     fireTableCellUpdated (rowIndex, columnIndex);
   }
@@ -464,14 +455,13 @@ public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeade
     if (index < 0)
       throw new ArrayIndexOutOfBoundsException (String.format ("index %d < 0", index));
     if (index >= mColumnCount)
-      throw new ArrayIndexOutOfBoundsException (String.format ("index %d >= %d", index,
-          mColumnCount));
+      throw new ArrayIndexOutOfBoundsException (String.format ("index %d >= %d", index, mColumnCount));
   }
 
   public synchronized void restoreOriginalOrdering ()
   {
     mSortOrder = SortOrder.UNSORTED;
-    mSortColumnIndex = - 1;
+    mSortColumnIndex = -1;
     Collections.sort (mVisibleRows, mStringComparator); // it doesn't matter
                                                         // which comparator is
                                                         // used to restore the
@@ -484,9 +474,11 @@ public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeade
     mSortOrder = order;
     TableDataColumn<T, H> column = mTableColumns.get (columnIndex);
     Comparator<TableDataRow<T>> comparator = mStringComparator;
-    if (column.isNumeric ()) comparator = mnNumberComparator;
+    if (column.isNumeric ())
+      comparator = mnNumberComparator;
     Comparator<T> tComparator = mColumnComparators.get (columnIndex);
-    if (tComparator != null) comparator = new TComparator (tComparator);
+    if (tComparator != null)
+      comparator = new TComparator (tComparator);
 
     mSortColumnIndex = columnIndex;
     Collections.sort (mVisibleRows, comparator);
@@ -509,11 +501,11 @@ public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeade
       if (mSortOrder == SortOrder.UNSORTED)
         return o1.getOriginalIndexInTable ().compareTo (o2.getOriginalIndexInTable ());
       if (mSortOrder == SortOrder.ASCENDING)
-        return mComparator.compare (o1.getRowData (mSortColumnIndex).getAdditionalData (), o2
-            .getRowData (mSortColumnIndex).getAdditionalData ());
+        return mComparator.compare (o1.getRowData (mSortColumnIndex).getAdditionalData (),
+            o2.getRowData (mSortColumnIndex).getAdditionalData ());
       else if (mSortOrder == SortOrder.DESCENDING)
-        return mComparator.compare (o2.getRowData (mSortColumnIndex).getAdditionalData (), o1
-            .getRowData (mSortColumnIndex).getAdditionalData ());
+        return mComparator.compare (o2.getRowData (mSortColumnIndex).getAdditionalData (),
+            o1.getRowData (mSortColumnIndex).getAdditionalData ());
       return 0;
     }
   }
@@ -574,7 +566,8 @@ public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeade
 
   public void tableChanged (TableModelEvent e)
   {
-    if (mDataFromTableModel == null) return;
+    if (mDataFromTableModel == null)
+      return;
     // TODO: make this more performant by evaluating the TableModelEvent
     clear ();
     buildFromTableModel ();
@@ -582,8 +575,7 @@ public class SortableFilterableTableDataModel<T, H extends ITableDataColumnHeade
 
   private void fireResetAllFilters ()
   {
-    for (ISortableFilterableTableListener l : new ArrayList<ISortableFilterableTableListener> (
-        mListeners))
+    for (ISortableFilterableTableListener l : new ArrayList<ISortableFilterableTableListener> (mListeners))
     {
       l.resetAllFilters ();
     }

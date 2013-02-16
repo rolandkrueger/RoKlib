@@ -1,5 +1,4 @@
 /*
- * $Id: SuggestionComboBox.java 260 2011-01-27 19:51:26Z roland $
  * Copyright (C) 2003 Roland Krueger
  * Created on Oct 15, 2003
  *
@@ -7,20 +6,17 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.ui.swing.rapidsuggest;
 
@@ -57,18 +53,18 @@ import javax.swing.text.SimpleAttributeSet;
  */
 public class SuggestionComboBox extends JComboBox implements ActionListener
 {
-  private static final long serialVersionUID = - 5641621693220440350L;
+  private static final long        serialVersionUID = -5641621693220440350L;
 
-  private SuggestionComboBoxModel mModel;
+  private SuggestionComboBoxModel  mModel;
   private SuggestionComboBoxEditor mEditor;
-  private Color mHighligerColor;
+  private Color                    mHighligerColor;
 
   public SuggestionComboBox ()
   {
     super (new SuggestionComboBoxModel ());
     init (new SuggestionComboBoxEditor (this), (SuggestionComboBoxModel) getModel ());
   }
-  
+
   public SuggestionComboBox (SuggestionComboBoxModel model)
   {
     super (model);
@@ -81,7 +77,7 @@ public class SuggestionComboBox extends JComboBox implements ActionListener
     mHighligerColor = highlighterColor;
     init (new SuggestionComboBoxEditor (this, highlighterColor), model);
   }
-  
+
   private void init (SuggestionComboBoxEditor editor, SuggestionComboBoxModel model)
   {
     mModel = model;
@@ -89,24 +85,25 @@ public class SuggestionComboBox extends JComboBox implements ActionListener
     setEditable (true);
     addActionListener (this);
   }
-  
+
   @Override
   public void setModel (ComboBoxModel aModel)
   {
     setEditor (new SuggestionComboBoxEditor (this, mHighligerColor));
     super.setModel (aModel);
   }
-  
+
   @Override
   public void setEditor (ComboBoxEditor editor)
   {
     super.setEditor (editor);
-    mEditor = (SuggestionComboBoxEditor) editor;    
+    mEditor = (SuggestionComboBoxEditor) editor;
   }
-  
+
   public void actionPerformed (ActionEvent e)
   {
-    if (e.getSource () == this) return;
+    if (e.getSource () == this)
+      return;
     hidePopup ();
     mEditor.removeHighlights ();
   }
@@ -211,10 +208,9 @@ public class SuggestionComboBox extends JComboBox implements ActionListener
     }
   } // End of private class SuggestionComboBoxEditor
 
-  private class SuggestionEditorComponent extends JTextField implements MouseMotionListener,
-      MouseListener, KeyListener
+  private class SuggestionEditorComponent extends JTextField implements MouseMotionListener, MouseListener, KeyListener
   {
-    private static final long serialVersionUID = 8515002528978775937L;
+    private static final long      serialVersionUID = 8515002528978775937L;
 
     private AutoCompletionDocument doc;
 
@@ -306,22 +302,22 @@ public class SuggestionComboBox extends JComboBox implements ActionListener
 
     private class AutoCompletionDocument extends PlainDocument implements ItemListener
     {
-      private static final long serialVersionUID = - 2716231755948898477L;
+      private static final long         serialVersionUID = -2716231755948898477L;
 
-      private SuggestionComboBox mParent;
-      private SuggestionComboBoxModel model;
+      private SuggestionComboBox        mParent;
+      private SuggestionComboBoxModel   model;
       private SuggestionEditorComponent component;
-      private int selectionStartIndex;
-      private Object highlight;
-      private Color highlighterColor;
+      private int                       selectionStartIndex;
+      private Object                    highlight;
+      private Color                     highlighterColor;
 
       public AutoCompletionDocument (SuggestionComboBox mother, SuggestionEditorComponent component)
       {
         this (mother, component, new Color (153, 153, 204));
       }
 
-      public AutoCompletionDocument (SuggestionComboBox parent,
-          SuggestionEditorComponent component, Color highlighterColor)
+      public AutoCompletionDocument (SuggestionComboBox parent, SuggestionEditorComponent component,
+          Color highlighterColor)
       {
         this.mParent = parent;
         model = (SuggestionComboBoxModel) parent.getModel ();
@@ -354,18 +350,18 @@ public class SuggestionComboBox extends JComboBox implements ActionListener
         if (offs < selectionStartIndex)
         {
           selectionStartIndex -= len;
-          fetchSuggestion (getContent ().getString (0, selectionStartIndex),
-              new SimpleAttributeSet (), getCaretPosition ());
+          fetchSuggestion (getContent ().getString (0, selectionStartIndex), new SimpleAttributeSet (),
+              getCaretPosition ());
         } else
         {
           component.getHighlighter ().removeAllHighlights ();
           super.remove (offs, getLength () - offs);
         }
-        if (offs > selectionStartIndex) selectionStartIndex = getLength ();
+        if (offs > selectionStartIndex)
+          selectionStartIndex = getLength ();
       }
 
-      private void fetchSuggestion (String prefix, AttributeSet a, int caretPos)
-          throws BadLocationException
+      private void fetchSuggestion (String prefix, AttributeSet a, int caretPos) throws BadLocationException
       {
         // System.out.println("prefix: "+prefix);
         String sugg = model.getSuggestion (getContent ().getString (0, selectionStartIndex));
@@ -376,8 +372,8 @@ public class SuggestionComboBox extends JComboBox implements ActionListener
           super.insertString (selectionStartIndex, sugg.substring (selectionStartIndex), a);
           component.getHighlighter ().removeAllHighlights ();
           if (selectionStartIndex < getLength ())
-            highlight = component.getHighlighter ().addHighlight (selectionStartIndex,
-                getLength (), new DefaultHighlighter.DefaultHighlightPainter (highlighterColor));
+            highlight = component.getHighlighter ().addHighlight (selectionStartIndex, getLength (),
+                new DefaultHighlighter.DefaultHighlightPainter (highlighterColor));
           component.setCaretPosition (caretPos);
           mParent.setPopupVisible (true);
         } else
@@ -392,7 +388,8 @@ public class SuggestionComboBox extends JComboBox implements ActionListener
 
       public void itemStateChanged (ItemEvent e)
       {
-        if (e.getStateChange () == ItemEvent.DESELECTED) return;
+        if (e.getStateChange () == ItemEvent.DESELECTED)
+          return;
         String selItem = (String) mParent.getSelectedItem ();
         // System.out.println("itemStateChanged: "+selItem);
         try
@@ -417,7 +414,8 @@ public class SuggestionComboBox extends JComboBox implements ActionListener
 
       public void removeSuggestionHighlight ()
       {
-        if (highlight == null) return;
+        if (highlight == null)
+          return;
         component.getHighlighter ().removeHighlight (highlight);
         selectionStartIndex = getLength ();
       }

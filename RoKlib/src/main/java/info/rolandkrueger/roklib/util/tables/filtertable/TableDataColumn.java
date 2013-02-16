@@ -1,5 +1,4 @@
 /*
- * $Id: TableDataColumn.java 253 2011-01-25 16:16:31Z roland $
  * Copyright (C) 2007-2010 Roland Krueger
  * Created on 02.02.2010
  * 
@@ -7,20 +6,17 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.util.tables.filtertable;
 
@@ -37,22 +33,22 @@ import java.util.SortedSet;
 
 public class TableDataColumn<T, H extends ITableDataColumnHeader> implements Serializable
 {
-  private static final long serialVersionUID = - 3866991508484425058L;
+  private static final long                                 serialVersionUID    = -3866991508484425058L;
 
-  private boolean mIsNumeric = true;
-  private H mHeader;
-  private SearchMode mSearchCapability;
-  private boolean mCaseSensitive = false;
+  private boolean                                           mIsNumeric          = true;
+  private H                                                 mHeader;
+  private SearchMode                                        mSearchCapability;
+  private boolean                                           mCaseSensitive      = false;
   private TernarySearchTreeMap<Collection<TableDataRow<T>>> mPrefixSearchTree;
   private TernarySearchTreeMap<Collection<TableDataRow<T>>> mInfixSearchTree;
-  private int mDataStringMaxWidth = 0;
+  private int                                               mDataStringMaxWidth = 0;
 
   // filter data
-  private String mCurrentPrefixFilter;
-  private String mCurrentInfixFilter;
-  private String mCurrentSimilarityFilter;
-  private int mSimilarityDistance;
-  private int mSimilarityLengthTolerance;
+  private String                                            mCurrentPrefixFilter;
+  private String                                            mCurrentInfixFilter;
+  private String                                            mCurrentSimilarityFilter;
+  private int                                               mSimilarityDistance;
+  private int                                               mSimilarityLengthTolerance;
 
   public TableDataColumn (SearchMode searchCapability)
   {
@@ -120,7 +116,8 @@ public class TableDataColumn<T, H extends ITableDataColumnHeader> implements Ser
   {
     if (mPrefixSearchTree == null)
       throw new IllegalStateException ("Column is not configured for prefix matching.");
-    if (! mCaseSensitive) prefix = prefix.toLowerCase ();
+    if (!mCaseSensitive)
+      prefix = prefix.toLowerCase ();
     mCurrentPrefixFilter = prefix;
   }
 
@@ -128,7 +125,8 @@ public class TableDataColumn<T, H extends ITableDataColumnHeader> implements Ser
   {
     if (mInfixSearchTree == null)
       throw new IllegalStateException ("Column is not configured for infix matching.");
-    if (! mCaseSensitive) infix = infix.toLowerCase ();
+    if (!mCaseSensitive)
+      infix = infix.toLowerCase ();
     mCurrentInfixFilter = infix;
   }
 
@@ -136,7 +134,8 @@ public class TableDataColumn<T, H extends ITableDataColumnHeader> implements Ser
   {
     if (mPrefixSearchTree == null)
       throw new IllegalStateException ("Column is not configured for similarity matching.");
-    if (! mCaseSensitive) filter = filter.toLowerCase ();
+    if (!mCaseSensitive)
+      filter = filter.toLowerCase ();
     mCurrentSimilarityFilter = filter;
     mSimilarityDistance = distance;
     mSimilarityLengthTolerance = lengthTolerance;
@@ -151,11 +150,14 @@ public class TableDataColumn<T, H extends ITableDataColumnHeader> implements Ser
 
   protected synchronized void addToSearchTree (String key, TableDataRow<T> row)
   {
-    if (mSearchCapability == SearchMode.NONE || key == null || key.equals ("")) return;
+    if (mSearchCapability == SearchMode.NONE || key == null || key.equals (""))
+      return;
     int keyLength = key.length ();
-    if (keyLength > mDataStringMaxWidth) mDataStringMaxWidth = keyLength;
+    if (keyLength > mDataStringMaxWidth)
+      mDataStringMaxWidth = keyLength;
 
-    if (! mCaseSensitive) key = key.toLowerCase ();
+    if (!mCaseSensitive)
+      key = key.toLowerCase ();
 
     if (mSearchCapability == SearchMode.BOTH || mSearchCapability == SearchMode.PREFIX_SIMILARITY)
     {
@@ -190,18 +192,21 @@ public class TableDataColumn<T, H extends ITableDataColumnHeader> implements Ser
 
   protected synchronized void updateSearchTree (String oldKey, String newKey, TableDataRow<T> row)
   {
-    if (mSearchCapability == SearchMode.NONE) return;
+    if (mSearchCapability == SearchMode.NONE)
+      return;
     if (oldKey != null)
     {
       if (mPrefixSearchTree != null)
       {
         Collection<TableDataRow<T>> col = mPrefixSearchTree.get (oldKey);
-        if (col != null) col.remove (row);
+        if (col != null)
+          col.remove (row);
       }
       if (mInfixSearchTree != null)
       {
         Collection<TableDataRow<T>> col = mInfixSearchTree.get (oldKey);
-        if (col != null) col.remove (row);
+        if (col != null)
+          col.remove (row);
       }
     }
     addToSearchTree (newKey, row);
@@ -209,11 +214,12 @@ public class TableDataColumn<T, H extends ITableDataColumnHeader> implements Ser
 
   public synchronized void filterWithPrefix ()
   {
-    if (mCurrentPrefixFilter == null || mCurrentPrefixFilter.equals ("")) return;
+    if (mCurrentPrefixFilter == null || mCurrentPrefixFilter.equals (""))
+      return;
     prepareFilter ();
 
-    for (Iterator<Entry<CharSequence, Collection<TableDataRow<T>>>> it = mPrefixSearchTree
-        .getPrefixSubtreeIterator (mCurrentPrefixFilter).iterator (); it.hasNext ();)
+    for (Iterator<Entry<CharSequence, Collection<TableDataRow<T>>>> it = mPrefixSearchTree.getPrefixSubtreeIterator (
+        mCurrentPrefixFilter).iterator (); it.hasNext ();)
     {
       for (TableDataRow<T> row : it.next ().getValue ())
       {
@@ -225,10 +231,11 @@ public class TableDataColumn<T, H extends ITableDataColumnHeader> implements Ser
 
   public synchronized void filterWithSimilarContent ()
   {
-    if (mCurrentSimilarityFilter == null || mCurrentSimilarityFilter.equals ("")) return;
+    if (mCurrentSimilarityFilter == null || mCurrentSimilarityFilter.equals (""))
+      return;
     prepareFilter ();
-    SortedSet<CharSequence> set = mPrefixSearchTree.matchAlmost (mCurrentSimilarityFilter,
-        mSimilarityDistance, mSimilarityLengthTolerance);
+    SortedSet<CharSequence> set = mPrefixSearchTree.matchAlmost (mCurrentSimilarityFilter, mSimilarityDistance,
+        mSimilarityLengthTolerance);
 
     for (CharSequence key : set)
     {
@@ -242,11 +249,12 @@ public class TableDataColumn<T, H extends ITableDataColumnHeader> implements Ser
 
   public synchronized void filterWithInfix ()
   {
-    if (mCurrentInfixFilter == null || mCurrentInfixFilter.equals ("")) return;
+    if (mCurrentInfixFilter == null || mCurrentInfixFilter.equals (""))
+      return;
     prepareFilter ();
 
-    for (Iterator<Entry<CharSequence, Collection<TableDataRow<T>>>> it = mInfixSearchTree
-        .getPrefixSubtreeIterator (mCurrentInfixFilter).iterator (); it.hasNext ();)
+    for (Iterator<Entry<CharSequence, Collection<TableDataRow<T>>>> it = mInfixSearchTree.getPrefixSubtreeIterator (
+        mCurrentInfixFilter).iterator (); it.hasNext ();)
     {
       for (TableDataRow<T> row : it.next ().getValue ())
       {
@@ -259,7 +267,8 @@ public class TableDataColumn<T, H extends ITableDataColumnHeader> implements Ser
   private void prepareFilter ()
   {
     TernarySearchTreeMap<Collection<TableDataRow<T>>> map = mPrefixSearchTree;
-    if (map == null) map = mInfixSearchTree;
+    if (map == null)
+      map = mInfixSearchTree;
 
     for (CharSequence key : map.keySet ())
     {
@@ -273,21 +282,25 @@ public class TableDataColumn<T, H extends ITableDataColumnHeader> implements Ser
   private void finishFilter ()
   {
     TernarySearchTreeMap<Collection<TableDataRow<T>>> map = mPrefixSearchTree;
-    if (map == null) map = mInfixSearchTree;
+    if (map == null)
+      map = mInfixSearchTree;
 
     for (CharSequence key : map.keySet ())
     {
       for (TableDataRow<T> row : map.get (key))
       {
-        if (! (row.isVisible () && row.isVisibleAfterFilter ())) row.setVisible (false);
+        if (!(row.isVisible () && row.isVisibleAfterFilter ()))
+          row.setVisible (false);
       }
     }
   }
 
   protected void clearSearchIndices ()
   {
-    if (mPrefixSearchTree != null) mPrefixSearchTree.clear ();
-    if (mInfixSearchTree != null) mInfixSearchTree.clear ();
+    if (mPrefixSearchTree != null)
+      mPrefixSearchTree.clear ();
+    if (mInfixSearchTree != null)
+      mInfixSearchTree.clear ();
   }
 
   public int getMaximumCellValueLength ()

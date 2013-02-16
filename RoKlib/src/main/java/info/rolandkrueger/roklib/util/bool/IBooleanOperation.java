@@ -1,5 +1,4 @@
 /*
- * $Id: IBooleanOperation.java 178 2010-10-31 18:01:20Z roland $
  * Copyright (C) 2007 Roland Krueger
  * Created on 20.10.2009
  *
@@ -7,20 +6,17 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.util.bool;
 
@@ -36,13 +32,13 @@ public interface IBooleanOperation extends Serializable
 
   /**
    * <p>
-   * Returns <code>true</code> if this Boolean operation could be short-circuited if the given
-   * parameter was used as the operation's first operand.
+   * Returns <code>true</code> if this Boolean operation could be short-circuited if the given parameter was used as the
+   * operation's first operand.
    * </p>
    * <p>
-   * For example, if this Boolean operation represents the <code>AND</code> operation, using
-   * <code>false</code> as the first operand would make short-circuiting possible. The
-   * short-circuited outcome of the operation would then also be <code>false</code>.
+   * For example, if this Boolean operation represents the <code>AND</code> operation, using <code>false</code> as the
+   * first operand would make short-circuiting possible. The short-circuited outcome of the operation would then also be
+   * <code>false</code>.
    * </p>
    * 
    * @param firstOperand
@@ -52,14 +48,13 @@ public interface IBooleanOperation extends Serializable
 
   /**
    * <p>
-   * Returns the final result of this Boolean operation for the given first operand value if the
-   * operation is short-circuited. For example, passing <code>true</code> as the first operand value
-   * for the <code>OR</code> operation will yield <code>true</code> as the operation's result.
+   * Returns the final result of this Boolean operation for the given first operand value if the operation is
+   * short-circuited. For example, passing <code>true</code> as the first operand value for the <code>OR</code>
+   * operation will yield <code>true</code> as the operation's result.
    * </p>
    * <p>
-   * Implementations of this method should check if short-circuiting is possible at all for the
-   * given operand value. If that is not the case, an {@link IllegalStateException} should be
-   * thrown.
+   * Implementations of this method should check if short-circuiting is possible at all for the given operand value. If
+   * that is not the case, an {@link IllegalStateException} should be thrown.
    * </p>
    * 
    * @param firstOperand

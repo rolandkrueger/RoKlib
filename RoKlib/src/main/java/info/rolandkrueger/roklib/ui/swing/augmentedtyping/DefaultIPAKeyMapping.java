@@ -1,5 +1,4 @@
 /*
- * $Id: DefaultIPAKeyMapping.java 224 2011-01-05 19:18:38Z roland $
  * Copyright (C) 2007 Roland Krueger
  * Created on 23.10.2009
  *
@@ -7,92 +6,86 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.ui.swing.augmentedtyping;
 
 public class DefaultIPAKeyMapping extends AugmentedTypingKeyMapping
 {
   // a , '\ u',
-  Character[] aChars = { '\u0251', '\u0250', '\u0252', '\u00E6', '\u028C' };
+  Character[] aChars     = { '\u0251', '\u0250', '\u0252', '\u00E6', '\u028C' };
   // ae
-  Character[] aeChars = { '\u00E6' };
+  Character[] aeChars    = { '\u00E6' };
   // b
-  Character[] bChars = { '\u0253', '\u0299', '\u03B2' };
+  Character[] bChars     = { '\u0253', '\u0299', '\u03B2' };
   // c
-  Character[] cChars = { '\u0254', '\u0255', '\u00E7' };
+  Character[] cChars     = { '\u0254', '\u0255', '\u00E7' };
   // d
-  Character[] dChars = { '\u0257', '\u0256', '\u00F0', '\u02A4' };
+  Character[] dChars     = { '\u0257', '\u0256', '\u00F0', '\u02A4' };
   // e
-  Character[] eChars = { '\u0259', '\u0258', '\u025A', '\u025B', '\u025C', '\u025D', '\u025E',
-      '\u0292' };
+  Character[] eChars     = { '\u0259', '\u0258', '\u025A', '\u025B', '\u025C', '\u025D', '\u025E', '\u0292' };
   // f
-  Character[] fChars = { '\u025F', '\u0284' };
+  Character[] fChars     = { '\u025F', '\u0284' };
   // g
-  Character[] gChars = { '\u0261', '\u0260', '\u0262', '\u029B' };
+  Character[] gChars     = { '\u0261', '\u0260', '\u0262', '\u029B' };
   // h
-  Character[] hChars = { '\u0266', '\u0267', '\u0127', '\u0265', '\u029C', '\u02B0', '\u02B1' };
+  Character[] hChars     = { '\u0266', '\u0267', '\u0127', '\u0265', '\u029C', '\u02B0', '\u02B1' };
   // i
-  Character[] iChars = { '\u0268', '\u026A' };
+  Character[] iChars     = { '\u0268', '\u026A' };
   // j
-  Character[] jChars = { '\u025F', '\u029D', '\u02B2' };
+  Character[] jChars     = { '\u025F', '\u029D', '\u02B2' };
   // l
-  Character[] lChars = { '\u026D', '\u026C', '\u026B', '\u026E', '\u029F' };
+  Character[] lChars     = { '\u026D', '\u026C', '\u026B', '\u026E', '\u029F' };
   // m
-  Character[] mChars = { '\u0271', '\u026F', '\u0270' };
+  Character[] mChars     = { '\u0271', '\u026F', '\u0270' };
   // n
-  Character[] nChars = { '\u014B', '\u0273', '\u0272', '\u0274' };
+  Character[] nChars     = { '\u014B', '\u0273', '\u0272', '\u0274' };
   // o
-  Character[] oChars = { '\u00F8', '\u0275', '\u0278', '\u03B8', '\u0153', '\u0276', '\u0298',
-      '\u0254' };
+  Character[] oChars     = { '\u00F8', '\u0275', '\u0278', '\u03B8', '\u0153', '\u0276', '\u0298', '\u0254' };
   // oe
-  Character[] oeChars = { '\u00F8', '\u0153', '\u0276' };
+  Character[] oeChars    = { '\u00F8', '\u0153', '\u0276' };
   // r
-  Character[] rChars = { '\u0279', '\u027A', '\u027E', '\u027B', '\u0280', '\u0281', '\u027D',
-      '\u02B4' };
+  Character[] rChars     = { '\u0279', '\u027A', '\u027E', '\u027B', '\u0280', '\u0281', '\u027D', '\u02B4' };
   // s
-  Character[] sChars = { '\u0282', '\u0283' };
+  Character[] sChars     = { '\u0282', '\u0283' };
   // t
-  Character[] tChars = { '\u0288', '\u02A7' };
+  Character[] tChars     = { '\u0288', '\u02A7' };
   // u
-  Character[] uChars = { '\u0289', '\u028B', '\u028A' };
+  Character[] uChars     = { '\u0289', '\u028B', '\u028A' };
   // v
-  Character[] vChars = { '\u028B', '\u028A', '\u028C', '\u0263', '\u0264', '\u02E0', '\u02C7' };
+  Character[] vChars     = { '\u028B', '\u028A', '\u028C', '\u0263', '\u0264', '\u02E0', '\u02C7' };
   // w
-  Character[] wChars = { '\u028D', '\u02B7' };
+  Character[] wChars     = { '\u028D', '\u02B7' };
   // x
-  Character[] xChars = { '\u03C7' };
+  Character[] xChars     = { '\u03C7' };
   // y
-  Character[] yChars = { '\u028E', '\u028F', '\u0263', '\u0264', '\u02E0' };
+  Character[] yChars     = { '\u028E', '\u028F', '\u0263', '\u0264', '\u02E0' };
   // z
-  Character[] zChars = { '\u0291', '\u0290', '\u0292' };
+  Character[] zChars     = { '\u0291', '\u0290', '\u0292' };
   // sz
-  Character[] szChars = { '\u03B2' };
+  Character[] szChars    = { '\u03B2' };
   // ?
-  Character[] qmChars = { '\u0294', '\u02A1', '\u0295', '\u02A2', '\u02E4' };
+  Character[] qmChars    = { '\u0294', '\u02A1', '\u0295', '\u02A2', '\u02E4' };
   // |
-  Character[] barChars = { '\u01C0', '\u01C1', '\u01C2', '\u01C3' };
+  Character[] barChars   = { '\u01C0', '\u01C1', '\u01C2', '\u01C3' };
   // !
-  Character[] emChars = { '\u01C3' };
+  Character[] emChars    = { '\u01C3' };
   // :
   Character[] colonChars = { '\u02D0' };
   // ,
   Character[] commaChars = { '\u02CC' };
   // '
-  Character[] apoChars = { '\u02D1', '\u02BC', '\u02DE' };
+  Character[] apoChars   = { '\u02D1', '\u02BC', '\u02DE' };
 
   public DefaultIPAKeyMapping ()
   {

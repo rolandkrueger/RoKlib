@@ -7,20 +7,17 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.files;
 
@@ -36,24 +33,23 @@ import java.util.Vector;
 
 public class FileModificationWatchdog
 {
-  private final static long DEFAULT_WAIT_INTERVAL = 1000;
-  private File mFile;
-  private long mLastModified;
-  private List<FileModificationListener> mFileModificationListeners;
+  private final static long                   DEFAULT_WAIT_INTERVAL = 1000;
+  private File                                mFile;
+  private long                                mLastModified;
+  private List<FileModificationListener>      mFileModificationListeners;
   private List<DirectoryModificationListener> mDirectoryModificationListeners;
-  private long mWaitInterval;
-  private Timer mTimer;
-  private int mDirectoryFileCount;
-  private long mDirectoryFileHash;
+  private long                                mWaitInterval;
+  private Timer                               mTimer;
+  private int                                 mDirectoryFileCount;
+  private long                                mDirectoryFileHash;
 
-  public FileModificationWatchdog (File watchedFileOrDirectory, long waitInterval)
-      throws FileNotFoundException
+  public FileModificationWatchdog (File watchedFileOrDirectory, long waitInterval) throws FileNotFoundException
   {
     CheckForNull.check (watchedFileOrDirectory);
     mFile = watchedFileOrDirectory;
-    if (! mFile.exists ())
-      throw new FileNotFoundException (String.format ("File %s to be watched does not exist.",
-          mFile.getAbsolutePath ()));
+    if (!mFile.exists ())
+      throw new FileNotFoundException (
+          String.format ("File %s to be watched does not exist.", mFile.getAbsolutePath ()));
     mLastModified = mFile.lastModified ();
     setWaitInterval (waitInterval);
     getDirectoryStatistics ();
@@ -65,8 +61,8 @@ public class FileModificationWatchdog
     this (watchedFileOrDirectory, DEFAULT_WAIT_INTERVAL);
   }
 
-  public FileModificationWatchdog (File watchedDirectory, DirectoryModificationListener listener,
-      long waitInterval) throws FileNotFoundException
+  public FileModificationWatchdog (File watchedDirectory, DirectoryModificationListener listener, long waitInterval)
+      throws FileNotFoundException
   {
     this (watchedDirectory, waitInterval);
     CheckForNull.check (listener);
@@ -79,41 +75,43 @@ public class FileModificationWatchdog
     this (watchedDirectory, listener, DEFAULT_WAIT_INTERVAL);
   }
 
-  public FileModificationWatchdog (File watchedFile, FileModificationListener listener,
-      long waitInterval) throws FileNotFoundException
+  public FileModificationWatchdog (File watchedFile, FileModificationListener listener, long waitInterval)
+      throws FileNotFoundException
   {
     this (watchedFile, waitInterval);
     CheckForNull.check (listener);
     addFileModificationListener (listener);
   }
 
-  public FileModificationWatchdog (File watchedFile, FileModificationListener listener)
-      throws FileNotFoundException
+  public FileModificationWatchdog (File watchedFile, FileModificationListener listener) throws FileNotFoundException
   {
     this (watchedFile, listener, DEFAULT_WAIT_INTERVAL);
   }
 
   public void setWaitInterval (long interval)
   {
-    if (interval < 1) throw new IllegalArgumentException ("Wait interval must be >= 1.");
+    if (interval < 1)
+      throw new IllegalArgumentException ("Wait interval must be >= 1.");
     mWaitInterval = interval;
   }
 
   public void startWatching ()
   {
-    if (mTimer == null) mTimer = new Timer (true);
+    if (mTimer == null)
+      mTimer = new Timer (true);
     mTimer.scheduleAtFixedRate (new TimerTask ()
     {
       @Override
       public void run ()
       {
-        if (! mFile.exists ())
+        if (!mFile.exists ())
         {
           fireFileDeleted ();
           return;
         }
 
-        if (! mFile.isDirectory () && mFile.lastModified () != mLastModified) fireFileChanged ();
+        if (!mFile.isDirectory () && mFile.lastModified () != mLastModified)
+          fireFileChanged ();
 
         if (mFile.isDirectory ())
         {
@@ -178,7 +176,7 @@ public class FileModificationWatchdog
   public void addDirectoryModificationListener (DirectoryModificationListener listener)
   {
     CheckForNull.check (listener);
-    if (! isWatchedFileDirectory ())
+    if (!isWatchedFileDirectory ())
       throw new IllegalStateException ("Cannot add directory modification listener. "
           + "Watched file is not a directory.");
     getDirModListenerList ().add (listener);
@@ -243,8 +241,7 @@ public class FileModificationWatchdog
     {
       listener.fileDeleted (this);
     }
-    for (FileModificationListener listener : new ArrayList<FileModificationListener> (
-        getDirModListenerList ()))
+    for (FileModificationListener listener : new ArrayList<FileModificationListener> (getDirModListenerList ()))
     {
       listener.fileDeleted (this);
     }
@@ -258,8 +255,7 @@ public class FileModificationWatchdog
     {
       listener.fileChanged (this);
     }
-    for (FileModificationListener listener : new ArrayList<FileModificationListener> (
-        getDirModListenerList ()))
+    for (FileModificationListener listener : new ArrayList<FileModificationListener> (getDirModListenerList ()))
     {
       listener.fileChanged (this);
     }

@@ -1,5 +1,4 @@
 /*
- * $Id: State.java 226 2011-01-05 21:02:51Z roland $
  * Copyright (C) 2007 Roland Krueger
  * Created on 29.01.2010
  *
@@ -7,20 +6,17 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.util.state;
 
@@ -32,14 +28,14 @@ public class State<S extends State<?>> implements Serializable
 {
   private static final long serialVersionUID = 6243348683850423328L;
 
-  private Serializable  mLockKey;
-  private StateValue<S> mCurrentState;
-  private StateValue<S> mDefaultState;
+  private Serializable      mLockKey;
+  private StateValue<S>     mCurrentState;
+  private StateValue<S>     mDefaultState;
 
   public static class StateValue<S extends State<?>> implements Serializable
   {
-    private static final long serialVersionUID = - 1916548888416932116L;
-    private String mName;
+    private static final long serialVersionUID = -1916548888416932116L;
+    private String            mName;
 
     public StateValue (String name)
     {
@@ -55,8 +51,10 @@ public class State<S extends State<?>> implements Serializable
     @Override
     public boolean equals (Object obj)
     {
-      if (obj == null) return false;
-      if (obj == this) return true;
+      if (obj == null)
+        return false;
+      if (obj == this)
+        return true;
       if (obj instanceof StateValue)
       {
         StateValue other = (StateValue) obj;
@@ -84,8 +82,10 @@ public class State<S extends State<?>> implements Serializable
 
   public boolean hasState (StateValue<S> state)
   {
-    if (state == null && mCurrentState == null) return true;
-    if (state == null && mCurrentState != null) return false;
+    if (state == null && mCurrentState == null)
+      return true;
+    if (state == null && mCurrentState != null)
+      return false;
 
     return mCurrentState.equals (state);
   }
@@ -125,8 +125,10 @@ public class State<S extends State<?>> implements Serializable
 
   public void unlock (Object lockKey)
   {
-    if (mLockKey == null) return;
-    if (lockKey != mLockKey) throw new IllegalArgumentException ("Unlock failed: wrong key.");
+    if (mLockKey == null)
+      return;
+    if (lockKey != mLockKey)
+      throw new IllegalArgumentException ("Unlock failed: wrong key.");
     mLockKey = null;
   }
 
@@ -138,14 +140,16 @@ public class State<S extends State<?>> implements Serializable
   @Override
   public String toString ()
   {
-    if (mCurrentState == null) return "null";
+    if (mCurrentState == null)
+      return "null";
     return mCurrentState.mName;
   }
 
   @Override
   public int hashCode ()
   {
-    if (mCurrentState == null) return - 1;
+    if (mCurrentState == null)
+      return -1;
     return mCurrentState.hashCode ();
   }
 
@@ -153,13 +157,17 @@ public class State<S extends State<?>> implements Serializable
   @Override
   public boolean equals (Object obj)
   {
-    if (obj == null) return false;
-    if (obj == this) return true;
-    if (mCurrentState == null) return false;
+    if (obj == null)
+      return false;
+    if (obj == this)
+      return true;
+    if (mCurrentState == null)
+      return false;
     if (obj instanceof State)
     {
       State other = (State) obj;
-      if (other.mCurrentState == null) return false;
+      if (other.mCurrentState == null)
+        return false;
       return other.mCurrentState.equals (mCurrentState);
     }
 
