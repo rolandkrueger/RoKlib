@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE local-doctype [
+<!ENTITY % variables SYSTEM "00-doc-variable-def.ent">
+%variables;
+]>
+<chapter version="5.0" xml:id="group_visibility"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:ns5="http://www.w3.org/2000/svg"
+         xmlns:ns4="http://www.w3.org/1999/xhtml"
+         xmlns:ns3="http://www.w3.org/1998/Math/MathML"
+         xmlns:ns2="http://www.w3.org/1999/xlink"
+         xmlns:ns="http://docbook.org/ns/docbook">
+  <title>Component Group Visibility and Enablement</title>
+
+  <para>When writing user interface driven applications, in all but the most
+  simple scenarios you will have parts of the application or of the user
+  interface which will need to be deactivated or made invisible when some
+  predefined condition holds true. There are a lot of instances you can think
+  of when this will be necessary. For example, a web application may have some
+  GUI elements which are only visible to administrators. A logout button will
+  only be visible to logged-in users. Another application may have buttons
+  which are only enabled under certain conditions, such as a <emphasis>Print
+  Document</emphasis> menu item which is disabled if there is no document
+  available to be printed.</para>
+
+  <para>Handling this type of conditions is quite common for most
+  applications. They affect whether a component is visible or invisible, or
+  likewise if it gets enabled or disabled. Visibility and enablement of
+  components are both very similar concepts. For the sake of simplicity, the
+  following text will therefore only refer to the visibility of components
+  which does not exclude the applicability to the concept of
+  enablement.</para>
+
+  <para>While mostly relatively simple, conditions that affect the visibility
+  of components can become arbitrarily complex. In the simplest case, there is
+  one variable of a system that decides whether a component is visible or not.
+  A typical use case is the role system for an application where the role of a
+  user directly affects an element's visibility in the user interface. Has the
+  user an administrative role, for instance, she will be provided with
+  corresponding components for administration purposes in her user
+  interface.</para>
+
+  <para>Such conditions, however, can be a lot more involved. It is not
+  uncommon that a condition controlling a component's visibility is formed of
+  a number of sub-conditions which are interconnected by Boolean operators.
+  Those sub-conditions themselves can be recursively assembled by further
+  sub-conditions. Thus, as a generalization visibility conditions are composed
+  of a tree of sub-conditions.</para>
+
+  <para>Let's clarify that with an example. Say you have a desktop application
+  using user authorization for controlling the access to different
+  functionalities. One such functionality may be the option to print documents
+  on a network printer. The menu item for this function is only enabled when
+  different preconditions hold. Firstly, a document to be printed must be
+  opened in the application. Secondly, the document to be printed must not be
+  locked since locked documents are not allowed to be printed. Thirdly, the
+  current user must be eligible for printing. She is authorized to print
+  documents if she is member of either the administrator or editor group. The
+  decision whether or not the printing option is enabled can be expressed with
+  a Boolean function <inlinemediaobject>
+      <imageobject>
+        <imagedata fileref="resources/images/formula-boolean-function.png"></imagedata>
+      </imageobject>
+    </inlinemediaobject>. Here, the Boolean variables <inlineequation>
+      <mathphrase>x<subscript>1</subscript>, x<subscript>2</subscript>,
+      x<subscript>3</subscript>, x<subscript>4</subscript></mathphrase>
+    </inlineequation> represent the individual conditions which are relevant
+  for the print option's enablement. These are as follows: <inlineequation>
+      <mathphrase>x<subscript>1</subscript></mathphrase>
+    </inlineequation> defines whether a printable document is loaded.
+  <inlineequation>
+      <mathphrase>x<subscript>2</subscript></mathphrase>
+    </inlineequation> is <constant>true</constant> if the document is locked.
+  <inlineequation>
+      <mathphrase>x<subscript>3</subscript></mathphrase>
+    </inlineequation> is <constant>true</constant> if the current user has the
+  administrator role and <inlineequation>
+      <mathphrase>x<subscript>4</subscript></mathphrase>
+    </inlineequation> is <constant>true</constant> if she has the editor role,
+  respectively. The Boolean function above now becomes
+  <constant>true</constant> if <inlineequation>
+      <mathphrase>x<subscript>1</subscript></mathphrase>
+    </inlineequation> is <constant>true</constant> and <inlineequation>
+      <mathphrase>x<subscript>2</subscript></mathphrase>
+    </inlineequation> is <constant>false</constant> and one of <inlineequation>
+      <mathphrase>x<subscript>3</subscript></mathphrase>
+    </inlineequation> and <inlineequation>
+      <mathphrase>x<subscript>4</subscript></mathphrase>
+    </inlineequation> or both are <constant>true</constant>. In that case the
+  print option can be enabled.</para>
+
+  <para>In a typical application, conditions of this type are controlled by
+  different parts of the application. User roles and authorization are usually
+  handled in a user administration module, whereas the state of a loaded
+  document is monitored by a document manager. A simplistic implementation of
+  the application could now allow each of these modules to directly access the
+  print option's user interface component so that they can enable or disable
+  this component a required. Additionally, each module would need to have a
+  reference to the other modules so that they can query the status of all
+  other involved conditions. Only then an individual part of the application
+  could decide whether it can safely enable or disable the print option's user
+  interface component without violating the rule given by the Boolean function
+  <inlineequation>
+      <mathphrase>f</mathphrase>
+    </inlineequation>.</para>
+
+  <para>It is easy to see that such a design would lead to a very tight
+  coupling between components yielding a system which will be very hard to
+  maintain. An architecture where different unrelated modules have to know of
+  each other only to be able to manage the visibility of components
+  originating from yet another module should decidedly be avoided.</para>
+
+  <section>
+    <title>Managing Visibility Conditions in a Single Place</title>
+
+    <para>Managing the set of conditions responsible for the visibility of
+    components is a cross-cutting concern which should be organized in one
+    central place. The conditions involved usually refer to a lot of different
+    parts of an application. So, instead of spreading visibility management
+    over the whole application, it should be concentrated in a single manager
+    component. Each part of the application which influences one of the
+    Boolean variables <inlineequation>
+        <mathphrase>x<subscript>i</subscript></mathphrase>
+      </inlineequation> should exclusively be responsible for setting the
+    value of this variable and nothing else. In the example above, for
+    instance, the part of the application which loads printable documents
+    should only need to set the values of the two Boolean variables refering
+    to whether a document is loaded and whether the current document is
+    locked. After a document has been loaded by the user, variable
+    <inlineequation>
+        <mathphrase>x<subscript>1</subscript></mathphrase>
+      </inlineequation> can be set to <constant>true</constant> indicating
+    that a document is available for printing. If that document is locked,
+    variable <inlineequation>
+        <mathphrase>x<subscript>2</subscript></mathphrase>
+      </inlineequation> is set to <constant>true</constant> as well, otherwise
+    it is set to <constant>false</constant>. However, the decision whether the
+    print option now must be enabled or disabled has to be made
+    elsewhere.</para>
+  </section>
+
+  <section>
+    <title>&roklib;'s &classname_VisibilityGroupManager;</title>
+
+    <para>&roklib; supports you with the kind of problem described above with
+    its package &package_enablement;. This package offers you an API which
+    directly aims at solving the problem of managing the visibility of an
+    application's components centrally. It provides methods for organizing a
+    set of Boolean conditions which refer to different parts of an
+    application. You can assemble these conditions into composites of
+    conditions and manage the visibility of component groups with a central
+    manager class using these composite conditions as a basis.</para>
+
+    <para>This manager class is implemented by class
+    &classname_VisibilityGroupManager; in package &package_enablement;. This
+    is the central class for organizing visibility conditions for an
+    application. As its name indicates it manages groups of related components
+    which can be set visible or invisible - and likewise enabled or disabled -
+    based on a particular predefined condition. Switching the state from
+    visible to invisible or from enabled to disabled and vice versa is done
+    automatically by the manager. This does not need to be done manually. You
+    as an application designer only need to declaratively define the
+    conditions for such state transitions and to set the corresponding Boolean
+    variables accordingly when the application state changes.</para>
+
+    <para>There are three constituents which take part in centralizing
+    component visibility management. These are in particular the components
+    that can be made visible/invisible or enabled/disabled, a Boolean
+    expression which defines when a component's state has to be switched, and
+    the manager component itself. We're going to look at each of these parts
+    in the following subsections and will discuss how they will be applied,
+    respectively.</para>
+
+    <section>
+      <title>Target Components:
+      &interface_IVisibilityEnablingConfigurable;</title>
+
+      <para>&classname_VisibilityGroupManager; can manage arbitrary objects
+      which can be set visible or invisible or enabled and disabled. These may
+      be graphical user interface components, such as menu items or buttons,
+      or anything else. The only requirement for these components is that they
+      offer methods for making them visible and invisible and for enabling and
+      disabling them. &classname_VisibilityGroupManager; therefore accepts as
+      components all classes which implement the interface
+      &interface_IVisibilityEnablingConfigurable_full;. This interface is
+      defined as follows.</para>
+
+      <programlisting language="java" linenumbering="unnumbered"
+                      xreflabel="IVisibilityEnablingConfigurable"
+                      xml:id="listing_ivisibilityenablingconfigurable">
+public interface IVisibilityEnablingConfigurable extends Serializable {
+  void setVisible (boolean visible);
+  void setEnabled (boolean enabled);
+  boolean isVisible ();
+  boolean isEnabled ();
+}</programlisting>
+
+      <para>Classes which implement the methods of <xref
+      linkend="listing_ivisibilityenablingconfigurable" /> can be managed by
+      the &classname_VisibilityGroupManager;. For instance, if you want to
+      manage Java Swing user interface components with this manager, you can
+      write corresponding proxy classes for the respective GUI elements. These
+      proxies then delegate calls to
+      &interface_IVisibilityEnablingConfigurable;'s methods to the
+      corresponding methods of the GUI classes. We'll make that clear with a
+      concrete example shortly.</para>
+
+      <para>If you have more than one component whose states shall be switched
+      under the same conditions, you can combine them as a group of
+      components. This is what gave the manager class for &roklib;'s
+      enablement feature its name.</para>
+    </section>
+
+    <section>
+      <title>Boolean Expressions</title>
+
+      <para>The next important element for managing visibility and enablement
+      of components is the Boolean expression which defines when the state of
+      a &interface_IVisibilityEnablingConfigurable; component can be toggled.
+      Such an expression may be very simple, but it can become arbitrarily
+      complex. Above we have seen an example of such an expression given as
+      the Boolean function <inlineequation>
+          <mathphrase>f</mathphrase>
+        </inlineequation>.</para>
+
+      <para>In order to define a Boolean expression for the
+      &classname_VisibilityGroupManager;, the classes of &roklib;'s
+      conditional engine (see <xref linkend="conditionalengine" />) are used.
+      You create these expressions as objects of class
+      &classname_BooleanExpression_full;. There are two Boolean expressions
+      you can define for each group of components. One expression defines the
+      condition under which all components of a particular group shall be made
+      visible. As soon as the expression resolves to
+      <constant>true</constant>, all components of the corresponding group are
+      made visible. The same applies to the second expression defined for
+      enablement. If this condition becomes <constant>true</constant>, all
+      components of the group are enabled. Likewise, the reverse applies as
+      well. If the condition becomes <constant>false</constant>, all
+      components are disabled or are made invisible, respectively.</para>
+    </section>
+
+    <section>
+      <title>&classname_VisibilityGroupManager;</title>
+
+      <para>The &classname_VisibilityGroupManager; is the central component
+      for enablement and visibility management. It accepts
+      &interface_IVisibilityEnablingConfigurable; components and their
+      corresponding &classname_BooleanExpression; objects and takes care of
+      correctly switching the components' state according to the conditions
+      given by these expressions.</para>
+
+      <para>Components implementing the
+      &interface_IVisibilityEnablingConfigurable; interface can be arranged in
+      visibility groups. Each group is uniquely identified by a String ID
+      which can be freely chosen by implementers. These IDs only serve the
+      purpose of adding individual components into the same group.
+      Additionally, these IDs are used to refer to a particular visibility
+      group.</para>
+
+      <para>Let us look at a simple example to make clear the usage of a
+      &classname_VisibilityGroupManager;. We will first define a class
+      <classname>JButtonEnablementProxy</classname> which acts as a delegate
+      between a <classname>javax.swing.JButton</classname> object and the
+      &interface_IVisibilityEnablingConfigurable; interface. This class
+      represents our component to be managed by a
+      &classname_VisibilityGroupManager; object.</para>
+
+      <programlisting language="java" linenumbering="unnumbered">public class JButtonEnablementProxy implements IVisibilityEnablingConfigurable {
+  private JButton button;
+
+  public JButtonEnablementProxy (JButton pButton) {
+    button = pButton;
+  }
+
+  public void setVisible (boolean visible) {                                  <co
+          linkends="ex-setvisible" xml:id="ex-setvisible-co" />
+    button.setVisible (visible);
+  }
+
+  // implement all other methods of &interface_IVisibilityEnablingConfigurable; accordingly
+}</programlisting>
+
+      <para><calloutlist>
+          <callout arearefs="ex-setvisible-co" xml:id="ex-setvisible">
+            <para>Method of &interface_IVisibilityEnablingConfigurable;
+            implemented as a delegate that simply passes each call to it on to
+            a corresponding method of <classname>JButton</classname>.</para>
+          </callout>
+        </calloutlist></para>
+
+      <para>Objects of this class can be added to a
+      &classname_VisibilityGroupManager; as the target objects for visibility
+      management and enablement. We can now define the concrete instances
+      which shall be managed by the &classname_VisibilityGroupManager;. Let's
+      define two buttons for printing documents in an application. One button
+      can be used for immediately printing out a document, the second print
+      button will first show a printing dialog. By this we get two components
+      which should be enabled and disabled under the same condition.
+      Therefore, they can be put into the same group.</para>
+
+      <programlisting language="java">// name idendifier for the component group
+private final static String PRINT_GROUP = "PRINT_GROUP";                                      <co
+          linkends="ex2-1" xml:id="ex2-1-co" />
+
+// create the button objects
+private JButton printNow    =  new JButton ("Print");                                         <co
+          linkends="ex2-2" xml:id="ex2-2-co" />
+private JButton printDialog =  new JButton ("Print...");
+
+// create the proxies
+private JButtonEnablementProxy printNowProxy    = new JButtonEnablementProxy (printNow);      <co
+          linkends="ex2-3" xml:id="ex2-3-co" />
+private JButtonEnablementProxy printDialogProxy = new JButtonEnablementProxy (printDialog);
+
+// create a &classname_VisibilityGroupManager;
+private &classname_VisibilityGroupManager; vgManager = new &classname_VisibilityGroupManager; ();
+
+// add the component proxies to the manager
+vgManager.addGroupMember (PRINT_GROUP, printNowProxy);                                        <co
+          linkends="ex2-4" xml:id="ex2-4-co" />
+vgManager.addGroupMember (PRINT_GROUP, printDialogProxy);</programlisting>
+
+      <calloutlist>
+        <callout arearefs="ex2-1-co" xml:id="ex2-1">
+          <para>Define a constant for the identifier of a group of components
+          which shall all be enabled and disabled under the same condition.
+          You can choose an arbitrary name here. This name is only internally
+          used as a handle on the individual component groups.</para>
+        </callout>
+
+        <callout arearefs="ex2-2-co" xml:id="ex2-2">
+          <para>Create the GUI elements which shall eventually be enabled and
+          disabled automatically by the
+          &classname_VisibilityGroupManager;.</para>
+        </callout>
+
+        <callout arearefs="ex2-3-co" xml:id="ex2-3">
+          <para>Create the corresponding proxy objects for these GUI
+          components. They are only needed by the
+          &classname_VisibilityGroupManager; in order to be able to access the
+          components in a standardized way.</para>
+        </callout>
+
+        <callout arearefs="ex2-4-co" xml:id="ex2-4">
+          <para>Finally, add the component proxies to the
+          &classname_VisibilityGroupManager; using the same group ID. By the
+          both proxy objects belong to the same group and will be
+          enabled/disabled and set visible/invisible under the same
+          conditions.</para>
+        </callout>
+      </calloutlist>
+
+      <para>We have now created a group of components which is managed by the
+      &classname_VisibilityGroupManager;. What is missing now is the Boolean
+      expression which decides whether this group must be enabled or disabled.
+      </para>
+
+      <para></para>
+
+      <para></para>
+
+      <para></para>
+    </section>
+  </section>
+</chapter>

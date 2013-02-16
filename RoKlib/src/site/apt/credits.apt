@@ -1,0 +1,17 @@
+            ------
+            Credits
+            ------
+            Roland Krueger
+            ------
+             06.01.2011
+             
+Credits for RoKlib
+
+  As I'm currently the only developer of RoKlib, there's not much credit to share for the source code. Other than that, there are a number of people I'd like to mention in this place to thank them for their valuable work which helped me a lot in saving time and understanding concepts.
+  
+  The first to name is Wally Flint who in 2001 wrote a great article on JavaWorld.com about {{{http://en.wikipedia.org/wiki/Ternary_search_tree}Ternary Search Trees}}. This article gave me the impulse to create an own implementation of this data structure. The article {{{http://www.javaworld.com/javaworld/jw-02-2001/jw-0216-ternary.html}"Plant your data in a ternary search tree"}} provides an excellent overview of the algorithms used by this data structure and was a huge help during implementation.
+
+  Florent Ramiere of {{{http://www.springfuse.com/}Jaxio}} wrote an {{{http://www.springfuse.com/blog/docbook/html-single/maven-docbook-syntax-highlighting.html}excellent overview article}} on how to best use Maven to build DocBook documentation. Using his examples I was able to really quickly configure the generation process of RoKlib's documentation with the {{{http://code.google.com/p/docbkx-tools/}docbkx Maven plugin}}. This saved me a lot of time as I could start right away with writing the documentation without all the fuss of having to figure all this out myself.
+  
+  Its the committment of such people mentioned above which makes one's own work so much more productive and fun.
+  

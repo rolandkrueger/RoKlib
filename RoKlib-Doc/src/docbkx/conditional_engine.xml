@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE local-doctype [
+<!ENTITY % variables SYSTEM "00-doc-variable-def.ent">
+%variables;
+]>
+<chapter version="5.0" xml:id="conditionalengine"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Conditional Engine</title>
+
+  <para>&roklib;'s conditional engine provides an object-oriented abstraction
+  of Boolean expressions. It lets you construct an object model of such
+  expressions and register event listeners with this model. Using these
+  listeners your application gets notified when the expression's value has
+  changed.</para>
+
+  <para>A Boolean expression can be composed of Boolean variables defining the
+  Boolean state of some arbitrary concept modelled in your application. An
+  expression can in turn be recursively composed of sub-expressions, forming a
+  composite of expressions and Boolean variables.</para>
+
+  <para>While programming languages offer Boolean expressions as a built-in
+  language construct, these constructs are statically defined in the source
+  code and cannot be changed or processed during runtime. By constructing
+  Boolean expressions as object models this restriction can be
+  overcome.</para>
+
+  <para>There are a lot of scenarios you can think of where this can be
+  useful. One such application of a conditional engine is &roklib;'s component
+  group visibility and enablement feature described in a later section.</para>
+
+  <section>
+    <title>Data Model</title>
+
+    <para>The conditional engine's classes are spread over two packages
+    &package_bool;, and &package_conditionalengine;. The former contains all
+    classes that define Boolean operations, such as <token>AND</token> or
+    <token>XOR</token>. The latter package defines classes and interfaces for
+    the Boolean variables and expressions which can be combined through
+    Boolean operations.</para>
+
+    <section>
+      <title>Boolean Operations</title>
+
+      <para>A Boolean operation is defined through the interface
+      &interface_IBooleanOperation;. This interface specifies all necessary
+      methods for these operations. Based on that interface two abstract
+      classes &classname_AbstractBinaryBooleanOperation; and
+      &classname_AbstractUnaryBooleanOperation; are defined representing
+      binary and unary Boolean operations, respectively.</para>
+
+      <figure>
+        <title>Class diagram for Boolean operations</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="resources/images/BooleanOperation_ClassDiagram.png"></imagedata>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>The available concrete Boolean operations are derived from these
+      two abstract classes.</para>
+
+      <para>While binary Boolean operations expect two operand values, a unary
+      operation operates only on one operand. The unary <token>NOT</token>
+      operation inverts the value of its operand, and the
+      <token>IDENTITY</token> operation simply returns its operand
+      unaltered.</para>
+
+      <para>The operands for these operations are given as <type>bool</type>
+      primitives. Binary operations expect a left hand and a right had
+      operand. Since short-circuiting is possible with &roklib;'s conditional
+      engine the order in which you set the two operands can be significant.
+      Short-circuiting of Boolean operations will be described shortly.</para>
+    </section>
+
+    <section>
+      <title>Boolean Variables and Expressions</title>
+
+      <para>After having talked about the individual operations that define a
+      Boolean condition, we will now have a look at the Boolean entities which
+      are combined with these operations. A Boolean variable is a holder of a
+      Boolean value representing the state of some real-world concept. As an
+      example, think of a Boolean variable indicating the state of a light
+      switch. If the light is off, the variable's value is
+      <token>false</token> and vice versa. If the light is switched on, the
+      corrosponding variable value is changed accordingly.</para>
+
+      <para>&roklib;'s Boolean variables are represented by abstract class
+      &classname_AbstractCondition;. This class implements interface
+      &interface_IBooleanValueProvider; and by that is able to provide a
+      Boolean value with &interface_IBooleanValueProvider;'s method
+      &method_getBooleanValue;. &classname_AbstractCondition; does not define
+      how that value is provided, though. It may be stored as a local variable
+      or calculated through some mechanism. In fact, these two approaches are
+      implemented by &classname_AbstractCondition;'s two subclasses
+      &classname_Condition; and &classname_BooleanExpression;. The former
+      simply holds a Boolean value and provides methods for accessing and
+      changing it.</para>
+
+      <para>A &classname_BooleanExpression; on the other hand combines a list
+      of &classname_AbstractCondition;s with one particular Boolean operation.
+      The Boolean value provided by that &classname_BooleanExpression; through
+      &method_getBooleanValue; is then the result of the Boolean operation,
+      executed on the current values of the contained
+      &classname_AbstractCondition;s. For example, when three
+      &classname_AbstractCondition;s are combined with an <token>AND</token>
+      operation, the value of the &classname_BooleanExpression; is
+      <token>true</token> if and only if the respective values of all three
+      sub-conditions are <token>true</token>.</para>
+
+      <para>Thus, class &classname_BooleanExpression; acts as a composite of
+      Boolean variables and Boolean expressions allowing the construction of a
+      tree of Boolean values and operations. All in all, this makes it
+      possible to create an object representation of an arbitrarily complex
+      Boolean function.</para>
+
+      <section>
+        <title>Building Boolean Expressions with the
+        &classname_BoolExpressionBuilder;</title>
+
+        <para>&roklib; offers you a convenience class for building Boolean
+        expressions, so you don't have to wire them up yourself:
+        &classname_BoolExpressionBuilder;. For every Boolean operation
+        provided by the framework, &classname_BoolExpressionBuilder; provides
+        a corresponding create method which accepts an arbitrary number of
+        &classname_AbstractCondition; objects as input values. Using these
+        objects as operands, a &classname_BooleanExpression; for the specified
+        operation is created. Since &classname_BooleanExpression;s are
+        &classname_AbstractCondition;s themselves, you can in turn create the
+        required method parameters with &classname_BoolExpressionBuilder;'s
+        convenience methods. By that, you can build nested Boolean expressions
+        as you go.</para>
+
+        <para>Consider for instance the following simple example</para>
+
+        <para><programlisting language="java" linenumbering="unnumbered"
+        xreflabel="IVisibilityEnablingConfigurable"
+        xml:id="listing_ivisibilityenablingconfigurable">Condition boolVarA = ...;
+Condition boolVarB = ...;
+Condition boolVarC = ...;
+    
+BoolExpressionBuilder.createANDExpression (boolVarA, 
+    BoolExpressionBuilder.createORExpression (boolVarB, boolVarC));</programlisting></para>
+
+        <para>This corresponds to the expression</para>
+
+        <para><programlisting language="java" linenumbering="unnumbered"
+        xreflabel="IVisibilityEnablingConfigurable"
+        xml:id="listing_ivisibilityenablingconfigurable">(boolVarA &amp;&amp; (boolVarB || boolVarC))</programlisting></para>
+      </section>
+    </section>
+
+    <section>
+      <title>Short-Circuiting</title>
+
+      <para>&roklib;'s Boolean operations are able to short-circuit their
+      evaluation process. Evaluating a Boolean operation can be
+      short-circuited when the operation's final outcome has already been
+      determined with some intermediate result which cannot be changed by any
+      subsequent value. As an example, if the first term of an
+      <token>AND</token> operation is <token>false</token> the whole
+      expression becomes <token>false</token> regardless of the second term's
+      value. In that case the <token>AND</token> operation itself does not
+      have to be evaluated since its outcome is already defined by the first
+      term.</para>
+
+      <para>With the capability to short-circuit, &roklib;'s Boolean
+      operations need only be evaluated as much as needed to determine their
+      outcome. This feature is used internally by class
+      &classname_BooleanExpression; to skip the calculation of sub-expressions
+      where this is unnecessary.</para>
+
+      <para>To determine whether a Boolean operation can be short-circuited,
+      you can call method &method_canShortCircuit; on the operation passing
+      the value of the operation's first operand as a parameter. If
+      short-circuiting is possible, this method returns <token>true</token>.
+      For example, if you call this method on the <token>OR</token> operation
+      passing <token>true</token> as parameter you will get
+      <token>true</token> as an answer, since the outcome of the
+      <token>OR</token> operation is always <token>true</token> if the first
+      operand is <token>true</token>.</para>
+
+      <para>Querying the short-circuited value from a Boolean operation is
+      done with method &method_getShortCircuit;. Here again, you pass the
+      first operand's value as a parameter. If you pass a value which cannot
+      be used for short-circuiting by this operation, an exception is thrown.
+      For example, if you call this method on an <token>AND</token> operation
+      passing <token>false</token> as parameter, you'll get
+      <token>false</token> as an answer, which is the final outcome of the
+      operation.</para>
+
+      <para></para>
+
+      <para></para>
+
+      <para></para>
+
+      <para></para>
+
+      <para></para>
+
+      <para></para>
+
+      <para></para>
+
+      <para></para>
+
+      <para></para>
+
+      <para></para>
+
+      <para></para>
+    </section>
+  </section>
+</chapter>

@@ -1,0 +1,24 @@
+            ------
+            RoKlib documentation
+            ------
+            Roland Krueger
+            ------
+             16.06.07
+             
+RoKlib documentation
+
+  The documentation of the RoKlib library is pretty much work in progress. Writing documentation is probably the most tedious and unrewarding work to be done when developing software. But I acknowledge that it has to be done thoroughly and in a timely manner.
+  
+  Therefore, RoKlib offers two types of documentation. The first is the common {{{./apidocs/index.html}JavaDoc API documentation}}. This will be updated regularly and kept in sync with the source code as much as possible. If you spot any deficiencies in this documentation don't hesitate to contact me.
+  
+  The second type of documentation comes as a DocBook user manual. This is intended to give you a deeper understanding of the concepts provided by the library than is possible with JavaDocs alone. This documentation shall give you a thread to follow in order to be able to grasp the library as a whole. It shall function as both a tutorial and manual.
+  
+  This documentation can be browsed online or downloaded as a PDF document.
+  
+*--------------------------------+----------------------+----------------+
+| <<Description>>                | <<Link>>             | <<Last Update>>       |
+*--------------------------------+----------------------+----------------+
+| RoKlib ${project.version} HTML documentation | {{{./docbkx/html/roklib-documentation.html}Single page HTML}}       | Jan. 17th, 2011  |
+*--------------------------------+----------------------+----------------+
+| RoKlib ${project.version} PDF documentation | {{{./docbkx/pdf/roklib-documentation.pdf}PDF}}       | Jan. 17th, 2011  |
+*--------------------------------+----------------------+----------------+ 

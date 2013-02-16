@@ -1,0 +1,205 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>info.rolandkrueger.roklib</groupId>
+	<artifactId>RoKlib</artifactId>
+	<packaging>jar</packaging>
+	<!-- <version>0.1.0-pre1</version> -->
+	<version>1.1.0-SNAPSHOT</version>
+	<name>RoKlib - For Those About To RoK</name>
+
+	<url>http://www.rolandkrueger.info/roklib</url>
+	<inceptionYear>2007</inceptionYear>
+	<description>
+    RoKlib is a general purpose library written in Java.
+    I use this library to put all general utility code from my other projects into one place. 
+    Some of its prominent features are an implementation class of a Ternary Search Tree hash map,
+    a Swing text field which allows entering IPA phonetic characters, a framework for parsing
+    arguments from the command line (similar to the Apache Commons CLI project), a framework for
+    writing Java plugins, an object-oriented abstraction of logical expressions, and a framework
+    for mapping the action URLs of a web application on command objects. RoKlib uses Apache Maven 
+    as building tool.
+	</description>
+	
+	<properties>
+		<docbook.source>${basedir}/src/docbkx</docbook.source>
+		<docbook.target>${project.build.directory}/docbkx</docbook.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
+	<developers>
+		<developer>
+			<name>Roland Krueger</name>
+			<id>rkrueger</id>
+			<email>mail_AT_rolandkrueger dot info</email>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+			<properties>
+				<picUrl>http://www.gravatar.com/avatar/3eb508383a221e5d2b8da026594907db.png</picUrl>
+			</properties>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License</name>
+			<distribution>manual</distribution>
+			<url>http://www.gnu.org/licenses/lgpl.txt</url>
+		</license>
+	</licenses>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>gsbase</groupId>
+			<artifactId>gsbase</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.0.4</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+	<issueManagement>
+		<system>Launchpad Bug Management</system>
+		<url>https://bugs.launchpad.net/roklib</url>
+	</issueManagement>
+
+	<scm>
+		<connection>scm:bazaar:https://code.launchpad.net/~rolandkrueger.info/roklib/1.0.0</connection>
+		<developerConnection>scm:bazaar:https://code.launchpad.net/~rolandkrueger.info/roklib/1.0.0</developerConnection>
+		<tag>HEAD</tag>
+		<url>https://code.launchpad.net/~rolandkrueger.info/roklib/1.0.0</url>
+	</scm>
+
+	<reporting>
+		<excludeDefaults>true</excludeDefaults>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.3.1</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.4</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.7.1</version> 
+				<configuration>
+					<showSuccess>false</showSuccess>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>2.5</version> 
+				<configuration>
+					<linkXref>true</linkXref>
+					<sourceEncoding>utf-8</sourceEncoding>
+					<targetJdk>1.6</targetJdk>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.7</version> 
+				<reportSets>
+					<reportSet>
+						<id>html</id>
+						<configuration>
+							<show>private</show>
+							<links>
+								<link>http://download.oracle.com/javase/6/docs/api</link>
+							</links>
+							<aggregate>true</aggregate>
+						</configuration>
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+			  <version>2.2</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>taglist-maven-plugin</artifactId>
+			 <version>2.4</version> 
+				<configuration>
+					<tags>
+						<tag>TODO</tag>
+						<tag>@todo</tag>
+						<tag>FIXME</tag>
+						<tag>XXX</tag>
+					</tags>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</reporting>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<systemProperties>
+						<property>
+							<name>net.sourceforge.cobertura.datafile</name>
+							<value>target/cobertura/cobertura.ser</value>
+						</property>
+					</systemProperties>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>2.1</version>
+			</plugin>
+			
+		</plugins>
+	</build>
+
+</project>

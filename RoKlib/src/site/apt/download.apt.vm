@@ -1,0 +1,80 @@
+            ------
+            Download section
+            ------
+            Roland Krueger
+            ------
+             16.06.07
+
+{Download RoKlib}
+
+%{toc|section=0|fromDepth=1|toDepth=3}
+
+  Here you can find links to the latest builds of RoKlib. Several versions are available including 
+  source code and binary distributions. Go ahead and grab a copy.
+  
+*--------------------------------+----------------------+----------------+
+| <<Description>>                | <<File>>             | <<Date>>       |
+*--------------------------------+----------------------+----------------+
+| RoKlib ${project.version} binary distribution | {{{./RoKlib-${project.version}.jar}RoKlib-${project.version}.jar}}       | Jan. 7th, 2011  |
+*--------------------------------+----------------------+----------------+
+| RoKlib ${project.version} source distribution | {{{./RoKlib-${project.version}-sources.jar}RoKlib-${project.version}-sources.jar}}       | Jan. 7th, 2011  |
+*--------------------------------+----------------------+----------------+
+| RoKlib ${project.version} JavaDocs | {{{./RoKlib-${project.version}-javadoc.jar}RoKlib-${project.version}-javadoc.jar}}       | Jan. 7th, 2011  |
+*--------------------------------+----------------------+----------------+ 
+
+{Getting RoKlib Sources From the Source Code Hosting Site}
+
+  The source code of RoKlib is hosted at Launchpad.net. You need the source code management tool Bazaar 
+to get a checkout of the sources. Visit the project at {{{https://launchpad.net/roklib}Launchpad.net}} 
+to find the latest development branches and their corresponding URLs.
+
+{Prerequisites}
+
+  The RoKlib library needs Java version 1.5 or higher to be compiled.
+
+{Installation Instructions}
+ 
+  Simply add the <<<RoKlib>>> JAR file to the classpath of any software which wants to use the library.
+
++--
+ $ java -cp ${project.build.finalName}.jar ...
++--
+
+* {Using Maven}
+  
+  If you're using Maven as build tool, you can install the JAR file in your local repository with the 
+following command:
+
++--
+mvn install:install-file -DgroupId=info.rolandkrueger.roklib -DartifactId=RoKlib 
+  -Dversion=${project.version} -Dpackaging=jar -Dfile=/path/to/file
++--
+
+  If you have downloaded the sources of RoKlib, you can also do a full build and have Maven install
+the library in your repository for you:
+
++--
+ $ mvn clean install    
++--
+
+  In your <<<pom.xml>>> add the following dependency for linking with the library:
+  
++--
+<dependency>
+  <groupId>info.rolandkrueger.roklib</groupId>
+  <artifactId>RoKlib</artifactId>
+  <version>${project.version}</version>
+</dependency> 
++--
+
+* {Building Instructions}
+
+  All artifacts downloadable from this page can be build from the sources with the following commands:
+  
++--
+ $ mvn package       # builds the binary distribution package
+ $ mvn javadoc:jar   # builds the JavaDoc distribution package
+ $ mvn source:jar    # builds the source distribution package
++--
+
+

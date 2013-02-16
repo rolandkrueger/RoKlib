@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE local-doctype [
+<!ENTITY % variables SYSTEM "00-doc-variable-def.ent">
+%variables;
+]>
+<chapter version="5.0" xml:id="urlactionhandling"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>URL Action Handling Framework</title>
+
+  <section id="overview">
+    <title>Overview</title>
+
+    <para>Even though most modern web application frameworks go to great
+    lengths to hide the context of the web from the programmer and make
+    writing web applications as natural as writing desktop applications, it
+    cannot completely be avoided to also address the particularities of the
+    web. One of these areas is dealing with URLs. Even with the availability
+    of modern web technologies such as AJAX-driven rich internet application
+    frameworks, which abstract away the request-response model of the web, it
+    is often necessary to handle URLs visited by the user directly.</para>
+
+    <para>An area where it is useful to handle visited URLs directly can be
+    found at highly dynamic single-page rich internet applications. Such
+    applications run as single programs on only one web page where each user
+    interaction is handled dynamically by some sort of scripting (e. g.
+    JavaScript code and AJAX). Here, is not necessary to use any real links,
+    and with that full HTTP requests, to interact with the application as is
+    necessary with more traditional web applications. While using such an
+    application, the browser URL never has to be changed. There's one
+    disadvantage with this scheme, though, since using the browser's back
+    button once will leave the web page hosting that application right away no
+    matter how many interactions the user already has done with the program.
+    In order to alleviate that and in order to offer the user the familiar
+    URI-based browsing experience, rich internet application use to fake a
+    page-oriented application design by using the URI fragment as an
+    identifier for the current application state. So, for example, in an
+    address-book application the user might navigate from a contacts list view
+    to the detail view of a single address with the following URLs which are
+    designed according to traditional page-oriented web applications:</para>
+
+    <example>
+      <para>http://www.example.com/addressbook#showaddresslist</para>
+
+      <para>http://www.example.com/addressbook#showaddress/id/42</para>
+    </example>
+
+    <para>Here you see that even rich internet applications have to evaluate
+    URLs in some way.</para>
+
+    <para>&roklib; assists you in doing that in a structured, accurate and
+    well maintainable way. The idea behind &roklib;'s URL action handling
+    framework is to interpret a URL not as a pointer to some static resource
+    as was the original intention of this facility. A URL is rather
+    interpreted as a command string denoting some user defined action that has
+    to be executed by the server. &roklib;'s URL action handling framework
+    lets you define action handlers for every URL which can be visited by the
+    user. To these handlers you add action commands which will be executed
+    when a corresponding URL is visited. URL action handlers are arranged in a
+    tree-like structure mimicking the hierarchical layout of all of a
+    website's navigatable URLs.</para>
+  </section>
+
+  <section id="introduction">
+    <title>Introduction</title>
+
+    <para>Before we talk about the classes making up &roklib;'s URL action
+    handling framework, we take a look at the general structure of URLs. We're
+    doing this to gain a better understanding of how the library classes work
+    and why they handle URLs their particular way.</para>
+
+    <para>The general structure of a URL is inherently hierarchical. A URL can
+    be seen as an equivalent to a file system path where the first part points
+    to a specific directory on some particular server, while the last part
+    selects one particular file in that directory. In fact, this has been the
+    original intention of URLs all along. In modern web applications this idea
+    of a simple resource identifier has evolved to something that is more of
+    an identifer for actions. Consider, for instance, the following
+    URL:</para>
+
+    <example>
+      <para>http://www.example.com/admin/configuration/languageSettings</para>
+    </example>
+
+    <para>This could be interpreted as an action telling the server to go to
+    the administration area, show the configuration panel and select the
+    language setting tab of a tab sheet component on that page.</para>
+
+    <para>The whole API of &roklib;'s URL action handling framework is
+    designed in that vein. You build up a tree of action handlers each of
+    which is responsible for one fragment of a URL. In the example above you
+    have one handler for the <emphasis>admin</emphasis> part of a URL, one
+    handler for the <emphasis>configuration</emphasis> part, and one for the
+    <emphasis>languageSettings</emphasis> part. When some URL is visited by
+    the user, that URL is sent to the URL action handling framework for
+    interpretation. Each of the registered handlers interprets one fragment of
+    the URL and delegates the interpretation flow to one of its sub-handlers,
+    thus forming a chain of consecutive handler objects. At the end of this
+    chain, an action object is returned that is eventually executed by the
+    framework. This action object is able to change the application state in
+    such a way as is indicated by the visited URL.<emphasis /></para>
+
+    <para>Two well-known design patterns have been used to implement this
+    framework. Interpreting a visited URL is done with the pattern named Chain
+    Of Responsibility (in this case it is more of a <emphasis>Tree Of
+    Responsibility</emphasis>). The action objects returned by this chain
+    implement the Command Object design pattern.</para>
+
+    <para>There are three main components that make up &roklib;'s URL action
+    handling framework. <emphasis>Action handlers</emphasis> are responsible
+    for interpreting the individual fragments of a URL. When the final
+    fragment of a URL has been interpreted by the action handlers, the last
+    handler in the handler chain returns an <emphasis>action
+    command</emphasis> which defines the reaction of the web application.
+    Finally, you can define an arbitrary number of <emphasis>URL
+    parameters</emphasis> which are automatically read by the framework from
+    the visited URL and passed to the handlers for further processing. We will
+    discuss each of these components in the following sections.</para>
+  </section>
+
+  <section>
+    <title>Action Handlers</title>
+
+    <para>The interpretation of a visited URL basically works in the following
+    manner. Before a URL is pushed to the action framework for interpretation,
+    the URL is first split into individual tokens using the slash character as
+    divider. So, before the URL
+    <emphasis>http://www.example.com/admin/configuration/languageSettings</emphasis>
+    is interpreted, the part that is relevant for interpretation (namely the
+    <emphasis>/admin/configuration/languageSettings</emphasis> fragment) is
+    split into the token list <emphasis>admin</emphasis>,
+    <emphasis>configuration</emphasis>, and
+    <emphasis>languageSettings</emphasis>. This token list is now sent to the
+    interpretation chain managed by class &classname_URLActionDispatcher;
+    where each token is handled by an individual URL action handler in that
+    order.</para>
+
+    <para>The following UML class diagram shows the relationship between the
+    core classes that compose the action handler part of the framework. All of
+    these classes live in package &package_urldispatching;.</para>
+
+    <figure>
+      <title>Class diagram of the URL action handlers</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="resources/images/URLActionHandlers.png"></imagedata>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>The most important class of this framework is class
+    &classname_AbstractURLActionHandler;. It defines all of the standard
+    behavior of the URL action handling framework. Most importantly, it
+    defines methods for registering parameter objects and for generating
+    parameterized URL objects for usage with links. Subclasses of
+    &classname_AbstractURLActionHandler; are responsible to interpret the
+    individual tokens of the URL token list depending on the domain-specific
+    purpose of the URL fragment.</para>
+
+    <para>&classname_AbstractURLActionHandler;'s subclass
+    &classname_DispatchingURLActionHandler; is used for building the
+    "directory structure" for the available URLs in a web application. They
+    form the inner links of the Chain Of Responsibility pattern that is
+    implemented to interpret URLs. For example, if you have the following URL
+    structure for your web application:</para>
+
+    <example>
+      <para>http://www.example.com/myapp/#!home/admin/settings</para>
+
+      <para>http://www.example.com/myapp/#!home/admin/users</para>
+
+      <para>http://www.example.com/myapp/#!home/user/profile</para>
+    </example>
+
+    <para>for each of the tokens <emphasis>home</emphasis>,
+    <emphasis>admin</emphasis>, <emphasis>settings</emphasis>,
+    <emphasis>users</emphasis>, <emphasis>user</emphasis>, and
+    <emphasis>profile</emphasis> you have to define an own URL action handler.
+    Since the tokens <emphasis>home</emphasis>, <emphasis>admin</emphasis>,
+    and <emphasis>user</emphasis> represent the "directories" of the URL that
+    contain sub-directories (i.e. sub-handlers), you will register a
+    &classname_DispatchingURLActionHandler; for each of them. Their task is to
+    direct the interpretation flow into the right direction.</para>
+
+    <para>An &classname_AbstractURLActionHandler; has to be registered as
+    sub-handler on its respective parent handler. In the example above, the
+    <emphasis>admin</emphasis> handler has to be registered as sub-handler of
+    the <emphasis>home</emphasis> handler which itself is considered as a
+    <emphasis>root</emphasis> action handler. Each action handler object can
+    only be registered with one parent handler. Attaching the same handler
+    instance to more than one parent handler will result in an
+    exception.</para>
+
+    <para>All root URL action handlers, i.e. those handlers that interpret the
+    first tokens of the URL fragment token list, such as the
+    <emphasis>home</emphasis> token in the example above, have to be
+    registered with a &classname_URLActionDispatcher;. This class represents
+    the main entry point of the URL action handling framework. It manages the
+    available root action handlers and by that recursively the whole tree of
+    available URLs in a web application. Let's take a look at a simple example
+    that demonstrates how the URL structure of the example above can be
+    established with the URL action handling framework.</para>
+
+    <para><programlisting language="java" linenumbering="unnumbered">URLActionDispatcher dispatcher = new URLActionDispatcher (...);
+
+DispatchingURLActionHandler homeHandler = new DispatchingURLActionHandler ("home"); <co
+          linkends="ex1-1" xml:id="ex1-1-co" />
+DispatchingURLActionHandler adminHandler = new DispatchingURLActionHandler ("admin");
+DispatchingURLActionHandler userHandler = new DispatchingURLActionHandler ("user");
+
+SimpleURLActionHandler settingsHandler = new SimpleURLActionHandler ("settings", adminSettingsCommand);  <co
+          linkends="ex1-2" xml:id="ex1-2-co" />
+SimpleURLActionHandler usersHandler = new SimpleURLActionHandler ("users", adminUsersCommand);
+SimpleURLActionHandler profileHandler = new SimpleURLActionHandler ("profile", userProfileCommand);
+
+homeHandler.addSubHandler (adminHandler);  <co linkends="ex1-3"
+          xml:id="ex1-3-co" />
+homeHandler.addSubHandler (userHandler);
+
+adminHandler.addSubHandler (settingsHandler);
+adminHandler.addSubHandler (usersHandler);
+userHandler.addSubHandler (profileHandler);
+
+dispatcher.addHandler (homeHandler);  <co linkends="ex1-4" xml:id="ex1-4-co" /></programlisting>
+    <calloutlist>
+        <callout arearefs="ex1-1-co" xml:id="ex1-1">
+          <para>Create the dispatching action handlers for the inner URL
+          tokens. A dispatching action handler is given its <emphasis>action
+          name</emphasis> in the constructor. The action name is the name of
+          the URL token for which the action handler is responsible.</para>
+        </callout>
+
+        <callout arearefs="ex1-2-co" xml:id="ex1-2">
+          <para>Create simple action handlers for the leaf tokens that will
+          simply return an action command when they are evaluated. Action
+          commands will be described in depth shortly.</para>
+        </callout>
+
+        <callout arearefs="ex1-3-co" xml:id="ex1-3">
+          <para>Register the second-level dispatching action handlers with the
+          first-level handler for the <emphasis>home</emphasis> token. After
+          that, the third-level handlers are added to the second-level
+          handlers.</para>
+        </callout>
+
+        <callout arearefs="ex1-4-co" xml:id="ex1-4">
+          <para>Register the <emphasis>home</emphasis>-handler with the root
+          dispatcher which finalizes the process of building the URL action
+          handler structure.</para>
+        </callout>
+      </calloutlist></para>
+  </section>
+
+  <section>
+    <title>Action Commands</title>
+
+    <para></para>
+  </section>
+
+  <section id="urlparameters">
+    <title>URL Parameters</title>
+
+    <para />
+  </section>
+
+  <section>
+    <title>URL Action Handling Cookbook</title>
+
+    <para></para>
+  </section>
+</chapter>

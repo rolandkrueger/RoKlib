@@ -1,0 +1,32 @@
+            ------
+            How to contribute
+            ------
+            Roland Krueger
+            ------
+             11.01.2011
+             
+How to contribute
+
+  If you want to get involved with RoKlib there are several ways to get your hands dirty. If you feel like contributing to this project you are happily invited to do so. Come and join the team.
+
+  What help is most appreciated?
+  
+* Submit Code and Patches
+  
+  Open source projects benefit most from an active and committed community. So, everyone is invited to actively participate in improving free software. If you like to add new features, bugfixes and improvements to this project, you can go ahead and download the sources from {{{https://launchpad.net/roklib}Roklib's Launchpad.net site}}, or you can create an own branch of the code for yourself and start hacking.
+  
+* Proofread
+
+  Since I am not an English native speaker, all documentation texts written by me will inevitably have their rough edges with awkward or incorrect phrasing. So, proofreading by native speakers and pointing out the places where corrections need to be made will be highly appreciated.
+
+* Test and Report Bugs
+
+  Even though a lot of unit tests are written to ensure the correctness of the library code, you can never avoid bugs slipping through. If you find any defects in RoKlib you can report them on the {{{https://bugs.launchpad.net/roklib}project's bug tracking page}}.
+
+* Use RoKlib
+
+   A program library makes most sense if it is actively used. So, the best thing to do is use RoKlib in your own projects. If this library actually helped you solve your problems and if the library's functionality is to your liking, you could drop a line to me. He looks forward to hearing from you!
+  
+* Comment
+
+  Last but not least its always interesting to know what experiences other people make with one's work. If you have comments and feature request for the library feel free to contact me at <<<mail AT rolandkrueger.info>>>. You can also get in touch with me on RoKlib's {{{https://launchpad.net/roklib}Launchpad site}}. There you can ask questions and file bug reports. There is currently no mailing list available for this project. Maybe this will change if the team grows larger than one developer.

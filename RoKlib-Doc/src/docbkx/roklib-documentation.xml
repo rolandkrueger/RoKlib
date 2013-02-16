@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book version="5.0" xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns:m="http://www.w3.org/1998/Math/MathML"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns:db="http://docbook.org/ns/docbook">
+  <bookinfo>
+    <title>RoKlib Library Documentation</title>
+
+    <releaseinfo><?eval ${project.version}?></releaseinfo>
+
+    <authorgroup>
+      <author>
+        <firstname>Roland</firstname>
+
+        <surname>Krüger</surname>
+      </author>
+    </authorgroup>
+
+    <legalnotice>
+      <para>This work is licensed under the Creative Commons
+      Attribution-ShareAlike 3.0 Unported License. To view a copy of this
+      license, visit http://creativecommons.org/licenses/by-sa/3.0/ or send a
+      letter to Creative Commons, 171 Second Street, Suite 300, San Francisco,
+      California, 94105, USA.</para>
+    </legalnotice>
+  </bookinfo>
+
+  <!--
+  <xi:include href="introduction.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+-->
+  <xi:include href="conditional_engine.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+			  
+  <xi:include href="group_visibility.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="data_structures.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="url_action_handling.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+<!--
+  <xi:include href="gui_classes.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="cli_classes.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="utilities.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="web_applications.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+			  -->
+</book>

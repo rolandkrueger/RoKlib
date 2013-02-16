@@ -1,0 +1,38 @@
+<html>
+<h1>Ternary Search Tree</h1>
+
+<p>This page demonstrates the two main features of a ternary search
+tree: prefix matching and spell checking. As an example, the complete
+English dictionary with about 115,000 entries is loaded into this data
+structure.</p>
+
+<p>You can do prefix matching and spell checking both with a case
+sensitive and a case insensitive version of the search tree. On the
+left, you can enter a search string for the case sensitive map, while
+search terms for case insensitive searching is entered on the left. The
+list containing your search result will be updated as you type. Below,
+you see how many entries the list does contain together with the
+information about the duration of the most recent filtering process
+given in milliseconds.</p>
+
+<p>Note that no matter how you mix upper and lower case in your
+search terms for the case insensitive search tree, you will always get
+the original entries as a result. Your mixed case search terms are
+passed to the search tree's query methods unaltered, i.e. they need not
+be changed to lower or upper case beforehand.</p>
+
+<p>The spell checking search mode will find all entries in the
+search tree which are similar to the term you have entered. Similar in
+this case means that at most two characters may be different between two
+matching entries and they are allowed to differ at most two characters
+in length.</p>
+
+<p>For comparison, you can also perform the prefix matching by using
+the standard String.startsWith() operation. Matching keys are then
+identified by iterating over all keys in the dictionary set and calling
+the startsWith() method on them. If you check the checkbox to use this
+approach, you'll see that the prefix matching will take significantly
+more time. As opposed to the ternary search tree, the search operation
+does not get faster the longer the search prefix becomes but instead
+performs equally bad.</p>
+</html>

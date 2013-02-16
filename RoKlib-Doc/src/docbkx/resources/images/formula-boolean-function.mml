@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE math PUBLIC "-//W3C//DTD MathML 2.0//EN"
+       "http://www.w3.org/TR/MathML2/dtd/mathml2.dtd">
+<!-- Created by amaya 11.3.1, see http://www.w3.org/Amaya/ -->
+<mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+  <mml:mi>f</mml:mi>
+  <mml:mo>(</mml:mo>
+  <mml:msub>
+    <mml:mi>x</mml:mi>
+    <mml:mn>1</mml:mn>
+  </mml:msub>
+  <mml:mo>,</mml:mo>
+  <mml:msub>
+    <mml:mi>x</mml:mi>
+    <mml:mn>2</mml:mn>
+  </mml:msub>
+  <mml:mo>,</mml:mo>
+  <mml:msub>
+    <mml:mi>x</mml:mi>
+    <mml:mn>3</mml:mn>
+  </mml:msub>
+  <mml:mo>,</mml:mo>
+  <mml:msub>
+    <mml:mi>x</mml:mi>
+    <mml:mn>4</mml:mn>
+  </mml:msub>
+  <mml:mo>)</mml:mo>
+  <mml:mo>=</mml:mo>
+  <mml:msub>
+    <mml:mi>x</mml:mi>
+    <mml:mn>1</mml:mn>
+  </mml:msub>
+  <mml:mo>*</mml:mo>
+  <mml:mover>
+    <mml:msub>
+      <mml:mi>x</mml:mi>
+      <mml:mn>2</mml:mn>
+    </mml:msub>
+    <mml:mo>¯</mml:mo>
+  </mml:mover>
+  <mml:mo>*</mml:mo>
+  <mml:mo>(</mml:mo>
+  <mml:msub>
+    <mml:mi>x</mml:mi>
+    <mml:mn>3</mml:mn>
+  </mml:msub>
+  <mml:mo>+</mml:mo>
+  <mml:msub>
+    <mml:mi>x</mml:mi>
+    <mml:mn>4</mml:mn>
+  </mml:msub>
+  <mml:mo>)</mml:mo>
+</mml:math>

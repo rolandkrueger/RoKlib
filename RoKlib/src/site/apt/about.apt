@@ -1,0 +1,151 @@
+            ------
+            About RoKlib
+            ------
+            Roland Krueger
+            ------
+             16.05.08
+
+{What does it have to offer?}
+      
+  Being a general purpose library, RoKlib offers a range of utility classes and frameworks for very different fields of application. The library does not fulfill one particular single purpose. Instead, it serves as a repository for all utility classes which originate from my open source projects and which can be reasonably employed in other software as well.
+
+  Following is a list of RoKlib's features together with a short description of them. This list is intended to provide you with a brief overview of RoKlib. You'll find more detailed descriptions for each of these items in the documentation section.
+  
+ <<Overview>>
+  
+  * {{{Conditional_Engine}Conditional Engine}}: Object-oriented abstraction of boolean expressions and their event emitting evaluation.
+  
+  * {{{Component_Group_Visibility}Component Group Visibility}}: Framework for managing whether a component is enabled and/or visible based on predefined conditions. These conditions are defined with the boolean expressions from the Conditional Engine.
+
+  * {{{Data_Structures:_The_Ternary_Search_Tree}Data Structures: The Ternary Search Tree}}: Implementation of a <<<SortableMap>>> where the String map keys are arranged in a Ternary Search Tree, so that extremely fast prefix matching and spell checking is possible.
+  
+  * {{{URL_Action_Handling_Framework}URL Action Handling Framework}}: Framework for systematically parsing URLs visited by the users of a web application and mapping these URLs together with their respective parameters on action command objects.
+
+  * {{{Graphical_User_Interface_Classes_for_JavaTM_Swing}Graphical User Interface Classes for Java Swing}}: A number of Swing GUI and data model classes which make use of the other features of RoKlib, such as the Ternary Search Tree map. Among them is a table model class that allows fast filtering and sorting of tables.
+
+  * {{{Command_Line_Interface_Classes}Command Line Interface Classes}}: Classes for defining and parsing command line commands and parameters. Offers a decent flexibility with the definition of command arguments, such as mutually exclusive arguments, flag options or list options.
+
+  * {{{File_Modification_Watchdogs}File Modification Watchdogs}}: Watchdog threads which monitor whether a file or directory has been modified. 
+
+  * {{{Stream_Utilities}Stream Utilities}}: Utility class for conveniently copying files and I/O-Streams (both <<<InputStreams>>> and <<<Readers>>> with a single method invocation.
+
+  * {{{JAR_Plugin_Framework}JAR Plugin Framework}}: Simple framework that allows to write application plugins packaged in JAR files. A Loader class transparently manages and loads such plugins.
+  
+  * {{{Memory_Swapping_Detection}Memory Swapping Detection}}: Classes and interfaces which make it easy to detect excessive memory swapping conditions.
+
+  * {{{Resource_Handling}Resource Handling}}: Loading resources from the classpath. A manager class takes care of finding requested resource files from the file system or from JAR files on the classpath and of loading them.
+
+  * {{{Object_Representation_of_States}Object Representation of States}}: The application-defined state of an entity can be modeled with subclasses of class <<<State>>>. These state objects can then be used in other parts of the library such as the conditional engine.
+
+  * {{{Web_Application_Support_Classes}Web Application Support Classes}}: A number of convenience classes support writing web applications if large-scale frameworks such as Java EE are not used.
+  
+  * {{{General_Helper_Classes}General Helper Classes}}: A number of miscellaneous helper classes.
+  
+* {Conditional Engine}
+
+	RoKlib provides an object-oriented abstraction model of boolean expressions. Usually, in the Java programming language boolean expressions are used in a static way. That is, when writing conditional code, for example when using if- or while-statements, predefined expressions are used to describe some condition. These expressions cannot change dynamically and are not reusable. In addition to that, the evaluation of a boolean expression merely leads to a branching decision in the control flow. No event is emitted that conveys the outcome of the evaluation to interested listeners. 
+	
+	The RoKlib library defines a set of classes which allow you to create an object representation of a boolean expression. Using this framework you can work with boolean expressions in an object-oriented way, that is you can use boolean expressions as method parameters or register listeners with them. When such an expression is evaluated all registered listeners are notified of the outcome of this operation. 
+	
+* {Component Group Visibility}
+
+  There are situations when you want to simultaneously enable or disable a group of components based on some specific condition, or you want to make them conditionally (in)visible. Such a condition might in turn consist of a number of different other subconditions connected with boolean operators. Each of these conditions represents the state of one particular part of an application, such as for example whether the current user is anonymous or logged in, or whether a file has been opened for editing.
+	
+  An example for this is the menu item for printing a document in a word processing application. This item may form a group with other GUI elements for printing the current document, such as push buttons or keyboard shortcuts. This group of elements should be disabled if it is not possible to print out a document at the moment. This is the case if no document has been opened or if the current user does not have the right to use the printing function.
+  
+  It would now be very awkward to check each time that one of the governing condition changes if the items from the component group should be enabled or disabled. For example, if a printable document has been opended it must be checked if the current user is allowed to print and if so, all print items had to be enabled if they aren't already.
+  
+  To make these situation easier to handle, RoKlib's conditional engine is used. A manager class is defined that manages groups of components. Each of these groups is associated with a condition object defining the condition for being enabled/disabled or visible/invisible. Each time the value of one of these conditions changes its value, an internal event is triggered and processed by the manager. Depending on the type of condition, the manager then decides if the component group should be enabled or disabled or made visible or invisible.
+  
+* {Data Structures: The Ternary Search Tree} 
+
+  Quoting from {{{http://en.wikipedia.org/wiki/Ternary_search_tree}Wikipedia.org}}: "In computer science, a ternary search tree is a ternary (three-way) tree data structure of strings which combines the speed of a prefix search tree, or trie, with the space efficiency of a binary search tree." This search tree allows extremely fast prefix matching and spell checking. RoKlib provides a full implementation of a ternary search tree which implements the <<<java.util.SortedMap>>> interface. The data structure allows a mapping of <<<java.lang.CharSequence>>> keys (which includes all <<<String>>>s and <<<StringBuffer>>>s) on an arbitrary data type. A case-insensitive implementation is also available. If only the prefix matching and spell checking capability without the map values is needed, a <<<java.util.Set>>> implementation of the ternary search tree is available as well.
+  
+  The implementation of the ternary search tree was inspired by Wally Flint's article on {{{http://www.javaworld.com/javaworld/jw-02-2001/jw-0216-ternary.html}JavaWorld.com}}.
+  
+  As far as I know, RoKlib's implementation is the only Java implementation of this data structure which fully implements the <<<java.util.SortedMap>>> contract and which offers a case-insensitive mode. If I'm wrong with this assumption, I'd be glad to be corrected.
+  
+  To assure the correctness of the ternary search tree implementation, currently some 250 unit tests exist exclusively for this data structure.
+
+* {URL Action Handling Framework}
+
+  Even though most modern web application frameworks go to great lengths to hide the context of the web from the programmer and make writing a web application as natural as writing a desktop application, it often cannot be avoided to also address the particularities of the web. One of these areas is dealing with URLs. In spite of modern web technologies such as AJAX, which abstract away the request-response model of the web, you will often want to handle URLs visited by the user directly. RoKlib assists you in doing so in a structured, accurate and well maintainable way. It lets you define action handlers for every URL that can be visited by the user. To these handlers you add action commands which will be executed when a corresponding URL has been visited. These action handlers are arranged in a tree-like structure which mimics the directory strucure of a website's URL structure.
+  
+  To each URL action handler, an arbitrary number of URL parameter objects can be added. These objects allow an automatic evaluation of the argument section of a URL. Thus, the direct parsing of a URL is not necessary. What's more, every action handler can generate a valid <<<java.net.URL>>> object corresponding to this handler and containing all URL parameter values in the URL's argument list with the values defined by the application. Thus, no error-prone manual assembling of URLs is necessary and the name of some URL parameter can be changed in one place.
+  
+  RoKlib's URL action handling framework allows evaluating parameterized URLs in three different ways. Following are these three modes together with an example URL:
+  
+  * <<Query mode>>: 
+  
+  <<<http://www.example.com/path/to/page?id=5&category=news&mode=view>>>
+  
+  * <<Directory mode with names>>: 
+  
+  <<<http://www.example.com/path/to/page/id/5/category/news/mode/view>>>
+  
+  * <<Directory mode without names>>: 
+  
+  <<<http://www.example.com/path/to/page/5/news/view>>>
+  
+  []
+  The mode which is used by the framework can be switched at runtime.
+  
+* {Graphical User Interface Classes for Java Swing}
+
+  RoKlib provides some advanced graphical user interface classes and corresponding support classes. They are partly designed for Java Swing and can partly be used generically, for instance in company with web frameworks.
+
+  * <<AugmentedTypingTextField>>: This class provides a Swing text field which allows entering a larger set of characters than is available on the keyboard. You can type along in this text field with the typed characters appearing as expected. Each time you hit a key whose character was explicitly configured in the text field's configuration data model as being an augmented key, a drop down list pops up below the text field showing all extra characters that were added to the original character. The user can then choose to select one of these additional character either with the arrow keys or with the mouse. If she does so, the original character is replaced with the selected one and typing can be continued. This component can be used, for example, to type in phonetics with IPA characters. 
+  
+  See the {{{./demo.html}screenshot section}} for an example of that.
+  
+  * <<SuggestionComboBox>>: This is an auto-complete text field which gives suggestions for completing the word you're currently typing. The Swing class internally uses the <<<TernarySearchTreeMap>>> as the source of the suggestions. Since this data structure allows blazingly fast prefix matching, the suggestions are determined extremely fast no matter how big the data set in the search map is.
+  
+  * <<SortableFilterableTable>>: This is a table data model that transparently organizes the data of a table in such a way, that it can be sorted by column and filtered with search prefixes.
+
+* {Command Line Interface Classes}
+
+  Defining the option set of a command line tool and having the command line arguments parsed by a command line argument parser can be accomplished with the CLI classes of RoKlib. You can configure the valid options of a program in several ways. For example, flag options, single value and list options can be configured. You can also declare two command line options as mutually exclusive. If the user then uses both options simultaneously, the options are marked as invalid and an error message can be shown to the user.
+
+* {File Modification Watchdogs}
+
+  It is sometimes necessary to observe a file or directory on the local file system and have a callback function invoked when this file or directory has been modified. This package provides a <<<FileModificationWatchdog>>> thread that calls registered listeners when the observed file object has changed. There are listeners for the events that a file has been changed or deleted, and for the events that files have been added or removed from an observed directory.
+
+* {Stream Utilities}
+
+  The <<<StreamUtilities>>> class offers a convenient interface for data stream-related tasks. You can copy files directly using nothing more than the <<<java.io.File>>> class, copy a <<<Reader>>> to a <<<Writer>>>, or copy an <<<InputStream>>> into an <<<OutputStream>>>. In addition to that, it is also possible to directly read the contents of a <<<File>>> object, a <<<Reader>>> object, or an <<<InputStream>>> into a <<<String>>>. For <<<InputStreams>>> you can define the character set with which the data is encoded. 
+
+* {JAR Plugin Framework}
+
+  Extensibility through the use of plugins is one of the core feature of a lot of applications. In order to facilitate establishing a plugin architecture for a program, RoKlib provides a framework for writing plugins packaged as normal JAR files. A loader class takes care of loading these file from the file system or from a URL. With that, writing plugins is as easy as extending the <<<AbstractPlugin>>> class,  defining some manifest entries in the plugin's <<<MANIFEST.MF>>> file and packaging the plugin's classes in a self-contained JAR file.
+
+* {Memory Swapping Detection}
+
+  Excessive swapping of memory pages to and from the virtual memory is the performance death of any application. Therefore, it may be important for an application to become warned when such a situation arises. Unfortunately, the Java language does not provide any platform independent mechanism to detect excessive memory swapping (at least to my knowledge). RoKlib therefore provides a class framework which allows for setting up a swapping detection facility and respective event listeners which get notified of detected memory swapping conditions. There is a corresponding listener interface and an <<<AbstractMemorySwappingDetectionThread>>> available. 
+  
+  Since the detection mechanism itself is inherently platform dependent, there is also a concrete implementation of the <<<AbstractMemorySwappingDetectionThread>>> for Unix systems available which uses the <<<vmstat>>> command to detect excessive memory swapping.
+
+* {Resource Handling}
+
+  The Java language offers the possibility to load resource files directly from the classpath or from JAR files on the classpath through <<<java.net.URL>>> class instances. RoKlib in turn provides a <<<ResourceHandlingManager>>> class that uses this mechanism to transparently locate and load such resources for a client. By this, a client does not have to handle URL object instances or locate the required resouces in the JAR files on the classpath on its own. A client only has to know the name of the resource.
+
+* {Object Representation of States}
+
+  Entities can have a domain-specific state. Usually defined by a private variable with a user-defined <<<enum>>> type, an entity's state can typically only be accessed on demand through its property accessor methods. RoKlib introduces a <<<State>>> class which encapsulates a state in an own object. Such a <<<State>>> object can now partake in a greater object-oriented scheme. For example, the <<<State>>> of an object can be used as the governing element of a condition object in RoKlib's {{{Conditional_Engine}conditional engine}}.
+
+* {Web Application Support Classes}
+
+  There are a number of recurring tasks and features which are needed for almost every web application. Among this is a user registration process, user management, user rights management, and so on. RoKlib offers a number of classes that support you in writing these features. For example, there are classes which manage the whole user registration process for you. You only have to write the glue code that binds these classes to your specific application.
+
+  In addition to that, RoKlib's web application support classes offer subclasses of <<<State>>> and special web-related condition classes for use with the condition engine. Then there is a role-enabled class <<<GenericUser>>> which represents a user of a web application.
+  
+* {General Helper Classes}
+
+  Last but not least there are the obligatory helper and utility classes that make a programmer's life easier. Here is what RoKlib has to offer in this respect:
+
+  * <<ManagedData>>: A managed value wraps a single data element (which can both be a primitive value or an object instance) and manages access to it. The most common way to indicate that some instance variable hasn't been initialized yet is to set the variable to <<<null>>>. While this is easy with object instances, this approach gets problematic if the variable has a primitive data type. Then, you either choose a special marker value (such as zero or -1 for numerical types) or, if that is not possible, use an auxiliary boolean variable which indicates whether the primitive value has already been initialized. Since this quickly becomes cumbersome, it is better to wrap the instance variable in a managing object of type <<<ManagedData>>>. This class tracks the status of the wrapped object and allows querying this status. Trying to access the wrapped object when that has not yet been initialized will raise an exception. With that, it is ruled out that an application works with invalid data, since trying to do so will fail immediately. This has the additional advantage that an exception is raised at the exact point of the invalid access as opposed to using <<<null>>> references for uninitialized data where the inevitable <<<NullPointerException>>> will possibly occur at some completely unrelated place in the code. 
+  
+  * <<CheckForNull>>: Checking whether a passed method argument is <<<null>>> is one fairly common and boring task. The utility class <<<CheckForNull>>> automates this chore and condenses it to one single line of code. Simply enumerate the method arguments which must not be <<<null>>> and have the utility class check this condition and remonstrate if necessary.
+  
+  * <<RandomStringIDGenerator>>: This class creates random strings of a predefined length. By default, these strings consist of a random sequence of numbers and letters from the ASCII character set. This comes in handy if you want to create random throw-away keys for one-time identification purposes such as website registration confirmation links, generating initial passwords, etc.
+  
+  * <<DefaultPasswordMD5HashGenerator>>: Converting user passwords into MD5 hash values to store them in a database can be done with this class.

@@ -1,0 +1,77 @@
+            ------
+            Welcome
+            ------
+            Roland Krueger
+            ------
+             14.05.08
+         
+{Welcome to the RoKlib project}
+    
+%{toc|section=1|fromDepth=1|toDepth=3}
+
+    RoKlib is an open source, general purpose Java library originally initiated and maintained by
+Roland Krueger. It is licensed under the terms of the 
+{{{http://www.gnu.org/licenses/lgpl.txt}GNU Lesser General Public License (LGPL)}} and
+can thus be freely used and distributed according to the terms of this license. 
+
+    RoKlib provides a number of useful features which can be helpful in a wide range of 
+application types. If you are interested in an overview of the main features provided by RoKlib 
+you can take a look at section {{{./about.html}About RoKlib}}. There you'll find an abstract of each 
+of the library's features. For an in-depth discussion of the single parts of this library
+you can consult the {{{./documentation.html}documentation section}}. Here, the individual
+features are described and examples on how to use them are given. 
+
+    To directly see what this library has to offer, if is planned to give you the opportunity to run a
+small demo program which demonstrates the most important features of RoKlib in a 
+tangible way. Features which can be demonstrated visually are presented with screenshots in the
+{{{./demo.html}demo section}}.
+
+    An important goal for this library is to provide a robust and error-free API. The classes are therefore thoroughly tested by unit tests. At the time of writing (January 2011) more than 560 unit tests assert the library's correctness.
+
+	Feel free to browse all relevant information about the RoKlib library project:
+	
+  * {{{https://launchpad.net/roklib}Check out the sources from the repository}}
+	
+  * {{{./xref/index.html}Browse the sources directly in your browser}}
+  
+  * {{{./apidocs/index.html}Read the JavaDocs}}
+  
+  * {{{./documentation.html}Read the documentation}}
+  
+  * {{{./download.html}Download RoKlib}}
+  
+  * {{{./contribute.html}Learn how to get involved}}
+  
+  * {{{./cobertura/index.html}Check the unit test coverage for RoKlib}}
+	
+* {RoKlib in Action}
+
+    RoKlib is currently in productive use in several projects. These are among others the German internet
+community site {{{http://www.spar-radar.com}Spar-Radar.com}} and the author's open source project Lexis, 
+a language independent vocabulary trainer. 
+
+* {Obtaining RoKlib}
+
+    The source code of RoKlib can be obtained directly from the project hosting site
+{{{https://launchpad.net/roklib}Launchpad.net}}. You need the SCM tool Bazaar for getting a checkout
+of the sources or for creating an own development branch.
+
+    Another option is to directly download a current snapshot of the source and binary distribution
+from the {{{./download.html}download section}}.  
+
+* {Building and installing RoKlib}
+
+    RoKlib is maintained as an Apache Maven project. Maven is an excellent build tool
+for Java projects and can be downloaded on the {{{http://maven.apache.org}Maven 
+project site}}. You can get a copy of the whole RoKlib Maven project including this 
+documentation and build the library from its sources. It is also possible to 
+download the library's Jar file containing only the binary distribution.
+
+    To install RoKlib in your local repository, you'll also use the Maven build tool. More
+information about this can be found on the {{{./download.html}installation page}}.
+
+* {Documentation License}
+
+  This work which comprises the complete documentation data of the RoKlib library is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License. To view a copy of this license, visit {{http://creativecommons.org/licenses/by-sa/3.0/}} or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+
+     

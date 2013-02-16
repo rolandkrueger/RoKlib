@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook"
+		 xml:id="datastructures">
+  <title>Data Structures</title>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>Currently, <application>RoKlib</application> offers only one data
+    structure, which is an implementation of a Ternary Search Tree. This is a
+    map with some interesting properties making it most suitable for very fast
+    prefix matching and spell checking operations.</para>
+  </section>
+
+  <section>
+    <title>The Ternary Search Tree Map</title>
+
+    <para><application>RoKlib</application>'s implementation of a ternary
+    search tree comes as a class implementing the
+    <interfacename>java.util.SortedMap</interfacename> interface with one
+    particularity. As opposed to common Java maps,
+    <application>RoKlib</application>'s ternary search tree map does only have
+    one generic class parameter which defines the type of the map's value
+    object. The data type of the keys is predefined as having to be a subclass
+    of <interfacename>java.lang.CharSequence</interfacename>. This is due to
+    the nature of ternary search trees which don't use integer hash values to
+    store their map values but instead split up a key's String representation
+    into single characters to form a sort of a character path to the value.
+    Hence, the only sensible key type for a ternary search tree is a textual
+    type.</para>
+
+    <para>There are three similar classes available based on the ternary
+    search tree data structure. Two of them are the aforementioned map in a
+    case sensitive and case insensitive version
+    (<interfacename>TernarySearchTreeMap</interfacename> and
+    <interfacename>TernarySearchTreeMapCaseInsensitive</interfacename>). The
+    third one is simply an implementation of
+    <interfacename>java.util.SortedSet&lt;CharSequence&gt;</interfacename>
+    that uses a ternary search tree map as its internal data model. This class
+    <interfacename>TernarySearchTreeSet</interfacename> offers the same
+    features as the ternary search tree map except that it doesn't offer to
+    associate a value with the String data. Thus, a
+    <interfacename>TernarySearchTreeSet</interfacename> is best used when you
+    only need the prefix matching or spell checking feature of a ternary
+    search tree.</para>
+
+    <para>Let's have a look at the class structure of these map and set
+    classes.</para>
+
+    <figure>
+      <title>Class diagram for the ternary search tree data classes</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="resources/images/TSTMap_ClassDiagram.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>You can see that the functionality specific to ternary search trees
+    is declared in two interfaces
+    <interfacename>ITernarySearchTreeQuery</interfacename> and
+    <interfacename>ITernarySearchTreeMap&lt;V&gt;</interfacename>. </para>
+
+    <section>
+      <title>Prefix Matching</title>
+
+      <para>One of the most notable feature that a ternary search tree has to
+      offer is that it allows for a very fast prefix matching. That is, given
+      some prefix string, the data structure will provide you all keys stored
+      in the map that start with this prefix.</para>
+
+      <para>There are two methods available for a
+      <classname>TernarySearchTreeMap</classname> to do prefix
+      matching.</para>
+
+      <programlisting language="java" linenumbering="unnumbered">Iterable&lt;CharSequence&gt; getPrefixMatch (CharSequence prefix);
+Iterator&lt;Entry&lt;CharSequence, V&gt;&gt; getPrefixSubtreeIterator (CharSequence prefix);</programlisting>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>Spell Checking</title>
+
+      <para></para>
+    </section>
+
+    <section>
+      <title>Case Insensitivity</title>
+
+      <para></para>
+    </section>
+  </section>
+
+  <section>
+    <title>Ternary Search Tree Set</title>
+
+    <para></para>
+  </section>
+</chapter>
