@@ -18,7 +18,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.util;
+package org.roklib.collections;
 
 import java.util.AbstractSet;
 import java.util.Arrays;
@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
+
 
 public class TernarySearchTreeSet extends AbstractSet<CharSequence> implements SortedSet<CharSequence>,
     ITernarySearchTreeQuery

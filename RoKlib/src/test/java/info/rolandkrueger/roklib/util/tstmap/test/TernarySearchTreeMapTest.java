@@ -39,8 +39,8 @@ import java.util.TreeMap;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.collections.TernarySearchTreeMap;
 import org.roklib.util.RandomStringIDGenerator;
-import org.roklib.util.TernarySearchTreeMap;
 
 public class TernarySearchTreeMapTest
 {

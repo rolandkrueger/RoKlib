@@ -28,7 +28,7 @@ import java.util.Map.Entry;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.util.TernarySearchTreeMap;
+import org.roklib.collections.TernarySearchTreeMap;
 
 public class PrefixSubtreeIteratorTest
 {

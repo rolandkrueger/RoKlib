@@ -37,7 +37,7 @@ import java.util.TreeSet;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.util.TernarySearchTreeSet;
+import org.roklib.collections.TernarySearchTreeSet;
 
 public class TSTSetTest
 {

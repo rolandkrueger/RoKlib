@@ -28,7 +28,7 @@ import java.util.SortedMap;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.util.TernarySearchTreeMapCaseInsensitive;
+import org.roklib.collections.TernarySearchTreeMapCaseInsensitive;
 
 public class TSTMapCaseInsensitiveSubMapTest
 {

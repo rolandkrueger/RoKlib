@@ -25,6 +25,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.roklib.collections.IThreadLocalContainer;
 
 public class LoggingManager implements IThreadLocalContainer
 {

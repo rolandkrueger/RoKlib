@@ -27,7 +27,7 @@ import java.util.Iterator;
 
 import javax.swing.DefaultComboBoxModel;
 
-import org.roklib.util.TernarySearchTreeSet;
+import org.roklib.collections.TernarySearchTreeSet;
 
 /**
  * @author Roland Krueger

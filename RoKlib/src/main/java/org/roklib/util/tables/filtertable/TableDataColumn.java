@@ -28,7 +28,7 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.SortedSet;
 
-import org.roklib.util.TernarySearchTreeMap;
+import org.roklib.collections.TernarySearchTreeMap;
 import org.roklib.util.helper.CheckForNull;
 import org.roklib.util.tables.filtertable.SortableFilterableTableDataModel.SearchMode;
 
