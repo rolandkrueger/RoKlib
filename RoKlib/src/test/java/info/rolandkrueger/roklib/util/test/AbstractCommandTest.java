@@ -21,11 +21,11 @@ package info.rolandkrueger.roklib.util.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.util.AbstractCommand;
-import info.rolandkrueger.roklib.util.EnhancedReturnType;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.util.AbstractCommand;
+import org.roklib.util.EnhancedReturnType;
 
 public class AbstractCommandTest
 {

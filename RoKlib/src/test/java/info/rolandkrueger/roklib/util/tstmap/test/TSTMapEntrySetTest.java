@@ -23,7 +23,6 @@ package info.rolandkrueger.roklib.util.tstmap.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.util.TernarySearchTreeMap;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -34,6 +33,7 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.util.TernarySearchTreeMap;
 
 public class TSTMapEntrySetTest
 {

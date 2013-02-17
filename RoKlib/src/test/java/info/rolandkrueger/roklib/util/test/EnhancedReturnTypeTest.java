@@ -23,9 +23,9 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import info.rolandkrueger.roklib.util.EnhancedReturnType;
 
 import org.junit.Test;
+import org.roklib.util.EnhancedReturnType;
 
 public class EnhancedReturnTypeTest
 {

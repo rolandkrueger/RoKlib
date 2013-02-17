@@ -25,8 +25,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.util.RandomStringIDGenerator;
-import info.rolandkrueger.roklib.util.TernarySearchTreeMap;
 import info.rolandkrueger.roklib.util.tstmap.test.MapData.TestDataFixture;
 
 import java.util.HashMap;
@@ -41,6 +39,8 @@ import java.util.TreeMap;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.util.RandomStringIDGenerator;
+import org.roklib.util.TernarySearchTreeMap;
 
 public class TernarySearchTreeMapTest
 {

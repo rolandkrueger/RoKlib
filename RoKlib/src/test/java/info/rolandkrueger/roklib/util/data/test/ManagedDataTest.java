@@ -23,11 +23,11 @@ package info.rolandkrueger.roklib.util.data.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.util.data.ManagedData;
-import info.rolandkrueger.roklib.util.data.ManagedData.StatusEnum;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.util.data.ManagedData;
+import org.roklib.util.data.ManagedData.StatusEnum;
 
 public class ManagedDataTest
 {

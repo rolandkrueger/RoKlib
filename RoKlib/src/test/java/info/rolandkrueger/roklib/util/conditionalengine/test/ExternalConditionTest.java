@@ -22,11 +22,11 @@ package info.rolandkrueger.roklib.util.conditionalengine.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.util.conditionalengine.ExternalCondition;
-import info.rolandkrueger.roklib.util.conditionalengine.conditions.HasState;
-import info.rolandkrueger.roklib.webapps.state.GenericUserState;
 
 import org.junit.Test;
+import org.roklib.util.conditionalengine.ExternalCondition;
+import org.roklib.util.conditionalengine.conditions.HasState;
+import org.roklib.webapps.state.GenericUserState;
 
 public class ExternalConditionTest
 {

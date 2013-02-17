@@ -21,11 +21,11 @@
 package info.rolandkrueger.roklib.util.test;
 
 import static org.junit.Assert.assertEquals;
-import info.rolandkrueger.roklib.util.RandomStringIDGenerator;
 
 import java.util.Random;
 
 import org.junit.Test;
+import org.roklib.util.RandomStringIDGenerator;
 
 public class RandomStringIDGeneratorTest
 {

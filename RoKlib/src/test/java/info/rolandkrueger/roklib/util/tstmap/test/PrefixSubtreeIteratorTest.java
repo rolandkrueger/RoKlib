@@ -21,7 +21,6 @@
 package info.rolandkrueger.roklib.util.tstmap.test;
 
 import static org.junit.Assert.assertEquals;
-import info.rolandkrueger.roklib.util.TernarySearchTreeMap;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +28,7 @@ import java.util.Map.Entry;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.util.TernarySearchTreeMap;
 
 public class PrefixSubtreeIteratorTest
 {

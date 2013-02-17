@@ -22,14 +22,14 @@ package info.rolandkrueger.roklib.util.conditionalengine.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.util.conditionalengine.AbstractCondition;
-import info.rolandkrueger.roklib.util.conditionalengine.BoolExpressionBuilder;
-import info.rolandkrueger.roklib.util.conditionalengine.BooleanExpression;
-import info.rolandkrueger.roklib.util.conditionalengine.Condition;
-import info.rolandkrueger.roklib.util.conditionalengine.IConditionListener;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.util.conditionalengine.AbstractCondition;
+import org.roklib.util.conditionalengine.BoolExpressionBuilder;
+import org.roklib.util.conditionalengine.BooleanExpression;
+import org.roklib.util.conditionalengine.Condition;
+import org.roklib.util.conditionalengine.IConditionListener;
 
 public class BooleanOperationTest
 {

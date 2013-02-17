@@ -20,11 +20,12 @@
  */
 package info.rolandkrueger.roklib.webapps.implementation;
 
-import info.rolandkrueger.roklib.webapps.data.access.IUserDataAccess;
-import info.rolandkrueger.roklib.webapps.state.GenericUserState;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.roklib.webapps.data.access.IUserDataAccess;
+import org.roklib.webapps.state.GenericUserState;
 
 public class TUserDataAccess implements IUserDataAccess<Long, String, TUser>
 {

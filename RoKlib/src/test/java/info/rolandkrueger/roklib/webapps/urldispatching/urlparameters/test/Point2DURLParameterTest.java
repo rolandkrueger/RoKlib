@@ -21,11 +21,12 @@
 package info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.test;
 
 import static org.junit.Assert.assertEquals;
-import info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.AbstractURLParameter;
-import info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.Point2DURLParameter;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
+
+import org.roklib.webapps.urldispatching.urlparameters.AbstractURLParameter;
+import org.roklib.webapps.urldispatching.urlparameters.Point2DURLParameter;
 
 public class Point2DURLParameterTest extends AbstractURLParameterTest<Point2D.Double>
 {

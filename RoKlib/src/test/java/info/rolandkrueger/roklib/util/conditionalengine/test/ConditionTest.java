@@ -22,10 +22,10 @@ package info.rolandkrueger.roklib.util.conditionalengine.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.util.conditionalengine.Condition;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.util.conditionalengine.Condition;
 
 public class ConditionTest
 {

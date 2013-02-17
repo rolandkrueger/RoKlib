@@ -22,13 +22,13 @@ package info.rolandkrueger.roklib.webapps.actions.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import info.rolandkrueger.roklib.webapps.actions.UserAuthenticator;
-import info.rolandkrueger.roklib.webapps.actions.UserAuthenticator.AuthenticationOutcome;
 import info.rolandkrueger.roklib.webapps.implementation.TUser;
 import info.rolandkrueger.roklib.webapps.implementation.TUserDataAccess;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.webapps.actions.UserAuthenticator;
+import org.roklib.webapps.actions.UserAuthenticator.AuthenticationOutcome;
 
 public class UserAuthenticatorTest
 {

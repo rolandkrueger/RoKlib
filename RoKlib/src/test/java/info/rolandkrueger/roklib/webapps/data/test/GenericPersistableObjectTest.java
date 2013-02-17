@@ -22,9 +22,9 @@ package info.rolandkrueger.roklib.webapps.data.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.webapps.data.GenericPersistableObject;
 
 import org.junit.Test;
+import org.roklib.webapps.data.GenericPersistableObject;
 
 public class GenericPersistableObjectTest
 {

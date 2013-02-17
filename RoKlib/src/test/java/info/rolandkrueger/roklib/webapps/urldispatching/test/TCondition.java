@@ -20,7 +20,7 @@
  */
 package info.rolandkrueger.roklib.webapps.urldispatching.test;
 
-import info.rolandkrueger.roklib.util.conditionalengine.AbstractCondition;
+import org.roklib.util.conditionalengine.AbstractCondition;
 
 @SuppressWarnings ("serial")
 public class TCondition extends AbstractCondition

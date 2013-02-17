@@ -21,7 +21,6 @@
 package info.rolandkrueger.roklib.util.tstmap.test;
 
 import static org.junit.Assert.assertEquals;
-import info.rolandkrueger.roklib.util.TernarySearchTreeMap;
 import info.rolandkrueger.roklib.util.tstmap.test.MapData.TestDataFixture;
 import info.rolandkrueger.roklib.util.tstmap.test.MapData.TestDataFixtureMapMap;
 
@@ -31,6 +30,7 @@ import java.util.TreeMap;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.util.TernarySearchTreeMap;
 
 /**
  * This test fixture will compare the method results of the various {@link SortedMap} methods if the respective methods

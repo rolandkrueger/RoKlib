@@ -27,7 +27,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import info.rolandkrueger.roklib.util.TernarySearchTreeMapCaseInsensitive;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,6 +42,7 @@ import java.util.SortedMap;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.roklib.util.TernarySearchTreeMapCaseInsensitive;
 
 public class TSTMapCaseInsensitiveTest
 {

@@ -25,16 +25,16 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.webapps.actions.UserRegistration;
-import info.rolandkrueger.roklib.webapps.actions.UserRegistration.RegistrationConfirmationOutcome;
-import info.rolandkrueger.roklib.webapps.actions.UserRegistration.RegistrationOutcome;
 import info.rolandkrueger.roklib.webapps.implementation.TUser;
 import info.rolandkrueger.roklib.webapps.implementation.TUserDataAccess;
 import info.rolandkrueger.roklib.webapps.implementation.TUserRegistrationMethods;
-import info.rolandkrueger.roklib.webapps.state.GenericUserState;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.webapps.actions.UserRegistration;
+import org.roklib.webapps.actions.UserRegistration.RegistrationConfirmationOutcome;
+import org.roklib.webapps.actions.UserRegistration.RegistrationOutcome;
+import org.roklib.webapps.state.GenericUserState;
 
 public class UserRegistrationTest
 {

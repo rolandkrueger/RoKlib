@@ -20,7 +20,7 @@
  */
 package info.rolandkrueger.roklib.webapps.implementation;
 
-import info.rolandkrueger.roklib.webapps.data.usermgmt.GenericUser;
+import org.roklib.webapps.data.usermgmt.GenericUser;
 
 public class TUser extends GenericUser<Long, String>
 {

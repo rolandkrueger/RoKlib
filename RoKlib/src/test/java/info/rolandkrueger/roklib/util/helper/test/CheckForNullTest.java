@@ -21,9 +21,9 @@
 package info.rolandkrueger.roklib.util.helper.test;
 
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.util.helper.CheckForNull;
 
 import org.junit.Test;
+import org.roklib.util.helper.CheckForNull;
 
 public class CheckForNullTest
 {

@@ -22,7 +22,6 @@ package info.rolandkrueger.roklib.util.tstmap.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.util.TernarySearchTreeSet;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -32,6 +31,7 @@ import java.util.TreeSet;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.util.TernarySearchTreeSet;
 
 public class TSTSetCaseInsensitiveTest
 {

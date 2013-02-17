@@ -22,11 +22,11 @@ package info.rolandkrueger.roklib.util.authorization.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.util.authorization.AdmissionTicketContainer;
-import info.rolandkrueger.roklib.util.authorization.IAdmissionTicket;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.util.authorization.AdmissionTicketContainer;
+import org.roklib.util.authorization.IAdmissionTicket;
 
 public class AdmissionTicketContainerTest
 {

@@ -23,12 +23,12 @@ package info.rolandkrueger.roklib.webapps.data.usermgmt.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.webapps.data.usermgmt.GenericUser;
-import info.rolandkrueger.roklib.webapps.data.usermgmt.UserRole;
-import info.rolandkrueger.roklib.webapps.state.GenericUserState;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.webapps.data.usermgmt.GenericUser;
+import org.roklib.webapps.data.usermgmt.UserRole;
+import org.roklib.webapps.state.GenericUserState;
 
 public class GenericUserTest
 {

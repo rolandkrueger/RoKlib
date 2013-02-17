@@ -20,7 +20,7 @@
  */
 package info.rolandkrueger.roklib.util.groupvisibility.test;
 
-import info.rolandkrueger.roklib.util.groupvisibility.IVisibilityEnablingConfigurable;
+import org.roklib.util.groupvisibility.IVisibilityEnablingConfigurable;
 
 public class VisibilityEnablingConfigurableTestClass implements IVisibilityEnablingConfigurable
 {

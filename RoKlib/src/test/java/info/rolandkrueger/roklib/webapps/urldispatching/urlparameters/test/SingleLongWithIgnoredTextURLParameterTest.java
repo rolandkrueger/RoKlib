@@ -20,10 +20,10 @@
  */
 package info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.test;
 
-import info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.AbstractSingleURLParameter;
-import info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.SingleLongWithIgnoredTextURLParameter;
 
 import org.junit.Test;
+import org.roklib.webapps.urldispatching.urlparameters.AbstractSingleURLParameter;
+import org.roklib.webapps.urldispatching.urlparameters.SingleLongWithIgnoredTextURLParameter;
 
 public class SingleLongWithIgnoredTextURLParameterTest extends AbstractSingleURLParameterTest<Long>
 {

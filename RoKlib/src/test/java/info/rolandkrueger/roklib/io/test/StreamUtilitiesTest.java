@@ -21,7 +21,6 @@ package info.rolandkrueger.roklib.io.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.io.StreamUtilities;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +29,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 import org.junit.Test;
+import org.roklib.io.StreamUtilities;
 
 public class StreamUtilitiesTest
 {

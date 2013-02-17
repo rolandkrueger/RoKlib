@@ -22,14 +22,15 @@
 package info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.test;
 
 import static org.junit.Assert.assertEquals;
-import info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.AbstractSingleURLParameter;
-import info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.EnumURLParameterErrors;
-import info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.SingleBooleanURLParameter;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.roklib.webapps.urldispatching.urlparameters.AbstractSingleURLParameter;
+import org.roklib.webapps.urldispatching.urlparameters.EnumURLParameterErrors;
+import org.roklib.webapps.urldispatching.urlparameters.SingleBooleanURLParameter;
 
 public class SingleBooleanURLParameterTest extends AbstractSingleURLParameterTest<Boolean>
 {

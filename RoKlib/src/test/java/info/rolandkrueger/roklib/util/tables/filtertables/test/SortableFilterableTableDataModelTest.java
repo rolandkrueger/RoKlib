@@ -22,9 +22,6 @@ package info.rolandkrueger.roklib.util.tables.filtertables.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import info.rolandkrueger.roklib.util.tables.filtertable.DefaultTableDataColumnHeader;
-import info.rolandkrueger.roklib.util.tables.filtertable.SortableFilterableTableDataModel;
-import info.rolandkrueger.roklib.util.tables.filtertable.SortableFilterableTableDataModel.SearchMode;
 
 import java.util.Comparator;
 
@@ -32,6 +29,9 @@ import javax.swing.table.DefaultTableModel;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.util.tables.filtertable.DefaultTableDataColumnHeader;
+import org.roklib.util.tables.filtertable.SortableFilterableTableDataModel;
+import org.roklib.util.tables.filtertable.SortableFilterableTableDataModel.SearchMode;
 
 public class SortableFilterableTableDataModelTest
 {

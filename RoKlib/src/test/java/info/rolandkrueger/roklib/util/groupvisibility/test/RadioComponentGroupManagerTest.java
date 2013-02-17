@@ -22,12 +22,12 @@ package info.rolandkrueger.roklib.util.groupvisibility.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.util.groupvisibility.IVisibilityEnablingConfigurable;
-import info.rolandkrueger.roklib.util.groupvisibility.RadioComponentGroupManager;
-import info.rolandkrueger.roklib.util.groupvisibility.RadioComponentGroupManager.Mode;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.util.groupvisibility.IVisibilityEnablingConfigurable;
+import org.roklib.util.groupvisibility.RadioComponentGroupManager;
+import org.roklib.util.groupvisibility.RadioComponentGroupManager.Mode;
 
 public class RadioComponentGroupManagerTest
 {

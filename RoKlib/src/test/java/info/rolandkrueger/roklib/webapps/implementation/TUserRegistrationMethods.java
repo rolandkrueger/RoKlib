@@ -20,7 +20,7 @@
  */
 package info.rolandkrueger.roklib.webapps.implementation;
 
-import info.rolandkrueger.roklib.webapps.actions.interfaces.IUserRegistrationMethods;
+import org.roklib.webapps.actions.interfaces.IUserRegistrationMethods;
 
 @SuppressWarnings ("serial")
 public class TUserRegistrationMethods implements IUserRegistrationMethods<Long, String, TUser>

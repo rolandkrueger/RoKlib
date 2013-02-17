@@ -20,8 +20,8 @@
  */
 package info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.test;
 
-import info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.AbstractSingleURLParameter;
-import info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.SingleLongURLParameter;
+import org.roklib.webapps.urldispatching.urlparameters.AbstractSingleURLParameter;
+import org.roklib.webapps.urldispatching.urlparameters.SingleLongURLParameter;
 
 public class SingleLongURLParameterTest extends AbstractSingleURLParameterTest<Long>
 {

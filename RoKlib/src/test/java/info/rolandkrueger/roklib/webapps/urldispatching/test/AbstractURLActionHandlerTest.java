@@ -23,14 +23,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.util.net.IURLProvider;
-import info.rolandkrueger.roklib.webapps.urldispatching.DispatchingURLActionHandler;
-import info.rolandkrueger.roklib.webapps.urldispatching.IURLActionHandler.ParameterMode;
-import info.rolandkrueger.roklib.webapps.urldispatching.URLActionDispatcher;
-import info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.EnumURLParameterErrors;
-import info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.SingleBooleanURLParameter;
-import info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.SingleIntegerURLParameter;
-import info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.SingleStringURLParameter;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -39,6 +31,14 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.util.net.IURLProvider;
+import org.roklib.webapps.urldispatching.DispatchingURLActionHandler;
+import org.roklib.webapps.urldispatching.URLActionDispatcher;
+import org.roklib.webapps.urldispatching.IURLActionHandler.ParameterMode;
+import org.roklib.webapps.urldispatching.urlparameters.EnumURLParameterErrors;
+import org.roklib.webapps.urldispatching.urlparameters.SingleBooleanURLParameter;
+import org.roklib.webapps.urldispatching.urlparameters.SingleIntegerURLParameter;
+import org.roklib.webapps.urldispatching.urlparameters.SingleStringURLParameter;
 
 public class AbstractURLActionHandlerTest
 {

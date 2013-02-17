@@ -22,9 +22,6 @@ package info.rolandkrueger.roklib.io.test;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import info.rolandkrueger.roklib.io.IStreamDataBuffer;
-import info.rolandkrueger.roklib.io.StreamUtilities;
-import info.rolandkrueger.roklib.util.EnhancedReturnType;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,6 +31,9 @@ import java.io.OutputStream;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.io.IStreamDataBuffer;
+import org.roklib.io.StreamUtilities;
+import org.roklib.util.EnhancedReturnType;
 
 public abstract class IStreamDataBufferTest
 {

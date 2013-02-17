@@ -20,10 +20,6 @@
 package info.rolandkrueger.roklib.webapps.urldispatching.test;
 
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.util.net.IURLProvider;
-import info.rolandkrueger.roklib.webapps.urldispatching.RegexURLActionHandler;
-import info.rolandkrueger.roklib.webapps.urldispatching.StartsWithURLActionHandler;
-import info.rolandkrueger.roklib.webapps.urldispatching.URLActionDispatcher;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -31,6 +27,10 @@ import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.util.net.IURLProvider;
+import org.roklib.webapps.urldispatching.RegexURLActionHandler;
+import org.roklib.webapps.urldispatching.StartsWithURLActionHandler;
+import org.roklib.webapps.urldispatching.URLActionDispatcher;
 
 public class StartsWithURLActionHandlerTest
 {

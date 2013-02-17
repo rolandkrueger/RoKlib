@@ -20,12 +20,13 @@
  */
 package info.rolandkrueger.roklib.webapps.urldispatching.test;
 
-import info.rolandkrueger.roklib.webapps.urldispatching.AbstractURLActionCommand;
-import info.rolandkrueger.roklib.webapps.urldispatching.DispatchingURLActionHandler;
-import info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.IURLParameter;
 
 import java.util.List;
 import java.util.Map;
+
+import org.roklib.webapps.urldispatching.AbstractURLActionCommand;
+import org.roklib.webapps.urldispatching.DispatchingURLActionHandler;
+import org.roklib.webapps.urldispatching.urlparameters.IURLParameter;
 
 public class TURLActionHandler extends DispatchingURLActionHandler
 {

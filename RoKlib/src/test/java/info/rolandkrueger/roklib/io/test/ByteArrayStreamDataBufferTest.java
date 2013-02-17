@@ -19,10 +19,11 @@
  */
 package info.rolandkrueger.roklib.io.test;
 
-import info.rolandkrueger.roklib.io.ByteArrayStreamDataBuffer;
-import info.rolandkrueger.roklib.io.IStreamDataBuffer;
 
 import java.io.IOException;
+
+import org.roklib.io.ByteArrayStreamDataBuffer;
+import org.roklib.io.IStreamDataBuffer;
 
 /**
  * @author Roland Krueger

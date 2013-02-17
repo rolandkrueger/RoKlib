@@ -46,7 +46,7 @@ to find the latest development branches and their corresponding URLs.
 following command:
 
 +--
-mvn install:install-file -DgroupId=info.rolandkrueger.roklib -DartifactId=RoKlib 
+mvn install:install-file -DgroupId=org.roklib -DartifactId=RoKlib 
   -Dversion=${project.version} -Dpackaging=jar -Dfile=/path/to/file
 +--
 
@@ -61,7 +61,7 @@ the library in your repository for you:
   
 +--
 <dependency>
-  <groupId>info.rolandkrueger.roklib</groupId>
+  <groupId>org.roklib</groupId>
   <artifactId>RoKlib</artifactId>
   <version>${project.version}</version>
 </dependency> 

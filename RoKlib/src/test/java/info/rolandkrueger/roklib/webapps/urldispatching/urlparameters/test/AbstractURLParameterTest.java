@@ -24,11 +24,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.webapps.urldispatching.AbstractURLActionCommand;
-import info.rolandkrueger.roklib.webapps.urldispatching.AbstractURLActionHandler;
 import info.rolandkrueger.roklib.webapps.urldispatching.test.TURLActionCommand;
 import info.rolandkrueger.roklib.webapps.urldispatching.test.TURLActionHandler;
-import info.rolandkrueger.roklib.webapps.urldispatching.urlparameters.AbstractURLParameter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -36,6 +33,9 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.webapps.urldispatching.AbstractURLActionCommand;
+import org.roklib.webapps.urldispatching.AbstractURLActionHandler;
+import org.roklib.webapps.urldispatching.urlparameters.AbstractURLParameter;
 
 public abstract class AbstractURLParameterTest<V extends Serializable>
 {

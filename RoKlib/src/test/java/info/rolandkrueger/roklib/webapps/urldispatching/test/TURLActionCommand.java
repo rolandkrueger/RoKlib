@@ -20,7 +20,7 @@
  */
 package info.rolandkrueger.roklib.webapps.urldispatching.test;
 
-import info.rolandkrueger.roklib.webapps.urldispatching.AbstractURLActionCommand;
+import org.roklib.webapps.urldispatching.AbstractURLActionCommand;
 
 public class TURLActionCommand extends AbstractURLActionCommand
 {

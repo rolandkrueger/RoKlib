@@ -25,7 +25,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import info.rolandkrueger.roklib.util.TernarySearchTreeMap;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -36,6 +35,7 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.util.TernarySearchTreeMap;
 
 public class TSTMapWithEmptyStringKeyTest
 {
