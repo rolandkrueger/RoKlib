@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2007 - 2010 Roland Krueger
- * Created on 17.02.2010
+ * Copyright (C) 2007 Roland Krueger
+ * Created on 19.10.2009
  *
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -18,27 +18,32 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.webapps.urldispatching.test;
+package org.roklib.conditional.groupvisibility.test;
 
-import org.roklib.conditional.engine.AbstractCondition;
+import org.roklib.conditional.groupvisibility.IVisibilityEnablingConfigurable;
 
-@SuppressWarnings ("serial")
-public class TCondition extends AbstractCondition
+public class VisibilityEnablingConfigurableTestClass implements IVisibilityEnablingConfigurable
 {
-  private boolean mValue;
+  private boolean mEnabled = true;
+  private boolean mVisible = true;
 
-  public TCondition (boolean value)
+  public boolean isEnabled ()
   {
-    mValue = value;
+    return mEnabled;
   }
 
-  public void setValue (boolean value)
+  public boolean isVisible ()
   {
-    mValue = value;
+    return mVisible;
   }
 
-  public boolean getBooleanValue ()
+  public void setEnabled (boolean enabled)
   {
-    return mValue;
+    mEnabled = enabled;
+  }
+
+  public void setVisible (boolean visible)
+  {
+    mVisible = visible;
   }
 }

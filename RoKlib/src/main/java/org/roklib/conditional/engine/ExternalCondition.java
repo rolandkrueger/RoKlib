@@ -18,34 +18,32 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.webapps.data.conditions;
+package org.roklib.conditional.engine;
 
 import org.roklib.conditional.bool.IBooleanValueProvider;
-import org.roklib.webapps.data.usermgmt.GenericUser;
-import org.roklib.webapps.data.usermgmt.UserRole;
+import org.roklib.util.helper.CheckForNull;
 
-public class HasRole<KeyClass, UserData> implements IBooleanValueProvider
+/**
+ * This type of condition is not able to notify listeners when its boolean value has changed since this value is defined
+ * externally.
+ * 
+ * @author Roland Krueger
+ */
+public class ExternalCondition extends AbstractCondition
 {
-  private static final long               serialVersionUID = -3841669716191027492L;
+  private static final long     serialVersionUID = 1133757473871960974L;
 
-  private GenericUser<KeyClass, UserData> mUser;
-  private UserRole<KeyClass>              mRole;
+  private IBooleanValueProvider mValueProvider;
 
-  public HasRole (GenericUser<KeyClass, UserData> user, UserRole<KeyClass> role)
+  public ExternalCondition (IBooleanValueProvider valueProvider)
   {
-    mUser = user;
-    mRole = role;
-  }
-
-  public void setUser (GenericUser<KeyClass, UserData> user)
-  {
-    mUser = user;
+    super ();
+    CheckForNull.check (valueProvider);
+    mValueProvider = valueProvider;
   }
 
   public boolean getBooleanValue ()
   {
-    if (mUser == null || mRole == null)
-      return false;
-    return mUser.hasRole (mRole);
+    return mValueProvider.getBooleanValue ();
   }
 }

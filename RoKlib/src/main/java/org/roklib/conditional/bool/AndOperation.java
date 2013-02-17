@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2007 - 2010 Roland Krueger
- * Created on 17.02.2010
+ * Copyright (C) 2007 Roland Krueger
+ * Created on 20.10.2009
  *
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -18,27 +18,26 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.webapps.urldispatching.test;
+package org.roklib.conditional.bool;
 
-import org.roklib.conditional.engine.AbstractCondition;
-
-@SuppressWarnings ("serial")
-public class TCondition extends AbstractCondition
+public class AndOperation extends AbstractBinaryBooleanOperation
 {
-  private boolean mValue;
+  private static final long serialVersionUID = -1716064083548567207L;
 
-  public TCondition (boolean value)
+  public boolean execute ()
   {
-    mValue = value;
+    return mLeft && mRight;
   }
 
-  public void setValue (boolean value)
+  public boolean canShortCircuit (boolean firstOperand)
   {
-    mValue = value;
+    return !firstOperand;
   }
 
-  public boolean getBooleanValue ()
+  public boolean getShortCircuit (boolean firstOperand)
   {
-    return mValue;
+    if (!canShortCircuit (firstOperand))
+      throw new IllegalStateException ("Cannot short-circuit.");
+    return false;
   }
 }

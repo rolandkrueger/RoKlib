@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2007 - 2010 Roland Krueger
- * Created on 17.02.2010
+ * Copyright (C) 2007 Roland Krueger
+ * Created on 21.10.2009
  *
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -18,27 +18,35 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.webapps.urldispatching.test;
+package org.roklib.conditional.engine.test;
 
-import org.roklib.conditional.engine.AbstractCondition;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-@SuppressWarnings ("serial")
-public class TCondition extends AbstractCondition
+import org.junit.Before;
+import org.junit.Test;
+import org.roklib.conditional.engine.Condition;
+
+public class ConditionTest
 {
-  private boolean mValue;
+  private Condition mTestObj;
 
-  public TCondition (boolean value)
+  @Before
+  public void setUp ()
   {
-    mValue = value;
+    mTestObj = new Condition ("test", false);
   }
 
-  public void setValue (boolean value)
+  @Test
+  public void testSetValue ()
   {
-    mValue = value;
+    mTestObj.setValue (true);
+    assertTrue (mTestObj.getBooleanValue ());
   }
 
-  public boolean getBooleanValue ()
+  @Test
+  public void testGetName ()
   {
-    return mValue;
+    assertEquals ("test", mTestObj.getName ());
   }
 }

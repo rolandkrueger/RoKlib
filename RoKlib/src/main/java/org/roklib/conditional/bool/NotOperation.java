@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2007 - 2010 Roland Krueger
- * Created on 17.02.2010
+ * Copyright (C) 2007 Roland Krueger
+ * Created on 20.10.2009
  *
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -18,27 +18,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.webapps.urldispatching.test;
+package org.roklib.conditional.bool;
 
-import org.roklib.conditional.engine.AbstractCondition;
-
-@SuppressWarnings ("serial")
-public class TCondition extends AbstractCondition
+public class NotOperation extends AbstractUnaryBooleanOperation
 {
-  private boolean mValue;
+  private static final long serialVersionUID = 7505425679233940362L;
 
-  public TCondition (boolean value)
+  public boolean execute ()
   {
-    mValue = value;
-  }
-
-  public void setValue (boolean value)
-  {
-    mValue = value;
-  }
-
-  public boolean getBooleanValue ()
-  {
-    return mValue;
+    return !mValue;
   }
 }

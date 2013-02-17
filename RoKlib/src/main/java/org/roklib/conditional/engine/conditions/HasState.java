@@ -18,34 +18,29 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.webapps.data.conditions;
+package org.roklib.conditional.engine.conditions;
 
 import org.roklib.conditional.bool.IBooleanValueProvider;
-import org.roklib.webapps.data.usermgmt.GenericUser;
-import org.roklib.webapps.data.usermgmt.UserRole;
+import org.roklib.util.helper.CheckForNull;
+import org.roklib.util.state.State;
+import org.roklib.util.state.State.StateValue;
 
-public class HasRole<KeyClass, UserData> implements IBooleanValueProvider
+public class HasState<S extends State<?>> implements IBooleanValueProvider
 {
-  private static final long               serialVersionUID = -3841669716191027492L;
+  private static final long serialVersionUID = -232946455411913695L;
 
-  private GenericUser<KeyClass, UserData> mUser;
-  private UserRole<KeyClass>              mRole;
+  private State<S>          mState;
+  private StateValue<S>     mStateValue;
 
-  public HasRole (GenericUser<KeyClass, UserData> user, UserRole<KeyClass> role)
+  public HasState (State<S> state, StateValue<S> stateValue)
   {
-    mUser = user;
-    mRole = role;
-  }
-
-  public void setUser (GenericUser<KeyClass, UserData> user)
-  {
-    mUser = user;
+    CheckForNull.check (state, stateValue);
+    mState = state;
+    mStateValue = stateValue;
   }
 
   public boolean getBooleanValue ()
   {
-    if (mUser == null || mRole == null)
-      return false;
-    return mUser.hasRole (mRole);
+    return mState.hasState (mStateValue);
   }
 }
