@@ -20,7 +20,6 @@
  */
 package org.roklib.webapps.urldispatching;
 
-
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -36,7 +35,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.roklib.util.LoggingManager;
 import org.roklib.util.conditionalengine.AbstractCondition;
 import org.roklib.util.helper.CheckForNull;
 import org.roklib.util.net.IURLProvider;
@@ -46,37 +44,23 @@ import org.roklib.webapps.urldispatching.urlparameters.IURLParameter;
 public abstract class AbstractURLActionHandler implements IURLActionHandler
 {
   private static final long               serialVersionUID                = 8450975393827044559L;
-
   private static final String[]           STRING_ARRAY_PROTOTYPE          = new String[] {};
-
-  private static final Logger             LOG                             = LoggingManager.getInstance ().getLogger (
-                                                                              AbstractURLActionHandler.class);
-
+  private static final Logger             LOG                             = null;                // FIXME
   private List<CommandForCondition>       mCommandsForCondition;
-
   private List<IURLParameter<?>>          mURLParameters;
-
   private List<String>                    mActionArgumentOrder;
-
   protected List<IURLActionHandler>       mHandlerChain;
-
   private Map<String, List<Serializable>> mActionArgumentMap;
-
   protected AbstractURLActionHandler      mParentHandler;
-
   private AbstractURLActionCommand        mDefaultCommand;
 
   /**
    * The name of the URL portion for which this action handler is responsible.
    */
   protected String                        mActionName;
-
   private String                          mActionURI;
-
   private boolean                         mCaseSensitive                  = false;
-
   private boolean                         mUseHashExclamationMarkNotation = false;
-
   private Locale                          mLocale;
 
   /**

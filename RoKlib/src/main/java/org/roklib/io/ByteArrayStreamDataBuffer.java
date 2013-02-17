@@ -27,7 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.roklib.util.EnhancedReturnType;
+import org.roklib.util.data.EnhancedReturnType;
 
 /**
  * <p>

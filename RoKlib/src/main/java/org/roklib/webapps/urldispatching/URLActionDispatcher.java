@@ -21,7 +21,6 @@
  */
 package org.roklib.webapps.urldispatching;
 
-
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
@@ -36,7 +35,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
-import org.roklib.util.LoggingManager;
 import org.roklib.util.helper.CheckForNull;
 import org.roklib.util.net.IURLProvider;
 import org.roklib.webapps.data.DownloadInfo;
@@ -72,28 +70,16 @@ import org.roklib.webapps.urldispatching.IURLActionHandler.ParameterMode;
 public class URLActionDispatcher implements Serializable
 {
   private static final long            serialVersionUID = 7151587763812706383L;
-
-  private static final Logger          LOG              = LoggingManager.getInstance ().getLogger (
-                                                            URLActionDispatcher.class);
-
+  private static final Logger          LOG              = null;                // FIXME
   private Map<String, List<String>>    mCurrentParameters;
-
   private URL                          mContextOriginal;
-
   private String                       mRelativeUriOriginal;
-
   private Map<String, String[]>        mCurrentParametersOriginalValues;
-
   private AbstractURLActionCommand     m404FileNotFoundCommand;
-
   private DispatchingURLActionHandler  mRootDispatcher;
-
   private IURLActionDispatcherListener mListener;
-
   private ParameterMode                mParameterMode   = ParameterMode.QUERY;
-
   private IURLProvider                 mURLProvider;
-
   private boolean                      mIgnoreExclamationMark;
 
   public URLActionDispatcher (IURLProvider urlProvider, boolean useCaseSensitiveURLs)

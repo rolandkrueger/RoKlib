@@ -17,7 +17,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.util;
+package org.roklib.util.data;
 
 
 import java.io.Serializable;

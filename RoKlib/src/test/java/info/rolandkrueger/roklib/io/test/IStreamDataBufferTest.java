@@ -33,7 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.roklib.io.IStreamDataBuffer;
 import org.roklib.io.StreamUtilities;
-import org.roklib.util.EnhancedReturnType;
+import org.roklib.util.data.EnhancedReturnType;
 
 public abstract class IStreamDataBufferTest
 {
