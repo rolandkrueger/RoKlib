@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2007 Roland Krueger
- * Created on 10.05.2009
+ * Copyright (C) 2007 - 2010 Roland Krueger
+ * Created on 11.02.2010
  *
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -18,18 +18,28 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.test;
+package org.roklib.webapps.uridispatching;
 
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-import org.roklib.util.test.UtilsTests;
-import org.roklib.webapps.test.WebappsTest;
-import org.roklib.webapps.uridispatching.URIDispatchingTests;
+import java.io.Serializable;
 
-@RunWith (Suite.class)
-@SuiteClasses ({ UtilsTests.class, WebappsTest.class, URIDispatchingTests.class })
-public class RoKlibTests
+import org.roklib.webapps.data.DownloadInfo;
+
+public abstract class AbstractURIActionCommand implements Serializable
 {
+  private static final long serialVersionUID = 9020047185322723866L;
+
+  private DownloadInfo      mDownloadInfo;
+
+  public abstract void execute ();
+
+  public void setDownloadStream (DownloadInfo pDownloadInfo)
+  {
+    mDownloadInfo = pDownloadInfo;
+  }
+
+  public DownloadInfo getDownloadStream ()
+  {
+    return mDownloadInfo;
+  }
 }

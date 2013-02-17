@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2007 Roland Krueger
- * Created on 10.05.2009
- *
+ * Copyright (C) 2007 - 2010 Roland Krueger 
+ * Created on 17.02.2010
+ * 
  * Author: Roland Krueger (www.rolandkrueger.info)
- *
+ * 
  * This file is part of RoKlib.
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
@@ -18,18 +18,19 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.test;
+package org.roklib.webapps.uridispatching.test;
 
+import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-import org.roklib.util.test.UtilsTests;
-import org.roklib.webapps.test.WebappsTest;
-import org.roklib.webapps.uridispatching.URIDispatchingTests;
-
-@RunWith (Suite.class)
-@SuiteClasses ({ UtilsTests.class, WebappsTest.class, URIDispatchingTests.class })
-public class RoKlibTests
+public class TURIActionCommand extends AbstractURIActionCommand
 {
+  private static final long serialVersionUID = 8282933112969092819L;
+
+  public boolean            mExecuted        = false;
+
+  @Override
+  public void execute ()
+  {
+    mExecuted = true;
+  }
 }

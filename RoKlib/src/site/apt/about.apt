@@ -19,7 +19,7 @@
 
   * {{{Data_Structures:_The_Ternary_Search_Tree}Data Structures: The Ternary Search Tree}}: Implementation of a <<<SortableMap>>> where the String map keys are arranged in a Ternary Search Tree, so that extremely fast prefix matching and spell checking is possible.
   
-  * {{{URL_Action_Handling_Framework}URL Action Handling Framework}}: Framework for systematically parsing URLs visited by the users of a web application and mapping these URLs together with their respective parameters on action command objects.
+  * {{{URI_Action_Handling_Framework}URI Action Handling Framework}}: Framework for systematically parsing URIs visited by the users of a web application and mapping these URIs together with their respective parameters on action command objects.
 
   * {{{Graphical_User_Interface_Classes_for_JavaTM_Swing}Graphical User Interface Classes for Java Swing}}: A number of Swing GUI and data model classes which make use of the other features of RoKlib, such as the Ternary Search Tree map. Among them is a table model class that allows fast filtering and sorting of tables.
 
@@ -67,13 +67,13 @@
   
   To assure the correctness of the ternary search tree implementation, currently some 250 unit tests exist exclusively for this data structure.
 
-* {URL Action Handling Framework}
+* {URI Action Handling Framework}
 
-  Even though most modern web application frameworks go to great lengths to hide the context of the web from the programmer and make writing a web application as natural as writing a desktop application, it often cannot be avoided to also address the particularities of the web. One of these areas is dealing with URLs. In spite of modern web technologies such as AJAX, which abstract away the request-response model of the web, you will often want to handle URLs visited by the user directly. RoKlib assists you in doing so in a structured, accurate and well maintainable way. It lets you define action handlers for every URL that can be visited by the user. To these handlers you add action commands which will be executed when a corresponding URL has been visited. These action handlers are arranged in a tree-like structure which mimics the directory strucure of a website's URL structure.
+  Even though most modern web application frameworks go to great lengths to hide the context of the web from the programmer and make writing a web application as natural as writing a desktop application, it often cannot be avoided to also address the particularities of the web. One of these areas is dealing with URIs. In spite of modern web technologies such as AJAX, which abstract away the request-response model of the web, you will often want to handle URIs visited by the user directly. RoKlib assists you in doing so in a structured, accurate and well maintainable way. It lets you define action handlers for every URI that can be visited by the user. To these handlers you add action commands which will be executed when a corresponding URI has been visited. These action handlers are arranged in a tree-like structure which mimics the directory strucure of a website's URI structure.
   
-  To each URL action handler, an arbitrary number of URL parameter objects can be added. These objects allow an automatic evaluation of the argument section of a URL. Thus, the direct parsing of a URL is not necessary. What's more, every action handler can generate a valid <<<java.net.URL>>> object corresponding to this handler and containing all URL parameter values in the URL's argument list with the values defined by the application. Thus, no error-prone manual assembling of URLs is necessary and the name of some URL parameter can be changed in one place.
+  To each URI action handler, an arbitrary number of URI parameter objects can be added. These objects allow an automatic evaluation of the argument section of a URI. Thus, the direct parsing of a URI is not necessary. What's more, every action handler can generate a valid <<<java.net.URL>>> object corresponding to this handler and containing all URI parameter values in the URI's argument list with the values defined by the application. Thus, no error-prone manual assembling of URIs is necessary and the name of some URI parameter can be changed in one place.
   
-  RoKlib's URL action handling framework allows evaluating parameterized URLs in three different ways. Following are these three modes together with an example URL:
+  RoKlib's URI action handling framework allows evaluating parameterized URIs in three different ways. Following are these three modes together with an example URI:
   
   * <<Query mode>>: 
   
@@ -116,7 +116,7 @@
 
 * {JAR Plugin Framework}
 
-  Extensibility through the use of plugins is one of the core feature of a lot of applications. In order to facilitate establishing a plugin architecture for a program, RoKlib provides a framework for writing plugins packaged as normal JAR files. A loader class takes care of loading these file from the file system or from a URL. With that, writing plugins is as easy as extending the <<<AbstractPlugin>>> class,  defining some manifest entries in the plugin's <<<MANIFEST.MF>>> file and packaging the plugin's classes in a self-contained JAR file.
+  Extensibility through the use of plugins is one of the core feature of a lot of applications. In order to facilitate establishing a plugin architecture for a program, RoKlib provides a framework for writing plugins packaged as normal JAR files. A loader class takes care of loading these file from the file system or from a URI. With that, writing plugins is as easy as extending the <<<AbstractPlugin>>> class,  defining some manifest entries in the plugin's <<<MANIFEST.MF>>> file and packaging the plugin's classes in a self-contained JAR file.
 
 * {Memory Swapping Detection}
 
@@ -126,7 +126,7 @@
 
 * {Resource Handling}
 
-  The Java language offers the possibility to load resource files directly from the classpath or from JAR files on the classpath through <<<java.net.URL>>> class instances. RoKlib in turn provides a <<<ResourceHandlingManager>>> class that uses this mechanism to transparently locate and load such resources for a client. By this, a client does not have to handle URL object instances or locate the required resouces in the JAR files on the classpath on its own. A client only has to know the name of the resource.
+  The Java language offers the possibility to load resource files directly from the classpath or from JAR files on the classpath through <<<java.net.URL>>> class instances. RoKlib in turn provides a <<<ResourceHandlingManager>>> class that uses this mechanism to transparently locate and load such resources for a client. By this, a client does not have to handle URI object instances or locate the required resouces in the JAR files on the classpath on its own. A client only has to know the name of the resource.
 
 * {Object Representation of States}
 

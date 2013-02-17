@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2007 Roland Krueger
- * Created on 10.05.2009
+ * Copyright (C) 2007 - 2010 Roland Krueger
+ * Created on 08.04.2010
  *
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -18,18 +18,19 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.test;
+package org.roklib.webapps.uridispatching;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-import org.roklib.util.test.UtilsTests;
-import org.roklib.webapps.test.WebappsTest;
-import org.roklib.webapps.uridispatching.URIDispatchingTests;
-
-@RunWith (Suite.class)
-@SuiteClasses ({ UtilsTests.class, WebappsTest.class, URIDispatchingTests.class })
-public class RoKlibTests
+public interface IURIActionHandler extends Serializable
 {
+  public enum ParameterMode
+  {
+    QUERY, DIRECTORY, DIRECTORY_WITH_NAMES
+  }
+
+  public abstract AbstractURIActionCommand handleURI (List<String> uriTokens, Map<String, List<String>> parameters,
+      ParameterMode parameterMode);
 }
