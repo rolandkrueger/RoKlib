@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007-2010 Roland Krueger
- * Created on 02.02.2010
+ * Created on 10.02.2010
  * 
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -18,20 +18,21 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.util.tables.filtertable;
+package org.roklib.ui.swing.table.filtertable;
 
-public class DefaultTableDataColumnHeader implements ITableDataColumnHeader
+import javax.swing.table.TableModel;
+
+public class DefaultSortableFilterableTableDataModel extends SortableFilterableTableDataModelStandardHeaders<String>
 {
-  private String mHeadline = "";
+  private static final long serialVersionUID = -2813511343055745067L;
 
-  public DefaultTableDataColumnHeader (String headline)
+  public DefaultSortableFilterableTableDataModel (int columnCount, SearchMode searchCapability)
   {
-    if (headline != null)
-      mHeadline = headline;
+    super (columnCount, searchCapability);
   }
 
-  public String getHeadline ()
+  public DefaultSortableFilterableTableDataModel (TableModel tableModel, SearchMode searchCapability)
   {
-    return mHeadline;
+    super (tableModel, searchCapability);
   }
 }

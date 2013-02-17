@@ -31,7 +31,7 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.util.net.IURLProvider;
+import org.roklib.net.IURLProvider;
 import org.roklib.webapps.urldispatching.DispatchingURLActionHandler;
 import org.roklib.webapps.urldispatching.URLActionDispatcher;
 import org.roklib.webapps.urldispatching.IURLActionHandler.ParameterMode;

@@ -35,9 +35,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.roklib.net.IURLProvider;
 import org.roklib.util.conditionalengine.AbstractCondition;
 import org.roklib.util.helper.CheckForNull;
-import org.roklib.util.net.IURLProvider;
 import org.roklib.webapps.urldispatching.urlparameters.EnumURLParameterErrors;
 import org.roklib.webapps.urldispatching.urlparameters.IURLParameter;
 

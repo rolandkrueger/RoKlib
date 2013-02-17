@@ -35,8 +35,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
+import org.roklib.net.IURLProvider;
 import org.roklib.util.helper.CheckForNull;
-import org.roklib.util.net.IURLProvider;
 import org.roklib.webapps.data.DownloadInfo;
 import org.roklib.webapps.urldispatching.IURLActionHandler.ParameterMode;
 

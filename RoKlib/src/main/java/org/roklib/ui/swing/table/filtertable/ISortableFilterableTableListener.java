@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007-2010 Roland Krueger
- * Created on 10.02.2010
+ * Created on 09.02.2010
  * 
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -18,21 +18,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.util.tables.filtertable;
+package org.roklib.ui.swing.table.filtertable;
 
-import javax.swing.table.TableModel;
-
-public class DefaultSortableFilterableTableDataModel extends SortableFilterableTableDataModelStandardHeaders<String>
+public interface ISortableFilterableTableListener
 {
-  private static final long serialVersionUID = -2813511343055745067L;
-
-  public DefaultSortableFilterableTableDataModel (int columnCount, SearchMode searchCapability)
-  {
-    super (columnCount, searchCapability);
-  }
-
-  public DefaultSortableFilterableTableDataModel (TableModel tableModel, SearchMode searchCapability)
-  {
-    super (tableModel, searchCapability);
-  }
+  public void resetAllFilters ();
 }

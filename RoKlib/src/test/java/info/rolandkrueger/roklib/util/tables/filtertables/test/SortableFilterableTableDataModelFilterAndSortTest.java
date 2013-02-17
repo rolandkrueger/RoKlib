@@ -28,9 +28,9 @@ import javax.swing.SortOrder;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.util.tables.filtertable.DefaultTableDataColumnHeader;
-import org.roklib.util.tables.filtertable.SortableFilterableTableDataModel;
-import org.roklib.util.tables.filtertable.SortableFilterableTableDataModel.SearchMode;
+import org.roklib.ui.swing.table.filtertable.DefaultTableDataColumnHeader;
+import org.roklib.ui.swing.table.filtertable.SortableFilterableTableDataModel;
+import org.roklib.ui.swing.table.filtertable.SortableFilterableTableDataModel.SearchMode;
 
 public class SortableFilterableTableDataModelFilterAndSortTest
 {

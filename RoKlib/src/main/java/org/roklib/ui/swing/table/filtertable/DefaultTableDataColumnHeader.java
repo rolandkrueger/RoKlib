@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007-2010 Roland Krueger
- * Created on 09.02.2010
+ * Created on 02.02.2010
  * 
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -18,9 +18,20 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.util.tables.filtertable;
+package org.roklib.ui.swing.table.filtertable;
 
-public interface ISortableFilterableTableListener
+public class DefaultTableDataColumnHeader implements ITableDataColumnHeader
 {
-  public void resetAllFilters ();
+  private String mHeadline = "";
+
+  public DefaultTableDataColumnHeader (String headline)
+  {
+    if (headline != null)
+      mHeadline = headline;
+  }
+
+  public String getHeadline ()
+  {
+    return mHeadline;
+  }
 }

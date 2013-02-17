@@ -28,9 +28,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-import org.roklib.util.tables.filtertable.ITableDataColumnHeader;
-import org.roklib.util.tables.filtertable.SortableFilterableTableDataModel;
-import org.roklib.util.tables.filtertable.SortableFilterableTableDataModel.SearchMode;
+import org.roklib.ui.swing.table.filtertable.ITableDataColumnHeader;
+import org.roklib.ui.swing.table.filtertable.SortableFilterableTableDataModel;
+import org.roklib.ui.swing.table.filtertable.SortableFilterableTableDataModel.SearchMode;
 
 public class SortableFilterableTable<T, H extends ITableDataColumnHeader> extends JTable
 {

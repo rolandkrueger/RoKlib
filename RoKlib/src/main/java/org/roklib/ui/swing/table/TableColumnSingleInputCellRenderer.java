@@ -39,10 +39,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import org.roklib.util.tables.filtertable.ISortableFilterableTableListener;
-import org.roklib.util.tables.filtertable.ITableDataColumnHeader;
-import org.roklib.util.tables.filtertable.SortableFilterableTableDataModel;
-import org.roklib.util.tables.filtertable.SortableFilterableTableDataModel.SearchMode;
+import org.roklib.ui.swing.table.filtertable.ISortableFilterableTableListener;
+import org.roklib.ui.swing.table.filtertable.ITableDataColumnHeader;
+import org.roklib.ui.swing.table.filtertable.SortableFilterableTableDataModel;
+import org.roklib.ui.swing.table.filtertable.SortableFilterableTableDataModel.SearchMode;
 
 public class TableColumnSingleInputCellRenderer<T, H extends ITableDataColumnHeader> extends
     AbstractTableColumnInputCellRenderer<T, H> implements ISortableFilterableTableListener

@@ -23,10 +23,10 @@ package org.roklib.ui.swing.table;
 
 import javax.swing.table.TableCellRenderer;
 
+import org.roklib.ui.swing.table.filtertable.ITableDataColumnHeader;
+import org.roklib.ui.swing.table.filtertable.SortableFilterableTableDataModel;
+import org.roklib.ui.swing.table.filtertable.SortableFilterableTableDataModel.SearchMode;
 import org.roklib.util.helper.CheckForNull;
-import org.roklib.util.tables.filtertable.ITableDataColumnHeader;
-import org.roklib.util.tables.filtertable.SortableFilterableTableDataModel;
-import org.roklib.util.tables.filtertable.SortableFilterableTableDataModel.SearchMode;
 
 public abstract class AbstractTableColumnInputCellRenderer<T, H extends ITableDataColumnHeader> implements
     TableCellRenderer

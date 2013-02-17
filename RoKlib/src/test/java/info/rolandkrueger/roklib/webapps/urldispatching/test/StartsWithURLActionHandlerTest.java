@@ -27,7 +27,7 @@ import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.util.net.IURLProvider;
+import org.roklib.net.IURLProvider;
 import org.roklib.webapps.urldispatching.RegexURLActionHandler;
 import org.roklib.webapps.urldispatching.StartsWithURLActionHandler;
 import org.roklib.webapps.urldispatching.URLActionDispatcher;

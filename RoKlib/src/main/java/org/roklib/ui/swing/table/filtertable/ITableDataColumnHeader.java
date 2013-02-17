@@ -18,7 +18,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.util.tables.filtertable;
+package org.roklib.ui.swing.table.filtertable;
 
 public interface ITableDataColumnHeader
 {

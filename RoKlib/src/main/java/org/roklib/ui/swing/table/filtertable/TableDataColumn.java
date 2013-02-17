@@ -18,7 +18,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.util.tables.filtertable;
+package org.roklib.ui.swing.table.filtertable;
 
 
 import java.io.Serializable;
@@ -29,8 +29,8 @@ import java.util.Map.Entry;
 import java.util.SortedSet;
 
 import org.roklib.collections.TernarySearchTreeMap;
+import org.roklib.ui.swing.table.filtertable.SortableFilterableTableDataModel.SearchMode;
 import org.roklib.util.helper.CheckForNull;
-import org.roklib.util.tables.filtertable.SortableFilterableTableDataModel.SearchMode;
 
 public class TableDataColumn<T, H extends ITableDataColumnHeader> implements Serializable
 {
