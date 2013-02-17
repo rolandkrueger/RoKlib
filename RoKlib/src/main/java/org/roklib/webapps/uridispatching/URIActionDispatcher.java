@@ -34,11 +34,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
 import org.roklib.net.IURLProvider;
 import org.roklib.util.helper.CheckForNull;
 import org.roklib.webapps.data.DownloadInfo;
 import org.roklib.webapps.uridispatching.IURIActionHandler.ParameterMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -70,7 +71,7 @@ import org.roklib.webapps.uridispatching.IURIActionHandler.ParameterMode;
 public class URIActionDispatcher implements Serializable
 {
   private static final long            serialVersionUID = 7151587763812706383L;
-  private static final Logger          LOG              = null;                // FIXME
+  private static final Logger          LOG              = LoggerFactory.getLogger (URIActionDispatcher.class);
   private Map<String, List<String>>    mCurrentParameters;
   private URL                          mContextOriginal;
   private String                       mRelativeUriOriginal;

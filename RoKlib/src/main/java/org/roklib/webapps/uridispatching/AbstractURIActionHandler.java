@@ -34,19 +34,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.roklib.conditional.engine.AbstractCondition;
 import org.roklib.net.IURLProvider;
 import org.roklib.util.helper.CheckForNull;
 import org.roklib.webapps.uridispatching.parameters.EnumURIParameterErrors;
 import org.roklib.webapps.uridispatching.parameters.IURIParameter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractURIActionHandler implements IURIActionHandler
 {
   private static final long               serialVersionUID                = 8450975393827044559L;
 
   private static final String[]           STRING_ARRAY_PROTOTYPE          = new String[] {};
-  private static final Logger             LOG                             = null;                // FIXME
+  private static final Logger             LOG                             = LoggerFactory
+                                                                              .getLogger (AbstractURIActionHandler.class);
   private List<CommandForCondition>       mCommandsForCondition;
   private List<IURIParameter<?>>          mURIParameters;
   private List<String>                    mActionArgumentOrder;

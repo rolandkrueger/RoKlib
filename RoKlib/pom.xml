@@ -19,14 +19,14 @@
     for mapping the action URLs of a web application on command objects. RoKlib uses Apache Maven 
     as build tool.
 	</description>
-	
+
 	<properties>
 		<docbook.source>${basedir}/src/docbkx</docbook.source>
 		<docbook.target>${project.build.directory}/docbkx</docbook.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.7</java.version>
 	</properties>
-	
+
 	<developers>
 		<developer>
 			<name>Roland Krueger</name>
@@ -59,21 +59,14 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>gsbase</groupId>
-			<artifactId>gsbase</artifactId>
-			<version>2.0.1</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.4</version>
 		</dependency>
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.14</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.0.4</version>
-			<type>jar</type>
-			<scope>compile</scope>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.6.4</version>
 		</dependency>
 	</dependencies>
 
@@ -108,7 +101,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.7.1</version> 
+				<version>2.7.1</version>
 				<configuration>
 					<showSuccess>false</showSuccess>
 				</configuration>
@@ -117,7 +110,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>2.5</version> 
+				<version>2.5</version>
 				<configuration>
 					<linkXref>true</linkXref>
 					<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
@@ -128,7 +121,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.7</version> 
+				<version>2.7</version>
 				<reportSets>
 					<reportSet>
 						<id>html</id>
@@ -149,13 +142,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
-			  <version>2.2</version>
+				<version>2.2</version>
 			</plugin>
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>taglist-maven-plugin</artifactId>
-			 <version>2.4</version> 
+				<version>2.4</version>
 				<configuration>
 					<tags>
 						<tag>TODO</tag>
@@ -191,13 +184,13 @@
 					</systemProperties>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
 				<version>2.1</version>
 			</plugin>
-			
+
 		</plugins>
 	</build>
 
