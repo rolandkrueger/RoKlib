@@ -1,5 +1,4 @@
 /*
- * $Id: TernarySearchTreeSet.java 254 2011-01-25 18:48:50Z roland $
  * Copyright (C) 2007 Roland Krueger
  * Created on 24.06.2007
  *
@@ -7,20 +6,17 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.util;
 
@@ -33,10 +29,10 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
 
-public class TernarySearchTreeSet extends AbstractSet<CharSequence> 
-  implements SortedSet<CharSequence>, ITernarySearchTreeQuery
+public class TernarySearchTreeSet extends AbstractSet<CharSequence> implements SortedSet<CharSequence>,
+    ITernarySearchTreeQuery
 {
-  private static Object MARKER = new Object ();
+  private static Object                 MARKER = new Object ();
 
   private ITernarySearchTreeMap<Object> mData;
 
@@ -44,7 +40,7 @@ public class TernarySearchTreeSet extends AbstractSet<CharSequence>
   {
     this (false);
   }
-  
+
   public TernarySearchTreeSet (boolean caseInsensitive)
   {
     if (caseInsensitive)
@@ -53,7 +49,7 @@ public class TernarySearchTreeSet extends AbstractSet<CharSequence>
     } else
     {
       mData = new TernarySearchTreeMap<Object> ();
-    }      
+    }
   }
 
   public TernarySearchTreeSet (CharSequence[] values)
@@ -65,28 +61,28 @@ public class TernarySearchTreeSet extends AbstractSet<CharSequence>
   {
     this (values, false);
   }
-  
+
   public TernarySearchTreeSet (SortedSet<? extends CharSequence> values)
   {
     this ((Collection<? extends CharSequence>) values, false);
   }
-  
+
   public TernarySearchTreeSet (CharSequence[] values, boolean caseInsensitive)
   {
     this (Arrays.asList (values), caseInsensitive);
   }
-  
+
   public TernarySearchTreeSet (Collection<? extends CharSequence> values, boolean caseInsensitive)
   {
     this (caseInsensitive);
     addAll (values);
   }
-  
+
   public TernarySearchTreeSet (SortedSet<? extends CharSequence> values, boolean caseInsensitive)
   {
     this ((Collection<? extends CharSequence>) values, caseInsensitive);
   }
-  
+
   public Comparator<? super CharSequence> comparator ()
   {
     // this SortedSet uses the natural ordering of its elements
@@ -155,18 +151,18 @@ public class TernarySearchTreeSet extends AbstractSet<CharSequence>
   {
     return mData.indexOf (string);
   }
-  
+
   public CharSequence getElementAt (int index)
   {
     return mData.getKeyAt (index);
   }
-  
+
   public CharSequence predecessor (CharSequence forElement)
   {
-    Map.Entry<CharSequence, Object> entry = mData.predecessorEntry (forElement); 
+    Map.Entry<CharSequence, Object> entry = mData.predecessorEntry (forElement);
     return entry == null ? null : entry.getKey ();
   }
-  
+
   public CharSequence successor (CharSequence forElement)
   {
     Map.Entry<CharSequence, Object> entry = mData.successorEntry (forElement);
@@ -182,12 +178,12 @@ public class TernarySearchTreeSet extends AbstractSet<CharSequence>
   {
     return mData.matchAlmost (string, distance, lengthTolerance);
   }
-  
+
   @Override
   public String toString ()
   {
     return mData.keySet ().toString ();
-  } 
+  }
 
   private class TSTStringSetSubSet extends AbstractSet<CharSequence> implements SortedSet<CharSequence>
   {
@@ -259,6 +255,6 @@ public class TernarySearchTreeSet extends AbstractSet<CharSequence>
     public int size ()
     {
       return mParent.size ();
-    } 
+    }
   }
 }

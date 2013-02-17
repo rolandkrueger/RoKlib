@@ -1,5 +1,4 @@
 /*
- * $Id: TSTMapCaseInsensitiveSubMapTest.java 211 2010-11-22 19:21:26Z roland $
  * Copyright (C) 2007 Roland Krueger
  * Created on 20.11.2010
  *
@@ -7,24 +6,22 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.util.tstmap.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import info.rolandkrueger.roklib.util.TernarySearchTreeMapCaseInsensitive;
 
 import java.util.Set;
@@ -35,18 +32,18 @@ import org.junit.Test;
 
 public class TSTMapCaseInsensitiveSubMapTest
 {
-  private static final String EMPTY = "";
-  private static final String PFORZHEIM = "PForzhEIm";
-  private static final String MANNHEIM  = "mannHEIM";
-  private static final String WEINHEIM  = "wEInhEIm";
-  private static final String DRESDEN  = "DREsden";
-  private static final String MAGDEBURG  = "maGDEburG";
-  private static final String LEIPZIG  = "LeipZig";
-  private static final String FREIBURG  = "freiBuRg";
-    
+  private static final String                         EMPTY     = "";
+  private static final String                         PFORZHEIM = "PForzhEIm";
+  private static final String                         MANNHEIM  = "mannHEIM";
+  private static final String                         WEINHEIM  = "wEInhEIm";
+  private static final String                         DRESDEN   = "DREsden";
+  private static final String                         MAGDEBURG = "maGDEburG";
+  private static final String                         LEIPZIG   = "LeipZig";
+  private static final String                         FREIBURG  = "freiBuRg";
+
   private TernarySearchTreeMapCaseInsensitive<String> mTestObj;
-  private SortedMap<CharSequence, String> mSubMap;
-  
+  private SortedMap<CharSequence, String>             mSubMap;
+
   @Before
   public void setUp ()
   {
@@ -61,7 +58,7 @@ public class TSTMapCaseInsensitiveSubMapTest
     mTestObj.put (WEINHEIM, WEINHEIM);
     mSubMap = mTestObj.subMap ("ERFURT", "marburg");
   }
-  
+
   @Test
   public void testSubMap ()
   {
@@ -71,7 +68,7 @@ public class TSTMapCaseInsensitiveSubMapTest
     assertTrue (mSubMap.containsKey (MAGDEBURG));
     assertTrue (mSubMap.containsKey (MANNHEIM));
   }
-  
+
   @Test
   public void testKeySet ()
   {
@@ -81,24 +78,24 @@ public class TSTMapCaseInsensitiveSubMapTest
     assertTrue (keySet.contains ("mannheim"));
     assertTrue (keySet.contains ("MANNHEIM"));
   }
-  
+
   @Test
   public void testFirstKey ()
   {
     assertEquals (FREIBURG, mSubMap.firstKey ());
   }
-  
+
   @Test
   public void testLastKey ()
   {
     assertEquals (MANNHEIM, mSubMap.lastKey ());
   }
-  
+
   @Test
   public void testPut ()
   {
     mSubMap.put ("GerA", "GERA");
     assertTrue (mTestObj.containsKey ("GERA"));
   }
-  
+
 }

@@ -1,32 +1,27 @@
 /*
- * $Id: ApplicationError.java 178 2010-10-31 18:01:20Z roland $
  * Copyright (C) 2007 Roland Krueger
  * 
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.util;
 
 /**
- * This class summarizes all information that is necessary to appropriately
- * respond to an error situation. Objects of this class are passed to classes
- * implementing the {@link ApplicationMessageHandler} interface.
+ * This class summarizes all information that is necessary to appropriately respond to an error situation. Objects of
+ * this class are passed to classes implementing the {@link ApplicationMessageHandler} interface.
  * 
  * @see ApplicationMessageHandler
  * @author Roland Krueger
@@ -39,24 +34,21 @@ public class ApplicationError
     /** Uncritical errors may be ignored. */
     UNCRITICAL,
     /**
-     * Errors with a warning level indicate situations that have to be responded
-     * to with appropriate actions.
+     * Errors with a warning level indicate situations that have to be responded to with appropriate actions.
      */
     WARNING,
     /**
-     * Severe errors are types of errors that usually make it impossible for the
-     * application to continue running.
+     * Severe errors are types of errors that usually make it impossible for the application to continue running.
      */
     SEVERE
   };
 
-  private String mDescription;
+  private String    mDescription;
   private Throwable mCause;
   private ErrorType mType;
 
   /**
-   * Default constructor that initializes the error level with
-   * {@link ErrorType#UNCRITICAL}.
+   * Default constructor that initializes the error level with {@link ErrorType#UNCRITICAL}.
    */
   protected ApplicationError ()
   {
@@ -75,8 +67,7 @@ public class ApplicationError
   }
 
   /**
-   * Constructor for setting the description of an error. The error's level
-   * defaults to {@link ErrorType#UNCRITICAL}.
+   * Constructor for setting the description of an error. The error's level defaults to {@link ErrorType#UNCRITICAL}.
    * 
    * @param description
    *          an error description. This can later be used as the error message.
@@ -87,9 +78,8 @@ public class ApplicationError
   }
 
   /**
-   * Constructor for setting both the description of an error and its cause. If
-   * the error happened due to an exception, this exception can be passed along
-   * with the {@link ApplicationError} object. The error's level defaults to
+   * Constructor for setting both the description of an error and its cause. If the error happened due to an exception,
+   * this exception can be passed along with the {@link ApplicationError} object. The error's level defaults to
    * {@link ErrorType#UNCRITICAL}.
    * 
    * @param description
@@ -116,8 +106,7 @@ public class ApplicationError
   }
 
   /**
-   * Constructor for setting the description, the cause and the type of the
-   * error.
+   * Constructor for setting the description, the cause and the type of the error.
    * 
    * @see ApplicationError#ApplicationError(String, Throwable)
    * @param description
@@ -148,8 +137,7 @@ public class ApplicationError
    * Returns the exception that caused this error.
    * 
    * @see ApplicationError#ApplicationError(String, Throwable)
-   * @return the cause of this error or <code>null</code> if no such information
-   *         was provided
+   * @return the cause of this error or <code>null</code> if no such information was provided
    */
   public Throwable getCause ()
   {

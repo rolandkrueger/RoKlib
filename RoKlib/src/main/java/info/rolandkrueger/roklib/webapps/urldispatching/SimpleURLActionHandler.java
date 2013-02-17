@@ -1,22 +1,22 @@
 /*
- * $Id: SimpleURLActionHandler.java 181 2010-11-01 09:39:13Z roland $ Copyright (C) 2007 - 2010
+ * Copyright (C) 2007 - 2010
  * Roland Krueger Created on 10.03.2010
  * 
  * Author: Roland Krueger (www.rolandkrueger.info)
  * 
  * This file is part of RoKlib.
  * 
- * This library is free software; you can redistribute it and/or modify it under the terms of the
- * GNU Lesser General Public License as published by the Free Software Foundation; either version
- * 2.1 of the License, or (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * You should have received a copy of the GNU Lesser General Public License along with this library;
- * if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- * 02111-1307 USA
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.webapps.urldispatching;
 
@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A simple URL action handler that directly returns a predefined action command when the URL
- * interpretation process reaches this handler. By that, {@link SimpleURLActionHandler}s always
- * represent the last token of an interpreted URL as they cannot dispatch to any sub-handlers.
+ * A simple URL action handler that directly returns a predefined action command when the URL interpretation process
+ * reaches this handler. By that, {@link SimpleURLActionHandler}s always represent the last token of an interpreted URL
+ * as they cannot dispatch to any sub-handlers.
  * 
  * @author Roland Krüger
  */
@@ -51,8 +51,7 @@ public class SimpleURLActionHandler extends AbstractURLActionHandler
   }
 
   /**
-   * Directly returns the URL action command passed in through the constructor. All method arguments
-   * are ignored.
+   * Directly returns the URL action command passed in through the constructor. All method arguments are ignored.
    */
   @Override
   protected AbstractURLActionCommand handleURLImpl (List<String> uriTokens, Map<String, List<String>> parameters,

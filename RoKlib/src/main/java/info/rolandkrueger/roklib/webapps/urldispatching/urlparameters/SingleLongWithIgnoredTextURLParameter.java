@@ -1,5 +1,4 @@
 /*
- * $Id: SingleLongWithIgnoredTextURLParameter.java 198 2010-11-04 17:24:51Z roland $
  * Copyright (C) 2007 Roland Krueger
  * Created on 04.11.2010
  *
@@ -7,20 +6,17 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.webapps.urldispatching.urlparameters;
 
@@ -31,10 +27,10 @@ import java.util.regex.Pattern;
 
 public class SingleLongWithIgnoredTextURLParameter extends SingleLongURLParameter
 {
-  private static final long serialVersionUID = 7990237721421647271L;
-  
-  private static final Pattern sPattern = Pattern.compile ("^(\\d+).*?"); 
-  
+  private static final long    serialVersionUID = 7990237721421647271L;
+
+  private static final Pattern sPattern         = Pattern.compile ("^(\\d+).*?");
+
   public SingleLongWithIgnoredTextURLParameter (String parameterName, Long defaultValue)
   {
     super (parameterName, defaultValue);
@@ -44,7 +40,7 @@ public class SingleLongWithIgnoredTextURLParameter extends SingleLongURLParamete
   {
     super (parameterName);
   }
- 
+
   @Override
   protected boolean consumeImpl (Map<String, List<String>> parameters)
   {
@@ -58,10 +54,10 @@ public class SingleLongWithIgnoredTextURLParameter extends SingleLongURLParamete
       String value = convertValue (valueList.get (index));
       valueList.set (index, value);
     }
-    
+
     return super.consumeImpl (parameters);
   }
-  
+
   private String convertValue (String value)
   {
     Matcher m = sPattern.matcher (value);
@@ -71,7 +67,7 @@ public class SingleLongWithIgnoredTextURLParameter extends SingleLongURLParamete
     }
     return value;
   }
-  
+
   @Override
   public boolean consumeList (String[] values)
   {
@@ -81,5 +77,5 @@ public class SingleLongWithIgnoredTextURLParameter extends SingleLongURLParamete
     }
     return super.consumeList (values);
   }
-  
+
 }

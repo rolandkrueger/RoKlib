@@ -11,7 +11,7 @@
 
     RoKlib is an open source, general purpose Java library originally initiated and maintained by
 Roland Krueger. It is licensed under the terms of the 
-{{{http://www.gnu.org/licenses/lgpl.txt}GNU Lesser General Public License (LGPL)}} and
+{{{http://www.apache.org/licenses/LICENSE-2.0.txt}Apache License 2.0}} and
 can thus be freely used and distributed according to the terms of this license. 
 
     RoKlib provides a number of useful features which can be helpful in a wide range of 

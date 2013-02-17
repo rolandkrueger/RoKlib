@@ -1,5 +1,4 @@
 /*
- * $Id: TSTMapCaseInsensitiveTest.java 253 2011-01-25 16:16:31Z roland $
  * Copyright (C) 2007 Roland Krueger
  * Created on 06.11.2010
  *
@@ -7,20 +6,17 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.util.tstmap.test;
 
@@ -50,15 +46,15 @@ import org.junit.Test;
 
 public class TSTMapCaseInsensitiveTest
 {
-  private static final String EMPTY = "";
-  private static final String ABCD = "ABcd";
-  private static final String XYZ  = "xyz";
-  private static final String FOO  = "Foo";
-  private static final String BAR  = "Bar";
-  private static final String BAZ  = "BAZ";
-    
+  private static final String                         EMPTY = "";
+  private static final String                         ABCD  = "ABcd";
+  private static final String                         XYZ   = "xyz";
+  private static final String                         FOO   = "Foo";
+  private static final String                         BAR   = "Bar";
+  private static final String                         BAZ   = "BAZ";
+
   private TernarySearchTreeMapCaseInsensitive<String> mTestObj;
-  
+
   @Before
   public void setUp ()
   {
@@ -70,13 +66,14 @@ public class TSTMapCaseInsensitiveTest
     mTestObj.put (XYZ, XYZ);
     mTestObj.put (FOO, FOO);
   }
-  
-  @Test @Ignore
+
+  @Test
+  @Ignore
   public void testComparator ()
   {
     fail ();
   }
-  
+
   @Test
   public void testSubMap ()
   {
@@ -88,17 +85,17 @@ public class TSTMapCaseInsensitiveTest
     assertTrue (subMap.containsValue (BAR));
     assertTrue (subMap.containsValue (BAZ));
     assertTrue (subMap.containsValue (FOO));
-   
+
     assertEquals (BAR, subMap.firstKey ());
     assertEquals (FOO, subMap.lastKey ());
-    
+
     Set<CharSequence> subMapKeySet = subMap.keySet ();
     assertTrue (subMapKeySet.contains ("bAr"));
     assertTrue (subMapKeySet.contains ("fOo"));
     assertTrue (subMapKeySet.contains (BAZ));
     assertFalse (subMapKeySet.contains (XYZ));
   }
-  
+
   @Test
   public void testSuccessor ()
   {
@@ -108,7 +105,7 @@ public class TSTMapCaseInsensitiveTest
     assertEquals (BAR, mTestObj.successorEntry ("abCD").getKey ());
     assertEquals (FOO, mTestObj.successorEntry ("exx").getKey ());
   }
-  
+
   @Test
   public void testPredecessor ()
   {
@@ -118,18 +115,18 @@ public class TSTMapCaseInsensitiveTest
     assertEquals (BAZ, mTestObj.predecessorEntry ("fOO").getKey ());
     assertEquals (ABCD, mTestObj.predecessorEntry ("baR").getKey ());
   }
-  
+
   @Test
   public void testGetValueAt ()
   {
     assertEquals (EMPTY, mTestObj.getValueAt (0));
-    assertEquals (ABCD, mTestObj.getValueAt  (1));
-    assertEquals (BAR, mTestObj.getValueAt   (2));
-    assertEquals (BAZ, mTestObj.getValueAt   (3));
-    assertEquals (FOO, mTestObj.getValueAt   (4));
-    assertEquals (XYZ, mTestObj.getValueAt   (5));
+    assertEquals (ABCD, mTestObj.getValueAt (1));
+    assertEquals (BAR, mTestObj.getValueAt (2));
+    assertEquals (BAZ, mTestObj.getValueAt (3));
+    assertEquals (FOO, mTestObj.getValueAt (4));
+    assertEquals (XYZ, mTestObj.getValueAt (5));
   }
-  
+
   @Test
   public void testGetEntry ()
   {
@@ -155,8 +152,8 @@ public class TSTMapCaseInsensitiveTest
     assertEquals (XYZ, entry.getValue ());
     assertNull (mTestObj.getEntry ("not in map"));
   }
-  
-  @Test 
+
+  @Test
   public void testGetPrefixSubtreeIterator ()
   {
     Iterator<Entry<CharSequence, String>> iterator = mTestObj.getPrefixSubtreeIterator ("bA").iterator ();
@@ -166,7 +163,7 @@ public class TSTMapCaseInsensitiveTest
     assertEquals (BAZ, iterator.next ().getKey ());
     assertFalse (iterator.hasNext ());
   }
-  
+
   @Test
   public void testGetKeysForPrefix ()
   {
@@ -179,7 +176,7 @@ public class TSTMapCaseInsensitiveTest
     assertEquals (BAR, keys.get (0));
     assertEquals (BAZ, keys.get (1));
   }
-  
+
   @Test
   public void testMatchAlmost ()
   {
@@ -191,7 +188,7 @@ public class TSTMapCaseInsensitiveTest
     assertFalse (resultSet.contains ("baz"));
     assertFalse (resultSet.contains ("bam"));
   }
-  
+
   @Test
   public void testContainsValue ()
   {
@@ -202,7 +199,7 @@ public class TSTMapCaseInsensitiveTest
     assertTrue (mTestObj.containsValue (BAR));
     assertTrue (mTestObj.containsValue (XYZ));
   }
-  
+
   @Test
   public void testValues ()
   {
@@ -213,7 +210,7 @@ public class TSTMapCaseInsensitiveTest
     expected.addAll (Arrays.asList (EMPTY, ABCD, BAR, BAZ, FOO, XYZ));
     assertEquals (expected, valuesList);
   }
-  
+
   @Test
   public void testFirstKey ()
   {
@@ -230,8 +227,8 @@ public class TSTMapCaseInsensitiveTest
     assertEquals (XYZ, mTestObj.firstKey ());
     mTestObj.remove (XYZ);
     assertNull (mTestObj.firstKey ());
-  }  
-  
+  }
+
   @Test
   public void testLastKey ()
   {
@@ -249,7 +246,7 @@ public class TSTMapCaseInsensitiveTest
     mTestObj.remove (EMPTY);
     assertNull (mTestObj.lastKey ());
   }
-  
+
   @Test
   public void testKeySet ()
   {
@@ -265,7 +262,7 @@ public class TSTMapCaseInsensitiveTest
     assertTrue (keySet.contains ("bar"));
     assertTrue (keySet.contains ("baZ"));
   }
-  
+
   @Test
   public void testKeySetRemove ()
   {
@@ -274,18 +271,18 @@ public class TSTMapCaseInsensitiveTest
     assertEquals (5, mTestObj.size ());
     assertFalse (keySet.remove ("not in map"));
   }
-  
+
   @Test
   public void testGetKeyAt ()
   {
     assertEquals (EMPTY, mTestObj.getKeyAt (0));
-    assertEquals (ABCD,  mTestObj.getKeyAt (1));
-    assertEquals (BAR,   mTestObj.getKeyAt (2));
-    assertEquals (BAZ,   mTestObj.getKeyAt (3));
-    assertEquals (FOO,   mTestObj.getKeyAt (4));
-    assertEquals (XYZ,   mTestObj.getKeyAt (5));
+    assertEquals (ABCD, mTestObj.getKeyAt (1));
+    assertEquals (BAR, mTestObj.getKeyAt (2));
+    assertEquals (BAZ, mTestObj.getKeyAt (3));
+    assertEquals (FOO, mTestObj.getKeyAt (4));
+    assertEquals (XYZ, mTestObj.getKeyAt (5));
   }
-  
+
   @Test
   public void testIndexOf ()
   {
@@ -296,14 +293,14 @@ public class TSTMapCaseInsensitiveTest
     assertEquals (4, mTestObj.indexOf (FOO));
     assertEquals (5, mTestObj.indexOf (XYZ));
   }
-  
+
   @Test
   public void testGet ()
   {
-    String value1 = mTestObj.get ("Foo"); 
-    String value2 = mTestObj.get ("FOO"); 
+    String value1 = mTestObj.get ("Foo");
+    String value2 = mTestObj.get ("FOO");
     String value3 = mTestObj.get ("FoO");
-    
+
     assertSame (value1, value2);
     assertSame (value1, value3);
     assertSame (value2, value3);
@@ -314,8 +311,8 @@ public class TSTMapCaseInsensitiveTest
     assertEquals (BAZ, mTestObj.get ("baz"));
     assertEquals (EMPTY, mTestObj.get (EMPTY));
   }
-  
-  @Test 
+
+  @Test
   public void testContainsKey ()
   {
     assertFalse (mTestObj.containsKey ("bzz"));
@@ -329,7 +326,7 @@ public class TSTMapCaseInsensitiveTest
     assertTrue (mTestObj.containsKey ("BAZ"));
     assertTrue (mTestObj.containsKey ("baz"));
   }
-  
+
   @Test
   public void testRemove ()
   {
@@ -341,35 +338,35 @@ public class TSTMapCaseInsensitiveTest
     assertEquals (FOO, mTestObj.remove ("fOO"));
     assertEquals (BAR, mTestObj.remove ("bAr"));
     assertTrue (mTestObj.isEmpty ());
-    
+
     mTestObj.put ("TESTKEY1", "value1");
     mTestObj.put ("TEsTKEY2", "value2");
     mTestObj.put ("TEsTKeY3", "value3");
-    
+
     assertEquals ("value3", mTestObj.remove ("testkey3"));
     assertEquals ("value2", mTestObj.remove ("testkey2"));
     assertEquals ("value1", mTestObj.remove ("testkey1"));
     assertTrue (mTestObj.isEmpty ());
   }
-  
+
   @Test
   public void testPut ()
   {
     mTestObj.clear ();
     assertNull (mTestObj.put ("key", "key"));
     assertEquals ("key", mTestObj.put ("KEY", "key"));
-    assertEquals ("key", mTestObj.put ("Key", "value")); 
+    assertEquals ("key", mTestObj.put ("Key", "value"));
     assertEquals (1, mTestObj.size ());
     assertEquals ("Key", mTestObj.keySet ().iterator ().next ());
     assertEquals ("value", mTestObj.get ("KEY"));
   }
-  
+
   @Test
   public void testPredecessorOfFirstElementIsNull ()
   {
     assertNull (mTestObj.predecessor (mTestObj.firstKey ()));
   }
-  
+
   @Test
   public void testPredecessorForKeysInSet ()
   {
@@ -378,7 +375,7 @@ public class TSTMapCaseInsensitiveTest
     assertEquals (EMPTY, mTestObj.predecessor ("ABCD"));
     assertEquals (BAR, mTestObj.predecessor ("BAz"));
   }
-  
+
   @Test
   public void testPredecessorForKeysNotInSet ()
   {
@@ -386,20 +383,20 @@ public class TSTMapCaseInsensitiveTest
     mTestObj.remove (EMPTY);
     assertNull (mTestObj.predecessor ("aaa"));
   }
-  
+
   @Test
   public void testSuccessorOfLastElementIsNull ()
   {
     assertNull (mTestObj.successor (mTestObj.lastKey ()));
   }
-  
+
   @Test
   public void testSuccessorForKeysInSet ()
   {
     assertEquals (BAZ, mTestObj.successor ("bar"));
     assertEquals (XYZ, mTestObj.successor ("fOO"));
   }
-  
+
   @Test
   public void testSuccessorForKeysNotInSet ()
   {

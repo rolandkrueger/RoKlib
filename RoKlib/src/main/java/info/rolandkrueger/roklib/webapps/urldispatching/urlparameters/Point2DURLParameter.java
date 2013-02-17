@@ -1,5 +1,4 @@
 /*
- * $Id: Point2DURLParameter.java 181 2010-11-01 09:39:13Z roland $
  * Copyright (C) 2007 - 2010 Roland Krueger
  * Created on 05.10.2010
  *
@@ -7,20 +6,17 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.webapps.urldispatching.urlparameters;
 
@@ -36,12 +32,12 @@ import java.util.Map;
 
 public class Point2DURLParameter extends AbstractURLParameter<Point2D.Double>
 {
-  private static final long serialVersionUID = - 8452255745085323681L;
+  private static final long        serialVersionUID = -8452255745085323681L;
 
-  private List<String> mParameterNames;
+  private List<String>             mParameterNames;
   private SingleDoubleURLParameter mXURLParameter;
   private SingleDoubleURLParameter mYURLParameter;
-  
+
   public Point2DURLParameter (String xParamName, String yParamName)
   {
     CheckForNull.check (xParamName, yParamName);
@@ -51,7 +47,7 @@ public class Point2DURLParameter extends AbstractURLParameter<Point2D.Double>
     mXURLParameter = new SingleDoubleURLParameter (xParamName);
     mYURLParameter = new SingleDoubleURLParameter (yParamName);
   }
-  
+
   public AbstractURLActionCommand getErrorCommandIfInvalid ()
   {
     return null;

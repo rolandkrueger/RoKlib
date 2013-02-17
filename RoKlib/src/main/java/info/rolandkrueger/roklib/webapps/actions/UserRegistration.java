@@ -1,5 +1,4 @@
 /*
- * $Id: UserRegistration.java 178 2010-10-31 18:01:20Z roland $
  * Copyright (C) 2007 Roland Krueger
  * Created on 05.02.2010
  *
@@ -7,20 +6,17 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.webapps.actions;
 
@@ -33,8 +29,7 @@ import info.rolandkrueger.roklib.webapps.state.GenericUserState;
 
 import java.io.Serializable;
 
-public class UserRegistration<KeyClass, UserData, U extends GenericUser<KeyClass, UserData>>
-    implements Serializable
+public class UserRegistration<KeyClass, UserData, U extends GenericUser<KeyClass, UserData>> implements Serializable
 {
   private static final long serialVersionUID = 7913299696050270835L;
 
@@ -48,9 +43,9 @@ public class UserRegistration<KeyClass, UserData, U extends GenericUser<KeyClass
     REGISTRATION_KEY_UNKNOWN, OK
   }
 
-  private IUserDataAccess<KeyClass, UserData, U> mDataAccess;
+  private IUserDataAccess<KeyClass, UserData, U>          mDataAccess;
   private IUserRegistrationMethods<KeyClass, UserData, U> mRegistrationMethods;
-  private int mRegistrationKeyLength;
+  private int                                             mRegistrationKeyLength;
 
   public UserRegistration (IUserDataAccess<KeyClass, UserData, U> dataAccess,
       IUserRegistrationMethods<KeyClass, UserData, U> registrationMethods)
@@ -94,7 +89,7 @@ public class UserRegistration<KeyClass, UserData, U extends GenericUser<KeyClass
     }
 
     mDataAccess.persistUser (user);
-    if (requireConfirmation && ! mRegistrationMethods.sendRegistrationNotification (user))
+    if (requireConfirmation && !mRegistrationMethods.sendRegistrationNotification (user))
     {
       mDataAccess.rollback ();
       user.setRegistrationStatus (null);
@@ -109,8 +104,7 @@ public class UserRegistration<KeyClass, UserData, U extends GenericUser<KeyClass
   {
     U user = mDataAccess.getUserForRegistrationKey (registrationKey);
     if (user == null)
-      return new RegistrationConfirmationResult (
-          RegistrationConfirmationOutcome.REGISTRATION_KEY_UNKNOWN, null);
+      return new RegistrationConfirmationResult (RegistrationConfirmationOutcome.REGISTRATION_KEY_UNKNOWN, null);
 
     user.setState (GenericUserState.REGISTERED);
     user.getRegistrationStatus ().setRegistrationKey ("");
@@ -124,7 +118,7 @@ public class UserRegistration<KeyClass, UserData, U extends GenericUser<KeyClass
   public class RegistrationConfirmationResult
   {
     private RegistrationConfirmationOutcome mOutcome;
-    private U mUser;
+    private U                               mUser;
 
     protected RegistrationConfirmationResult (RegistrationConfirmationOutcome outcome, U user)
     {

@@ -1,5 +1,4 @@
 /*
- * $Id: CompareTSTMapToTreeMapTest.java 208 2010-11-16 18:29:22Z roland $
  * Copyright (C) 2007 Roland Krueger
  * Created on 10.07.2007
  *
@@ -7,24 +6,21 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.util.tstmap.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import info.rolandkrueger.roklib.util.TernarySearchTreeMap;
 import info.rolandkrueger.roklib.util.tstmap.test.MapData.TestDataFixture;
 import info.rolandkrueger.roklib.util.tstmap.test.MapData.TestDataFixtureMapMap;
@@ -37,20 +33,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * This test fixture will compare the method results of the various
- * {@link SortedMap} methods if the respective methods are invoked on
- * {@link TreeMap} and {@link TernarySearchTreeMap}. For these tests,
- * {@link TreeMap} will be used as the prototype of a correct implementation of
- * the {@link SortedMap} interface. Thus, it is expected, that
- * {@link TernarySearchTreeMap will show the same behavior with respect to the
- * {@link SortedMap} interface as a {@link TreeMap}.
+ * This test fixture will compare the method results of the various {@link SortedMap} methods if the respective methods
+ * are invoked on {@link TreeMap} and {@link TernarySearchTreeMap}. For these tests, {@link TreeMap} will be used as the
+ * prototype of a correct implementation of the {@link SortedMap} interface. Thus, it is expected, that
+ * {@link TernarySearchTreeMap will show the same behavior with respect to the {@link SortedMap} interface as a
+ * {@link TreeMap}.
  * 
  * @author Roland Krueger
  */
 public class CompareTSTMapToTreeMapTest
 {
   private TreeMap<CharSequence, String> mTreeMap;
-  private TernarySearchTreeMap<String> mTSTMap;
+  private TernarySearchTreeMap<String>  mTSTMap;
 
   @Before
   public void setUp ()
@@ -124,47 +118,47 @@ public class CompareTSTMapToTreeMapTest
       assertEquals (mTreeMap.get (key), mTSTMap.get (key));
     }
   }
-  
-  @Test (expected=ClassCastException.class)
+
+  @Test (expected = ClassCastException.class)
   public void testTSTMapGetWithArbitraryClassFails ()
-  {    
+  {
     fillWithFiveLowerCaseEntriesOrderingExpected ();
     mTSTMap.get (new GermanyTestClass ());
   }
-  
-  @Test (expected=ClassCastException.class)
+
+  @Test (expected = ClassCastException.class)
   public void testJavaMapGetWithArbitraryClassFails ()
   {
     fillWithFiveLowerCaseEntriesOrderingExpected ();
     mTreeMap.get (new GermanyTestClass ());
   }
-  
-  @Test (expected=ClassCastException.class)
+
+  @Test (expected = ClassCastException.class)
   public void testTSTMapKeySetContainsWithArbitraryClassFails ()
-  {    
+  {
     fillWithFiveLowerCaseEntriesOrderingExpected ();
     mTSTMap.keySet ().contains (new GermanyTestClass ());
   }
-  
-  @Test (expected=ClassCastException.class)
+
+  @Test (expected = ClassCastException.class)
   public void testJavaMapKeySetContainsWithArbitraryClassFails ()
   {
     fillWithFiveLowerCaseEntriesOrderingExpected ();
     mTreeMap.keySet ().contains (new GermanyTestClass ());
   }
-  
-  @Test  (expected=ClassCastException.class)
+
+  @Test (expected = ClassCastException.class)
   public void testTSTMapRemoveWithArbitraryClassFails ()
   {
     fillWithFiveLowerCaseEntriesOrderingExpected ();
     mTreeMap.remove (new GermanyTestClass ());
   }
-  
-  @Test (expected=ClassCastException.class)
+
+  @Test (expected = ClassCastException.class)
   public void testJavaMapRemoveWithArbitraryClassFails ()
   {
     fillWithFiveLowerCaseEntriesOrderingExpected ();
-    mTSTMap.remove (new GermanyTestClass ());    
+    mTSTMap.remove (new GermanyTestClass ());
   }
 
   @Test
@@ -199,14 +193,14 @@ public class CompareTSTMapToTreeMapTest
       assertEquals (mTreeMap.size (), mTSTMap.size ());
     }
   }
-  
+
   @Test
   public void testRemoveFromEntrySetInvalidEntry ()
   {
     fillWithFiveLowerCaseEntriesOrderingExpected ();
     SimpleEntry<CharSequence, String> entryNotInMap = new SimpleEntry<CharSequence, String> ("sverige", "surstromming");
     SimpleEntry<CharSequence, String> entryInMap = new SimpleEntry<CharSequence, String> ("deutschland", "sauerkraut");
-    
+
     mTreeMap.entrySet ().remove (entryNotInMap);
     mTreeMap.entrySet ().remove (entryInMap);
     mTSTMap.entrySet ().remove (entryNotInMap);
@@ -233,8 +227,7 @@ public class CompareTSTMapToTreeMapTest
   public void testValues_toArrayArrayParam ()
   {
     fillWithFiveLowerCaseEntriesOrderingExpected ();
-    assertEquals (mTreeMap.values ().toArray (new String[1]),
-        mTSTMap.values ().toArray (new String[1]));
+    assertEquals (mTreeMap.values ().toArray (new String[1]), mTSTMap.values ().toArray (new String[1]));
   }
 
   private class GermanyTestClass implements Comparable<GermanyTestClass>

@@ -1,5 +1,4 @@
 /*
- * $Id: TSTMapCaseInsensitiveMapEntrySetTest.java 210 2010-11-17 20:33:44Z roland $
  * Copyright (C) 2007 Roland Krueger
  * Created on 16.11.2010
  *
@@ -7,50 +6,48 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.util.tstmap.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import info.rolandkrueger.roklib.util.TernarySearchTreeMapCaseInsensitive;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.AbstractMap.SimpleEntry;
-
-import info.rolandkrueger.roklib.util.TernarySearchTreeMapCaseInsensitive;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TSTMapCaseInsensitiveMapEntrySetTest
 {
-  private static final String EMPTY = "";
-  private static final String ABCD = "ABcd";
-  private static final String XYZ  = "xyz";
-  private static final String FOO  = "Foo";
-  private static final String BAR  = "Bar";
-  private static final String BAZ  = "BAZ";
-    
+  private static final String                         EMPTY = "";
+  private static final String                         ABCD  = "ABcd";
+  private static final String                         XYZ   = "xyz";
+  private static final String                         FOO   = "Foo";
+  private static final String                         BAR   = "Bar";
+  private static final String                         BAZ   = "BAZ";
+
   private TernarySearchTreeMapCaseInsensitive<String> mTestObj;
-  private Set<Map.Entry<CharSequence, String>> mEntrySet;
-  
+  private Set<Map.Entry<CharSequence, String>>        mEntrySet;
+
   @Before
   public void setUp ()
   {
@@ -63,7 +60,7 @@ public class TSTMapCaseInsensitiveMapEntrySetTest
     mTestObj.put (FOO, FOO);
     mEntrySet = mTestObj.entrySet ();
   }
-  
+
   @Test
   public void testEntrySet ()
   {
@@ -95,11 +92,11 @@ public class TSTMapCaseInsensitiveMapEntrySetTest
     assertEquals (XYZ, entry.getKey ());
     assertEquals (XYZ, entry.getValue ());
   }
-  
+
   @Test
   public void testContainsAll ()
   {
-    List<Map.Entry<CharSequence, String>> entries = new ArrayList<Map.Entry<CharSequence,String>> (5);
+    List<Map.Entry<CharSequence, String>> entries = new ArrayList<Map.Entry<CharSequence, String>> (5);
     entries.add (new SimpleEntry<CharSequence, String> ("abcd", ABCD));
     entries.add (new SimpleEntry<CharSequence, String> ("fOO", FOO));
     entries.add (new SimpleEntry<CharSequence, String> ("baZ", BAZ));
@@ -107,19 +104,19 @@ public class TSTMapCaseInsensitiveMapEntrySetTest
     entries.add (new SimpleEntry<CharSequence, String> (XYZ, XYZ));
     assertTrue (mEntrySet.containsAll (entries));
   }
-  
-  @Test (expected=UnsupportedOperationException.class)
+
+  @Test (expected = UnsupportedOperationException.class)
   public void testAdd ()
   {
     mEntrySet.add (null);
   }
 
-  @Test (expected=UnsupportedOperationException.class)
+  @Test (expected = UnsupportedOperationException.class)
   public void testAddAll ()
   {
     mEntrySet.addAll (null);
   }
-  
+
   @Test
   public void testSize ()
   {
@@ -133,7 +130,7 @@ public class TSTMapCaseInsensitiveMapEntrySetTest
     mEntrySet.clear ();
     assertTrue (mEntrySet.isEmpty ());
   }
-  
+
   @Test
   public void testRemove ()
   {
@@ -147,7 +144,7 @@ public class TSTMapCaseInsensitiveMapEntrySetTest
     assertTrue (mTestObj.containsKey (XYZ));
     assertFalse (mEntrySet.remove (null));
   }
-  
+
   @Test
   @SuppressWarnings ({ "unchecked", "rawtypes" })
   public void testRetainAll ()
@@ -162,7 +159,7 @@ public class TSTMapCaseInsensitiveMapEntrySetTest
     assertTrue (mTestObj.containsKey (ABCD));
     assertTrue (mTestObj.containsKey (FOO));
   }
-  
+
   @Test
   @SuppressWarnings ({ "unchecked", "rawtypes" })
   public void testRemoveAll ()
@@ -175,7 +172,7 @@ public class TSTMapCaseInsensitiveMapEntrySetTest
     assertEquals (4, mTestObj.size ());
     assertFalse (mTestObj.containsKey (ABCD));
     assertFalse (mTestObj.containsKey (FOO));
-    
+
     list.add ("1");
     list.add (new SimpleEntry<CharSequence, String> ("xYz", XYZ));
     list.add (new SimpleEntry<CharSequence, String> ("BAR", BAR));
@@ -184,7 +181,7 @@ public class TSTMapCaseInsensitiveMapEntrySetTest
     mEntrySet.removeAll (list);
     assertTrue (mTestObj.isEmpty ());
   }
-    
+
   @Test
   public void testEntrySetContains ()
   {
@@ -200,7 +197,7 @@ public class TSTMapCaseInsensitiveMapEntrySetTest
     assertTrue (mEntrySet.contains (entry));
     entry = new SimpleEntry<CharSequence, String> (XYZ, XYZ);
     assertTrue (mEntrySet.contains (entry));
-    
+
     entry = new SimpleEntry<CharSequence, String> ("zzz", "zzz");
     assertFalse (mEntrySet.contains (entry));
     entry = new SimpleEntry<CharSequence, String> (XYZ, "zzz");

@@ -1,14 +1,22 @@
 /*
- * $Id: AbstractURLActionHandler.java 216 2010-12-30 12:39:20Z roland $ Copyright (C) 2007 - 2010
- * Roland Krueger Created on 11.02.2010 Author: Roland Krueger (www.rolandkrueger.info) This file is
- * part of RoKlib. This library is free software; you can redistribute it and/or modify it under the
- * terms of the GNU Lesser General Public License as published by the Free Software Foundation;
- * either version 2.1 of the License, or (at your option) any later version. This library is
- * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
- * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser
- * General Public License for more details. You should have received a copy of the GNU Lesser
- * General Public License along with this library; if not, write to the Free Software Foundation,
- * Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * Copyright (C) 2007 - 2010 Roland Krueger 
+ * Created on 11.02.2010 
+ * 
+ * Author: Roland Krueger (www.rolandkrueger.info) 
+ * 
+ * This file is part of RoKlib. 
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.webapps.urldispatching;
 
@@ -72,10 +80,9 @@ public abstract class AbstractURLActionHandler implements IURLActionHandler
   private Locale                          mLocale;
 
   /**
-   * Creates a new action handler with the given action name. The action name must not be
-   * <code>null</code>. This name identifies the fragment of a URL which is handled by this action
-   * handler. For example, if this action handler is responsible for the <code>admin</code> part in
-   * the following URL
+   * Creates a new action handler with the given action name. The action name must not be <code>null</code>. This name
+   * identifies the fragment of a URL which is handled by this action handler. For example, if this action handler is
+   * responsible for the <code>admin</code> part in the following URL
    * 
    * <pre>
    * http://www.example.com/admin/settings
@@ -84,8 +91,7 @@ public abstract class AbstractURLActionHandler implements IURLActionHandler
    * then the action name for this handler has to be set to <code>admin</code> as well.
    * 
    * @param actionName
-   *          the name of the URL portion for which this action handler is responsible. Must not be
-   *          <code>null</code>.
+   *          the name of the URL portion for which this action handler is responsible. Must not be <code>null</code>.
    */
   public AbstractURLActionHandler (String actionName)
   {
@@ -102,10 +108,10 @@ public abstract class AbstractURLActionHandler implements IURLActionHandler
 
   /**
    * <p>
-   * Sets the case sensitivity of this action handler. A case insentitive action handler will match
-   * a URI token without regarding the token's case. You have to be careful with case insensitive
-   * action handlers if you have more than one action handler with action names differing only in
-   * case. You might get unexpected results since one action handler might shadow the other.
+   * Sets the case sensitivity of this action handler. A case insentitive action handler will match a URI token without
+   * regarding the token's case. You have to be careful with case insensitive action handlers if you have more than one
+   * action handler with action names differing only in case. You might get unexpected results since one action handler
+   * might shadow the other.
    * </p>
    */
   protected void setCaseSensitive (boolean caseSensitive)
@@ -140,9 +146,12 @@ public abstract class AbstractURLActionHandler implements IURLActionHandler
 
   protected void registerURLParameter (IURLParameter<?> parameter)
   {
-    if (parameter == null) return;
-    if (mURLParameters == null) mURLParameters = new LinkedList<IURLParameter<?>> ();
-    if (!mURLParameters.contains (parameter)) mURLParameters.add (parameter);
+    if (parameter == null)
+      return;
+    if (mURLParameters == null)
+      mURLParameters = new LinkedList<IURLParameter<?>> ();
+    if (!mURLParameters.contains (parameter))
+      mURLParameters.add (parameter);
   }
 
   protected void registerURLParameter (IURLParameter<?> parameter, boolean isOptional)
@@ -153,7 +162,8 @@ public abstract class AbstractURLActionHandler implements IURLActionHandler
 
   protected boolean haveRegisteredURLParametersErrors ()
   {
-    if (mURLParameters == null) return false;
+    if (mURLParameters == null)
+      return false;
     boolean result = false;
 
     for (IURLParameter<?> parameter : mURLParameters)
@@ -171,7 +181,8 @@ public abstract class AbstractURLActionHandler implements IURLActionHandler
     {
       for (CommandForCondition cfc : mCommandsForCondition)
       {
-        if (cfc.mCondition.getBooleanValue () == true) return cfc.mDefaultCommandForCondition;
+        if (cfc.mCondition.getBooleanValue () == true)
+          return cfc.mDefaultCommandForCondition;
       }
     }
     if (mURLParameters != null)
@@ -241,7 +252,8 @@ public abstract class AbstractURLActionHandler implements IURLActionHandler
           for (IURLParameter<?> parameter : mURLParameters)
           {
             parameter.clearValue ();
-            if (pUriTokens.isEmpty ()) continue;
+            if (pUriTokens.isEmpty ())
+              continue;
             valueList.clear ();
             int singleValueCount = parameter.getSingleValueCount ();
             int i = 0;
@@ -274,7 +286,8 @@ public abstract class AbstractURLActionHandler implements IURLActionHandler
               + " chained handler(s) in list)");
         }
         AbstractURLActionCommand commandFromChain = chainedHandler.handleURL (pUriTokens, pParameters, pParameterMode);
-        if (commandFromChain != null) return commandFromChain;
+        if (commandFromChain != null)
+          return commandFromChain;
       }
     }
 
@@ -308,23 +321,20 @@ public abstract class AbstractURLActionHandler implements IURLActionHandler
   }
 
   /**
-   * Returns the full relative action URI for this action handler. This is the concatenation of all
-   * parent handler action names going back to the handler root separated by a slash. For example,
-   * if this action handler's action name is <code>languageSettings</code>, with its parent's action
-   * name <code>configuration</code> and the next parent's action name <code>admin</code> then the
-   * action URI for this handler evaluates to
+   * Returns the full relative action URI for this action handler. This is the concatenation of all parent handler
+   * action names going back to the handler root separated by a slash. For example, if this action handler's action name
+   * is <code>languageSettings</code>, with its parent's action name <code>configuration</code> and the next parent's
+   * action name <code>admin</code> then the action URI for this handler evaluates to
    * 
    * <pre>
    * /admin/configuration/languageSettings.
    * </pre>
    * 
-   * This String is needed for generating fully configured URLs (this URI together with the
-   * corresponding parameter values) which can be used for rendering links pointing to this action
-   * handler.
+   * This String is needed for generating fully configured URLs (this URI together with the corresponding parameter
+   * values) which can be used for rendering links pointing to this action handler.
    * 
-   * @return the action URI for this action handler (such as
-   *         <code>/admin/configuration/languageSettings</code> if this action handler's action name
-   *         is <code>languageSettings</code>).
+   * @return the action URI for this action handler (such as <code>/admin/configuration/languageSettings</code> if this
+   *         action handler's action name is <code>languageSettings</code>).
    */
   public String getActionURI ()
   {
@@ -332,9 +342,9 @@ public abstract class AbstractURLActionHandler implements IURLActionHandler
   }
 
   /**
-   * Sets the parent action handler for this object. An action handler can only be added as
-   * sub-handler to one action handler. In other words, an action handler can only have one parent.
-   * This parent relationship is established when adding a sub-handler to an action handler with
+   * Sets the parent action handler for this object. An action handler can only be added as sub-handler to one action
+   * handler. In other words, an action handler can only have one parent. This parent relationship is established when
+   * adding a sub-handler to an action handler with
    * {@link AbstractURLActionHandler#addSubHandler(AbstractURLActionHandler)}.
    * 
    * @param parent
@@ -423,7 +433,8 @@ public abstract class AbstractURLActionHandler implements IURLActionHandler
       }
     }
 
-    if (removeLastCharacter) buf.setLength (buf.length () - 1);
+    if (removeLastCharacter)
+      buf.setLength (buf.length () - 1);
 
     try
     {
@@ -444,7 +455,8 @@ public abstract class AbstractURLActionHandler implements IURLActionHandler
   public final void addDefaultCommandForCondition (AbstractURLActionCommand command, AbstractCondition condition)
   {
     CheckForNull.check (command, condition);
-    if (mCommandsForCondition == null) mCommandsForCondition = new LinkedList<CommandForCondition> ();
+    if (mCommandsForCondition == null)
+      mCommandsForCondition = new LinkedList<CommandForCondition> ();
     CommandForCondition cfc = new CommandForCondition ();
     cfc.mDefaultCommandForCondition = command;
     cfc.mCondition = condition;
@@ -484,7 +496,8 @@ public abstract class AbstractURLActionHandler implements IURLActionHandler
     }
     for (Serializable value : argumentValues)
     {
-      if (value != null) valueList.add (value);
+      if (value != null)
+        valueList.add (value);
     }
     if (valueList.isEmpty ())
     {
@@ -532,7 +545,8 @@ public abstract class AbstractURLActionHandler implements IURLActionHandler
       }
       buf.setLength (buf.length () - 2);
     }
-    if (buf.length () > 0) targetList.add (buf.toString ());
+    if (buf.length () > 0)
+      targetList.add (buf.toString ());
     for (AbstractURLActionHandler subHandler : getSubHandlerMap ().values ())
     {
       subHandler.getActionURLOverview (targetList);
@@ -540,13 +554,11 @@ public abstract class AbstractURLActionHandler implements IURLActionHandler
   }
 
   /**
-   * Returns a map of all registered sub-handlers for this URL action handler. This method is only
-   * implemented by {@link DispatchingURLActionHandler} since this is the only URL action handler
-   * implementation in the framework which can have sub-handlers. All other subclasses of
-   * {@link AbstractURLActionHandler} return an empty map.
+   * Returns a map of all registered sub-handlers for this URL action handler. This method is only implemented by
+   * {@link DispatchingURLActionHandler} since this is the only URL action handler implementation in the framework which
+   * can have sub-handlers. All other subclasses of {@link AbstractURLActionHandler} return an empty map.
    * 
-   * @return map containing a mapping of URI tokens on the corresponding sub-handlers that handle
-   *         these tokens.
+   * @return map containing a mapping of URI tokens on the corresponding sub-handlers that handle these tokens.
    */
   protected Map<String, AbstractURLActionHandler> getSubHandlerMap ()
   {

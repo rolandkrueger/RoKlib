@@ -1,5 +1,4 @@
 /*
- * $Id: TernarySearchTreeMapTest.java 249 2011-01-22 13:59:04Z roland $
  * Copyright (C) 2007 Roland Krueger
  * Created on 09.06.2007
  *
@@ -7,24 +6,25 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.util.tstmap.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import info.rolandkrueger.roklib.util.RandomStringIDGenerator;
 import info.rolandkrueger.roklib.util.TernarySearchTreeMap;
 import info.rolandkrueger.roklib.util.tstmap.test.MapData.TestDataFixture;
@@ -33,8 +33,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Map.Entry;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
@@ -45,9 +45,9 @@ import org.junit.Test;
 public class TernarySearchTreeMapTest
 {
   private static final String NOT_IN_MAP = "not in map";
-  private static final String VALUE1 = "another value";
-  private static final String VALUE2 = "";
-  private static final String VALUE3 = "last value";
+  private static final String VALUE1     = "another value";
+  private static final String VALUE2     = "";
+  private static final String VALUE3     = "last value";
   private TernarySearchTreeMap<String> mTestObj, copy;
 
   @Before
@@ -245,7 +245,7 @@ public class TernarySearchTreeMapTest
       assertEquals (mTestObj, compareMap);
       assertEquals (testKeySet.size (), mTestObj.size ());
     }
-    
+
     assertTrue (mTestObj.isEmpty ());
   }
 
@@ -265,13 +265,13 @@ public class TernarySearchTreeMapTest
     assertTrue (mTestObj.isEmpty ());
   }
 
-  @Test (expected=IllegalArgumentException.class)
+  @Test (expected = IllegalArgumentException.class)
   public void testEntrySetValueNull ()
   {
     fillMaps ();
     mTestObj.getEntry (VALUE2).setValue (null);
   }
-  
+
   @Test
   public void testGetEntry ()
   {
@@ -282,21 +282,21 @@ public class TernarySearchTreeMapTest
     assertEquals (VALUE2, mTestObj.getEntry (VALUE2).getKey ());
     assertEquals (VALUE3, mTestObj.getEntry (VALUE3).getValue ());
     assertEquals (VALUE3, mTestObj.getEntry (VALUE3).getKey ());
-    
+
     for (Iterator<Map.Entry<CharSequence, String>> it = mTestObj.entrySet ().iterator (); it.hasNext ();)
     {
       Map.Entry<CharSequence, String> entry = it.next ();
       assertEquals (entry, mTestObj.getEntry (entry.getKey ()));
       assertFalse (mTestObj.getEntry (entry.getKey ()).equals (mTestObj));
     }
-  }  
-  
+  }
+
   @Test
   public void testGetKeyAt ()
   {
     fillMaps ();
     assertTrue (mTestObj.getKeyAt (1).equals (VALUE1)); // VALUE1 is the second value
-                                                   // due to the map's ordering
+    // due to the map's ordering
   }
 
   @Test
@@ -304,8 +304,8 @@ public class TernarySearchTreeMapTest
   {
     fillMaps ();
     assertTrue (mTestObj.getValueAt (1).equals (VALUE1)); // VALUE1 is the second
-                                                     // value due to the map's
-                                                     // ordering
+    // value due to the map's
+    // ordering
   }
 
   @Test
@@ -315,7 +315,7 @@ public class TernarySearchTreeMapTest
     assertEquals (0, mTestObj.indexOf (VALUE2));
     assertEquals (1, mTestObj.indexOf (VALUE1));
     assertEquals (2, mTestObj.indexOf (VALUE3));
-    assertEquals (- 1, mTestObj.indexOf (NOT_IN_MAP));
+    assertEquals (-1, mTestObj.indexOf (NOT_IN_MAP));
   }
 
   @Test
@@ -326,8 +326,8 @@ public class TernarySearchTreeMapTest
     assertEquals ("suomi", predecessor.getKey ());
     assertEquals ("salmiakki", predecessor.getValue ());
   }
-  
-  @Test (expected=ClassCastException.class)
+
+  @Test (expected = ClassCastException.class)
   public void testPredecessorEntryFailsWithIncorrectDataType ()
   {
     mTestObj.predecessorEntry (new Object ());
@@ -339,7 +339,7 @@ public class TernarySearchTreeMapTest
     fillMapWithFiveLowerCaseEntriesOrderingExpected ();
     assertNull (mTestObj.predecessorEntry ("deutschland"));
   }
-  
+
   @Test
   public void testPredecessorEntryWithKeyNotInMap ()
   {
@@ -349,12 +349,12 @@ public class TernarySearchTreeMapTest
     assertEquals ("france", predecessor.getKey ());
     assertEquals ("fromage", predecessor.getValue ());
   }
-  
+
   @Test
   public void testPredecessorEntryForFirstKey ()
   {
     fillMapWithFiveLowerCaseEntriesOrderingExpected ();
-    assertNull (mTestObj.predecessorEntry ("deutschland"));    
+    assertNull (mTestObj.predecessorEntry ("deutschland"));
   }
 
   @Test
@@ -365,7 +365,7 @@ public class TernarySearchTreeMapTest
     assertEquals ("england", successor.getKey ());
     assertEquals ("fishnchips", successor.getValue ());
   }
-  
+
   @Test
   public void testSuccessorEntryWithKeyNotInMap ()
   {
@@ -375,15 +375,15 @@ public class TernarySearchTreeMapTest
     assertEquals ("suomi", successor.getKey ());
     assertEquals ("salmiakki", successor.getValue ());
   }
-  
+
   @Test
   public void testSuccessorEntryForLastKey ()
   {
     fillMapWithFiveLowerCaseEntriesOrderingExpected ();
-    assertNull (mTestObj.successorEntry ("sverige"));    
+    assertNull (mTestObj.successorEntry ("sverige"));
   }
-  
-  @Test (expected=ClassCastException.class)
+
+  @Test (expected = ClassCastException.class)
   public void testSuccessorEntryFailsWithIncorrectDataType ()
   {
     mTestObj.successorEntry (new Object ());
@@ -395,14 +395,14 @@ public class TernarySearchTreeMapTest
     fillMapWithFiveLowerCaseEntriesOrderingExpected ();
     assertNull (mTestObj.successorEntry ("sverige"));
   }
-  
+
   @Test
   public void testPredecessorOfFirstElementIsNull ()
   {
     fillMapWithFiveLowerCaseEntriesOrderingExpected ();
     assertNull (mTestObj.predecessor (mTestObj.firstKey ()));
   }
-  
+
   @Test
   public void testPredecessorForKeysInSet ()
   {
@@ -412,22 +412,22 @@ public class TernarySearchTreeMapTest
     assertEquals ("england", mTestObj.predecessor ("espana"));
     assertEquals ("espana", mTestObj.predecessor ("france"));
   }
-  
+
   @Test
   public void testPredecessorForKeysNotInSet ()
   {
     fillMapWithFiveLowerCaseEntriesOrderingExpected ();
     assertEquals ("france", mTestObj.predecessor ("ghana"));
-    assertNull (mTestObj.predecessor ("australia"));    
+    assertNull (mTestObj.predecessor ("australia"));
   }
-  
+
   @Test
   public void testSuccessorOfLastElementIsNull ()
   {
     fillMapWithFiveLowerCaseEntriesOrderingExpected ();
     assertNull (mTestObj.successor (mTestObj.lastKey ()));
   }
-  
+
   @Test
   public void testSuccessorForKeysInSet ()
   {
@@ -435,7 +435,7 @@ public class TernarySearchTreeMapTest
     assertEquals ("england", mTestObj.successor ("deutschland"));
     assertEquals ("sverige", mTestObj.successor ("suomi"));
   }
-  
+
   @Test
   public void testSuccessorForKeysNotInSet ()
   {
@@ -465,15 +465,15 @@ public class TernarySearchTreeMapTest
     it = mTestObj.getPrefixMatch ("lasso").iterator ();
     assertEquals ("lasso", it.next ());
   }
-  
-  @Test (expected=IllegalStateException.class)
+
+  @Test (expected = IllegalStateException.class)
   public void testIteratorRemoveFail1 ()
   {
     fillMaps ();
     mTestObj.entrySet ().iterator ().remove ();
   }
-  
-  @Test (expected=IllegalStateException.class)
+
+  @Test (expected = IllegalStateException.class)
   public void testIteratorRemoveFail2 ()
   {
     fillMaps ();
@@ -482,23 +482,23 @@ public class TernarySearchTreeMapTest
     it.remove ();
     it.remove ();
   }
-  
-  @Test (expected=NoSuchElementException.class)
+
+  @Test (expected = NoSuchElementException.class)
   public void testIteratorRemoveFail3 ()
   {
     fillMaps ();
     Iterator<Map.Entry<CharSequence, String>> it = mTestObj.entrySet ().iterator ();
-    while (it.hasNext ()) it.next ();
+    while (it.hasNext ())
+      it.next ();
     it.remove ();
   }
-  
+
   private void fillMapWithFiveLowerCaseEntriesOrderingExpected ()
   {
     TestDataFixture testData = MapData.getFiveLowerCaseEntriesOrderingExpected ();
     mTestObj.putAll (testData.getData ());
   }
 
-  
   private void fillMaps ()
   {
     mTestObj.put (VALUE1, VALUE1);

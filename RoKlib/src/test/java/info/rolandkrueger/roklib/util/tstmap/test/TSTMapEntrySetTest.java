@@ -1,5 +1,4 @@
 /*
- * $Id: TSTMapEntrySetTest.java 208 2010-11-16 18:29:22Z roland $
  * Copyright (C) 2007 Roland Krueger
  * Created on 25.11.2009
  *
@@ -7,20 +6,17 @@
  *
  * This file is part of RoKlib.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public License
- * as published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package info.rolandkrueger.roklib.util.tstmap.test;
 
@@ -41,19 +37,19 @@ import org.junit.Test;
 
 public class TSTMapEntrySetTest
 {
-  private final static String KEY1 = "key1";
-  private final static String KEY2 = "key2";
-  private final static String KEY3 = "key3";
-  private final static String KEY4 = "key4";
-  private final static String EMPTY_KEY = "";
+  private final static String              KEY1      = "key1";
+  private final static String              KEY2      = "key2";
+  private final static String              KEY3      = "key3";
+  private final static String              KEY4      = "key4";
+  private final static String              EMPTY_KEY = "";
 
-  private final static String VALUE1 = "value1";
-  private final static String VALUE2 = "value2";
-  private final static String VALUE3 = "value3";
-  private final static String VALUE4 = "value4";
-  private final static String VALUE5 = "emptyKey";
+  private final static String              VALUE1    = "value1";
+  private final static String              VALUE2    = "value2";
+  private final static String              VALUE3    = "value3";
+  private final static String              VALUE4    = "value4";
+  private final static String              VALUE5    = "emptyKey";
 
-  private TernarySearchTreeMap<String> map;
+  private TernarySearchTreeMap<String>     map;
   private Set<Entry<CharSequence, String>> entrySet;
 
   @Before
