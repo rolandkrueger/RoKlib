@@ -44,6 +44,7 @@ import org.roklib.webapps.urldispatching.urlparameters.IURLParameter;
 public abstract class AbstractURLActionHandler implements IURLActionHandler
 {
   private static final long               serialVersionUID                = 8450975393827044559L;
+
   private static final String[]           STRING_ARRAY_PROTOTYPE          = new String[] {};
   private static final Logger             LOG                             = null;                // FIXME
   private List<CommandForCondition>       mCommandsForCondition;

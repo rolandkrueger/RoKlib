@@ -22,7 +22,8 @@ package org.roklib.collections;
 
 import java.util.SortedMap;
 
-public interface ITernarySearchTreeMap<V> extends SortedMap<CharSequence, V>, ITernarySearchTreeQuery
+
+interface ITernarySearchTreeMap<V> extends SortedMap<CharSequence, V>, ITernarySearchTreeQuery
 {
   public abstract Entry<CharSequence, V> getEntry (Object key);
 

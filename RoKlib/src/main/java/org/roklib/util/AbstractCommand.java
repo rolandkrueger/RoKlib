@@ -20,7 +20,7 @@
  */
 package org.roklib.util;
 
-import org.roklib.util.data.EnhancedReturnType;
+import org.roklib.data.EnhancedReturnType;
 
 public abstract class AbstractCommand<T_ResultType> implements Runnable
 {

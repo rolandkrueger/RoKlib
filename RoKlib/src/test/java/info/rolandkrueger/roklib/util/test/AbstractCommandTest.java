@@ -24,8 +24,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.data.EnhancedReturnType;
 import org.roklib.util.AbstractCommand;
-import org.roklib.util.data.EnhancedReturnType;
 
 public class AbstractCommandTest
 {

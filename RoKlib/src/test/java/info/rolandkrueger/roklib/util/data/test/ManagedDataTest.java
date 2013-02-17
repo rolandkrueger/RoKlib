@@ -26,8 +26,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.util.data.ManagedData;
-import org.roklib.util.data.ManagedData.StatusEnum;
+import org.roklib.data.ManagedData;
+import org.roklib.data.ManagedData.StatusEnum;
 
 public class ManagedDataTest
 {
