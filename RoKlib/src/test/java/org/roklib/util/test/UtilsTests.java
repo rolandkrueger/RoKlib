@@ -24,6 +24,8 @@ package org.roklib.util.test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import org.roklib.collections.tstmap.TernarySearchTreeMapTests;
+import org.roklib.data.test.ManagedDataTest;
 import org.roklib.util.authorization.test.AdmissionTicketContainerTest;
 import org.roklib.util.bool.test.AndOperationTest;
 import org.roklib.util.bool.test.IdentityOperationTest;
@@ -36,14 +38,12 @@ import org.roklib.util.conditionalengine.test.BoolExpressionBuilderTest;
 import org.roklib.util.conditionalengine.test.BooleanOperationTest;
 import org.roklib.util.conditionalengine.test.ConditionTest;
 import org.roklib.util.conditionalengine.test.ExternalConditionTest;
-import org.roklib.util.data.test.ManagedDataTest;
 import org.roklib.util.groupvisibility.test.RadioComponentGroupManagerTest;
 import org.roklib.util.groupvisibility.test.VisibilityGroupManagerTest;
 import org.roklib.util.groupvisibility.test.VisibilityGroupTest;
 import org.roklib.util.helper.test.CheckForNullTest;
 import org.roklib.util.helper.test.StopWatchTest;
 import org.roklib.util.state.test.StateTest;
-import org.roklib.util.tstmap.TernarySearchTreeMapTests;
 
 @RunWith (Suite.class)
 @SuiteClasses ({ TernarySearchTreeMapTests.class, StopWatchTest.class, CheckForNullTest.class,
