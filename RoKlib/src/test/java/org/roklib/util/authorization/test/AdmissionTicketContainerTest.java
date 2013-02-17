@@ -25,8 +25,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.util.authorization.AdmissionTicketContainer;
-import org.roklib.util.authorization.IAdmissionTicket;
+import org.roklib.webapps.authorization.AdmissionTicketContainer;
+import org.roklib.webapps.authorization.IAdmissionTicket;
 
 public class AdmissionTicketContainerTest
 {

@@ -20,7 +20,7 @@
  */
 package org.roklib.webapps.data.usermgmt;
 
-import org.roklib.util.authorization.IAdmissionTicket;
+import org.roklib.webapps.authorization.IAdmissionTicket;
 import org.roklib.webapps.data.GenericPersistableObject;
 
 public class UserRole<KeyClass> extends GenericPersistableObject<KeyClass> implements IAdmissionTicket

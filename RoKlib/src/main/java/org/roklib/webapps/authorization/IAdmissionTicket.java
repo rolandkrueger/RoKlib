@@ -18,7 +18,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.util.authorization;
+package org.roklib.webapps.authorization;
 
 import java.io.Serializable;
 

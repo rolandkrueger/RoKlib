@@ -40,10 +40,10 @@ import org.roklib.conditional.groupvisibility.test.RadioComponentGroupManagerTes
 import org.roklib.conditional.groupvisibility.test.VisibilityGroupManagerTest;
 import org.roklib.conditional.groupvisibility.test.VisibilityGroupTest;
 import org.roklib.data.test.ManagedDataTest;
+import org.roklib.state.test.StateTest;
 import org.roklib.util.authorization.test.AdmissionTicketContainerTest;
 import org.roklib.util.helper.test.CheckForNullTest;
 import org.roklib.util.helper.test.StopWatchTest;
-import org.roklib.util.state.test.StateTest;
 
 @RunWith (Suite.class)
 @SuiteClasses ({ TernarySearchTreeMapTests.class, StopWatchTest.class, CheckForNullTest.class,

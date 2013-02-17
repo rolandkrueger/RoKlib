@@ -26,11 +26,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.roklib.util.authorization.AdmissionTicketContainer;
+import org.roklib.state.State.StateValue;
 import org.roklib.util.helper.CheckForNull;
-import org.roklib.util.state.State.StateValue;
 import org.roklib.webapps.actions.DefaultPasswordMD5HashGenerator;
 import org.roklib.webapps.actions.interfaces.IPasswordHashGenerator;
+import org.roklib.webapps.authorization.AdmissionTicketContainer;
 import org.roklib.webapps.data.GenericPersistableObject;
 import org.roklib.webapps.state.GenericUserState;
 

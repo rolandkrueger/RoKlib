@@ -18,8 +18,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.util.state;
-
+package org.roklib.state;
 
 import java.io.Serializable;
 
@@ -48,7 +47,7 @@ public class State<S extends State<?>> implements Serializable
       return mName;
     }
 
-    @SuppressWarnings ({ "unchecked", "rawtypes" })
+    @SuppressWarnings ("rawtypes")
     @Override
     public boolean equals (Object obj)
     {
@@ -154,7 +153,6 @@ public class State<S extends State<?>> implements Serializable
     return mCurrentState.hashCode ();
   }
 
-  @SuppressWarnings ("unchecked")
   @Override
   public boolean equals (Object obj)
   {
@@ -166,6 +164,7 @@ public class State<S extends State<?>> implements Serializable
       return false;
     if (obj instanceof State)
     {
+      @SuppressWarnings ("rawtypes")
       State other = (State) obj;
       if (other.mCurrentState == null)
         return false;

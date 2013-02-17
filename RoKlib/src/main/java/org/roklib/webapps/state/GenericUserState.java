@@ -20,7 +20,7 @@
  */
 package org.roklib.webapps.state;
 
-import org.roklib.util.state.State;
+import org.roklib.state.State;
 
 public class GenericUserState extends State<GenericUserState>
 {

@@ -21,9 +21,9 @@
 package org.roklib.conditional.engine.conditions;
 
 import org.roklib.conditional.bool.IBooleanValueProvider;
+import org.roklib.state.State;
+import org.roklib.state.State.StateValue;
 import org.roklib.util.helper.CheckForNull;
-import org.roklib.util.state.State;
-import org.roklib.util.state.State.StateValue;
 
 public class HasState<S extends State<?>> implements IBooleanValueProvider
 {
