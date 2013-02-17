@@ -7,7 +7,7 @@
 
 <!-- VARIABLE DEFINITIONS FOR CHAPTER "Conditional Engine" -->
 
-<!ENTITY classname_BooleanExpression_full "<classname>info.rolandkrueger.roklib.util.conditionalengine.BooleanExpression</classname>">
+<!ENTITY classname_BooleanExpression_full "<classname>org.roklib.util.conditionalengine.BooleanExpression</classname>">
 <!ENTITY classname_BooleanExpression      "<classname>BooleanExpression</classname>">
 
 <!ENTITY interface_IBooleanOperation      "<interfacename>IBooleanOperation</interfacename>">
@@ -23,22 +23,22 @@
 <!ENTITY classname_BoolExpressionBuilder "<classname>BoolExpressionBuilder</classname>">
 
 
-<!ENTITY package_bool              "<package>info.rolandkrueger.roklib.util.bool</package>">
-<!ENTITY package_conditionalengine "<package>info.rolandkrueger.roklib.util.conditionalengine</package>">
+<!ENTITY package_bool              "<package>org.roklib.util.bool</package>">
+<!ENTITY package_conditionalengine "<package>org.roklib.util.conditionalengine</package>">
 
 <!-- VARIABLE DEFINITIONS FOR CHAPTER "Component Group Visibility and Enablement" -->
 
-<!ENTITY package_enablement "<package>info.rolandkrueger.roklib.util.groupvisibility</package>" >
+<!ENTITY package_enablement "<package>org.roklib.util.groupvisibility</package>" >
 
-<!ENTITY classname_VisibilityGroupManager_full "<classname>info.rolandkrueger.roklib.util.groupvisibility.VisibilityGroupManager</classname>">
+<!ENTITY classname_VisibilityGroupManager_full "<classname>org.roklib.util.groupvisibility.VisibilityGroupManager</classname>">
 <!ENTITY classname_VisibilityGroupManager      "<classname>VisibilityGroupManager</classname>">
-<!ENTITY interface_IVisibilityEnablingConfigurable_full "<interfacename>info.rolandkrueger.roklib.util.groupvisibility.IVisibilityEnablingConfigurable</interfacename>">
+<!ENTITY interface_IVisibilityEnablingConfigurable_full "<interfacename>org.roklib.util.groupvisibility.IVisibilityEnablingConfigurable</interfacename>">
 <!ENTITY interface_IVisibilityEnablingConfigurable      "<interfacename>IVisibilityEnablingConfigurable</interfacename>">
 <!ENTITY IVisibilityEnablingConfigurable      "IVisibilityEnablingConfigurable">
 
 <!-- VARIABLE DEFINITIONS FOR CHAPTER "URL Action Handling Framework" -->
 
-<!ENTITY package_urldispatching "<package>info.rolandkrueger.roklib.webapps.urldispatching</package>" >
+<!ENTITY package_urldispatching "<package>org.roklib.webapps.urldispatching</package>" >
 <!ENTITY classname_AbstractURLActionHandler "<classname>AbstractURLActionHandler</classname>">
 <!ENTITY classname_DispatchingURLActionHandler "<classname>DispatchingURLActionHandler</classname>">
 <!ENTITY classname_SimpleURLActionHandler "<classname>SimpleURLActionHandler</classname>">
