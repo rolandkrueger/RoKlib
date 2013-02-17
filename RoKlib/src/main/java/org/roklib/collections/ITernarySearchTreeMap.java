@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2007 Roland Krueger
+ * Copyright (C) 2007 - 2013 Roland Krüger
  * Created on 14.11.2010
  *
- * Author: Roland Krueger (www.rolandkrueger.info)
+ * Author: Roland Krüger (www.rolandkrueger.info)
  *
  * This file is part of RoKlib.
  *
@@ -21,7 +21,6 @@
 package org.roklib.collections;
 
 import java.util.SortedMap;
-
 
 interface ITernarySearchTreeMap<V> extends SortedMap<CharSequence, V>, ITernarySearchTreeQuery
 {
