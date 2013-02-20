@@ -34,8 +34,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.roklib.net.IURLProvider;
-import org.roklib.util.helper.CheckForNull;
 import org.roklib.webapps.data.DownloadInfo;
 import org.roklib.webapps.uridispatching.IURIActionHandler.ParameterMode;
 import org.slf4j.Logger;
@@ -80,14 +78,10 @@ public class URIActionDispatcher implements Serializable
   private DispatchingURIActionHandler  mRootDispatcher;
   private IURIActionDispatcherListener mListener;
   private ParameterMode                mParameterMode   = ParameterMode.QUERY;
-  private IURLProvider                 mURLProvider;
   private boolean                      mIgnoreExclamationMark;
 
-  public URIActionDispatcher (IURLProvider urlProvider, boolean useCaseSensitiveURIs)
+  public URIActionDispatcher (boolean useCaseSensitiveURIs)
   {
-    CheckForNull.check (urlProvider);
-    mURLProvider = urlProvider;
-
     if (useCaseSensitiveURIs)
     {
       mCurrentParameters = new HashMap<String, List<String>> ();
@@ -100,12 +94,6 @@ public class URIActionDispatcher implements Serializable
     mRootDispatcher.setParent (new AbstractURIActionHandler ("")
     {
       private static final long serialVersionUID = 3744506992900879054L;
-
-      @Override
-      protected IURLProvider getContextURLProvider ()
-      {
-        return mURLProvider;
-      }
 
       protected AbstractURIActionCommand handleURIImpl (List<String> uriTokens, Map<String, List<String>> parameters,
           ParameterMode parameterMode)

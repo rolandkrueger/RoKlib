@@ -31,10 +31,9 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.net.IURLProvider;
 import org.roklib.webapps.uridispatching.DispatchingURIActionHandler;
-import org.roklib.webapps.uridispatching.URIActionDispatcher;
 import org.roklib.webapps.uridispatching.IURIActionHandler.ParameterMode;
+import org.roklib.webapps.uridispatching.URIActionDispatcher;
 import org.roklib.webapps.uridispatching.parameters.EnumURIParameterErrors;
 import org.roklib.webapps.uridispatching.parameters.SingleBooleanURIParameter;
 import org.roklib.webapps.uridispatching.parameters.SingleIntegerURIParameter;
@@ -69,33 +68,8 @@ public class AbstractURIActionHandlerTest
   @Before
   public void setUp ()
   {
-    mDispatcher = new URIActionDispatcher (new IURLProvider ()
-    {
-      public URL getURL ()
-      {
-        try
-        {
-          return new URL ("http://localhost:8080");
-        } catch (MalformedURLException e)
-        {
-          throw new RuntimeException (e);
-        }
-      }
-    }, false);
-
-    mCaseSensitiveDispatcher = new URIActionDispatcher (new IURLProvider ()
-    {
-      public URL getURL ()
-      {
-        try
-        {
-          return new URL ("http://localhost:8080");
-        } catch (MalformedURLException e)
-        {
-          throw new RuntimeException (e);
-        }
-      }
-    }, true);
+    mDispatcher = new URIActionDispatcher (false);
+    mCaseSensitiveDispatcher = new URIActionDispatcher (true);
 
     mURLParameter = new SingleStringURIParameter ("PARAmeter");
     mURLParameter2 = new SingleBooleanURIParameter ("bool");
@@ -231,38 +205,35 @@ public class AbstractURIActionHandlerTest
   @Test
   public void testAddActionArgument ()
   {
-    assertEquals ("http://localhost:8080/test/abc", mTestHandler1.getParameterizedActionURI (true).toString ());
+    assertEquals ("/test/abc", mTestHandler1.getParameterizedActionURI (true).toString ());
     mTestHandler1.addActionArgument ("id", 1234);
-    assertEquals ("http://localhost:8080/test/abc?id=1234", mTestHandler1.getParameterizedActionURI (false).toString ());
+    assertEquals ("/test/abc?id=1234", mTestHandler1.getParameterizedActionURI (false).toString ());
     mTestHandler1.addActionArgument ("id", 9999);
-    assertEquals ("http://localhost:8080/test/abc?id=1234&id=9999", mTestHandler1.getParameterizedActionURI (true)
-        .toString ());
+    assertEquals ("/test/abc?id=1234&id=9999", mTestHandler1.getParameterizedActionURI (true).toString ());
 
     mTestHandler2.addActionArgument ("v", 1, 2, 3);
-    assertEquals ("http://localhost:8080/test/123?v=1&v=2&v=3", mTestHandler2.getParameterizedActionURI (false)
-        .toString ());
+    assertEquals ("/test/123?v=1&v=2&v=3", mTestHandler2.getParameterizedActionURI (false).toString ());
     mTestHandler2.addActionArgument ("test", true);
-    assertEquals ("http://localhost:8080/test/123?v=1&v=2&v=3&test=true", mTestHandler2
-        .getParameterizedActionURI (true).toString ());
+    assertEquals ("/test/123?v=1&v=2&v=3&test=true", mTestHandler2.getParameterizedActionURI (true).toString ());
 
     // test DIRECTORY_WITH_NAMES parameter mode
     mTestHandler1.addActionArgument ("id", 1234);
     mTestHandler1.addActionArgument ("param", "value_a", "value_b");
-    assertEquals ("http://localhost:8080/test/abc/id/1234/param/value_a/param/value_b", mTestHandler1
-        .getParameterizedActionURI (true, ParameterMode.DIRECTORY_WITH_NAMES).toString ());
+    assertEquals ("/test/abc/id/1234/param/value_a/param/value_b",
+        mTestHandler1.getParameterizedActionURI (true, ParameterMode.DIRECTORY_WITH_NAMES).toString ());
 
     // test DIRECTORY parameter mode (parameter names are not contained in URL)
     mTestHandler2.addActionArgument ("id", 1234);
     mTestHandler2.addActionArgument ("param", "value");
-    assertEquals ("http://localhost:8080/test/123/1234/value",
-        mTestHandler2.getParameterizedActionURI (true, ParameterMode.DIRECTORY).toString ());
+    assertEquals ("/test/123/1234/value", mTestHandler2.getParameterizedActionURI (true, ParameterMode.DIRECTORY)
+        .toString ());
 
     // test that parameters appear in the order they were added in the URL
     mTestHandler1.clearActionArguments ();
     mTestHandler1.addActionArgument ("first", "1");
     mTestHandler1.addActionArgument ("second", "2");
     mTestHandler1.addActionArgument ("third", "3");
-    assertEquals ("http://localhost:8080/test/abc?first=1&second=2&third=3",
+    assertEquals ("/test/abc?first=1&second=2&third=3",
         mTestHandler1.getParameterizedActionURI (true, ParameterMode.QUERY).toString ());
   }
 
@@ -271,10 +242,9 @@ public class AbstractURIActionHandlerTest
   {
     mTestHandler1.addActionArgument ("v", 1, 2, 3);
     mTestHandler1.addActionArgument ("test", true);
-    assertEquals ("http://localhost:8080/test/abc?v=1&v=2&v=3&test=true", mTestHandler1
-        .getParameterizedActionURI (true).toString ());
+    assertEquals ("/test/abc?v=1&v=2&v=3&test=true", mTestHandler1.getParameterizedActionURI (true).toString ());
     mTestHandler1.clearActionArguments ();
-    assertEquals ("http://localhost:8080/test/abc", mTestHandler1.getParameterizedActionURI (true).toString ());
+    assertEquals ("/test/abc", mTestHandler1.getParameterizedActionURI (true).toString ());
   }
 
   @Test
@@ -392,13 +362,6 @@ public class AbstractURIActionHandlerTest
   public void testAddSubHandlerTwice ()
   {
     mTestHandler1.addSubHandler (mTestHandler2);
-  }
-
-  @Test (expected = IllegalStateException.class)
-  public void testGetApplicationFail ()
-  {
-    TURIActionHandler testHandler = new TURIActionHandler ("", null);
-    testHandler.getParameterizedActionURI (true);
   }
 
   @Test

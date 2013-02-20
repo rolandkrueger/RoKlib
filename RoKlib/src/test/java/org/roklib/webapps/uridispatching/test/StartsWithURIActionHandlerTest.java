@@ -27,7 +27,6 @@ import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.net.IURLProvider;
 import org.roklib.webapps.uridispatching.RegexURIActionHandler;
 import org.roklib.webapps.uridispatching.StartsWithURIActionHandler;
 import org.roklib.webapps.uridispatching.URIActionDispatcher;
@@ -54,19 +53,7 @@ public class StartsWithURIActionHandlerTest
   public void setUp () throws MalformedURLException
   {
     mContext = new URL ("http://localhost");
-    mDispatcher = new URIActionDispatcher (new IURLProvider ()
-    {
-      public URL getURL ()
-      {
-        try
-        {
-          return new URL ("http://localhost:8080");
-        } catch (MalformedURLException e)
-        {
-          throw new RuntimeException (e);
-        }
-      }
-    }, false);
+    mDispatcher = new URIActionDispatcher (false);
 
     mTestActionCommand = new TURIActionCommand ();
     mTestActionHandler = new TURIActionHandler ("testhandler", mTestActionCommand);

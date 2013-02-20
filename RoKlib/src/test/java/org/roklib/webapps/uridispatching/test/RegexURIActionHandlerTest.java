@@ -28,7 +28,6 @@ import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.net.IURLProvider;
 import org.roklib.webapps.uridispatching.DispatchingURIActionHandler;
 import org.roklib.webapps.uridispatching.RegexURIActionHandler;
 import org.roklib.webapps.uridispatching.URIActionDispatcher;
@@ -63,19 +62,7 @@ public class RegexURIActionHandlerTest
   public void setUp () throws MalformedURLException
   {
     mContext = new URL ("http://localhost");
-    mDispatcher = new URIActionDispatcher (new IURLProvider ()
-    {
-      public URL getURL ()
-      {
-        try
-        {
-          return new URL ("http://localhost:8080");
-        } catch (MalformedURLException e)
-        {
-          throw new RuntimeException (e);
-        }
-      }
-    }, false);
+    mDispatcher = new URIActionDispatcher (false);
 
     mTestActionCommand = new TURIActionCommand ();
     mTtestActionHandler = new TURIActionHandler ("1test_x", mTestActionCommand);
@@ -169,11 +156,9 @@ public class RegexURIActionHandlerTest
   public void testGetParameterizedActionURI ()
   {
     mRegexActionHandler2.setURIToken ("17test_23some_value");
-    assertEquals ("http://localhost:8080/17test_23some_value/middle/last", mLastActionHandler
-        .getParameterizedActionURI (true).toString ());
+    assertEquals ("/17test_23some_value/middle/last", mLastActionHandler.getParameterizedActionURI (true).toString ());
     mRegexActionHandler2.setURIToken ("99test_9999");
-    assertEquals ("http://localhost:8080/99test_9999/middle/last", mLastActionHandler.getParameterizedActionURI (true)
-        .toString ());
+    assertEquals ("/99test_9999/middle/last", mLastActionHandler.getParameterizedActionURI (true).toString ());
   }
 
   @Test (expected = IllegalArgumentException.class)

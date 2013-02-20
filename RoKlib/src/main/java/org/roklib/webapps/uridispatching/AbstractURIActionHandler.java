@@ -22,8 +22,8 @@ package org.roklib.webapps.uridispatching;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Collections;
@@ -35,7 +35,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.roklib.conditional.engine.AbstractCondition;
-import org.roklib.net.IURLProvider;
 import org.roklib.util.helper.CheckForNull;
 import org.roklib.webapps.uridispatching.parameters.EnumURIParameterErrors;
 import org.roklib.webapps.uridispatching.parameters.IURIParameter;
@@ -342,35 +341,17 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler
     mParentHandler = parent;
   }
 
-  protected IURLProvider getContextURLProvider ()
-  {
-    if (mParentHandler != null)
-    {
-      return mParentHandler.getContextURLProvider ();
-    } else
-    {
-      throw new IllegalStateException ("Unable to provide IURLProvider object: this URL "
-          + "action handler or one of its ancestors hasn't yet been added to a " + URIActionDispatcher.class.getName ());
-    }
-  }
-
-  public URL getParameterizedActionURI (boolean clearAfterwards)
+  public URI getParameterizedActionURI (boolean clearAfterwards)
   {
     return getParameterizedActionURI (clearAfterwards, ParameterMode.QUERY);
   }
 
-  public URL getParameterizedActionURI (boolean clearAfterwards, ParameterMode parameterMode)
+  public URI getParameterizedActionURI (boolean clearAfterwards, ParameterMode parameterMode)
   {
     return getParameterizedActionURI (clearAfterwards, parameterMode, false);
   }
 
-  public URL getParameterizedActionURI (boolean clearAfterwards, ParameterMode parameterMode, boolean addHashMark)
-  {
-    return getParameterizedActionURI (clearAfterwards, parameterMode, addHashMark, null);
-  }
-
-  public URL getParameterizedActionURI (boolean clearAfterwards, ParameterMode parameterMode, boolean addHashMark,
-      URL baseURL)
+  public URI getParameterizedActionURI (boolean clearAfterwards, ParameterMode parameterMode, boolean addHashMark)
   {
     StringBuilder buf = new StringBuilder ();
     if (addHashMark)
@@ -425,9 +406,8 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler
 
     try
     {
-      URL url = baseURL == null ? getContextURLProvider ().getURL () : baseURL;
-      return new URL (url, buf.toString ());
-    } catch (MalformedURLException e)
+      return new URI (buf.toString ());
+    } catch (URISyntaxException e)
     {
       throw new RuntimeException ("Unable to create URL object.", e);
     } finally
