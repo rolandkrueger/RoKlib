@@ -24,8 +24,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,27 +40,16 @@ import org.roklib.webapps.uridispatching.parameters.SingleStringURIParameter;
 public class AbstractURIActionHandlerTest
 {
   private URIActionDispatcher         mDispatcher;
-
   private TURIActionHandler           mTestHandler1;
-
   private TURIActionHandler           mTestHandler2;
-
   private TURIActionHandler           mTestHandler3;
-
   private DispatchingURIActionHandler mDispatchingHandler;
-
   private TURIActionCommand           mTestCommand1;
-
   private TURIActionCommand           mTestCommand2;
-
   private SingleStringURIParameter    mURLParameter;
-
   private SingleBooleanURIParameter   mURLParameter2;
-
   private DispatchingURIActionHandler mCaseSensitiveDispatchingHandler;
-
   private URIActionDispatcher         mCaseSensitiveDispatcher;
-
   private TURIActionHandler           mCaseSensitiveTestHandler1;
 
   @Before
@@ -94,111 +81,109 @@ public class AbstractURIActionHandlerTest
   }
 
   @Test
-  public void testAddDefaultCommandForCondition () throws MalformedURLException
+  public void testAddDefaultCommandForCondition ()
   {
     TURIActionCommand defaultCommand = new TURIActionCommand ();
     TCondition condition = new TCondition (true);
     mTestHandler1.addDefaultCommandForCondition (defaultCommand, condition);
     // use different case to test case insensitivity
-    mDispatcher.handleURIAction (new URL ("http://localhost"), "Test/ABC");
+    mDispatcher.handleURIAction ("Test/ABC");
     assertTrue (defaultCommand.mExecuted);
     condition = new TCondition (false);
     defaultCommand = new TURIActionCommand ();
     mTestHandler2.addDefaultCommandForCondition (defaultCommand, condition);
-    mDispatcher.handleURIAction (new URL ("http://localhost"), "test/123");
+    mDispatcher.handleURIAction ("test/123");
     assertFalse (defaultCommand.mExecuted);
   }
 
   @Test
-  public void testClearDefaultCommands () throws MalformedURLException
+  public void testClearDefaultCommands ()
   {
     TURIActionCommand defaultCommand = new TURIActionCommand ();
     TCondition condition = new TCondition (true);
     mTestHandler1.addDefaultCommandForCondition (defaultCommand, condition);
     mTestHandler1.clearDefaultCommands ();
     // use different case to test case insensitivity
-    mDispatcher.handleURIAction (new URL ("http://localhost"), "TEST/Abc");
+    mDispatcher.handleURIAction ("TEST/Abc");
     assertFalse (defaultCommand.mExecuted);
   }
 
   @Test
-  public void test404CommandExecution () throws MalformedURLException
+  public void test404CommandExecution ()
   {
     TURIActionCommand test404ActionCommand = new TURIActionCommand ();
-    mDispatcher.set404FileNotFoundCommand (test404ActionCommand);
-    mDispatcher.handleURIAction (new URL ("http://localhost"), "test/123");
+    mDispatcher.setDefaultCommand (test404ActionCommand);
+    mDispatcher.handleURIAction ("test/123");
     assertFalse (test404ActionCommand.mExecuted);
-    mDispatcher.handleURIAction (new URL ("http://localhost"), "no/actionhandler/registered");
+    mDispatcher.handleURIAction ("no/actionhandler/registered");
     assertTrue (test404ActionCommand.mExecuted);
   }
 
   @Test
-  public void testDirectoryModeParameterEvaluation () throws MalformedURLException
+  public void testDirectoryModeParameterEvaluation ()
   {
-    mDispatcher.handleURIAction (new URL ("http://localhost"), "TEST/ABC/parameterValue/true", ParameterMode.DIRECTORY);
+    mDispatcher.handleURIAction ("TEST/ABC/parameterValue/true", ParameterMode.DIRECTORY);
     assertEquals ("parameterValue", mURLParameter.getValue ());
     assertEquals (true, mURLParameter2.getValue ());
   }
 
   @Test
-  public void testDirectoryModeWithNamesParameterEvaluation () throws MalformedURLException
+  public void testDirectoryModeWithNamesParameterEvaluation ()
   {
-    mDispatcher.handleURIAction (new URL ("http://localhost"), "TEST/ABC/bool/true/PARAmeter/parameterValue",
-        ParameterMode.DIRECTORY_WITH_NAMES);
+    mDispatcher.handleURIAction ("TEST/ABC/bool/true/PARAmeter/parameterValue", ParameterMode.DIRECTORY_WITH_NAMES);
     assertEquals ("parameterValue", mURLParameter.getValue ());
     assertEquals (true, mURLParameter2.getValue ());
   }
 
   @Test
-  public void testDirectoryModeWithMissingValuesParameterEvaluation () throws MalformedURLException
+  public void testDirectoryModeWithMissingValuesParameterEvaluation ()
   {
-    mDispatcher.handleURIAction (new URL ("http://localhost"), "TEST/ABC/bool/true/",
-        ParameterMode.DIRECTORY_WITH_NAMES);
+    mDispatcher.handleURIAction ("TEST/ABC/bool/true/", ParameterMode.DIRECTORY_WITH_NAMES);
     assertFalse (mURLParameter.hasValue ());
     assertEquals (true, mURLParameter2.getValue ());
   }
 
   @Test
-  public void testCaseInsensitiveParameterHandling () throws MalformedURLException
+  public void testCaseInsensitiveParameterHandling ()
   {
     Map<String, String[]> parameters = new HashMap<String, String[]> ();
     parameters.put ("parameter", new String[] { "parameterValue" });
     mDispatcher.handleParameters (parameters);
-    mDispatcher.handleURIAction (new URL ("http://localhost"), "TEST/ABC");
+    mDispatcher.handleURIAction ("TEST/ABC");
     assertEquals ("parameterValue", mURLParameter.getValue ());
   }
 
   @Test
-  public void testCaseSensitiveParameterHandling () throws MalformedURLException
+  public void testCaseSensitiveParameterHandling ()
   {
     Map<String, String[]> parameters = new HashMap<String, String[]> ();
     parameters.put ("PARAmeter", new String[] { "parameterValue" });
     mCaseSensitiveDispatcher.handleParameters (parameters);
-    mCaseSensitiveDispatcher.handleURIAction (new URL ("http://localhost"), "TEST/ABC");
+    mCaseSensitiveDispatcher.handleURIAction ("TEST/ABC");
     assertEquals ("parameterValue", mURLParameter.getValue ());
   }
 
   @Test
-  public void testCaseSensitiveParameterHandlingFail () throws MalformedURLException
+  public void testCaseSensitiveParameterHandlingFail ()
   {
     Map<String, String[]> parameters = new HashMap<String, String[]> ();
     parameters.put ("parameter", new String[] { "parameterValue" });
     mCaseSensitiveDispatcher.handleParameters (parameters);
-    mCaseSensitiveDispatcher.handleURIAction (new URL ("http://localhost"), "TEST/ABC");
+    mCaseSensitiveDispatcher.handleURIAction ("TEST/ABC");
     assertNotSame ("parameterValue", mURLParameter.getValue ());
   }
 
   @Test
-  public void testCaseSensitiveActionHandling () throws MalformedURLException
+  public void testCaseSensitiveActionHandling ()
   {
-    mCaseSensitiveDispatcher.handleURIAction (new URL ("http://localhost"), "TEST/ABC");
+    mCaseSensitiveDispatcher.handleURIAction ("TEST/ABC");
     assertTrue (mTestCommand1.mExecuted);
   }
 
   @Test
-  public void testCaseSensitiveActionHandlingFails () throws MalformedURLException
+  public void testCaseSensitiveActionHandlingFails ()
   {
-    mCaseSensitiveDispatcher.handleURIAction (new URL ("http://localhost"), "test/ABC");
+    mCaseSensitiveDispatcher.handleURIAction ("test/ABC");
     assertFalse (mTestCommand1.mExecuted);
   }
 
@@ -248,7 +233,7 @@ public class AbstractURIActionHandlerTest
   }
 
   @Test
-  public void testMandatoryParameters () throws MalformedURLException
+  public void testMandatoryParameters ()
   {
     SingleStringURIParameter parameter1 = new SingleStringURIParameter ("param");
     parameter1.setOptional (false);
@@ -261,7 +246,7 @@ public class AbstractURIActionHandlerTest
 
     // set only one parameter, but do not set the second, mandatory parameter
     mDispatcher.handleParameters (parameters);
-    mDispatcher.handleURIAction (new URL ("http://localhost"), "test/cmd");
+    mDispatcher.handleURIAction ("test/cmd");
     assertTrue (mTestHandler3.haveRegisteredURIParametersErrors ());
     assertEquals (parameter1.getError (), EnumURIParameterErrors.NO_ERROR);
     assertEquals (parameter2.getError (), EnumURIParameterErrors.PARAMETER_NOT_FOUND);
@@ -269,14 +254,14 @@ public class AbstractURIActionHandlerTest
     // now also set the second parameter
     parameters.put ("arg", new String[] { "argumentValue" });
     mDispatcher.handleParameters (parameters);
-    mDispatcher.handleURIAction (new URL ("http://localhost"), "test/cmd");
+    mDispatcher.handleURIAction ("test/cmd");
     assertFalse (mTestHandler3.haveRegisteredURIParametersErrors ());
     assertEquals (parameter1.getError (), EnumURIParameterErrors.NO_ERROR);
     assertEquals (parameter2.getError (), EnumURIParameterErrors.NO_ERROR);
   }
 
   @Test
-  public void testOptionalParameters () throws MalformedURLException
+  public void testOptionalParameters ()
   {
     SingleStringURIParameter parameter1 = new SingleStringURIParameter ("param");
     parameter1.setOptional (false);
@@ -289,7 +274,7 @@ public class AbstractURIActionHandlerTest
 
     // set only one parameter, but do not set the second, optional parameter
     mDispatcher.handleParameters (parameters);
-    mDispatcher.handleURIAction (new URL ("http://localhost"), "test/cmd");
+    mDispatcher.handleURIAction ("test/cmd");
     assertFalse (mTestHandler3.haveRegisteredURIParametersErrors ());
     assertEquals (parameter1.getError (), EnumURIParameterErrors.NO_ERROR);
     assertEquals (parameter2.getError (), EnumURIParameterErrors.NO_ERROR);
@@ -298,7 +283,7 @@ public class AbstractURIActionHandlerTest
   }
 
   @Test
-  public void testMandatoryParametersWithDefaultValue () throws MalformedURLException
+  public void testMandatoryParametersWithDefaultValue ()
   {
     SingleStringURIParameter parameter1 = new SingleStringURIParameter ("param");
     parameter1.setOptional (false);
@@ -312,7 +297,7 @@ public class AbstractURIActionHandlerTest
 
     // set only one parameter, but do not set the second, mandatory parameter
     mDispatcher.handleParameters (parameters);
-    mDispatcher.handleURIAction (new URL ("http://localhost"), "test/cmd");
+    mDispatcher.handleURIAction ("test/cmd");
     assertFalse (mTestHandler3.haveRegisteredURIParametersErrors ());
     assertEquals (parameter1.getError (), EnumURIParameterErrors.NO_ERROR);
     assertEquals (parameter2.getError (), EnumURIParameterErrors.NO_ERROR);
@@ -325,14 +310,14 @@ public class AbstractURIActionHandlerTest
     // now also set the second parameter
     parameters.put ("arg", new String[] { "argumentValue" });
     mDispatcher.handleParameters (parameters);
-    mDispatcher.handleURIAction (new URL ("http://localhost"), "test/cmd");
+    mDispatcher.handleURIAction ("test/cmd");
     assertFalse (mTestHandler3.haveRegisteredURIParametersErrors ());
     assertEquals (parameter1.getValue (), "parameterValue");
     assertEquals (parameter2.getValue (), "argumentValue");
   }
 
   @Test
-  public void testOptionalParameterWithConversionError () throws MalformedURLException
+  public void testOptionalParameterWithConversionError ()
   {
     SingleIntegerURIParameter parameter = new SingleIntegerURIParameter ("int");
     parameter.setOptional (true);
@@ -341,7 +326,7 @@ public class AbstractURIActionHandlerTest
     Map<String, String[]> parameters = new HashMap<String, String[]> ();
     parameters.put ("int", new String[] { "one" });
     mDispatcher.handleParameters (parameters);
-    mDispatcher.handleURIAction (new URL ("http://localhost"), "test/cmd");
+    mDispatcher.handleURIAction ("test/cmd");
     assertTrue (mTestHandler3.haveRegisteredURIParametersErrors ());
     assertEquals (parameter.getError (), EnumURIParameterErrors.CONVERSION_ERROR);
   }
@@ -373,12 +358,12 @@ public class AbstractURIActionHandlerTest
   }
 
   @Test
-  public void testIgnoreExclamationMark () throws MalformedURLException
+  public void testIgnoreExclamationMark ()
   {
-    mCaseSensitiveDispatcher.handleURIAction (new URL ("http://localhost"), "!TEST/ABC");
+    mCaseSensitiveDispatcher.handleURIAction ("!TEST/ABC");
     assertFalse (mTestCommand1.mExecuted);
     mCaseSensitiveDispatcher.setIgnoreExclamationMark (true);
-    mCaseSensitiveDispatcher.handleURIAction (new URL ("http://localhost"), "!TEST/ABC");
+    mCaseSensitiveDispatcher.handleURIAction ("!TEST/ABC");
     assertTrue (mTestCommand1.mExecuted);
   }
 }

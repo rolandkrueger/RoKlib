@@ -21,8 +21,9 @@
 package org.roklib.webapps.data;
 
 import java.io.InputStream;
+import java.io.Serializable;
 
-public class DownloadInfo
+public class DownloadInfo implements Serializable
 {
   private InputStream mDataStream;
   private String      mFilename;

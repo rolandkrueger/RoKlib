@@ -25,7 +25,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,8 +42,8 @@ import org.slf4j.LoggerFactory;
  * <p>
  * The central dispatcher which provides the main entry point for the URI action handling framework. The action
  * dispatcher manages one internal root URI action handler which dispatches to its sub-handlers. When a visited URI has
- * to be interpreted, this URI is passed to methdo {@link #handleURIAction(URL, String)} or
- * {@link #handleURIAction(URL, String, ParameterMode)}, respectively. There, the URI is split into a token list to be
+ * to be interpreted, this URI is passed to methdo {@link #handleURIAction(String)} or
+ * {@link #handleURIAction(String, ParameterMode)}, respectively. There, the URI is split into a token list to be
  * recursively interpreted by the registered action handlers. For example, if the following URI is to be interpreted
  * 
  * <pre>
@@ -56,8 +55,8 @@ import org.slf4j.LoggerFactory;
  * <code>home</code>, and <code>messages</code> in that order. To interpret these tokens, the root action handler passes
  * them to the sub-handler which has been registered as handler for the first token <code>user</code>. If no such
  * handler has been registered, the dispatcher will do nothing more or return the default action command that has been
- * registered with {@link #set404FileNotFoundCommand(AbstractURIActionCommand)}. It thus indicates, that the URI could
- * not successfully be interpreted.
+ * registered with {@link #setDefaultCommand(AbstractURIActionCommand)}. It thus indicates, that the URI could not
+ * successfully be interpreted.
  * </p>
  * <p>
  * Note that this class is not thread-safe, i.e. it must not be used to handle access to several URIs in parallel. You
@@ -71,10 +70,9 @@ public class URIActionDispatcher implements Serializable
   private static final long            serialVersionUID = 7151587763812706383L;
   private static final Logger          LOG              = LoggerFactory.getLogger (URIActionDispatcher.class);
   private Map<String, List<String>>    mCurrentParameters;
-  private URL                          mContextOriginal;
   private String                       mRelativeUriOriginal;
   private Map<String, String[]>        mCurrentParametersOriginalValues;
-  private AbstractURIActionCommand     m404FileNotFoundCommand;
+  private AbstractURIActionCommand     mDefaultCommand;
   private DispatchingURIActionHandler  mRootDispatcher;
   private IURIActionDispatcherListener mListener;
   private ParameterMode                mParameterMode   = ParameterMode.QUERY;
@@ -173,12 +171,12 @@ public class URIActionDispatcher implements Serializable
    * particular relative URI. If set to <code>null</code> no particular action is performed when an unknown relative URI
    * is handled.
    * 
-   * @param fileNotFoundCommand
+   * @param defaultCommand
    *          command to be executed for an unknown relative URI, may be <code>null</code>
    */
-  public void set404FileNotFoundCommand (AbstractURIActionCommand fileNotFoundCommand)
+  public void setDefaultCommand (AbstractURIActionCommand defaultCommand)
   {
-    m404FileNotFoundCommand = fileNotFoundCommand;
+    mDefaultCommand = defaultCommand;
   }
 
   /**
@@ -218,7 +216,7 @@ public class URIActionDispatcher implements Serializable
    * Set the parameter mode to be used for interpreting the visited URIs.
    * 
    * @param parameterMode
-   *          {@link ParameterMode} which will be used by {@link #handleURIAction(URL, String)}
+   *          {@link ParameterMode} which will be used by {@link #handleURIAction(String)}
    */
   public void setParameterMode (ParameterMode parameterMode)
   {
@@ -229,20 +227,16 @@ public class URIActionDispatcher implements Serializable
    * Passes the given relative URI to the URI action handler chain and interprets all parameters with the
    * {@link ParameterMode} defined with {@link #setParameterMode(ParameterMode)}.
    * 
-   * @see #handleURIAction(URL, String, ParameterMode)
+   * @see #handleURIAction(String, ParameterMode)
    */
-  public DownloadInfo handleURIAction (URL context, String relativeUri)
+  public DownloadInfo handleURIAction (String relativeUri)
   {
-    return handleURIAction (context, relativeUri, mParameterMode);
+    return handleURIAction (relativeUri, mParameterMode);
   }
 
   /**
    * This method is the central entry point for the URI action handling framework.
    * 
-   * @param context
-   *          URL containing the server context. If the web application runs at the address
-   *          <code>http://www.example.com/myapp</code> this is the context passed in through this parameter. This value
-   *          may be <code>null</code>.
    * @param relativeUri
    *          relative URI to be interpreted by the URI action handling framework. This may be an URI such as
    *          <code>/admin/configuration/settings/language/de</code>
@@ -253,9 +247,8 @@ public class URIActionDispatcher implements Serializable
    *         <code>null</code>. If a {@link DownloadInfo} object is returned, the contained {@link InputStream} should
    *         be written to the {@link OutputStream} of the HTTP response.
    */
-  public DownloadInfo handleURIAction (URL context, String relativeUri, ParameterMode parameterMode)
+  public DownloadInfo handleURIAction (String relativeUri, ParameterMode parameterMode)
   {
-    mContextOriginal = context;
     try
     {
       mRelativeUriOriginal = URLDecoder.decode (relativeUri, "UTF-8");
@@ -277,11 +270,10 @@ public class URIActionDispatcher implements Serializable
     AbstractURIActionCommand action = mRootDispatcher.handleURI (uriTokens, mCurrentParameters, parameterMode);
     if (action == null)
     {
-      // execute 404 File Not Found command
-      LOG.info ("404 File Not Found: " + mRelativeUriOriginal + "?" + mCurrentParameters);
-      if (m404FileNotFoundCommand != null)
+      LOG.info ("No registered URI action handler for: " + mRelativeUriOriginal + "?" + mCurrentParameters);
+      if (mDefaultCommand != null)
       {
-        m404FileNotFoundCommand.execute ();
+        mDefaultCommand.execute ();
       }
       return null;
     } else
@@ -311,7 +303,7 @@ public class URIActionDispatcher implements Serializable
 
   /**
    * Returns the relative URI that is currently being handled by this dispatcher. This URI is set each time
-   * {@link #handleURIAction(URL, String, ParameterMode)} is called.
+   * {@link #handleURIAction(String, ParameterMode)} is called.
    */
   public String getCurrentlyHandledURI ()
   {
@@ -321,7 +313,7 @@ public class URIActionDispatcher implements Serializable
   public DownloadInfo replayCurrentAction ()
   {
     handleParameters (mCurrentParametersOriginalValues);
-    return handleURIAction (mContextOriginal, mRelativeUriOriginal);
+    return handleURIAction (mRelativeUriOriginal);
   }
 
   /**

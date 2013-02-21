@@ -22,8 +22,6 @@ package org.roklib.webapps.uridispatching.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Arrays;
 
 import org.junit.Before;
@@ -35,33 +33,20 @@ import org.roklib.webapps.uridispatching.URIActionDispatcher;
 public class RegexURIActionHandlerTest
 {
   private URIActionDispatcher         mDispatcher;
-
   private TURIActionHandler           mTtestActionHandler;
-
   private TURIActionCommand           mTestActionCommand;
-
   private TURIActionHandler           mLastActionHandler;
-
   private TURIActionCommand           mLastActionCommand;
-
   private DispatchingURIActionHandler mMiddleActionHandler;
-
   private TURIActionCommand           mMiddleActionCommand;
-
   private TURIActionCommand           mRegexActionCommand1;
-
   private RegexURIActionHandler       mRegexActionHandler1;
-
   private TURIActionCommand           mRegexActionCommand2;
-
   private RegexURIActionHandler       mRegexActionHandler2;
 
-  private URL                         mContext;
-
   @Before
-  public void setUp () throws MalformedURLException
+  public void setUp ()
   {
-    mContext = new URL ("http://localhost");
     mDispatcher = new URIActionDispatcher (false);
 
     mTestActionCommand = new TURIActionCommand ();
@@ -97,14 +82,14 @@ public class RegexURIActionHandlerTest
   @Test
   public void testDispatching ()
   {
-    mDispatcher.handleURIAction (mContext, "/23test_123/middle/last");
+    mDispatcher.handleURIAction ("/23test_123/middle/last");
     assertActionCommandWasExecuted (mLastActionCommand);
   }
 
   @Test
   public void testURLDecoding ()
   {
-    mDispatcher.handleURIAction (mContext, "/3test_%22xx+xx%22");
+    mDispatcher.handleURIAction ("/3test_%22xx+xx%22");
     assertActionCommandWasExecuted (mRegexActionCommand1);
     assertMatchedTokenFragments (mRegexActionHandler1, new String[] { "3", "\"xx xx\"" });
   }
@@ -113,19 +98,19 @@ public class RegexURIActionHandlerTest
   public void testCaseInsensitive ()
   {
     mDispatcher.setCaseSensitive (false);
-    mDispatcher.handleURIAction (mContext, "/1TEST_x");
+    mDispatcher.handleURIAction ("/1TEST_x");
 
     // the dispatching action handler is added second to the dispatcher, but it has highest
     // precedence
     assertActionCommandWasExecuted (mTestActionCommand);
     resetActionCommands ();
 
-    mDispatcher.handleURIAction (mContext, "/2TEST_2x");
+    mDispatcher.handleURIAction ("/2TEST_2x");
     assertActionCommandWasExecuted (mRegexActionCommand1);
     assertMatchedTokenFragments (mRegexActionHandler1, new String[] { "2", "2x" });
     resetActionCommands ();
 
-    mDispatcher.handleURIAction (mContext, "12TEST_2xxx");
+    mDispatcher.handleURIAction ("12TEST_2xxx");
     assertActionCommandWasExecuted (mRegexActionCommand2);
     assertMatchedTokenFragments (mRegexActionHandler2, new String[] { "12", "2xxx" });
   }
@@ -135,19 +120,19 @@ public class RegexURIActionHandlerTest
   {
     mDispatcher.setCaseSensitive (true);
 
-    mDispatcher.handleURIAction (mContext, "/1test_x");
+    mDispatcher.handleURIAction ("/1test_x");
 
     // the dispatching action handler is added second to the dispatcher, but it has highest
     // precedence
     assertActionCommandWasExecuted (mTestActionCommand);
     resetActionCommands ();
 
-    mDispatcher.handleURIAction (mContext, "/2test_abc");
+    mDispatcher.handleURIAction ("/2test_abc");
     assertActionCommandWasExecuted (mRegexActionCommand1);
     assertMatchedTokenFragments (mRegexActionHandler1, new String[] { "2", "abc" });
     resetActionCommands ();
 
-    mDispatcher.handleURIAction (mContext, "12test_2xxx");
+    mDispatcher.handleURIAction ("12test_2xxx");
     assertActionCommandWasExecuted (mRegexActionCommand2);
     assertMatchedTokenFragments (mRegexActionHandler2, new String[] { "12", "2xxx" });
   }
@@ -179,7 +164,7 @@ public class RegexURIActionHandlerTest
     // if a regex action handler has not been evaluated yet, its matched token fragment count is 0,
     // even if the underlying array is still null
     assertEquals (0, mRegexActionHandler2.getMatchedTokenFragmentCount ());
-    mDispatcher.handleURIAction (mContext, "12test_2xxx");
+    mDispatcher.handleURIAction ("12test_2xxx");
     assertEquals (2, mRegexActionHandler2.getMatchedTokenFragmentCount ());
   }
 

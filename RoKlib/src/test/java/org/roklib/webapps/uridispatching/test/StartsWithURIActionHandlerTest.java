@@ -21,8 +21,6 @@ package org.roklib.webapps.uridispatching.test;
 
 import static org.junit.Assert.assertTrue;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Arrays;
 
 import org.junit.Before;
@@ -34,25 +32,16 @@ import org.roklib.webapps.uridispatching.URIActionDispatcher;
 public class StartsWithURIActionHandlerTest
 {
   private URIActionDispatcher        mDispatcher;
-
   private TURIActionHandler          mTestActionHandler;
-
   private TURIActionCommand          mTestActionCommand;
-
   private StartsWithURIActionHandler mStartsWithActionHandler;
-
   private TURIActionCommand          mStartsWithActionCommand;
-
   private TURIActionHandler          mLastActionHandler;
-
   private TURIActionCommand          mLastActionCommand;
 
-  private URL                        mContext;
-
   @Before
-  public void setUp () throws MalformedURLException
+  public void setUp ()
   {
-    mContext = new URL ("http://localhost");
     mDispatcher = new URIActionDispatcher (false);
 
     mTestActionCommand = new TURIActionCommand ();
@@ -73,14 +62,14 @@ public class StartsWithURIActionHandlerTest
   @Test
   public void testDispatching ()
   {
-    mDispatcher.handleURIAction (mContext, "/testvalue/last");
+    mDispatcher.handleURIAction ("/testvalue/last");
     assertActionCommandWasExecuted (mLastActionCommand);
   }
 
   @Test
   public void testPrecedence ()
   {
-    mDispatcher.handleURIAction (mContext, "/testhandler");
+    mDispatcher.handleURIAction ("/testhandler");
     assertActionCommandWasExecuted (mTestActionCommand);
   }
 
@@ -88,7 +77,7 @@ public class StartsWithURIActionHandlerTest
   public void testCaseSensitive ()
   {
     mDispatcher.setCaseSensitive (true);
-    mDispatcher.handleURIAction (mContext, "/testvalue");
+    mDispatcher.handleURIAction ("/testvalue");
     assertOutcome ();
   }
 
@@ -96,7 +85,7 @@ public class StartsWithURIActionHandlerTest
   public void testCaseInsensitive ()
   {
     mDispatcher.setCaseSensitive (false);
-    mDispatcher.handleURIAction (mContext, "/TESTvalue");
+    mDispatcher.handleURIAction ("/TESTvalue");
     assertOutcome ();
   }
 

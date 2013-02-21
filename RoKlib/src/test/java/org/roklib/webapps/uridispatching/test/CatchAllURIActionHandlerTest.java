@@ -22,9 +22,6 @@ package org.roklib.webapps.uridispatching.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.roklib.webapps.uridispatching.CatchAllURIActionHandler;
@@ -32,27 +29,17 @@ import org.roklib.webapps.uridispatching.URIActionDispatcher;
 
 public class CatchAllURIActionHandlerTest
 {
-
   private URIActionDispatcher      mDispatcher;
-
   private TURIActionHandler        mTestActionHandler;
-
   private TURIActionCommand        mTestActionCommand;
-
   private CatchAllURIActionHandler mCatchAllActionHandler;
-
   private TURIActionCommand        mCatchAllActionCommand;
-
   private TURIActionHandler        mLastActionHandler;
-
   private TURIActionCommand        mLastActionCommand;
 
-  private URL                      mContext;
-
   @Before
-  public void setUp () throws MalformedURLException
+  public void setUp ()
   {
-    mContext = new URL ("http://localhost");
     mDispatcher = new URIActionDispatcher (false);
 
     mTestActionCommand = new TURIActionCommand ();
@@ -73,16 +60,16 @@ public class CatchAllURIActionHandlerTest
   @Test
   public void test ()
   {
-    mDispatcher.handleURIAction (mContext, "/test");
+    mDispatcher.handleURIAction ("/test");
     assertActionCommandWasExecuted (mTestActionCommand);
     resetActionCommands ();
 
-    mDispatcher.handleURIAction (mContext, "/someurlfragment");
+    mDispatcher.handleURIAction ("/someurlfragment");
     assertActionCommandWasExecuted (mCatchAllActionCommand);
     assertEquals ("someurlfragment", mCatchAllActionHandler.getCurrentURIToken ());
     resetActionCommands ();
 
-    mDispatcher.handleURIAction (mContext, "/anything/last");
+    mDispatcher.handleURIAction ("/anything/last");
     assertActionCommandWasExecuted (mLastActionCommand);
     assertEquals ("anything", mCatchAllActionHandler.getCurrentURIToken ());
   }
