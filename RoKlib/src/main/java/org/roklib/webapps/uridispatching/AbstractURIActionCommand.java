@@ -20,7 +20,6 @@
  */
 package org.roklib.webapps.uridispatching;
 
-
 import java.io.Serializable;
 
 import org.roklib.webapps.data.DownloadInfo;

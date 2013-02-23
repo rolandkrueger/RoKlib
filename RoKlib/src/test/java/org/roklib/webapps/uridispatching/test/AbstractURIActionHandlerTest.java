@@ -210,8 +210,12 @@ public class AbstractURIActionHandlerTest
     // test DIRECTORY parameter mode (parameter names are not contained in URL)
     mTestHandler2.addActionArgument ("id", 1234);
     mTestHandler2.addActionArgument ("param", "value");
-    assertEquals ("/test/123/1234/value", mTestHandler2.getParameterizedActionURI (true, ParameterMode.DIRECTORY)
+    assertEquals ("/test/123/1234/value", mTestHandler2.getParameterizedActionURI (false, ParameterMode.DIRECTORY)
         .toString ());
+
+    // test getting hashbanged action URI
+    assertEquals ("#!test/123/1234/value",
+        mTestHandler2.getParameterizedHashbangActionURI (true, ParameterMode.DIRECTORY).toString ());
 
     // test that parameters appear in the order they were added in the URL
     mTestHandler1.clearActionArguments ();

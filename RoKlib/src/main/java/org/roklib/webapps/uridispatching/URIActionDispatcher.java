@@ -249,6 +249,33 @@ public class URIActionDispatcher implements Serializable
    */
   public DownloadInfo handleURIAction (String relativeUri, ParameterMode parameterMode)
   {
+    AbstractURIActionCommand action = getActionForURI (relativeUri, parameterMode);
+    if (action == null)
+    {
+      LOG.info ("No registered URI action handler for: " + mRelativeUriOriginal + "?" + mCurrentParameters);
+      if (mDefaultCommand != null)
+      {
+        mDefaultCommand.execute ();
+      }
+      return null;
+    } else
+    {
+      action.execute ();
+      if (mListener != null)
+      {
+        mListener.handleURIActionCommand (action);
+      }
+      return action.getDownloadStream ();
+    }
+  }
+
+  public AbstractURIActionCommand getActionForURI (String relativeUri)
+  {
+    return getActionForURI (relativeUri, mParameterMode);
+  }
+
+  public AbstractURIActionCommand getActionForURI (String relativeUri, ParameterMode parameterMode)
+  {
     try
     {
       mRelativeUriOriginal = URLDecoder.decode (relativeUri, "UTF-8");
@@ -267,22 +294,7 @@ public class URIActionDispatcher implements Serializable
       LOG.trace (String.format ("Dispatching URI: '%s', params: '%s'", mRelativeUriOriginal, mCurrentParameters));
     }
 
-    AbstractURIActionCommand action = mRootDispatcher.handleURI (uriTokens, mCurrentParameters, parameterMode);
-    if (action == null)
-    {
-      LOG.info ("No registered URI action handler for: " + mRelativeUriOriginal + "?" + mCurrentParameters);
-      if (mDefaultCommand != null)
-      {
-        mDefaultCommand.execute ();
-      }
-      return null;
-    } else
-    {
-      action.execute ();
-      if (mListener != null)
-        mListener.handleURIActionCommand (action);
-      return action.getDownloadStream ();
-    }
+    return mRootDispatcher.handleURI (uriTokens, mCurrentParameters, parameterMode);
   }
 
   private void ignoreExclamationMarkIfNecessary ()

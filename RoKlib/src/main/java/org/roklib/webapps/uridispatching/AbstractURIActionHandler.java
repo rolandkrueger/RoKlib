@@ -341,23 +341,41 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler
     mParentHandler = parent;
   }
 
-  public URI getParameterizedActionURI (boolean clearAfterwards)
+  public URI getParameterizedHashbangActionURI (boolean clearParametersAfterwards)
   {
-    return getParameterizedActionURI (clearAfterwards, ParameterMode.QUERY);
+    return getParameterizedHashbangActionURI (clearParametersAfterwards, ParameterMode.DIRECTORY_WITH_NAMES);
   }
 
-  public URI getParameterizedActionURI (boolean clearAfterwards, ParameterMode parameterMode)
+  public URI getParameterizedHashbangActionURI (boolean clearParametersAfterwards, ParameterMode parameterMode)
   {
-    return getParameterizedActionURI (clearAfterwards, parameterMode, false);
+    return getParameterizedActionURI (clearParametersAfterwards, parameterMode, true, true);
   }
 
-  public URI getParameterizedActionURI (boolean clearAfterwards, ParameterMode parameterMode, boolean addHashMark)
+  public URI getParameterizedActionURI (boolean clearParametersAfterwards)
+  {
+    return getParameterizedActionURI (clearParametersAfterwards, ParameterMode.QUERY);
+  }
+
+  public URI getParameterizedActionURI (boolean clearParametersAfterwards, ParameterMode parameterMode)
+  {
+    return getParameterizedActionURI (clearParametersAfterwards, parameterMode, false);
+  }
+
+  public URI getParameterizedActionURI (boolean clearParametersAfterwards, ParameterMode parameterMode,
+      boolean addHashMark)
+  {
+    return getParameterizedActionURI (clearParametersAfterwards, parameterMode, addHashMark,
+        mUseHashExclamationMarkNotation);
+  }
+
+  private URI getParameterizedActionURI (boolean clearParametersAfterwards, ParameterMode parameterMode,
+      boolean addHashMark, boolean addExclamationMark)
   {
     StringBuilder buf = new StringBuilder ();
     if (addHashMark)
     {
       buf.append ('#');
-      if (mUseHashExclamationMarkNotation)
+      if (addExclamationMark)
       {
         buf.append ('!');
       }
@@ -412,7 +430,7 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler
       throw new RuntimeException ("Unable to create URL object.", e);
     } finally
     {
-      if (clearAfterwards)
+      if (clearParametersAfterwards)
       {
         clearActionArguments ();
       }
