@@ -17,6 +17,8 @@
  */
 package org.roklib.webapps.uridispatching;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -159,8 +161,16 @@ public class RegexURIActionHandler extends DispatchingURIActionHandler
    * @return <code>true</code> if the given URI token will be handled by this action handler
    */
   @Override
-  protected boolean isResponsibleForToken (String uriToken)
+  protected boolean isResponsibleForToken (String pUriToken)
   {
+    String uriToken = null;
+    try
+    {
+      uriToken = URLDecoder.decode (pUriToken, "UTF-8");
+    } catch (UnsupportedEncodingException ueExc)
+    {
+      throw new RuntimeException ("UTF-8 encoding not supported by URLDecoder.", ueExc);
+    }
     mMatchedTokenFragments = null;
     Matcher matcher = mPattern.matcher (uriToken);
     if (matcher.matches ())

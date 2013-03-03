@@ -24,8 +24,6 @@ package org.roklib.webapps.uridispatching;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -276,20 +274,18 @@ public class URIActionDispatcher implements Serializable
 
   public AbstractURIActionCommand getActionForURI (String relativeUri, ParameterMode parameterMode)
   {
-    try
+    if (LOG.isTraceEnabled ())
     {
-      mRelativeUriOriginal = URLDecoder.decode (relativeUri, "UTF-8");
-    } catch (UnsupportedEncodingException ueExc)
-    {
-      throw new RuntimeException ("UTF-8 encoding not supported", ueExc);
+      LOG.trace ("Finding action for URI '" + relativeUri + "'");
     }
+    mRelativeUriOriginal = relativeUri;
 
     ignoreSlashAtBeginningOfRelativeURI ();
     ignoreExclamationMarkIfNecessary ();
 
     List<String> uriTokens = new ArrayList<String> (Arrays.asList (mRelativeUriOriginal.split ("/")));
 
-    if (LOG != null && LOG.isTraceEnabled ())
+    if (LOG.isTraceEnabled ())
     {
       LOG.trace (String.format ("Dispatching URI: '%s', params: '%s'", mRelativeUriOriginal, mCurrentParameters));
     }
