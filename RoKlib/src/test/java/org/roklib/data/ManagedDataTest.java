@@ -20,14 +20,14 @@
  */
 package org.roklib.data;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.roklib.data.ManagedData;
 import org.roklib.data.ManagedData.StatusEnum;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 public class ManagedDataTest
 {
@@ -97,7 +97,7 @@ public class ManagedDataTest
     ManagedData<Integer> obj = new ManagedData<Integer> (17);
     assertTrue (obj.getState () == StatusEnum.SET);
     assertTrue (obj.isSet ());
-    assertEquals (17, obj.getValue ());
+    assertThat(obj.getValue(), equalTo(17));
   }
 
   @Test

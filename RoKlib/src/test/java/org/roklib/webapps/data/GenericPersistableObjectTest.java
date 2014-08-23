@@ -20,7 +20,9 @@
  */
 package org.roklib.webapps.data;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -33,7 +35,7 @@ public class GenericPersistableObjectTest
   {
     GenericPersistableObject<Long> testObj = new GenericPersistableObject<Long> ();
     testObj.setKey (12345L);
-    assertEquals (12345L, testObj.getKey ());
+    assertThat(testObj.getKey(), equalTo(12345L));
     Long id = new Long (23L);
     testObj.setKey (id);
     assertTrue (testObj.getKey () == id);
