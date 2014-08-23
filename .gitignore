@@ -2,6 +2,7 @@
 .project
 .classpath
 target
+workspace.xml
 
 # Package Files #
 *.jar
