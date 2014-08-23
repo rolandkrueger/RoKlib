@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2007 Roland Krueger
- * Created on 01.11.2010
- * 
+ * Created on 27.01.2010
+ *
  * Author: Roland Krueger (www.rolandkrueger.info)
- * 
+ *
  * This file is part of RoKlib.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
@@ -18,17 +18,24 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.webapps.uridispatching;
+package org.roklib.webapps.data;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-import org.roklib.webapps.uridispatching.parameters.URIParametersTests;
+import org.junit.Test;
+import org.roklib.webapps.data.GenericPersistableObject;
 
-@RunWith (Suite.class)
-@SuiteClasses ({ AbstractURIActionHandlerTest.class, URIParametersTests.class, RegexURIActionHandlerTest.class,
-    StartsWithURIActionHandlerTest.class, CatchAllURIActionHandlerTest.class })
-public class URIDispatchingTests
+public class GenericPersistableObjectTest
 {
+  @Test
+  public void testSetID ()
+  {
+    GenericPersistableObject<Long> testObj = new GenericPersistableObject<Long> ();
+    testObj.setKey (12345L);
+    assertEquals (12345L, testObj.getKey ());
+    Long id = new Long (23L);
+    testObj.setKey (id);
+    assertTrue (testObj.getKey () == id);
+  }
 }

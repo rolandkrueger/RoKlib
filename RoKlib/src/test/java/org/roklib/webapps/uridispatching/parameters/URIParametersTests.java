@@ -24,13 +24,6 @@ package org.roklib.webapps.uridispatching.parameters;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-import org.roklib.webapps.uridispatching.parameters.test.Point2DURIParameterTest;
-import org.roklib.webapps.uridispatching.parameters.test.SingleBooleanURIParameterTest;
-import org.roklib.webapps.uridispatching.parameters.test.SingleDoubleURIParameterTest;
-import org.roklib.webapps.uridispatching.parameters.test.SingleFloatURIParameterTest;
-import org.roklib.webapps.uridispatching.parameters.test.SingleIntegerURIParameterTest;
-import org.roklib.webapps.uridispatching.parameters.test.SingleLongURIParameterTest;
-import org.roklib.webapps.uridispatching.parameters.test.SingleStringURIParameterTest;
 
 @RunWith (Suite.class)
 @SuiteClasses ({ SingleBooleanURIParameterTest.class, SingleDoubleURIParameterTest.class,

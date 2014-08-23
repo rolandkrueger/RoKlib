@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2007 Roland Krueger
- * Created on 01.11.2010
- * 
+ * Copyright (C) 2007 - 2010 Roland Krueger
+ * Created on 17.02.2010
+ *
  * Author: Roland Krueger (www.rolandkrueger.info)
- * 
+ *
  * This file is part of RoKlib.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
@@ -20,15 +20,25 @@
  */
 package org.roklib.webapps.uridispatching;
 
+import org.roklib.conditional.engine.AbstractCondition;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-import org.roklib.webapps.uridispatching.parameters.URIParametersTests;
-
-@RunWith (Suite.class)
-@SuiteClasses ({ AbstractURIActionHandlerTest.class, URIParametersTests.class, RegexURIActionHandlerTest.class,
-    StartsWithURIActionHandlerTest.class, CatchAllURIActionHandlerTest.class })
-public class URIDispatchingTests
+@SuppressWarnings ("serial")
+public class TCondition extends AbstractCondition
 {
+  private boolean mValue;
+
+  public TCondition (boolean value)
+  {
+    mValue = value;
+  }
+
+  public void setValue (boolean value)
+  {
+    mValue = value;
+  }
+
+  public boolean getBooleanValue ()
+  {
+    return mValue;
+  }
 }

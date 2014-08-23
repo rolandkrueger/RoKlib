@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2007 Roland Krueger
- * Created on 01.11.2010
+ * Copyright (C) 2007 - 2010 Roland Krueger 
+ * Created on 17.02.2010
  * 
  * Author: Roland Krueger (www.rolandkrueger.info)
  * 
@@ -20,15 +20,17 @@
  */
 package org.roklib.webapps.uridispatching;
 
+import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-import org.roklib.webapps.uridispatching.parameters.URIParametersTests;
-
-@RunWith (Suite.class)
-@SuiteClasses ({ AbstractURIActionHandlerTest.class, URIParametersTests.class, RegexURIActionHandlerTest.class,
-    StartsWithURIActionHandlerTest.class, CatchAllURIActionHandlerTest.class })
-public class URIDispatchingTests
+public class TURIActionCommand extends AbstractURIActionCommand
 {
+  private static final long serialVersionUID = 8282933112969092819L;
+
+  public boolean            mExecuted        = false;
+
+  @Override
+  public void execute ()
+  {
+    mExecuted = true;
+  }
 }

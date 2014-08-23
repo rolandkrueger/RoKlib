@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2007 Roland Krueger
- * Created on 01.11.2010
- * 
+ * Created on 19.10.2009
+ *
  * Author: Roland Krueger (www.rolandkrueger.info)
- * 
+ *
  * This file is part of RoKlib.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
@@ -18,17 +18,32 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.webapps.uridispatching;
+package org.roklib.conditional.groupvisibility;
 
+import org.roklib.conditional.groupvisibility.IVisibilityEnablingConfigurable;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-import org.roklib.webapps.uridispatching.parameters.URIParametersTests;
-
-@RunWith (Suite.class)
-@SuiteClasses ({ AbstractURIActionHandlerTest.class, URIParametersTests.class, RegexURIActionHandlerTest.class,
-    StartsWithURIActionHandlerTest.class, CatchAllURIActionHandlerTest.class })
-public class URIDispatchingTests
+public class VisibilityEnablingConfigurableTestClass implements IVisibilityEnablingConfigurable
 {
+  private boolean mEnabled = true;
+  private boolean mVisible = true;
+
+  public boolean isEnabled ()
+  {
+    return mEnabled;
+  }
+
+  public boolean isVisible ()
+  {
+    return mVisible;
+  }
+
+  public void setEnabled (boolean enabled)
+  {
+    mEnabled = enabled;
+  }
+
+  public void setVisible (boolean visible)
+  {
+    mVisible = visible;
+  }
 }

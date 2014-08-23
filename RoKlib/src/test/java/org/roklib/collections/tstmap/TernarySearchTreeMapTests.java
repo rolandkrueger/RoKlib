@@ -24,21 +24,6 @@ package org.roklib.collections.tstmap;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-import org.roklib.collections.tstmap.test.CompareTSTMapToTreeMapTest;
-import org.roklib.collections.tstmap.test.PrefixSubtreeIteratorTest;
-import org.roklib.collections.tstmap.test.TSTKeySetTest;
-import org.roklib.collections.tstmap.test.TSTMapCaseInsensitiveMapEntrySetTest;
-import org.roklib.collections.tstmap.test.TSTMapCaseInsensitiveSubMapTest;
-import org.roklib.collections.tstmap.test.TSTMapCaseInsensitiveTest;
-import org.roklib.collections.tstmap.test.TSTMapEntrySetTest;
-import org.roklib.collections.tstmap.test.TSTMapSortedMapInterfaceTest;
-import org.roklib.collections.tstmap.test.TSTMapValuesTest;
-import org.roklib.collections.tstmap.test.TSTMapWithEmptyStringKeyTest;
-import org.roklib.collections.tstmap.test.TSTSetCaseInsensitiveTest;
-import org.roklib.collections.tstmap.test.TSTSetSubSetTest;
-import org.roklib.collections.tstmap.test.TSTSetTest;
-import org.roklib.collections.tstmap.test.TSTSubMapTest;
-import org.roklib.collections.tstmap.test.TernarySearchTreeMapTest;
 
 @RunWith (Suite.class)
 @SuiteClasses ({ CompareTSTMapToTreeMapTest.class, PrefixSubtreeIteratorTest.class, TernarySearchTreeMapTest.class,

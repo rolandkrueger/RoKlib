@@ -24,9 +24,6 @@ package org.roklib.io;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-import org.roklib.io.test.ByteArrayStreamDataBufferTest;
-import org.roklib.io.test.IStreamDataBufferTest;
-import org.roklib.io.test.StreamUtilitiesTest;
 
 @RunWith (Suite.class)
 @SuiteClasses ({ StreamUtilitiesTest.class, IStreamDataBufferTest.class, ByteArrayStreamDataBufferTest.class })
