@@ -8,3 +8,4 @@ workspace.xml
 *.jar
 *.war
 *.ear
+uiDesigner.xml
