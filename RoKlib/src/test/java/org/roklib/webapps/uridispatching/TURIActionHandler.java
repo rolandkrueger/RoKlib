@@ -21,37 +21,32 @@
 package org.roklib.webapps.uridispatching;
 
 
+import org.roklib.webapps.uridispatching.parameters.IURIParameter;
+
 import java.util.List;
 import java.util.Map;
 
-import org.roklib.webapps.uridispatching.parameters.IURIParameter;
+public class TURIActionHandler extends DispatchingURIActionHandler {
+    private static final long serialVersionUID = 6202866717473440168L;
 
-public class TURIActionHandler extends DispatchingURIActionHandler
-{
-  private static final long serialVersionUID = 6202866717473440168L;
+    private TURIActionCommand mCommand;
 
-  private TURIActionCommand mCommand;
+    public TURIActionHandler(String actionName, TURIActionCommand command) {
+        super(actionName);
+        mCommand = command;
+    }
 
-  public TURIActionHandler (String actionName, TURIActionCommand command)
-  {
-    super (actionName);
-    mCommand = command;
-  }
+    @Override
+    protected AbstractURIActionCommand handleURIImpl(List<String> uriTokens, Map<String, List<String>> parameters,
+                                                     ParameterMode parameterMode) {
+        return mCommand;
+    }
 
-  @Override
-  protected AbstractURIActionCommand handleURIImpl (List<String> uriTokens, Map<String, List<String>> parameters,
-      ParameterMode parameterMode)
-  {
-    return mCommand;
-  }
+    public void registerURLParameterForTest(IURIParameter<?> parameter, boolean optional) {
+        registerURIParameter(parameter, optional);
+    }
 
-  public void registerURLParameterForTest (IURIParameter<?> parameter, boolean optional)
-  {
-    registerURIParameter (parameter, optional);
-  }
-
-  public boolean haveRegisteredURIParametersErrors ()
-  {
-    return super.haveRegisteredURIParametersErrors ();
-  }
+    public boolean haveRegisteredURIParametersErrors() {
+        return super.haveRegisteredURIParametersErrors();
+    }
 }

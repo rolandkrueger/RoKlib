@@ -19,7 +19,7 @@
  * the License.
  */
 /**
- * 
+ *
  */
 package org.roklib.plugins;
 
@@ -31,55 +31,44 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * 
  * @author Roland Krueger
  */
-public abstract class AbstractPlugin
-{
-  private Properties mProperties;
+public abstract class AbstractPlugin {
+    private Properties mProperties;
 
-  public AbstractPlugin ()
-  {
-    mProperties = new Properties ();
-  }
+    public AbstractPlugin() {
+        mProperties = new Properties();
+    }
 
-  public String getProperty (String key, String defaultValue)
-  {
-    return mProperties.getProperty (key, defaultValue);
-  }
+    public String getProperty(String key, String defaultValue) {
+        return mProperties.getProperty(key, defaultValue);
+    }
 
-  public String getProperty (String key)
-  {
-    return mProperties.getProperty (key);
-  }
+    public String getProperty(String key) {
+        return mProperties.getProperty(key);
+    }
 
-  public Properties getProperties ()
-  {
-    return mProperties;
-  }
+    public Properties getProperties() {
+        return mProperties;
+    }
 
-  public void loadProperties (InputStream inStream) throws IOException
-  {
-    mProperties.load (inStream);
-  }
+    public void loadProperties(InputStream inStream) throws IOException {
+        mProperties.load(inStream);
+    }
 
-  public void loadProperties (Reader reader) throws IOException
-  {
-    mProperties.load (reader);
-  }
+    public void loadProperties(Reader reader) throws IOException {
+        mProperties.load(reader);
+    }
 
-  public void loadPropertiesFromXML (InputStream in) throws IOException, InvalidPropertiesFormatException
-  {
-    mProperties.loadFromXML (in);
-  }
+    public void loadPropertiesFromXML(InputStream in) throws IOException, InvalidPropertiesFormatException {
+        mProperties.loadFromXML(in);
+    }
 
-  public Object putProperty (Object key, Object value)
-  {
-    return mProperties.put (key, value);
-  }
+    public Object putProperty(Object key, Object value) {
+        return mProperties.put(key, value);
+    }
 
-  public void putAllProperties (Map<? extends Object, ? extends Object> t)
-  {
-    mProperties.putAll (t);
-  }
+    public void putAllProperties(Map<? extends Object, ? extends Object> t) {
+        mProperties.putAll(t);
+    }
 }

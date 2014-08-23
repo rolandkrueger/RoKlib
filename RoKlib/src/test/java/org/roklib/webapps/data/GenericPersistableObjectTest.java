@@ -20,24 +20,20 @@
  */
 package org.roklib.webapps.data;
 
+import org.junit.Test;
+
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-import org.roklib.webapps.data.GenericPersistableObject;
-
-public class GenericPersistableObjectTest
-{
-  @Test
-  public void testSetID ()
-  {
-    GenericPersistableObject<Long> testObj = new GenericPersistableObject<Long> ();
-    testObj.setKey (12345L);
-    assertThat(testObj.getKey(), equalTo(12345L));
-    Long id = new Long (23L);
-    testObj.setKey (id);
-    assertTrue (testObj.getKey () == id);
-  }
+public class GenericPersistableObjectTest {
+    @Test
+    public void testSetID() {
+        GenericPersistableObject<Long> testObj = new GenericPersistableObject<Long>();
+        testObj.setKey(12345L);
+        assertThat(testObj.getKey(), equalTo(12345L));
+        Long id = new Long(23L);
+        testObj.setKey(id);
+        assertTrue(testObj.getKey() == id);
+    }
 }

@@ -20,82 +20,75 @@
  */
 package org.roklib.collections.tstmap;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Set;
-import java.util.SortedMap;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.roklib.collections.TernarySearchTreeMapCaseInsensitive;
 
-public class TSTMapCaseInsensitiveSubMapTest
-{
-  private static final String                         EMPTY     = "";
-  private static final String                         PFORZHEIM = "PForzhEIm";
-  private static final String                         MANNHEIM  = "mannHEIM";
-  private static final String                         WEINHEIM  = "wEInhEIm";
-  private static final String                         DRESDEN   = "DREsden";
-  private static final String                         MAGDEBURG = "maGDEburG";
-  private static final String                         LEIPZIG   = "LeipZig";
-  private static final String                         FREIBURG  = "freiBuRg";
+import java.util.Set;
+import java.util.SortedMap;
 
-  private TernarySearchTreeMapCaseInsensitive<String> mTestObj;
-  private SortedMap<CharSequence, String>             mSubMap;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-  @Before
-  public void setUp ()
-  {
-    mTestObj = new TernarySearchTreeMapCaseInsensitive<String> ();
-    mTestObj.put (EMPTY, EMPTY);
-    mTestObj.put (DRESDEN, DRESDEN);
-    mTestObj.put (FREIBURG, FREIBURG);
-    mTestObj.put (LEIPZIG, LEIPZIG);
-    mTestObj.put (MAGDEBURG, MAGDEBURG);
-    mTestObj.put (MANNHEIM, MANNHEIM);
-    mTestObj.put (PFORZHEIM, PFORZHEIM);
-    mTestObj.put (WEINHEIM, WEINHEIM);
-    mSubMap = mTestObj.subMap ("ERFURT", "marburg");
-  }
+public class TSTMapCaseInsensitiveSubMapTest {
+    private static final String EMPTY = "";
+    private static final String PFORZHEIM = "PForzhEIm";
+    private static final String MANNHEIM = "mannHEIM";
+    private static final String WEINHEIM = "wEInhEIm";
+    private static final String DRESDEN = "DREsden";
+    private static final String MAGDEBURG = "maGDEburG";
+    private static final String LEIPZIG = "LeipZig";
+    private static final String FREIBURG = "freiBuRg";
 
-  @Test
-  public void testSubMap ()
-  {
-    assertEquals (4, mSubMap.size ());
-    assertTrue (mSubMap.containsKey (FREIBURG));
-    assertTrue (mSubMap.containsKey (LEIPZIG));
-    assertTrue (mSubMap.containsKey (MAGDEBURG));
-    assertTrue (mSubMap.containsKey (MANNHEIM));
-  }
+    private TernarySearchTreeMapCaseInsensitive<String> mTestObj;
+    private SortedMap<CharSequence, String> mSubMap;
 
-  @Test
-  public void testKeySet ()
-  {
-    Set<CharSequence> keySet = mSubMap.keySet ();
-    assertEquals (4, keySet.size ());
-    assertTrue (keySet.contains (MANNHEIM));
-    assertTrue (keySet.contains ("mannheim"));
-    assertTrue (keySet.contains ("MANNHEIM"));
-  }
+    @Before
+    public void setUp() {
+        mTestObj = new TernarySearchTreeMapCaseInsensitive<String>();
+        mTestObj.put(EMPTY, EMPTY);
+        mTestObj.put(DRESDEN, DRESDEN);
+        mTestObj.put(FREIBURG, FREIBURG);
+        mTestObj.put(LEIPZIG, LEIPZIG);
+        mTestObj.put(MAGDEBURG, MAGDEBURG);
+        mTestObj.put(MANNHEIM, MANNHEIM);
+        mTestObj.put(PFORZHEIM, PFORZHEIM);
+        mTestObj.put(WEINHEIM, WEINHEIM);
+        mSubMap = mTestObj.subMap("ERFURT", "marburg");
+    }
 
-  @Test
-  public void testFirstKey ()
-  {
-    assertEquals (FREIBURG, mSubMap.firstKey ());
-  }
+    @Test
+    public void testSubMap() {
+        assertEquals(4, mSubMap.size());
+        assertTrue(mSubMap.containsKey(FREIBURG));
+        assertTrue(mSubMap.containsKey(LEIPZIG));
+        assertTrue(mSubMap.containsKey(MAGDEBURG));
+        assertTrue(mSubMap.containsKey(MANNHEIM));
+    }
 
-  @Test
-  public void testLastKey ()
-  {
-    assertEquals (MANNHEIM, mSubMap.lastKey ());
-  }
+    @Test
+    public void testKeySet() {
+        Set<CharSequence> keySet = mSubMap.keySet();
+        assertEquals(4, keySet.size());
+        assertTrue(keySet.contains(MANNHEIM));
+        assertTrue(keySet.contains("mannheim"));
+        assertTrue(keySet.contains("MANNHEIM"));
+    }
 
-  @Test
-  public void testPut ()
-  {
-    mSubMap.put ("GerA", "GERA");
-    assertTrue (mTestObj.containsKey ("GERA"));
-  }
+    @Test
+    public void testFirstKey() {
+        assertEquals(FREIBURG, mSubMap.firstKey());
+    }
+
+    @Test
+    public void testLastKey() {
+        assertEquals(MANNHEIM, mSubMap.lastKey());
+    }
+
+    @Test
+    public void testPut() {
+        mSubMap.put("GerA", "GERA");
+        assertTrue(mTestObj.containsKey("GERA"));
+    }
 
 }

@@ -30,29 +30,24 @@ package org.roklib.webapps.uridispatching;
  * default, there is one capturing group in the regular expression that underlies this class. This group captures any
  * substring that comes after the given prefix string in the currently evaluated URI token.
  * </p>
- * 
+ *
  * @author Roland Krüger
- * @since 1.1.0
  * @see RegexURIActionHandler
+ * @since 1.1.0
  */
-public class StartsWithURIActionHandler extends RegexURIActionHandler
-{
-  private static final long serialVersionUID = -8311620063509162064L;
+public class StartsWithURIActionHandler extends RegexURIActionHandler {
+    private static final long serialVersionUID = -8311620063509162064L;
 
-  /**
-   * Creates a new {@link StartsWithURIActionHandler} with the given prefix string.
-   * 
-   * @param prefix
-   *          prefix string to be used for interpreting URI tokens.
-   * @throws IllegalArgumentException
-   *           if the prefix is the empty string or all whitespaces
-   */
-  public StartsWithURIActionHandler (String prefix)
-  {
-    super (prefix + "(.*)");
-    if ("".equals (prefix.trim ()))
-    {
-      throw new IllegalArgumentException ("prefix must not be the empty string or all whitespaces");
+    /**
+     * Creates a new {@link StartsWithURIActionHandler} with the given prefix string.
+     *
+     * @param prefix prefix string to be used for interpreting URI tokens.
+     * @throws IllegalArgumentException if the prefix is the empty string or all whitespaces
+     */
+    public StartsWithURIActionHandler(String prefix) {
+        super(prefix + "(.*)");
+        if ("".equals(prefix.trim())) {
+            throw new IllegalArgumentException("prefix must not be the empty string or all whitespaces");
+        }
     }
-  }
 }

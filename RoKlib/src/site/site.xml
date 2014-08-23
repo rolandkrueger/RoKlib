@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="RoKlib">
-  
-  <bannerLeft>
-    <name>RoKlib</name>
-    <src>images/logo.jpg</src>
-    <href>https://launchpad.net/roklib</href>
-  </bannerLeft>
-  
-  <body>
-    <links>
-      <item name="Code Hosting for RoKlib" href="https://launchpad.net/roklib" />
-      <item name="RoKlib @ Ohloh.net"      href="http://www.ohloh.net/p/roklib" />
-      <item name="Author's Homepage"       href="http://www.roland-krueger.info/engl_index.html" />
-    </links>
 
-    <menu name="RoKlib">
-      <item name="Home"                    href="index.html"/>
-      <item name="About RoKlib"            href="about.html"/>
-      <item name="Download + Installation" href="download.html"/>
-      <!-- 
-      <item name="Release Notes"           href="release-notes.html" />
-      -->
-      <item name="Documentation"           href="documentation.html"/>   
-      <item name="Screenshots + Demos"     href="demo.html" />
-	  <item name="Contribute!"     		   href="contribute.html" />
-      <item name="Credits"                 href="credits.html" />
-    </menu>
-	
-    <menu ref="reports"/>
+    <bannerLeft>
+        <name>RoKlib</name>
+        <src>images/logo.jpg</src>
+        <href>https://launchpad.net/roklib</href>
+    </bannerLeft>
 
-  </body>
+    <body>
+        <links>
+            <item name="Code Hosting for RoKlib" href="https://launchpad.net/roklib"/>
+            <item name="RoKlib @ Ohloh.net" href="http://www.ohloh.net/p/roklib"/>
+            <item name="Author's Homepage" href="http://www.roland-krueger.info/engl_index.html"/>
+        </links>
+
+        <menu name="RoKlib">
+            <item name="Home" href="index.html"/>
+            <item name="About RoKlib" href="about.html"/>
+            <item name="Download + Installation" href="download.html"/>
+            <!--
+            <item name="Release Notes"           href="release-notes.html" />
+            -->
+            <item name="Documentation" href="documentation.html"/>
+            <item name="Screenshots + Demos" href="demo.html"/>
+            <item name="Contribute!" href="contribute.html"/>
+            <item name="Credits" href="credits.html"/>
+        </menu>
+
+        <menu ref="reports"/>
+
+    </body>
 </project>

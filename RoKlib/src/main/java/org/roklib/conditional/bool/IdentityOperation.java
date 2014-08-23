@@ -20,12 +20,10 @@
  */
 package org.roklib.conditional.bool;
 
-public class IdentityOperation extends AbstractUnaryBooleanOperation
-{
-  private static final long serialVersionUID = 6473311064174303611L;
+public class IdentityOperation extends AbstractUnaryBooleanOperation {
+    private static final long serialVersionUID = 6473311064174303611L;
 
-  public boolean execute ()
-  {
-    return mValue;
-  }
+    public boolean execute() {
+        return mValue;
+    }
 }

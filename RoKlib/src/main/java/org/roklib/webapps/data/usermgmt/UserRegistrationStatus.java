@@ -21,52 +21,44 @@
 package org.roklib.webapps.data.usermgmt;
 
 
-import java.io.Serializable;
-import java.util.Date;
-
 import org.roklib.util.RandomStringIDGenerator;
 import org.roklib.util.helper.CheckForNull;
 
-public class UserRegistrationStatus implements Serializable
-{
-  private static final long serialVersionUID = 325123813003034741L;
+import java.io.Serializable;
+import java.util.Date;
 
-  private Date              mRegisteredSince;
-  private String            mRegistrationKey;
+public class UserRegistrationStatus implements Serializable {
+    private static final long serialVersionUID = 325123813003034741L;
 
-  public UserRegistrationStatus ()
-  {
-  }
+    private Date mRegisteredSince;
+    private String mRegistrationKey;
 
-  public UserRegistrationStatus (Date registeredSince, String registrationKey)
-  {
-    CheckForNull.check (registeredSince, registrationKey);
-    mRegisteredSince = registeredSince;
-    mRegistrationKey = registrationKey;
-  }
+    public UserRegistrationStatus() {
+    }
 
-  public UserRegistrationStatus (int registrationKeyLength)
-  {
-    this (new Date (), RandomStringIDGenerator.getUniqueID (registrationKeyLength));
-  }
+    public UserRegistrationStatus(Date registeredSince, String registrationKey) {
+        CheckForNull.check(registeredSince, registrationKey);
+        mRegisteredSince = registeredSince;
+        mRegistrationKey = registrationKey;
+    }
 
-  public String getRegistrationKey ()
-  {
-    return mRegistrationKey;
-  }
+    public UserRegistrationStatus(int registrationKeyLength) {
+        this(new Date(), RandomStringIDGenerator.getUniqueID(registrationKeyLength));
+    }
 
-  public void setRegistrationKey (String registrationKey)
-  {
-    mRegistrationKey = registrationKey;
-  }
+    public String getRegistrationKey() {
+        return mRegistrationKey;
+    }
 
-  public Date getRegisteredSince ()
-  {
-    return mRegisteredSince;
-  }
+    public void setRegistrationKey(String registrationKey) {
+        mRegistrationKey = registrationKey;
+    }
 
-  public void setRegisteredSince (Date registeredSince)
-  {
-    mRegisteredSince = registeredSince;
-  }
+    public Date getRegisteredSince() {
+        return mRegisteredSince;
+    }
+
+    public void setRegisteredSince(Date registeredSince) {
+        mRegisteredSince = registeredSince;
+    }
 }

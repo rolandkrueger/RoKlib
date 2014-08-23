@@ -19,92 +19,82 @@
  */
 package org.roklib.webapps.uridispatching;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.Arrays;
-
 import org.junit.Before;
 import org.junit.Test;
 
-public class StartsWithURIActionHandlerTest
-{
-  private URIActionDispatcher        mDispatcher;
-  private TURIActionHandler          mTestActionHandler;
-  private TURIActionCommand          mTestActionCommand;
-  private StartsWithURIActionHandler mStartsWithActionHandler;
-  private TURIActionCommand          mStartsWithActionCommand;
-  private TURIActionHandler          mLastActionHandler;
-  private TURIActionCommand          mLastActionCommand;
+import java.util.Arrays;
 
-  @Before
-  public void setUp ()
-  {
-    mDispatcher = new URIActionDispatcher (false);
+import static org.junit.Assert.assertTrue;
 
-    mTestActionCommand = new TURIActionCommand ();
-    mTestActionHandler = new TURIActionHandler ("testhandler", mTestActionCommand);
+public class StartsWithURIActionHandlerTest {
+    private URIActionDispatcher mDispatcher;
+    private TURIActionHandler mTestActionHandler;
+    private TURIActionCommand mTestActionCommand;
+    private StartsWithURIActionHandler mStartsWithActionHandler;
+    private TURIActionCommand mStartsWithActionCommand;
+    private TURIActionHandler mLastActionHandler;
+    private TURIActionCommand mLastActionCommand;
 
-    mStartsWithActionHandler = new StartsWithURIActionHandler ("test");
-    mStartsWithActionCommand = new TURIActionCommand ();
-    mStartsWithActionHandler.setRootCommand (mStartsWithActionCommand);
+    @Before
+    public void setUp() {
+        mDispatcher = new URIActionDispatcher(false);
 
-    mLastActionCommand = new TURIActionCommand ();
-    mLastActionHandler = new TURIActionHandler ("last", mLastActionCommand);
-    mStartsWithActionHandler.addSubHandler (mLastActionHandler);
+        mTestActionCommand = new TURIActionCommand();
+        mTestActionHandler = new TURIActionHandler("testhandler", mTestActionCommand);
 
-    mDispatcher.addHandler (mStartsWithActionHandler);
-    mDispatcher.addHandler (mTestActionHandler);
-  }
+        mStartsWithActionHandler = new StartsWithURIActionHandler("test");
+        mStartsWithActionCommand = new TURIActionCommand();
+        mStartsWithActionHandler.setRootCommand(mStartsWithActionCommand);
 
-  @Test
-  public void testDispatching ()
-  {
-    mDispatcher.handleURIAction ("/testvalue/last");
-    assertActionCommandWasExecuted (mLastActionCommand);
-  }
+        mLastActionCommand = new TURIActionCommand();
+        mLastActionHandler = new TURIActionHandler("last", mLastActionCommand);
+        mStartsWithActionHandler.addSubHandler(mLastActionHandler);
 
-  @Test
-  public void testPrecedence ()
-  {
-    mDispatcher.handleURIAction ("/testhandler");
-    assertActionCommandWasExecuted (mTestActionCommand);
-  }
+        mDispatcher.addHandler(mStartsWithActionHandler);
+        mDispatcher.addHandler(mTestActionHandler);
+    }
 
-  @Test
-  public void testCaseSensitive ()
-  {
-    mDispatcher.setCaseSensitive (true);
-    mDispatcher.handleURIAction ("/testvalue");
-    assertOutcome ();
-  }
+    @Test
+    public void testDispatching() {
+        mDispatcher.handleURIAction("/testvalue/last");
+        assertActionCommandWasExecuted(mLastActionCommand);
+    }
 
-  @Test
-  public void testCaseInsensitive ()
-  {
-    mDispatcher.setCaseSensitive (false);
-    mDispatcher.handleURIAction ("/TESTvalue");
-    assertOutcome ();
-  }
+    @Test
+    public void testPrecedence() {
+        mDispatcher.handleURIAction("/testhandler");
+        assertActionCommandWasExecuted(mTestActionCommand);
+    }
 
-  @Test (expected = IllegalArgumentException.class)
-  public void testConstructor_Fail ()
-  {
-    new StartsWithURIActionHandler ("  ");
-  }
+    @Test
+    public void testCaseSensitive() {
+        mDispatcher.setCaseSensitive(true);
+        mDispatcher.handleURIAction("/testvalue");
+        assertOutcome();
+    }
 
-  private void assertOutcome ()
-  {
-    assertActionCommandWasExecuted (mStartsWithActionCommand);
-    assertMatchedTokenFragments (mStartsWithActionHandler, new String[] { "value" });
-  }
+    @Test
+    public void testCaseInsensitive() {
+        mDispatcher.setCaseSensitive(false);
+        mDispatcher.handleURIAction("/TESTvalue");
+        assertOutcome();
+    }
 
-  private void assertActionCommandWasExecuted (TURIActionCommand command)
-  {
-    assertTrue (command.mExecuted);
-  }
+    @Test(expected = IllegalArgumentException.class)
+    public void testConstructor_Fail() {
+        new StartsWithURIActionHandler("  ");
+    }
 
-  private void assertMatchedTokenFragments (RegexURIActionHandler handler, String[] expectedTokenFragments)
-  {
-    assertTrue (Arrays.equals (expectedTokenFragments, handler.getMatchedTokenFragments ()));
-  }
+    private void assertOutcome() {
+        assertActionCommandWasExecuted(mStartsWithActionCommand);
+        assertMatchedTokenFragments(mStartsWithActionHandler, new String[]{"value"});
+    }
+
+    private void assertActionCommandWasExecuted(TURIActionCommand command) {
+        assertTrue(command.mExecuted);
+    }
+
+    private void assertMatchedTokenFragments(RegexURIActionHandler handler, String[] expectedTokenFragments) {
+        assertTrue(Arrays.equals(expectedTokenFragments, handler.getMatchedTokenFragments()));
+    }
 }

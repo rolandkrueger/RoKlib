@@ -22,9 +22,8 @@ package org.roklib.webapps.data;
 
 import java.io.Serializable;
 
-public interface IGenericPersistableObject<KeyClass> extends Serializable
-{
-  public KeyClass getKey ();
+public interface IGenericPersistableObject<KeyClass> extends Serializable {
+    public KeyClass getKey();
 
-  public void setKey (KeyClass key);
+    public void setKey(KeyClass key);
 }

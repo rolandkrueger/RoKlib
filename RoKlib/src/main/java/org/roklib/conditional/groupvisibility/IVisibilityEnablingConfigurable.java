@@ -22,13 +22,12 @@ package org.roklib.conditional.groupvisibility;
 
 import java.io.Serializable;
 
-public interface IVisibilityEnablingConfigurable extends Serializable
-{
-  public void setVisible (boolean visible);
+public interface IVisibilityEnablingConfigurable extends Serializable {
+    public void setVisible(boolean visible);
 
-  public void setEnabled (boolean enabled);
+    public void setEnabled(boolean enabled);
 
-  public boolean isVisible ();
+    public boolean isVisible();
 
-  public boolean isEnabled ();
+    public boolean isEnabled();
 }

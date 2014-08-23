@@ -20,26 +20,23 @@
  */
 package org.roklib.conditional.engine;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
-import org.roklib.conditional.engine.ExternalCondition;
 import org.roklib.conditional.engine.conditions.HasState;
 import org.roklib.webapps.state.GenericUserState;
 
-public class ExternalConditionTest
-{
-  @Test
-  public void testGetBooleanValue ()
-  {
-    GenericUserState state = new GenericUserState ();
-    state.setStateValue (GenericUserState.DEACTIVATED);
-    HasState<GenericUserState> hasState = new HasState<GenericUserState> (state, GenericUserState.REGISTERED);
-    ExternalCondition condition = new ExternalCondition (hasState);
-    assertFalse (condition.getBooleanValue ());
-    state.setStateValue (GenericUserState.REGISTERED);
-    assertTrue (condition.getBooleanValue ());
-  }
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+public class ExternalConditionTest {
+    @Test
+    public void testGetBooleanValue() {
+        GenericUserState state = new GenericUserState();
+        state.setStateValue(GenericUserState.DEACTIVATED);
+        HasState<GenericUserState> hasState = new HasState<GenericUserState>(state, GenericUserState.REGISTERED);
+        ExternalCondition condition = new ExternalCondition(hasState);
+        assertFalse(condition.getBooleanValue());
+        state.setStateValue(GenericUserState.REGISTERED);
+        assertTrue(condition.getBooleanValue());
+    }
 
 }

@@ -23,11 +23,8 @@ package org.roklib.conditional.bool;
 import java.io.Serializable;
 
 /**
- * 
- * 
  * @author Roland Krueger
  */
-public interface IBooleanValueProvider extends Serializable
-{
-  public boolean getBooleanValue ();
+public interface IBooleanValueProvider extends Serializable {
+    public boolean getBooleanValue();
 }

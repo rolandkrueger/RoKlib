@@ -21,74 +21,63 @@
 package org.roklib.webapps.uridispatching.parameters;
 
 
+import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
+
 import java.util.List;
 import java.util.Map;
 
-import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
+public class SingleBooleanURIParameter extends AbstractSingleURIParameter<Boolean> {
+    private static final long serialVersionUID = 1181515935142386380L;
 
-public class SingleBooleanURIParameter extends AbstractSingleURIParameter<Boolean>
-{
-  private static final long serialVersionUID = 1181515935142386380L;
-
-  public SingleBooleanURIParameter (String parameterName)
-  {
-    super (parameterName);
-  }
-
-  public SingleBooleanURIParameter (String parameterName, Boolean defaultValue)
-  {
-    super (parameterName);
-    setDefaultValue (defaultValue);
-  }
-
-  protected boolean consumeImpl (Map<String, List<String>> parameters)
-  {
-    List<String> valueList = parameters.remove (getParameterName ());
-    if (valueList == null || valueList.isEmpty ())
-    {
-      return false;
-    }
-    String value = valueList.get (0).toLowerCase ();
-    return consumeValue (value);
-  }
-
-  @Override
-  protected boolean consumeListImpl (String[] values)
-  {
-    if (values.length == 0)
-      return false;
-    return consumeValue (values[0]);
-  }
-
-  private boolean consumeValue (String stringValue)
-  {
-    if (stringValue == null)
-      return false;
-    if (!(stringValue.equals ("1") || stringValue.equals ("0") || stringValue.equals ("false") || stringValue
-        .equals ("true")))
-    {
-      mError = EnumURIParameterErrors.CONVERSION_ERROR;
-      return false;
+    public SingleBooleanURIParameter(String parameterName) {
+        super(parameterName);
     }
 
-    if (stringValue.equals ("1"))
-    {
-      setValue (true);
-      return true;
+    public SingleBooleanURIParameter(String parameterName, Boolean defaultValue) {
+        super(parameterName);
+        setDefaultValue(defaultValue);
     }
 
-    if (stringValue.equals ("0"))
-    {
-      setValue (false);
-      return true;
+    protected boolean consumeImpl(Map<String, List<String>> parameters) {
+        List<String> valueList = parameters.remove(getParameterName());
+        if (valueList == null || valueList.isEmpty()) {
+            return false;
+        }
+        String value = valueList.get(0).toLowerCase();
+        return consumeValue(value);
     }
 
-    setValue (Boolean.valueOf (stringValue));
-    return true;
-  }
+    @Override
+    protected boolean consumeListImpl(String[] values) {
+        if (values.length == 0)
+            return false;
+        return consumeValue(values[0]);
+    }
 
-  public AbstractURIActionCommand getErrorCommandIfInvalid ()
-  {
-    return null;
-  }
+    private boolean consumeValue(String stringValue) {
+        if (stringValue == null)
+            return false;
+        if (!(stringValue.equals("1") || stringValue.equals("0") || stringValue.equals("false") || stringValue
+                .equals("true"))) {
+            mError = EnumURIParameterErrors.CONVERSION_ERROR;
+            return false;
+        }
+
+        if (stringValue.equals("1")) {
+            setValue(true);
+            return true;
+        }
+
+        if (stringValue.equals("0")) {
+            setValue(false);
+            return true;
+        }
+
+        setValue(Boolean.valueOf(stringValue));
+        return true;
+    }
+
+    public AbstractURIActionCommand getErrorCommandIfInvalid() {
+        return null;
+    }
 }

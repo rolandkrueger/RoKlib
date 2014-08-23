@@ -19,68 +19,55 @@
  */
 package org.roklib.swing;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class ErrorMessageViewer extends JDialog implements ActionListener
-{
-  private static final long serialVersionUID = -6062453811062792927L;
-  private JButton           mButton;
+public class ErrorMessageViewer extends JDialog implements ActionListener {
+    private static final long serialVersionUID = -6062453811062792927L;
+    private JButton mButton;
 
-  public ErrorMessageViewer (Frame owner, String title, String message)
-  {
-    super (owner, "Error!", true);
+    public ErrorMessageViewer(Frame owner, String title, String message) {
+        super(owner, "Error!", true);
 
-    setLayout (new BorderLayout ());
-    JPanel labelPanel = new JPanel ();
-    labelPanel.setLayout (new FlowLayout (FlowLayout.LEFT));
-    labelPanel.setBorder (new EmptyBorder (6, 6, 6, 6));
-    labelPanel.add (new JLabel (title));
-    add (labelPanel, BorderLayout.NORTH);
+        setLayout(new BorderLayout());
+        JPanel labelPanel = new JPanel();
+        labelPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        labelPanel.setBorder(new EmptyBorder(6, 6, 6, 6));
+        labelPanel.add(new JLabel(title));
+        add(labelPanel, BorderLayout.NORTH);
 
-    JTextArea textArea = new JTextArea (message);
-    textArea.setEditable (false);
-    textArea.setLineWrap (true);
-    textArea.setWrapStyleWord (true);
-    JScrollPane scroller = new JScrollPane (textArea);
-    scroller.setBorder (new CompoundBorder (new EmptyBorder (6, 6, 6, 6), new EtchedBorder (EtchedBorder.LOWERED)));
-    add (scroller, BorderLayout.CENTER);
+        JTextArea textArea = new JTextArea(message);
+        textArea.setEditable(false);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        JScrollPane scroller = new JScrollPane(textArea);
+        scroller.setBorder(new CompoundBorder(new EmptyBorder(6, 6, 6, 6), new EtchedBorder(EtchedBorder.LOWERED)));
+        add(scroller, BorderLayout.CENTER);
 
-    JPanel buttonPanel = new JPanel ();
-    mButton = new JButton ("  Ok  ");
-    buttonPanel.add (mButton);
-    mButton.addActionListener (this);
+        JPanel buttonPanel = new JPanel();
+        mButton = new JButton("  Ok  ");
+        buttonPanel.add(mButton);
+        mButton.addActionListener(this);
 
-    add (buttonPanel, BorderLayout.SOUTH);
+        add(buttonPanel, BorderLayout.SOUTH);
 
-    setSize (400, 300);
-  }
+        setSize(400, 300);
+    }
 
-  public void actionPerformed (ActionEvent e)
-  {
-    setVisible (false);
-  }
+    public void actionPerformed(ActionEvent e) {
+        setVisible(false);
+    }
 
-  public void addActionListener (ActionListener l)
-  {
-    mButton.addActionListener (l);
-  }
+    public void addActionListener(ActionListener l) {
+        mButton.addActionListener(l);
+    }
 
-  public void removeActionListener (ActionListener l)
-  {
-    mButton.removeActionListener (l);
-  }
+    public void removeActionListener(ActionListener l) {
+        mButton.removeActionListener(l);
+    }
 }

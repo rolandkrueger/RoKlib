@@ -25,46 +25,41 @@ package org.roklib.webapps.uridispatching;
  * interpretation process. The value of this token can be obtained with {@link #getCurrentURIToken()}. As this action
  * handler class is a particularly configured {@link RegexURIActionHandler}, all of the description of
  * {@link RegexURIActionHandler} also applies to this class.
- * 
+ *
  * @author Roland Krüger
  * @since 1.1.0
  */
-public class CatchAllURIActionHandler extends RegexURIActionHandler
-{
-  private static final long serialVersionUID = -5033766191211958005L;
+public class CatchAllURIActionHandler extends RegexURIActionHandler {
+    private static final long serialVersionUID = -5033766191211958005L;
 
-  public CatchAllURIActionHandler ()
-  {
-    super ("(.*)");
-  }
-
-  /**
-   * Returns the value of the URI token that has been interpreted by this action handler.
-   * 
-   * @return the URI token captured by this action handler
-   */
-  public String getCurrentURIToken ()
-  {
-    String[] matchedTokenFragments = getMatchedTokenFragments ();
-    if (matchedTokenFragments != null)
-    {
-      return matchedTokenFragments[0];
+    public CatchAllURIActionHandler() {
+        super("(.*)");
     }
-    return null;
-  }
 
-  /**
-   * <p>
-   * {@inheritDoc}
-   * </p>
-   * <p>
-   * Invariably returns <code>true</code> for this {@link CatchAllURIActionHandler}.
-   * </p>
-   */
-  @Override
-  protected boolean isResponsibleForToken (String uriToken)
-  {
-    mMatchedTokenFragments = new String[] { uriToken };
-    return true;
-  }
+    /**
+     * Returns the value of the URI token that has been interpreted by this action handler.
+     *
+     * @return the URI token captured by this action handler
+     */
+    public String getCurrentURIToken() {
+        String[] matchedTokenFragments = getMatchedTokenFragments();
+        if (matchedTokenFragments != null) {
+            return matchedTokenFragments[0];
+        }
+        return null;
+    }
+
+    /**
+     * <p>
+     * {@inheritDoc}
+     * </p>
+     * <p>
+     * Invariably returns <code>true</code> for this {@link CatchAllURIActionHandler}.
+     * </p>
+     */
+    @Override
+    protected boolean isResponsibleForToken(String uriToken) {
+        mMatchedTokenFragments = new String[]{uriToken};
+        return true;
+    }
 }

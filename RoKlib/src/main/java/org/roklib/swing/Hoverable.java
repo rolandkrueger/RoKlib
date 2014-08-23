@@ -19,7 +19,6 @@
  */
 package org.roklib.swing;
 
-public interface Hoverable
-{
-  public String getHoverText ();
+public interface Hoverable {
+    public String getHoverText();
 }

@@ -24,13 +24,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public interface IURIActionHandler extends Serializable
-{
-  public enum ParameterMode
-  {
-    QUERY, DIRECTORY, DIRECTORY_WITH_NAMES
-  }
+public interface IURIActionHandler extends Serializable {
+    public enum ParameterMode {
+        QUERY, DIRECTORY, DIRECTORY_WITH_NAMES
+    }
 
-  public abstract AbstractURIActionCommand handleURI (List<String> uriTokens, Map<String, List<String>> parameters,
-      ParameterMode parameterMode);
+    public abstract AbstractURIActionCommand handleURI(List<String> uriTokens, Map<String, List<String>> parameters,
+                                                       ParameterMode parameterMode);
 }

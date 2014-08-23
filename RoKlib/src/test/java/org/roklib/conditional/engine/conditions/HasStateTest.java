@@ -20,23 +20,20 @@
  */
 package org.roklib.conditional.engine.conditions;
 
+import org.junit.Test;
+import org.roklib.webapps.state.GenericUserState;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-import org.roklib.conditional.engine.conditions.HasState;
-import org.roklib.webapps.state.GenericUserState;
-
-public class HasStateTest
-{
-  @Test
-  public void testGetBooleanValue ()
-  {
-    GenericUserState state = new GenericUserState ();
-    state.setStateValue (GenericUserState.DEACTIVATED);
-    HasState<GenericUserState> hasState = new HasState<GenericUserState> (state, GenericUserState.REGISTERED);
-    assertFalse (hasState.getBooleanValue ());
-    state.setStateValue (GenericUserState.REGISTERED);
-    assertTrue (hasState.getBooleanValue ());
-  }
+public class HasStateTest {
+    @Test
+    public void testGetBooleanValue() {
+        GenericUserState state = new GenericUserState();
+        state.setStateValue(GenericUserState.DEACTIVATED);
+        HasState<GenericUserState> hasState = new HasState<GenericUserState>(state, GenericUserState.REGISTERED);
+        assertFalse(hasState.getBooleanValue());
+        state.setStateValue(GenericUserState.REGISTERED);
+        assertTrue(hasState.getBooleanValue());
+    }
 }

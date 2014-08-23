@@ -28,8 +28,7 @@ import org.roklib.util.UtilsTests;
 import org.roklib.webapps.WebappsTest;
 import org.roklib.webapps.uridispatching.URIDispatchingTests;
 
-@RunWith (Suite.class)
-@SuiteClasses ({ UtilsTests.class, WebappsTest.class, URIDispatchingTests.class })
-public class RoKlibTests
-{
+@RunWith(Suite.class)
+@SuiteClasses({UtilsTests.class, WebappsTest.class, URIDispatchingTests.class})
+public class RoKlibTests {
 }

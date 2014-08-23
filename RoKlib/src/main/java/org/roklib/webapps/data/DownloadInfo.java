@@ -23,50 +23,41 @@ package org.roklib.webapps.data;
 import java.io.InputStream;
 import java.io.Serializable;
 
-public class DownloadInfo implements Serializable
-{
-  private InputStream mDataStream;
-  private String      mFilename;
-  private String      mContentType;
+public class DownloadInfo implements Serializable {
+    private InputStream mDataStream;
+    private String mFilename;
+    private String mContentType;
 
-  public DownloadInfo ()
-  {
-  }
+    public DownloadInfo() {
+    }
 
-  public DownloadInfo (InputStream pDataStream, String pFilename, String pContentType)
-  {
-    mDataStream = pDataStream;
-    mFilename = pFilename;
-    mContentType = pContentType;
-  }
+    public DownloadInfo(InputStream pDataStream, String pFilename, String pContentType) {
+        mDataStream = pDataStream;
+        mFilename = pFilename;
+        mContentType = pContentType;
+    }
 
-  public InputStream getDataStream ()
-  {
-    return mDataStream;
-  }
+    public InputStream getDataStream() {
+        return mDataStream;
+    }
 
-  public void setDataStream (InputStream pDataStream)
-  {
-    mDataStream = pDataStream;
-  }
+    public void setDataStream(InputStream pDataStream) {
+        mDataStream = pDataStream;
+    }
 
-  public String getFilename ()
-  {
-    return mFilename;
-  }
+    public String getFilename() {
+        return mFilename;
+    }
 
-  public void setFilename (String pFilename)
-  {
-    mFilename = pFilename;
-  }
+    public void setFilename(String pFilename) {
+        mFilename = pFilename;
+    }
 
-  public String getContentType ()
-  {
-    return mContentType;
-  }
+    public String getContentType() {
+        return mContentType;
+    }
 
-  public void setContentType (String pContentType)
-  {
-    mContentType = pContentType;
-  }
+    public void setContentType(String pContentType) {
+        mContentType = pContentType;
+    }
 }

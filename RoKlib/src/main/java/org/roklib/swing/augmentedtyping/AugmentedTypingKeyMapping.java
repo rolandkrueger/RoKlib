@@ -26,36 +26,31 @@ import java.util.Map;
 
 /**
  * This class represents a mapping of keyboard characters on arrays of related characters from the IPA charset.
- * 
+ *
  * @author Roland Krueger
  */
-public class AugmentedTypingKeyMapping
-{
-  private HashMap<Character, Character[]> mMapping;
-  private boolean                         mIsInstalled = false;
+public class AugmentedTypingKeyMapping {
+    private HashMap<Character, Character[]> mMapping;
+    private boolean mIsInstalled = false;
 
-  public AugmentedTypingKeyMapping ()
-  {
-    mMapping = new HashMap<Character, Character[]> ();
-  }
+    public AugmentedTypingKeyMapping() {
+        mMapping = new HashMap<Character, Character[]>();
+    }
 
-  public void addMapping (Character keyBoardChar, Character[] mappedChars)
-  {
-    if (mIsInstalled)
-      throw new IllegalStateException ("This mapping is already installed. Changes are not permitted in this state.");
-    Character[] chars = new Character[mappedChars.length + 1];
-    chars[0] = keyBoardChar;
-    System.arraycopy (mappedChars, 0, chars, 1, mappedChars.length);
-    mMapping.put (keyBoardChar, chars);
-  }
+    public void addMapping(Character keyBoardChar, Character[] mappedChars) {
+        if (mIsInstalled)
+            throw new IllegalStateException("This mapping is already installed. Changes are not permitted in this state.");
+        Character[] chars = new Character[mappedChars.length + 1];
+        chars[0] = keyBoardChar;
+        System.arraycopy(mappedChars, 0, chars, 1, mappedChars.length);
+        mMapping.put(keyBoardChar, chars);
+    }
 
-  public Map<Character, Character[]> getData ()
-  {
-    return Collections.unmodifiableMap (mMapping);
-  }
+    public Map<Character, Character[]> getData() {
+        return Collections.unmodifiableMap(mMapping);
+    }
 
-  public void setInstalled ()
-  {
-    mIsInstalled = true;
-  }
+    public void setInstalled() {
+        mIsInstalled = true;
+    }
 }

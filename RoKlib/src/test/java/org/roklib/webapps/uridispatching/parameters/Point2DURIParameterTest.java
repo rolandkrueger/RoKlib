@@ -20,36 +20,31 @@
  */
 package org.roklib.webapps.uridispatching.parameters;
 
-import static org.junit.Assert.assertEquals;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 
-public class Point2DURIParameterTest extends AbstractURIParameterTest<Point2D.Double>
-{
-  @Override
-  public AbstractURIParameter<Double> getTestURIParameter ()
-  {
-    return new Point2DURIParameter ("testX", "testY");
-  }
+import static org.junit.Assert.assertEquals;
 
-  @Override
-  public Double getTestValue ()
-  {
-    return new Double (1.0, 2.0);
-  }
+public class Point2DURIParameterTest extends AbstractURIParameterTest<Point2D.Double> {
+    @Override
+    public AbstractURIParameter<Double> getTestURIParameter() {
+        return new Point2DURIParameter("testX", "testY");
+    }
 
-  @Override
-  public void testGetSingleValueCount ()
-  {
-    assertEquals (2, getTestURIParameter ().getSingleValueCount ());
-  }
+    @Override
+    public Double getTestValue() {
+        return new Double(1.0, 2.0);
+    }
 
-  @Override
-  public void testGetParameterNames ()
-  {
-    assertEquals (2, getTestURIParameter ().getParameterNames ().size ());
-    assertEquals ("testX", getTestURIParameter ().getParameterNames ().get (0));
-    assertEquals ("testY", getTestURIParameter ().getParameterNames ().get (1));
-  }
+    @Override
+    public void testGetSingleValueCount() {
+        assertEquals(2, getTestURIParameter().getSingleValueCount());
+    }
+
+    @Override
+    public void testGetParameterNames() {
+        assertEquals(2, getTestURIParameter().getParameterNames().size());
+        assertEquals("testX", getTestURIParameter().getParameterNames().get(0));
+        assertEquals("testY", getTestURIParameter().getParameterNames().get(1));
+    }
 }

@@ -20,24 +20,20 @@
  */
 package org.roklib.conditional.bool;
 
-public class OrOperation extends AbstractBinaryBooleanOperation
-{
-  private static final long serialVersionUID = 2060306880093108085L;
+public class OrOperation extends AbstractBinaryBooleanOperation {
+    private static final long serialVersionUID = 2060306880093108085L;
 
-  public boolean execute ()
-  {
-    return mLeft || mRight;
-  }
+    public boolean execute() {
+        return mLeft || mRight;
+    }
 
-  public boolean canShortCircuit (boolean firstOperand)
-  {
-    return firstOperand;
-  }
+    public boolean canShortCircuit(boolean firstOperand) {
+        return firstOperand;
+    }
 
-  public boolean getShortCircuit (boolean firstOperand)
-  {
-    if (!canShortCircuit (firstOperand))
-      throw new IllegalStateException ("Cannot short-circuit.");
-    return true;
-  }
+    public boolean getShortCircuit(boolean firstOperand) {
+        if (!canShortCircuit(firstOperand))
+            throw new IllegalStateException("Cannot short-circuit.");
+        return true;
+    }
 }

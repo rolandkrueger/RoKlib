@@ -24,13 +24,10 @@ import java.io.IOException;
 
 /**
  * @author Roland Krueger
- * 
  */
-public class ByteArrayStreamDataBufferTest extends IStreamDataBufferTest
-{
-  @Override
-  public IStreamDataBuffer createObjectUnderTest () throws IOException
-  {
-    return new ByteArrayStreamDataBuffer ();
-  }
+public class ByteArrayStreamDataBufferTest extends IStreamDataBufferTest {
+    @Override
+    public IStreamDataBuffer createObjectUnderTest() throws IOException {
+        return new ByteArrayStreamDataBuffer();
+    }
 }

@@ -24,28 +24,24 @@ import org.roklib.conditional.bool.IBooleanValueProvider;
 import org.roklib.webapps.data.usermgmt.GenericUser;
 import org.roklib.webapps.data.usermgmt.UserRole;
 
-public class HasRole<KeyClass, UserData> implements IBooleanValueProvider
-{
-  private static final long               serialVersionUID = -3841669716191027492L;
+public class HasRole<KeyClass, UserData> implements IBooleanValueProvider {
+    private static final long serialVersionUID = -3841669716191027492L;
 
-  private GenericUser<KeyClass, UserData> mUser;
-  private UserRole<KeyClass>              mRole;
+    private GenericUser<KeyClass, UserData> mUser;
+    private UserRole<KeyClass> mRole;
 
-  public HasRole (GenericUser<KeyClass, UserData> user, UserRole<KeyClass> role)
-  {
-    mUser = user;
-    mRole = role;
-  }
+    public HasRole(GenericUser<KeyClass, UserData> user, UserRole<KeyClass> role) {
+        mUser = user;
+        mRole = role;
+    }
 
-  public void setUser (GenericUser<KeyClass, UserData> user)
-  {
-    mUser = user;
-  }
+    public void setUser(GenericUser<KeyClass, UserData> user) {
+        mUser = user;
+    }
 
-  public boolean getBooleanValue ()
-  {
-    if (mUser == null || mRole == null)
-      return false;
-    return mUser.hasRole (mRole);
-  }
+    public boolean getBooleanValue() {
+        if (mUser == null || mRole == null)
+            return false;
+        return mUser.hasRole(mRole);
+    }
 }

@@ -28,8 +28,7 @@ import org.roklib.webapps.actions.UserAuthenticatorTest;
 import org.roklib.webapps.data.GenericPersistableObjectTest;
 import org.roklib.webapps.data.usermgmt.GenericUserTest;
 
-@RunWith (Suite.class)
-@SuiteClasses ({ GenericPersistableObjectTest.class, GenericUserTest.class, UserAuthenticatorTest.class })
-public class WebappsTest
-{
+@RunWith(Suite.class)
+@SuiteClasses({GenericPersistableObjectTest.class, GenericUserTest.class, UserAuthenticatorTest.class})
+public class WebappsTest {
 }

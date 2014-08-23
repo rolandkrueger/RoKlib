@@ -21,61 +21,52 @@
 package org.roklib.webapps.uridispatching.parameters;
 
 
+import org.roklib.util.helper.CheckForNull;
+import org.roklib.webapps.uridispatching.AbstractURIActionHandler;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.roklib.util.helper.CheckForNull;
-import org.roklib.webapps.uridispatching.AbstractURIActionHandler;
+public abstract class AbstractSingleURIParameter<V extends Serializable> extends AbstractURIParameter<V> {
+    private static final long serialVersionUID = -4048110873045678896L;
 
-public abstract class AbstractSingleURIParameter<V extends Serializable> extends AbstractURIParameter<V>
-{
-  private static final long serialVersionUID = -4048110873045678896L;
+    private List<String> mParameterName;
 
-  private List<String>      mParameterName;
-
-  public AbstractSingleURIParameter (String parameterName, boolean optional)
-  {
-    this (parameterName);
-    setOptional (optional);
-  }
-
-  public AbstractSingleURIParameter (String parameterName)
-  {
-    CheckForNull.check (parameterName);
-    mParameterName = new LinkedList<String> ();
-    mParameterName.add (parameterName);
-  }
-
-  protected String getParameterName ()
-  {
-    return mParameterName.get (0);
-  }
-
-  public int getSingleValueCount ()
-  {
-    return 1;
-  }
-
-  public List<String> getParameterNames ()
-  {
-    return mParameterName;
-  }
-
-  public void parameterizeURIHandler (AbstractURIActionHandler handler)
-  {
-    if (mValue != null)
-    {
-      handler.addActionArgument (mParameterName.get (0), mValue);
+    public AbstractSingleURIParameter(String parameterName, boolean optional) {
+        this(parameterName);
+        setOptional(optional);
     }
-  }
 
-  @Override
-  public String toString ()
-  {
-    StringBuilder buf = new StringBuilder ();
-    buf.append ("{").append (getClass ().getSimpleName ()).append (": ");
-    buf.append (mParameterName.get (0)).append ("}");
-    return buf.toString ();
-  }
+    public AbstractSingleURIParameter(String parameterName) {
+        CheckForNull.check(parameterName);
+        mParameterName = new LinkedList<String>();
+        mParameterName.add(parameterName);
+    }
+
+    protected String getParameterName() {
+        return mParameterName.get(0);
+    }
+
+    public int getSingleValueCount() {
+        return 1;
+    }
+
+    public List<String> getParameterNames() {
+        return mParameterName;
+    }
+
+    public void parameterizeURIHandler(AbstractURIActionHandler handler) {
+        if (mValue != null) {
+            handler.addActionArgument(mParameterName.get(0), mValue);
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder buf = new StringBuilder();
+        buf.append("{").append(getClass().getSimpleName()).append(": ");
+        buf.append(mParameterName.get(0)).append("}");
+        return buf.toString();
+    }
 }

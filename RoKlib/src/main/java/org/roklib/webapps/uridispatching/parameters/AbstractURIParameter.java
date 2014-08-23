@@ -21,103 +21,88 @@
 package org.roklib.webapps.uridispatching.parameters;
 
 
+import org.roklib.webapps.uridispatching.AbstractURIActionHandler;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import org.roklib.webapps.uridispatching.AbstractURIActionHandler;
+public abstract class AbstractURIParameter<V extends Serializable> implements IURIParameter<V> {
+    private static final long serialVersionUID = 2304452724109724238L;
 
-public abstract class AbstractURIParameter<V extends Serializable> implements IURIParameter<V>
-{
-  private static final long        serialVersionUID = 2304452724109724238L;
+    protected EnumURIParameterErrors mError;
+    protected V mValue;
+    private V mDefaultValue = null;
+    private boolean mOptional = false;
 
-  protected EnumURIParameterErrors mError;
-  protected V                      mValue;
-  private V                        mDefaultValue    = null;
-  private boolean                  mOptional        = false;
+    protected abstract boolean consumeImpl(Map<String, List<String>> parameters);
 
-  protected abstract boolean consumeImpl (Map<String, List<String>> parameters);
+    protected abstract boolean consumeListImpl(String[] values);
 
-  protected abstract boolean consumeListImpl (String[] values);
+    public AbstractURIParameter() {
+        mError = EnumURIParameterErrors.NO_ERROR;
+    }
 
-  public AbstractURIParameter ()
-  {
-    mError = EnumURIParameterErrors.NO_ERROR;
-  }
+    public final boolean consume(Map<String, List<String>> parameters) {
+        mError = EnumURIParameterErrors.NO_ERROR;
+        boolean result = consumeImpl(parameters);
+        postConsume();
+        return result;
+    }
 
-  public final boolean consume (Map<String, List<String>> parameters)
-  {
-    mError = EnumURIParameterErrors.NO_ERROR;
-    boolean result = consumeImpl (parameters);
-    postConsume ();
-    return result;
-  }
+    public boolean consumeList(String[] values) {
+        mError = EnumURIParameterErrors.NO_ERROR;
+        boolean result = consumeListImpl(values);
+        postConsume();
+        return result;
+    }
 
-  public boolean consumeList (String[] values)
-  {
-    mError = EnumURIParameterErrors.NO_ERROR;
-    boolean result = consumeListImpl (values);
-    postConsume ();
-    return result;
-  }
+    private void postConsume() {
+        if (!hasValue())
+            mValue = mDefaultValue;
+        if (!hasValue() && !mOptional && mError == EnumURIParameterErrors.NO_ERROR)
+            mError = EnumURIParameterErrors.PARAMETER_NOT_FOUND;
+    }
 
-  private void postConsume ()
-  {
-    if (!hasValue ())
-      mValue = mDefaultValue;
-    if (!hasValue () && !mOptional && mError == EnumURIParameterErrors.NO_ERROR)
-      mError = EnumURIParameterErrors.PARAMETER_NOT_FOUND;
-  }
+    public void setDefaultValue(V defaultValue) {
+        mDefaultValue = defaultValue;
+    }
 
-  public void setDefaultValue (V defaultValue)
-  {
-    mDefaultValue = defaultValue;
-  }
+    protected void setError(EnumURIParameterErrors error) {
+        mError = error;
+    }
 
-  protected void setError (EnumURIParameterErrors error)
-  {
-    mError = error;
-  }
+    public EnumURIParameterErrors getError() {
+        return mError;
+    }
 
-  public EnumURIParameterErrors getError ()
-  {
-    return mError;
-  }
+    public V getValue() {
+        return mValue;
+    }
 
-  public V getValue ()
-  {
-    return mValue;
-  }
+    public void setValue(V value) {
+        mValue = value;
+    }
 
-  public void setValue (V value)
-  {
-    mValue = value;
-  }
+    public void setValueAndParameterizeURIHandler(V value, AbstractURIActionHandler handler) {
+        setValue(value);
+        parameterizeURIHandler(handler);
+    }
 
-  public void setValueAndParameterizeURIHandler (V value, AbstractURIActionHandler handler)
-  {
-    setValue (value);
-    parameterizeURIHandler (handler);
-  }
+    public void clearValue() {
+        mError = EnumURIParameterErrors.NO_ERROR;
+        mValue = null;
+    }
 
-  public void clearValue ()
-  {
-    mError = EnumURIParameterErrors.NO_ERROR;
-    mValue = null;
-  }
+    public boolean hasValue() {
+        return mError == EnumURIParameterErrors.NO_ERROR && mValue != null;
+    }
 
-  public boolean hasValue ()
-  {
-    return mError == EnumURIParameterErrors.NO_ERROR && mValue != null;
-  }
+    public void setOptional(boolean optional) {
+        mOptional = optional;
+    }
 
-  public void setOptional (boolean optional)
-  {
-    mOptional = optional;
-  }
-
-  public boolean isOptional ()
-  {
-    return mOptional;
-  }
+    public boolean isOptional() {
+        return mOptional;
+    }
 }

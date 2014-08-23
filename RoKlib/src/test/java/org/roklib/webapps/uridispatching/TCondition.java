@@ -22,23 +22,19 @@ package org.roklib.webapps.uridispatching;
 
 import org.roklib.conditional.engine.AbstractCondition;
 
-@SuppressWarnings ("serial")
-public class TCondition extends AbstractCondition
-{
-  private boolean mValue;
+@SuppressWarnings("serial")
+public class TCondition extends AbstractCondition {
+    private boolean mValue;
 
-  public TCondition (boolean value)
-  {
-    mValue = value;
-  }
+    public TCondition(boolean value) {
+        mValue = value;
+    }
 
-  public void setValue (boolean value)
-  {
-    mValue = value;
-  }
+    public void setValue(boolean value) {
+        mValue = value;
+    }
 
-  public boolean getBooleanValue ()
-  {
-    return mValue;
-  }
+    public boolean getBooleanValue() {
+        return mValue;
+    }
 }

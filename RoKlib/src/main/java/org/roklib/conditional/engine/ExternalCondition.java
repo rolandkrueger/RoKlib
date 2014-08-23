@@ -26,24 +26,21 @@ import org.roklib.util.helper.CheckForNull;
 /**
  * This type of condition is not able to notify listeners when its boolean value has changed since this value is defined
  * externally.
- * 
+ *
  * @author Roland Krueger
  */
-public class ExternalCondition extends AbstractCondition
-{
-  private static final long     serialVersionUID = 1133757473871960974L;
+public class ExternalCondition extends AbstractCondition {
+    private static final long serialVersionUID = 1133757473871960974L;
 
-  private IBooleanValueProvider mValueProvider;
+    private IBooleanValueProvider mValueProvider;
 
-  public ExternalCondition (IBooleanValueProvider valueProvider)
-  {
-    super ();
-    CheckForNull.check (valueProvider);
-    mValueProvider = valueProvider;
-  }
+    public ExternalCondition(IBooleanValueProvider valueProvider) {
+        super();
+        CheckForNull.check(valueProvider);
+        mValueProvider = valueProvider;
+    }
 
-  public boolean getBooleanValue ()
-  {
-    return mValueProvider.getBooleanValue ();
-  }
+    public boolean getBooleanValue() {
+        return mValueProvider.getBooleanValue();
+    }
 }

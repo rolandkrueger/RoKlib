@@ -22,7 +22,6 @@ package org.roklib.webapps.authorization;
 
 import java.io.Serializable;
 
-public interface IAdmissionTicket extends Serializable
-{
-  public String getName ();
+public interface IAdmissionTicket extends Serializable {
+    public String getName();
 }

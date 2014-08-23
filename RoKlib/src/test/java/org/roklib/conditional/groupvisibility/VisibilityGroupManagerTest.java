@@ -20,59 +20,52 @@
  */
 package org.roklib.conditional.groupvisibility;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Before;
 import org.junit.Test;
 
-public class VisibilityGroupManagerTest
-{
-  private VisibilityGroupManager                  mTestObj;
-  private VisibilityEnablingConfigurableTestClass mGroupMember1 = new VisibilityEnablingConfigurableTestClass ();
-  private VisibilityEnablingConfigurableTestClass mGroupMember2 = new VisibilityEnablingConfigurableTestClass ();
+import static org.junit.Assert.*;
 
-  @Before
-  public void setUp ()
-  {
-    mTestObj = new VisibilityGroupManager ();
-    mTestObj.addGroupMember ("group1", mGroupMember1);
-    mTestObj.addGroupMember ("group2", mGroupMember2);
+public class VisibilityGroupManagerTest {
+    private VisibilityGroupManager mTestObj;
+    private VisibilityEnablingConfigurableTestClass mGroupMember1 = new VisibilityEnablingConfigurableTestClass();
+    private VisibilityEnablingConfigurableTestClass mGroupMember2 = new VisibilityEnablingConfigurableTestClass();
 
-  }
+    @Before
+    public void setUp() {
+        mTestObj = new VisibilityGroupManager();
+        mTestObj.addGroupMember("group1", mGroupMember1);
+        mTestObj.addGroupMember("group2", mGroupMember2);
 
-  @Test
-  public void testAddGroupMember ()
-  {
-    assertEquals (2, mTestObj.getGroupCount ());
-    assertTrue (mTestObj.getVisibilityGroup ("group1").getGroupMembers ().contains (mGroupMember1));
-    assertTrue (mTestObj.getVisibilityGroup ("group2").getGroupMembers ().contains (mGroupMember2));
-    assertFalse (mTestObj.getVisibilityGroup ("group2").getGroupMembers ().contains (mGroupMember1));
-    assertFalse (mTestObj.getVisibilityGroup ("group1").getGroupMembers ().contains (mGroupMember2));
-  }
+    }
 
-  @Test
-  public void testSetGroupVisible ()
-  {
-    assertTrue (mTestObj.getVisibilityGroup ("group2").isVisible ());
-    assertTrue (mTestObj.setGroupVisible ("group2", false));
-    assertFalse (mTestObj.getVisibilityGroup ("group2").isVisible ());
-    mTestObj.setGroupVisible ("group2", true);
-    assertTrue (mTestObj.getVisibilityGroup ("group2").isVisible ());
+    @Test
+    public void testAddGroupMember() {
+        assertEquals(2, mTestObj.getGroupCount());
+        assertTrue(mTestObj.getVisibilityGroup("group1").getGroupMembers().contains(mGroupMember1));
+        assertTrue(mTestObj.getVisibilityGroup("group2").getGroupMembers().contains(mGroupMember2));
+        assertFalse(mTestObj.getVisibilityGroup("group2").getGroupMembers().contains(mGroupMember1));
+        assertFalse(mTestObj.getVisibilityGroup("group1").getGroupMembers().contains(mGroupMember2));
+    }
 
-    assertFalse (mTestObj.setGroupVisible ("non-existing group", false));
-  }
+    @Test
+    public void testSetGroupVisible() {
+        assertTrue(mTestObj.getVisibilityGroup("group2").isVisible());
+        assertTrue(mTestObj.setGroupVisible("group2", false));
+        assertFalse(mTestObj.getVisibilityGroup("group2").isVisible());
+        mTestObj.setGroupVisible("group2", true);
+        assertTrue(mTestObj.getVisibilityGroup("group2").isVisible());
 
-  @Test
-  public void testSetGroupEnabled ()
-  {
-    assertTrue (mTestObj.getVisibilityGroup ("group2").isEnabled ());
-    assertTrue (mTestObj.setGroupEnabled ("group2", false));
-    assertFalse (mTestObj.getVisibilityGroup ("group2").isEnabled ());
-    mTestObj.setGroupEnabled ("group2", true);
-    assertTrue (mTestObj.getVisibilityGroup ("group2").isEnabled ());
+        assertFalse(mTestObj.setGroupVisible("non-existing group", false));
+    }
 
-    assertFalse (mTestObj.setGroupEnabled ("non-existing group", false));
-  }
+    @Test
+    public void testSetGroupEnabled() {
+        assertTrue(mTestObj.getVisibilityGroup("group2").isEnabled());
+        assertTrue(mTestObj.setGroupEnabled("group2", false));
+        assertFalse(mTestObj.getVisibilityGroup("group2").isEnabled());
+        mTestObj.setGroupEnabled("group2", true);
+        assertTrue(mTestObj.getVisibilityGroup("group2").isEnabled());
+
+        assertFalse(mTestObj.setGroupEnabled("non-existing group", false));
+    }
 }

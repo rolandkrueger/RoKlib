@@ -25,12 +25,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-@RunWith (Suite.class)
-@SuiteClasses ({ CompareTSTMapToTreeMapTest.class, PrefixSubtreeIteratorTest.class, TernarySearchTreeMapTest.class,
-    TSTKeySetTest.class, TSTMapEntrySetTest.class, TSTMapSortedMapInterfaceTest.class, TSTMapValuesTest.class,
-    TSTMapWithEmptyStringKeyTest.class, TSTSubMapTest.class, TSTMapCaseInsensitiveTest.class,
-    TSTMapCaseInsensitiveMapEntrySetTest.class, TSTMapCaseInsensitiveSubMapTest.class, TSTSetTest.class,
-    TSTSetSubSetTest.class, TSTSetCaseInsensitiveTest.class })
-public class TernarySearchTreeMapTests
-{
+@RunWith(Suite.class)
+@SuiteClasses({CompareTSTMapToTreeMapTest.class, PrefixSubtreeIteratorTest.class, TernarySearchTreeMapTest.class,
+        TSTKeySetTest.class, TSTMapEntrySetTest.class, TSTMapSortedMapInterfaceTest.class, TSTMapValuesTest.class,
+        TSTMapWithEmptyStringKeyTest.class, TSTSubMapTest.class, TSTMapCaseInsensitiveTest.class,
+        TSTMapCaseInsensitiveMapEntrySetTest.class, TSTMapCaseInsensitiveSubMapTest.class, TSTSetTest.class,
+        TSTSetSubSetTest.class, TSTSetCaseInsensitiveTest.class})
+public class TernarySearchTreeMapTests {
 }

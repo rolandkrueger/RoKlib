@@ -20,160 +20,140 @@
  */
 package org.roklib.collections.tstmap;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.roklib.collections.TernarySearchTreeMap;
 import org.roklib.collections.tstmap.MapData.TestDataFixture;
 
-public class TSTKeySetTest
-{
-  private TernarySearchTreeMap<String> mMap;
-  private TestDataFixture              mTestData = MapData.getFiveLowerCaseEntriesOrderingExpected ();
-  private Set<CharSequence>            mKeySet;
-  private Map<CharSequence, String>    mComparisonMap;
+import java.util.*;
 
-  @Before
-  public void setUp ()
-  {
-    mMap = new TernarySearchTreeMap<String> ();
-    mTestData = MapData.getFiveLowerCaseEntriesOrderingExpected ();
-    mMap.putAll (mTestData.getData ());
-    mKeySet = mMap.keySet ();
-    mComparisonMap = new TreeMap<CharSequence, String> (mTestData.getData ());
-  }
+import static junit.framework.Assert.*;
 
-  @Test (expected = UnsupportedOperationException.class)
-  public void testAdd ()
-  {
-    mKeySet.add ("test");
-  }
+public class TSTKeySetTest {
+    private TernarySearchTreeMap<String> mMap;
+    private TestDataFixture mTestData = MapData.getFiveLowerCaseEntriesOrderingExpected();
+    private Set<CharSequence> mKeySet;
+    private Map<CharSequence, String> mComparisonMap;
 
-  @Test (expected = UnsupportedOperationException.class)
-  public void testAddAll ()
-  {
-    mKeySet.addAll (new TreeSet<CharSequence> ());
-  }
+    @Before
+    public void setUp() {
+        mMap = new TernarySearchTreeMap<String>();
+        mTestData = MapData.getFiveLowerCaseEntriesOrderingExpected();
+        mMap.putAll(mTestData.getData());
+        mKeySet = mMap.keySet();
+        mComparisonMap = new TreeMap<CharSequence, String>(mTestData.getData());
+    }
 
-  @Test
-  public void testClear ()
-  {
-    mKeySet.clear ();
-    assertEquals (0, mMap.size ());
-    assertTrue (mKeySet.isEmpty ());
-  }
+    @Test(expected = UnsupportedOperationException.class)
+    public void testAdd() {
+        mKeySet.add("test");
+    }
 
-  @Test
-  public void testContains ()
-  {
-    assertTrue (mKeySet.contains ("sverige"));
-    assertFalse (mKeySet.contains ("russia"));
-  }
+    @Test(expected = UnsupportedOperationException.class)
+    public void testAddAll() {
+        mKeySet.addAll(new TreeSet<CharSequence>());
+    }
 
-  @Test
-  public void testContainsAll ()
-  {
-    Set<CharSequence> data = new TreeSet<CharSequence> ();
-    data.add ("deutschland");
-    data.add ("france");
-    assertTrue (mKeySet.containsAll (data));
-  }
+    @Test
+    public void testClear() {
+        mKeySet.clear();
+        assertEquals(0, mMap.size());
+        assertTrue(mKeySet.isEmpty());
+    }
 
-  @Test
-  public void testContainsAllFail ()
-  {
-    Set<CharSequence> data = new TreeSet<CharSequence> ();
-    data.add ("deutschland");
-    data.add ("france");
-    data.add ("belgium");
-    assertFalse (mKeySet.containsAll (data));
+    @Test
+    public void testContains() {
+        assertTrue(mKeySet.contains("sverige"));
+        assertFalse(mKeySet.contains("russia"));
+    }
 
-    data.clear ();
-    data.add ("norge");
-    data.add ("danmark");
-    assertFalse (mKeySet.containsAll (data));
-  }
+    @Test
+    public void testContainsAll() {
+        Set<CharSequence> data = new TreeSet<CharSequence>();
+        data.add("deutschland");
+        data.add("france");
+        assertTrue(mKeySet.containsAll(data));
+    }
 
-  @Test
-  public void testRemove ()
-  {
-    boolean changed;
-    changed = mKeySet.remove ("deutschland");
-    mComparisonMap.remove ("deutschland");
-    assertTrue (changed);
-    assertEquals (mComparisonMap, mMap);
-  }
+    @Test
+    public void testContainsAllFail() {
+        Set<CharSequence> data = new TreeSet<CharSequence>();
+        data.add("deutschland");
+        data.add("france");
+        data.add("belgium");
+        assertFalse(mKeySet.containsAll(data));
 
-  @Test
-  public void testRemoveNothingRemoved ()
-  {
-    boolean changed;
-    changed = mKeySet.remove ("not in map");
-    mComparisonMap.remove ("not in map");
-    assertFalse (changed);
-    assertEquals (mComparisonMap, mMap);
-  }
+        data.clear();
+        data.add("norge");
+        data.add("danmark");
+        assertFalse(mKeySet.containsAll(data));
+    }
 
-  @Test
-  public void testRemoveAll ()
-  {
-    boolean changed;
-    Set<CharSequence> data = new TreeSet<CharSequence> ();
-    data.add ("deutschland");
-    data.add ("france");
+    @Test
+    public void testRemove() {
+        boolean changed;
+        changed = mKeySet.remove("deutschland");
+        mComparisonMap.remove("deutschland");
+        assertTrue(changed);
+        assertEquals(mComparisonMap, mMap);
+    }
 
-    changed = mKeySet.removeAll (data);
-    assertTrue (changed);
-    mComparisonMap.keySet ().removeAll (data);
-    assertEquals (mComparisonMap, mMap);
-  }
+    @Test
+    public void testRemoveNothingRemoved() {
+        boolean changed;
+        changed = mKeySet.remove("not in map");
+        mComparisonMap.remove("not in map");
+        assertFalse(changed);
+        assertEquals(mComparisonMap, mMap);
+    }
 
-  @Test
-  public void testRemoveAllFail ()
-  {
-    boolean changed;
-    Set<CharSequence> data = new TreeSet<CharSequence> ();
-    data.add ("not in");
-    data.add ("map");
+    @Test
+    public void testRemoveAll() {
+        boolean changed;
+        Set<CharSequence> data = new TreeSet<CharSequence>();
+        data.add("deutschland");
+        data.add("france");
 
-    changed = mKeySet.removeAll (data);
-    assertFalse (changed);
-    mComparisonMap.keySet ().removeAll (data);
-    assertEquals (mComparisonMap, mMap);
-  }
+        changed = mKeySet.removeAll(data);
+        assertTrue(changed);
+        mComparisonMap.keySet().removeAll(data);
+        assertEquals(mComparisonMap, mMap);
+    }
 
-  @Test
-  public void testRetainAll ()
-  {
-    boolean changed;
-    Set<CharSequence> data = new TreeSet<CharSequence> ();
-    data.add ("deutschland");
-    data.add ("france");
-    data.add ("not in map");
+    @Test
+    public void testRemoveAllFail() {
+        boolean changed;
+        Set<CharSequence> data = new TreeSet<CharSequence>();
+        data.add("not in");
+        data.add("map");
 
-    changed = mKeySet.retainAll (data);
-    assertTrue (changed);
-    mComparisonMap.keySet ().retainAll (data);
-    assertEquals (mComparisonMap, mMap);
-    assertEquals (2, mMap.size ());
-  }
+        changed = mKeySet.removeAll(data);
+        assertFalse(changed);
+        mComparisonMap.keySet().removeAll(data);
+        assertEquals(mComparisonMap, mMap);
+    }
 
-  @Test
-  public void testIterator_Remove ()
-  {
-    Iterator<CharSequence> it = mKeySet.iterator ();
-    it.next ();
-    it.remove ();
-    mComparisonMap.remove ("deutschland");
-    assertEquals (mComparisonMap.keySet (), mKeySet);
-  }
+    @Test
+    public void testRetainAll() {
+        boolean changed;
+        Set<CharSequence> data = new TreeSet<CharSequence>();
+        data.add("deutschland");
+        data.add("france");
+        data.add("not in map");
+
+        changed = mKeySet.retainAll(data);
+        assertTrue(changed);
+        mComparisonMap.keySet().retainAll(data);
+        assertEquals(mComparisonMap, mMap);
+        assertEquals(2, mMap.size());
+    }
+
+    @Test
+    public void testIterator_Remove() {
+        Iterator<CharSequence> it = mKeySet.iterator();
+        it.next();
+        it.remove();
+        mComparisonMap.remove("deutschland");
+        assertEquals(mComparisonMap.keySet(), mKeySet);
+    }
 }

@@ -22,19 +22,18 @@ package org.roklib.collections;
 
 import java.util.SortedMap;
 
-interface ITernarySearchTreeMap<V> extends SortedMap<CharSequence, V>, ITernarySearchTreeQuery
-{
-  public abstract Entry<CharSequence, V> getEntry (Object key);
+interface ITernarySearchTreeMap<V> extends SortedMap<CharSequence, V>, ITernarySearchTreeQuery {
+    public abstract Entry<CharSequence, V> getEntry(Object key);
 
-  public abstract V getValueAt (int index);
+    public abstract V getValueAt(int index);
 
-  public abstract CharSequence getKeyAt (int index);
+    public abstract CharSequence getKeyAt(int index);
 
-  public abstract Iterable<Entry<CharSequence, V>> getPrefixSubtreeIterator (CharSequence prefix);
+    public abstract Iterable<Entry<CharSequence, V>> getPrefixSubtreeIterator(CharSequence prefix);
 
-  public abstract Iterable<Entry<CharSequence, V>> getPrefixSubtreeIterator (CharSequence pPrefix, boolean inverseSearch);
+    public abstract Iterable<Entry<CharSequence, V>> getPrefixSubtreeIterator(CharSequence pPrefix, boolean inverseSearch);
 
-  public abstract Entry<CharSequence, V> predecessorEntry (Object keyObject);
+    public abstract Entry<CharSequence, V> predecessorEntry(Object keyObject);
 
-  public abstract Entry<CharSequence, V> successorEntry (Object keyObject);
+    public abstract Entry<CharSequence, V> successorEntry(Object keyObject);
 }

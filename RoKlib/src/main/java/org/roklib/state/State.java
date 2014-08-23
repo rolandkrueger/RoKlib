@@ -20,157 +20,136 @@
  */
 package org.roklib.state;
 
-import java.io.Serializable;
-
 import org.roklib.util.helper.CheckForNull;
 
-public class State<S extends State<?>> implements Serializable
-{
-  private static final long serialVersionUID = 6243348683850423328L;
+import java.io.Serializable;
 
-  private Serializable      mLockKey;
-  private StateValue<S>     mCurrentState;
-  private StateValue<S>     mDefaultState;
+public class State<S extends State<?>> implements Serializable {
+    private static final long serialVersionUID = 6243348683850423328L;
 
-  public static class StateValue<S extends State<?>> implements Serializable
-  {
-    private static final long serialVersionUID = -1916548888416932116L;
-    private String            mName;
+    private Serializable mLockKey;
+    private StateValue<S> mCurrentState;
+    private StateValue<S> mDefaultState;
 
-    public StateValue (String name)
-    {
-      mName = name;
+    public static class StateValue<S extends State<?>> implements Serializable {
+        private static final long serialVersionUID = -1916548888416932116L;
+        private String mName;
+
+        public StateValue(String name) {
+            mName = name;
+        }
+
+        public String getName() {
+            return mName;
+        }
+
+        @SuppressWarnings("rawtypes")
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null)
+                return false;
+            if (obj == this)
+                return true;
+            if (obj instanceof StateValue) {
+                StateValue other = (StateValue) obj;
+                return other.mName.equals(mName);
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return mName.hashCode();
+        }
     }
 
-    public String getName ()
-    {
-      return mName;
+    public State() {
     }
 
-    @SuppressWarnings ("rawtypes")
+    public State(StateValue<S> defaultState) {
+        mCurrentState = defaultState;
+        mDefaultState = defaultState;
+    }
+
+    public boolean hasState(StateValue<S> state) {
+        if (state == null && mCurrentState == null)
+            return true;
+        if (state == null && mCurrentState != null)
+            return false;
+
+        return mCurrentState.equals(state);
+    }
+
+    public void setStateValue(StateValue<S> state) {
+        if (mLockKey != null)
+            throw new IllegalStateException(
+                    "Cannot set status: object is locked. Use setState with the correct key instead.");
+        mCurrentState = state;
+    }
+
+    public void setStateValue(StateValue<S> state, Object lockKey) {
+        if (mLockKey != null && mLockKey != lockKey)
+            throw new IllegalArgumentException("Unlock failed: wrong key.");
+        mCurrentState = state;
+    }
+
+    public StateValue<S> getStateValue() {
+        return mCurrentState;
+    }
+
+    public void reset() {
+        mCurrentState = mDefaultState;
+    }
+
+    public void lock(Serializable lockKey) {
+        CheckForNull.check(lockKey);
+        if (mLockKey != null && mLockKey != lockKey)
+            throw new IllegalStateException("Already locked. Cannot lock again with a different key.");
+        mLockKey = lockKey;
+    }
+
+    public void unlock(Object lockKey) {
+        if (mLockKey == null)
+            return;
+        if (lockKey != mLockKey)
+            throw new IllegalArgumentException("Unlock failed: wrong key.");
+        mLockKey = null;
+    }
+
+    public boolean isLocked() {
+        return mLockKey != null;
+    }
+
     @Override
-    public boolean equals (Object obj)
-    {
-      if (obj == null)
-        return false;
-      if (obj == this)
-        return true;
-      if (obj instanceof StateValue)
-      {
-        StateValue other = (StateValue) obj;
-        return other.mName.equals (mName);
-      }
-      return false;
+    public String toString() {
+        if (mCurrentState == null)
+            return "null";
+        return mCurrentState.mName;
     }
 
     @Override
-    public int hashCode ()
-    {
-      return mName.hashCode ();
+    public int hashCode() {
+        if (mCurrentState == null)
+            return -1;
+        return mCurrentState.hashCode();
     }
-  }
 
-  public State ()
-  {
-  }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (mCurrentState == null)
+            return false;
+        if (obj instanceof State) {
+            @SuppressWarnings("rawtypes")
+            State other = (State) obj;
+            if (other.mCurrentState == null)
+                return false;
+            return other.mCurrentState.equals(mCurrentState);
+        }
 
-  public State (StateValue<S> defaultState)
-  {
-    mCurrentState = defaultState;
-    mDefaultState = defaultState;
-  }
-
-  public boolean hasState (StateValue<S> state)
-  {
-    if (state == null && mCurrentState == null)
-      return true;
-    if (state == null && mCurrentState != null)
-      return false;
-
-    return mCurrentState.equals (state);
-  }
-
-  public void setStateValue (StateValue<S> state)
-  {
-    if (mLockKey != null)
-      throw new IllegalStateException (
-          "Cannot set status: object is locked. Use setState with the correct key instead.");
-    mCurrentState = state;
-  }
-
-  public void setStateValue (StateValue<S> state, Object lockKey)
-  {
-    if (mLockKey != null && mLockKey != lockKey)
-      throw new IllegalArgumentException ("Unlock failed: wrong key.");
-    mCurrentState = state;
-  }
-
-  public StateValue<S> getStateValue ()
-  {
-    return mCurrentState;
-  }
-
-  public void reset ()
-  {
-    mCurrentState = mDefaultState;
-  }
-
-  public void lock (Serializable lockKey)
-  {
-    CheckForNull.check (lockKey);
-    if (mLockKey != null && mLockKey != lockKey)
-      throw new IllegalStateException ("Already locked. Cannot lock again with a different key.");
-    mLockKey = lockKey;
-  }
-
-  public void unlock (Object lockKey)
-  {
-    if (mLockKey == null)
-      return;
-    if (lockKey != mLockKey)
-      throw new IllegalArgumentException ("Unlock failed: wrong key.");
-    mLockKey = null;
-  }
-
-  public boolean isLocked ()
-  {
-    return mLockKey != null;
-  }
-
-  @Override
-  public String toString ()
-  {
-    if (mCurrentState == null)
-      return "null";
-    return mCurrentState.mName;
-  }
-
-  @Override
-  public int hashCode ()
-  {
-    if (mCurrentState == null)
-      return -1;
-    return mCurrentState.hashCode ();
-  }
-
-  @Override
-  public boolean equals (Object obj)
-  {
-    if (obj == null)
-      return false;
-    if (obj == this)
-      return true;
-    if (mCurrentState == null)
-      return false;
-    if (obj instanceof State)
-    {
-      @SuppressWarnings ("rawtypes")
-      State other = (State) obj;
-      if (other.mCurrentState == null)
         return false;
-      return other.mCurrentState.equals (mCurrentState);
     }
-
-    return false;
-  }
 }

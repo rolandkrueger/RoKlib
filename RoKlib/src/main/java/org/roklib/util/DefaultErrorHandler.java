@@ -22,19 +22,16 @@ package org.roklib.util;
 /**
  * Default implementation for the interface {@link ApplicationMessageHandler}. Error and information messages are simple
  * printed to the console.
- * 
+ *
  * @author Roland Krueger
  */
-public class DefaultErrorHandler implements ApplicationMessageHandler
-{
-  public void reportError (ApplicationError error)
-  {
-    System.err.println (String.format ("ERROR: %s %s; ERROR CLASS: %s", error.getDescription (),
-        error.getCause () == null ? "" : "(" + error.getCause () + ")", error.getType ()));
-  }
+public class DefaultErrorHandler implements ApplicationMessageHandler {
+    public void reportError(ApplicationError error) {
+        System.err.println(String.format("ERROR: %s %s; ERROR CLASS: %s", error.getDescription(),
+                error.getCause() == null ? "" : "(" + error.getCause() + ")", error.getType()));
+    }
 
-  public void infoMessage (String message)
-  {
-    System.out.println (String.format ("MESSAGE: %s", message));
-  }
+    public void infoMessage(String message) {
+        System.out.println(String.format("MESSAGE: %s", message));
+    }
 }

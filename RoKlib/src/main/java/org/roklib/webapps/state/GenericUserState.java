@@ -22,35 +22,31 @@ package org.roklib.webapps.state;
 
 import org.roklib.state.State;
 
-public class GenericUserState extends State<GenericUserState>
-{
-  private static final long                        serialVersionUID                  = 7603305865808291485L;
+public class GenericUserState extends State<GenericUserState> {
+    private static final long serialVersionUID = 7603305865808291485L;
 
-  private final static String                      sPrefix                           = GenericUserState.class
-                                                                                         .getCanonicalName ();
+    private final static String sPrefix = GenericUserState.class
+            .getCanonicalName();
 
-  public final static StateValue<GenericUserState> UNKNOWN                           = new StateValue<GenericUserState> (
-                                                                                         sPrefix + ".UNKNOWN");
-  public final static StateValue<GenericUserState> REGISTERED                        = new StateValue<GenericUserState> (
-                                                                                         sPrefix + ".REGISTERED");
-  public final static StateValue<GenericUserState> REGISTRATION_CONFIRMATION_PENDING = new StateValue<GenericUserState> (
-                                                                                         sPrefix
-                                                                                             + ".REGISTRATION_CONFIRMATION_PENDING");
-  public final static StateValue<GenericUserState> DEACTIVATED                       = new StateValue<GenericUserState> (
-                                                                                         sPrefix + ".DEACTIVATED");
+    public final static StateValue<GenericUserState> UNKNOWN = new StateValue<GenericUserState>(
+            sPrefix + ".UNKNOWN");
+    public final static StateValue<GenericUserState> REGISTERED = new StateValue<GenericUserState>(
+            sPrefix + ".REGISTERED");
+    public final static StateValue<GenericUserState> REGISTRATION_CONFIRMATION_PENDING = new StateValue<GenericUserState>(
+            sPrefix
+                    + ".REGISTRATION_CONFIRMATION_PENDING");
+    public final static StateValue<GenericUserState> DEACTIVATED = new StateValue<GenericUserState>(
+            sPrefix + ".DEACTIVATED");
 
-  public GenericUserState ()
-  {
-    super ();
-  }
+    public GenericUserState() {
+        super();
+    }
 
-  public GenericUserState (StateValue<GenericUserState> defaultState)
-  {
-    super (defaultState);
-  }
+    public GenericUserState(StateValue<GenericUserState> defaultState) {
+        super(defaultState);
+    }
 
-  public String getFullStateValueNameFor (String stateValue)
-  {
-    return sPrefix + "." + stateValue;
-  }
+    public String getFullStateValueNameFor(String stateValue) {
+        return sPrefix + "." + stateValue;
+    }
 }

@@ -25,57 +25,47 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SingleLongWithIgnoredTextURIParameter extends SingleLongURIParameter
-{
-  private static final long    serialVersionUID = 7990237721421647271L;
+public class SingleLongWithIgnoredTextURIParameter extends SingleLongURIParameter {
+    private static final long serialVersionUID = 7990237721421647271L;
 
-  private static final Pattern sPattern         = Pattern.compile ("^(\\d+).*?");
+    private static final Pattern sPattern = Pattern.compile("^(\\d+).*?");
 
-  public SingleLongWithIgnoredTextURIParameter (String parameterName, Long defaultValue)
-  {
-    super (parameterName, defaultValue);
-  }
-
-  public SingleLongWithIgnoredTextURIParameter (String parameterName)
-  {
-    super (parameterName);
-  }
-
-  @Override
-  protected boolean consumeImpl (Map<String, List<String>> parameters)
-  {
-    List<String> valueList = parameters.get (getParameterName ());
-    if (valueList == null || valueList.isEmpty ())
-    {
-      return false;
-    }
-    for (int index = 0; index < valueList.size (); ++index)
-    {
-      String value = convertValue (valueList.get (index));
-      valueList.set (index, value);
+    public SingleLongWithIgnoredTextURIParameter(String parameterName, Long defaultValue) {
+        super(parameterName, defaultValue);
     }
 
-    return super.consumeImpl (parameters);
-  }
-
-  private String convertValue (String value)
-  {
-    Matcher m = sPattern.matcher (value);
-    if (m.find ())
-    {
-      return m.group (1);
+    public SingleLongWithIgnoredTextURIParameter(String parameterName) {
+        super(parameterName);
     }
-    return value;
-  }
 
-  @Override
-  public boolean consumeList (String[] values)
-  {
-    if (values != null && values.length > 0 && values[0] != null)
-    {
-      values[0] = convertValue (values[0]);
+    @Override
+    protected boolean consumeImpl(Map<String, List<String>> parameters) {
+        List<String> valueList = parameters.get(getParameterName());
+        if (valueList == null || valueList.isEmpty()) {
+            return false;
+        }
+        for (int index = 0; index < valueList.size(); ++index) {
+            String value = convertValue(valueList.get(index));
+            valueList.set(index, value);
+        }
+
+        return super.consumeImpl(parameters);
     }
-    return super.consumeList (values);
-  }
+
+    private String convertValue(String value) {
+        Matcher m = sPattern.matcher(value);
+        if (m.find()) {
+            return m.group(1);
+        }
+        return value;
+    }
+
+    @Override
+    public boolean consumeList(String[] values) {
+        if (values != null && values.length > 0 && values[0] != null) {
+            values[0] = convertValue(values[0]);
+        }
+        return super.consumeList(values);
+    }
 
 }

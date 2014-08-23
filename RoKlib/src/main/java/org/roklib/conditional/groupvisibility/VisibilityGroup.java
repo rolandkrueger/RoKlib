@@ -21,129 +21,110 @@
 package org.roklib.conditional.groupvisibility;
 
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.roklib.conditional.engine.AbstractCondition;
 import org.roklib.conditional.engine.BooleanExpression;
 import org.roklib.conditional.engine.IConditionListener;
 import org.roklib.util.helper.CheckForNull;
 
-public class VisibilityGroup implements IVisibilityEnablingConfigurable, IConditionListener
-{
-  private static final long                    serialVersionUID = -4366993767678121332L;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
-  private boolean                              mVisible;
-  private boolean                              mEnabled;
-  private String                               mGroupName;
-  private Set<IVisibilityEnablingConfigurable> mGroupMembers;
-  private BooleanExpression                    mBooleanExpressionForVisibility;
-  private BooleanExpression                    mBooleanExpressionForEnabling;
+public class VisibilityGroup implements IVisibilityEnablingConfigurable, IConditionListener {
+    private static final long serialVersionUID = -4366993767678121332L;
 
-  public VisibilityGroup (String name)
-  {
-    CheckForNull.check (name);
-    mGroupName = name;
-    mGroupMembers = Collections.synchronizedSet (new HashSet<IVisibilityEnablingConfigurable> ());
-    mVisible = true;
-    mEnabled = true;
-  }
+    private boolean mVisible;
+    private boolean mEnabled;
+    private String mGroupName;
+    private Set<IVisibilityEnablingConfigurable> mGroupMembers;
+    private BooleanExpression mBooleanExpressionForVisibility;
+    private BooleanExpression mBooleanExpressionForEnabling;
 
-  public void addVisibilityEnablingConfigurable (IVisibilityEnablingConfigurable groupMember)
-  {
-    CheckForNull.check (groupMember);
-    mGroupMembers.add (groupMember);
-    applyExpressionsIfAvailable ();
-  }
-
-  public boolean removeVisibilityEnablingConfigurable (IVisibilityEnablingConfigurable groupMember)
-  {
-    return mGroupMembers.remove (groupMember);
-  }
-
-  public void setEnabled (boolean enabled)
-  {
-    mEnabled = enabled;
-    for (IVisibilityEnablingConfigurable member : mGroupMembers)
-      member.setEnabled (enabled);
-  }
-
-  public void setVisible (boolean visible)
-  {
-    for (IVisibilityEnablingConfigurable member : mGroupMembers)
-      member.setVisible (visible);
-    mVisible = visible;
-  }
-
-  public boolean isEnabled ()
-  {
-    return mEnabled;
-  }
-
-  public boolean isVisible ()
-  {
-    return mVisible;
-  }
-
-  public String getName ()
-  {
-    return mGroupName;
-  }
-
-  public int getSize ()
-  {
-    return mGroupMembers.size ();
-  }
-
-  public Set<IVisibilityEnablingConfigurable> getGroupMembers ()
-  {
-    return Collections.unmodifiableSet (mGroupMembers);
-  }
-
-  public void setExpressionForVisibility (BooleanExpression expression)
-  {
-    if (mBooleanExpressionForVisibility != null)
-      mBooleanExpressionForVisibility.removeConditionListener (this);
-
-    mBooleanExpressionForVisibility = expression;
-    if (expression != null)
-    {
-      mBooleanExpressionForVisibility.addConditionListener (this);
-      applyExpressionsIfAvailable ();
+    public VisibilityGroup(String name) {
+        CheckForNull.check(name);
+        mGroupName = name;
+        mGroupMembers = Collections.synchronizedSet(new HashSet<IVisibilityEnablingConfigurable>());
+        mVisible = true;
+        mEnabled = true;
     }
-  }
 
-  public void setExpressionForEnabling (BooleanExpression expression)
-  {
-    if (mBooleanExpressionForEnabling != null)
-      mBooleanExpressionForEnabling.removeConditionListener (this);
-
-    mBooleanExpressionForEnabling = expression;
-    if (expression != null)
-    {
-      mBooleanExpressionForEnabling.addConditionListener (this);
-      applyExpressionsIfAvailable ();
+    public void addVisibilityEnablingConfigurable(IVisibilityEnablingConfigurable groupMember) {
+        CheckForNull.check(groupMember);
+        mGroupMembers.add(groupMember);
+        applyExpressionsIfAvailable();
     }
-  }
 
-  private void applyExpressionsIfAvailable ()
-  {
-    if (mBooleanExpressionForEnabling != null)
-    {
-      setEnabled (mBooleanExpressionForEnabling.getBooleanValue ());
+    public boolean removeVisibilityEnablingConfigurable(IVisibilityEnablingConfigurable groupMember) {
+        return mGroupMembers.remove(groupMember);
     }
-    if (mBooleanExpressionForVisibility != null)
-    {
-      setVisible (mBooleanExpressionForVisibility.getBooleanValue ());
-    }
-  }
 
-  public void conditionChanged (AbstractCondition source)
-  {
-    if (source == mBooleanExpressionForVisibility)
-      setVisible (mBooleanExpressionForVisibility.getBooleanValue ());
-    if (source == mBooleanExpressionForEnabling)
-      setEnabled (mBooleanExpressionForEnabling.getBooleanValue ());
-  }
+    public void setEnabled(boolean enabled) {
+        mEnabled = enabled;
+        for (IVisibilityEnablingConfigurable member : mGroupMembers)
+            member.setEnabled(enabled);
+    }
+
+    public void setVisible(boolean visible) {
+        for (IVisibilityEnablingConfigurable member : mGroupMembers)
+            member.setVisible(visible);
+        mVisible = visible;
+    }
+
+    public boolean isEnabled() {
+        return mEnabled;
+    }
+
+    public boolean isVisible() {
+        return mVisible;
+    }
+
+    public String getName() {
+        return mGroupName;
+    }
+
+    public int getSize() {
+        return mGroupMembers.size();
+    }
+
+    public Set<IVisibilityEnablingConfigurable> getGroupMembers() {
+        return Collections.unmodifiableSet(mGroupMembers);
+    }
+
+    public void setExpressionForVisibility(BooleanExpression expression) {
+        if (mBooleanExpressionForVisibility != null)
+            mBooleanExpressionForVisibility.removeConditionListener(this);
+
+        mBooleanExpressionForVisibility = expression;
+        if (expression != null) {
+            mBooleanExpressionForVisibility.addConditionListener(this);
+            applyExpressionsIfAvailable();
+        }
+    }
+
+    public void setExpressionForEnabling(BooleanExpression expression) {
+        if (mBooleanExpressionForEnabling != null)
+            mBooleanExpressionForEnabling.removeConditionListener(this);
+
+        mBooleanExpressionForEnabling = expression;
+        if (expression != null) {
+            mBooleanExpressionForEnabling.addConditionListener(this);
+            applyExpressionsIfAvailable();
+        }
+    }
+
+    private void applyExpressionsIfAvailable() {
+        if (mBooleanExpressionForEnabling != null) {
+            setEnabled(mBooleanExpressionForEnabling.getBooleanValue());
+        }
+        if (mBooleanExpressionForVisibility != null) {
+            setVisible(mBooleanExpressionForVisibility.getBooleanValue());
+        }
+    }
+
+    public void conditionChanged(AbstractCondition source) {
+        if (source == mBooleanExpressionForVisibility)
+            setVisible(mBooleanExpressionForVisibility.getBooleanValue());
+        if (source == mBooleanExpressionForEnabling)
+            setEnabled(mBooleanExpressionForEnabling.getBooleanValue());
+    }
 }

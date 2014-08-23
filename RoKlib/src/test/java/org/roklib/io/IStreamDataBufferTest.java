@@ -19,82 +19,67 @@
  */
 package org.roklib.io;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.roklib.data.EnhancedReturnType;
-import org.roklib.io.IStreamDataBuffer;
-import org.roklib.io.StreamUtilities;
 
-public abstract class IStreamDataBufferTest
-{
-  private IStreamDataBuffer mTestObj;
+import java.io.*;
 
-  public abstract IStreamDataBuffer createObjectUnderTest () throws IOException;
+import static junit.framework.Assert.*;
 
-  @Before
-  public void setUp () throws IOException
-  {
-    mTestObj = createObjectUnderTest ();
-  }
+public abstract class IStreamDataBufferTest {
+    private IStreamDataBuffer mTestObj;
 
-  @Test
-  public void testGetOutputStream () throws IOException
-  {
-    byte[] testData = new byte[] { -1, 2, -3, 4, -5 };
+    public abstract IStreamDataBuffer createObjectUnderTest() throws IOException;
 
-    EnhancedReturnType<OutputStream> outputStream = mTestObj.getOutputStream ();
-    assertNotNull (outputStream.getValue ());
-
-    StreamUtilities.copyStreams (new ByteArrayInputStream (testData), outputStream.getValue ());
-    EnhancedReturnType<InputStream> inputStreamResultObj = mTestObj.getInputStream ();
-    assertNotNull (inputStreamResultObj.getValue ());
-    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream ();
-    StreamUtilities.copyStreams (inputStreamResultObj.getValue (), byteArrayOutputStream);
-    byte[] arrayUnderTest = byteArrayOutputStream.toByteArray ();
-    for (int i = 0; i < testData.length; ++i)
-    {
-      assertEquals (testData[i], arrayUnderTest[i]);
+    @Before
+    public void setUp() throws IOException {
+        mTestObj = createObjectUnderTest();
     }
 
-    inputStreamResultObj = mTestObj.getInputStream ();
-    assertNotNull (inputStreamResultObj.getValue ());
-    byteArrayOutputStream = new ByteArrayOutputStream ();
-    StreamUtilities.copyStreams (inputStreamResultObj.getValue (), byteArrayOutputStream);
-    arrayUnderTest = byteArrayOutputStream.toByteArray ();
-    for (int i = 0; i < testData.length; ++i)
-    {
-      assertEquals (testData[i], arrayUnderTest[i]);
+    @Test
+    public void testGetOutputStream() throws IOException {
+        byte[] testData = new byte[]{-1, 2, -3, 4, -5};
+
+        EnhancedReturnType<OutputStream> outputStream = mTestObj.getOutputStream();
+        assertNotNull(outputStream.getValue());
+
+        StreamUtilities.copyStreams(new ByteArrayInputStream(testData), outputStream.getValue());
+        EnhancedReturnType<InputStream> inputStreamResultObj = mTestObj.getInputStream();
+        assertNotNull(inputStreamResultObj.getValue());
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        StreamUtilities.copyStreams(inputStreamResultObj.getValue(), byteArrayOutputStream);
+        byte[] arrayUnderTest = byteArrayOutputStream.toByteArray();
+        for (int i = 0; i < testData.length; ++i) {
+            assertEquals(testData[i], arrayUnderTest[i]);
+        }
+
+        inputStreamResultObj = mTestObj.getInputStream();
+        assertNotNull(inputStreamResultObj.getValue());
+        byteArrayOutputStream = new ByteArrayOutputStream();
+        StreamUtilities.copyStreams(inputStreamResultObj.getValue(), byteArrayOutputStream);
+        arrayUnderTest = byteArrayOutputStream.toByteArray();
+        for (int i = 0; i < testData.length; ++i) {
+            assertEquals(testData[i], arrayUnderTest[i]);
+        }
     }
-  }
 
-  @Test
-  public void testGetInputStream () throws IOException
-  {
-    EnhancedReturnType<InputStream> result = mTestObj.getInputStream ();
-    assertNotNull (result.getValue ());
-    assertEquals ("", StreamUtilities.getStreamAsString (result.getValue ()));
+    @Test
+    public void testGetInputStream() throws IOException {
+        EnhancedReturnType<InputStream> result = mTestObj.getInputStream();
+        assertNotNull(result.getValue());
+        assertEquals("", StreamUtilities.getStreamAsString(result.getValue()));
 
-    result = mTestObj.getInputStream ();
-    assertNotNull (result.getValue ());
-    assertEquals ("", StreamUtilities.getStreamAsString (result.getValue ()));
-  }
+        result = mTestObj.getInputStream();
+        assertNotNull(result.getValue());
+        assertEquals("", StreamUtilities.getStreamAsString(result.getValue()));
+    }
 
-  @Test
-  public void testReset () throws IOException
-  {
-    StreamUtilities.copyStreams (new ByteArrayInputStream ("testReset test data".getBytes ()), mTestObj
-        .getOutputStream ().getValue ());
-    assertTrue (mTestObj.reset ());
-    assertEquals ("", StreamUtilities.getStreamAsString (mTestObj.getInputStream ().getValue ()));
-  }
+    @Test
+    public void testReset() throws IOException {
+        StreamUtilities.copyStreams(new ByteArrayInputStream("testReset test data".getBytes()), mTestObj
+                .getOutputStream().getValue());
+        assertTrue(mTestObj.reset());
+        assertEquals("", StreamUtilities.getStreamAsString(mTestObj.getInputStream().getValue()));
+    }
 }

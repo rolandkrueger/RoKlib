@@ -17,13 +17,13 @@
  */
 package org.roklib.webapps.uridispatching;
 
+import org.roklib.util.helper.CheckForNull;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import org.roklib.util.helper.CheckForNull;
 
 /**
  * <p>
@@ -64,173 +64,152 @@ import org.roklib.util.helper.CheckForNull;
  * every {@link RegexURIActionHandler} that is found on the path from the action handler tree's root to some action
  * handler for which a parameterized action URI is to be generated.
  * </p>
- * 
+ *
  * @author Roland Krüger
  * @since 1.1.0
  */
-public class RegexURIActionHandler extends DispatchingURIActionHandler
-{
-  private static final long serialVersionUID = 4435578380164414638L;
+public class RegexURIActionHandler extends DispatchingURIActionHandler {
+    private static final long serialVersionUID = 4435578380164414638L;
 
-  /**
-   * If the regular expression contains any capturing groups the captured values are contained in this array. By
-   * convention, the first capturing group of a matcher is the entire pattern. This first group is excluded from the
-   * matched token fragments.
-   * 
-   * @see Matcher
-   */
-  protected String[]        mMatchedTokenFragments;
+    /**
+     * If the regular expression contains any capturing groups the captured values are contained in this array. By
+     * convention, the first capturing group of a matcher is the entire pattern. This first group is excluded from the
+     * matched token fragments.
+     *
+     * @see Matcher
+     */
+    protected String[] mMatchedTokenFragments;
 
-  /**
-   * The pattern object of this {@link RegexURIActionHandler}. It is compiled in the constructor and each time the case
-   * sensitivity is changed.
-   */
-  private Pattern           mPattern;
+    /**
+     * The pattern object of this {@link RegexURIActionHandler}. It is compiled in the constructor and each time the case
+     * sensitivity is changed.
+     */
+    private Pattern mPattern;
 
-  /**
-   * Creates a new {@link RegexURIActionHandler} with the provided regular expression. This regex will be applied to the
-   * URI tokens passed in to {@link #isResponsibleForToken(String)} to determine if this object is responsible for
-   * handling the given token.
-   * 
-   * @param regex
-   *          regular expression which shall be applied by this action handler on the interpreted URI token
-   * @throws IllegalArgumentException
-   *           when the regular exception is the empty String or consists of only whitespaces
-   * @throws PatternSyntaxException
-   *           when the regular exception could not be compiled
-   */
-  public RegexURIActionHandler (String regex)
-  {
-    super (regex);
-    if ("".equals (regex.trim ()))
-    {
-      throw new IllegalArgumentException ("regex must not be the empty string or all whitespaces");
+    /**
+     * Creates a new {@link RegexURIActionHandler} with the provided regular expression. This regex will be applied to the
+     * URI tokens passed in to {@link #isResponsibleForToken(String)} to determine if this object is responsible for
+     * handling the given token.
+     *
+     * @param regex regular expression which shall be applied by this action handler on the interpreted URI token
+     * @throws IllegalArgumentException when the regular exception is the empty String or consists of only whitespaces
+     * @throws PatternSyntaxException   when the regular exception could not be compiled
+     */
+    public RegexURIActionHandler(String regex) {
+        super(regex);
+        if ("".equals(regex.trim())) {
+            throw new IllegalArgumentException("regex must not be the empty string or all whitespaces");
+        }
+        mPattern = Pattern.compile(regex);
     }
-    mPattern = Pattern.compile (regex);
-  }
 
-  /**
-   * Returns the set of token fragments that were captured by this action handler's regex capturing groups. This set is
-   * recalculated each time the parent handler calls {@link #isResponsibleForToken(String)} during the URI
-   * interpretation process.
-   * 
-   * @return the set of captured token fragments or <code>null</code> if this {@link RegexURIActionHandler} is not
-   *         responsible for handling any of the tokens of the currently interpreted URI.
-   */
-  public String[] getMatchedTokenFragments ()
-  {
-    return mMatchedTokenFragments;
-  }
-
-  /**
-   * Returns the number of token fragments that have been captured by the capturing groups of this regex handler's
-   * pattern. The array of token fragments can be obtained with {@link #getMatchedTokenFragments()}.
-   * 
-   * @return size of the matched token fragment array
-   * @see #getMatchedTokenFragments()
-   */
-  public int getMatchedTokenFragmentCount ()
-  {
-    return mMatchedTokenFragments == null ? 0 : mMatchedTokenFragments.length;
-  }
-
-  /**
-   * {@inheritDoc}
-   * <p>
-   * If the case sensitivity is changed the regular expression pattern will be recompiled so that the pattern is in case
-   * insensitive matching mode.
-   * </p>
-   */
-  @Override
-  protected void setCaseSensitive (boolean caseSensitive)
-  {
-    if (caseSensitive == isCaseSensitive ())
-    {
-      return;
+    /**
+     * Returns the set of token fragments that were captured by this action handler's regex capturing groups. This set is
+     * recalculated each time the parent handler calls {@link #isResponsibleForToken(String)} during the URI
+     * interpretation process.
+     *
+     * @return the set of captured token fragments or <code>null</code> if this {@link RegexURIActionHandler} is not
+     * responsible for handling any of the tokens of the currently interpreted URI.
+     */
+    public String[] getMatchedTokenFragments() {
+        return mMatchedTokenFragments;
     }
-    super.setCaseSensitive (caseSensitive);
-    mPattern = Pattern.compile (mActionName, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE);
-  }
 
-  /**
-   * Checks if this {@link RegexURIActionHandler} is responsible for handling the given URI token. It does so by
-   * checking whether the token matches the assigned regular expression. If that is the case <code>true</code> is
-   * returned. At the same time, it also retrieves all values from the regular expression's capturing group, if there
-   * are any, and puts them into an array for later reference with {@link #getMatchedTokenFragments()}.
-   * 
-   * @return <code>true</code> if the given URI token will be handled by this action handler
-   */
-  @Override
-  protected boolean isResponsibleForToken (String pUriToken)
-  {
-    String uriToken = null;
-    try
-    {
-      uriToken = URLDecoder.decode (pUriToken, "UTF-8");
-    } catch (UnsupportedEncodingException ueExc)
-    {
-      throw new RuntimeException ("UTF-8 encoding not supported by URLDecoder.", ueExc);
+    /**
+     * Returns the number of token fragments that have been captured by the capturing groups of this regex handler's
+     * pattern. The array of token fragments can be obtained with {@link #getMatchedTokenFragments()}.
+     *
+     * @return size of the matched token fragment array
+     * @see #getMatchedTokenFragments()
+     */
+    public int getMatchedTokenFragmentCount() {
+        return mMatchedTokenFragments == null ? 0 : mMatchedTokenFragments.length;
     }
-    mMatchedTokenFragments = null;
-    Matcher matcher = mPattern.matcher (uriToken);
-    if (matcher.matches ())
-    {
-      identifyMatchedTokenFragments (matcher);
-      return true;
-    }
-    return false;
-  }
 
-  /**
-   * Retrieves the matched values from the capturing groups of this {@link RegexURIActionHandler}'s regular expression.
-   */
-  private void identifyMatchedTokenFragments (Matcher matcher)
-  {
-    mMatchedTokenFragments = new String[matcher.groupCount ()];
-    for (int index = 1; index < matcher.groupCount () + 1; ++index)
-    {
-      mMatchedTokenFragments[index - 1] = matcher.group (index);
+    /**
+     * {@inheritDoc}
+     * <p>
+     * If the case sensitivity is changed the regular expression pattern will be recompiled so that the pattern is in case
+     * insensitive matching mode.
+     * </p>
+     */
+    @Override
+    protected void setCaseSensitive(boolean caseSensitive) {
+        if (caseSensitive == isCaseSensitive()) {
+            return;
+        }
+        super.setCaseSensitive(caseSensitive);
+        mPattern = Pattern.compile(mActionName, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE);
     }
-  }
 
-  /**
-   * Since the action name of the {@link RegexURIActionHandler} is a regular expression, it should not be converted to
-   * lower case as is done in the implementation of {@link #getCaseInsensitiveActionName()} in the super class.
-   * {@inheritDoc}
-   */
-  @Override
-  public String getCaseInsensitiveActionName ()
-  {
-    return getActionName ();
-  }
-
-  /**
-   * <p>
-   * Sets the URI token to be used for this action handler when generating URIs with
-   * {@link #getParameterizedActionURI(boolean)}. Note that this token must be able to be successfully matched against
-   * the pattern for this action handler. Otherwise, this {@link RegexURIActionHandler} would not be able to interpret
-   * that token when the generated action URI is later evaluated by the action dispatcher.
-   * </p>
-   * <p>
-   * Note that if you want to generate a parameterized action URI for some action handler, you have to set a specific
-   * URI token for every {@link RegexURIActionHandler} that can be found on the path from this action handler back to
-   * the root of the action handler tree via its parent handlers.
-   * </p>
-   * 
-   * @param uriToken
-   *          URI token to be used for this action handler when generating parameterized action URIs
-   * @throws IllegalArgumentException
-   *           if the given argument can not be matched against the regular expression of this
-   *           {@link RegexURIActionHandler}
-   */
-  public void setURIToken (String uriToken)
-  {
-    CheckForNull.check (uriToken);
-    if (!mPattern.matcher (uriToken).matches ())
-    {
-      throw new IllegalArgumentException ("action URI must match with the regular expression of this action handler");
+    /**
+     * Checks if this {@link RegexURIActionHandler} is responsible for handling the given URI token. It does so by
+     * checking whether the token matches the assigned regular expression. If that is the case <code>true</code> is
+     * returned. At the same time, it also retrieves all values from the regular expression's capturing group, if there
+     * are any, and puts them into an array for later reference with {@link #getMatchedTokenFragments()}.
+     *
+     * @return <code>true</code> if the given URI token will be handled by this action handler
+     */
+    @Override
+    protected boolean isResponsibleForToken(String pUriToken) {
+        String uriToken = null;
+        try {
+            uriToken = URLDecoder.decode(pUriToken, "UTF-8");
+        } catch (UnsupportedEncodingException ueExc) {
+            throw new RuntimeException("UTF-8 encoding not supported by URLDecoder.", ueExc);
+        }
+        mMatchedTokenFragments = null;
+        Matcher matcher = mPattern.matcher(uriToken);
+        if (matcher.matches()) {
+            identifyMatchedTokenFragments(matcher);
+            return true;
+        }
+        return false;
     }
-    mActionName = uriToken;
-    updateActionURIs ();
-  }
+
+    /**
+     * Retrieves the matched values from the capturing groups of this {@link RegexURIActionHandler}'s regular expression.
+     */
+    private void identifyMatchedTokenFragments(Matcher matcher) {
+        mMatchedTokenFragments = new String[matcher.groupCount()];
+        for (int index = 1; index < matcher.groupCount() + 1; ++index) {
+            mMatchedTokenFragments[index - 1] = matcher.group(index);
+        }
+    }
+
+    /**
+     * Since the action name of the {@link RegexURIActionHandler} is a regular expression, it should not be converted to
+     * lower case as is done in the implementation of {@link #getCaseInsensitiveActionName()} in the super class.
+     * {@inheritDoc}
+     */
+    @Override
+    public String getCaseInsensitiveActionName() {
+        return getActionName();
+    }
+
+    /**
+     * <p>
+     * Sets the URI token to be used for this action handler when generating URIs with
+     * {@link #getParameterizedActionURI(boolean)}. Note that this token must be able to be successfully matched against
+     * the pattern for this action handler. Otherwise, this {@link RegexURIActionHandler} would not be able to interpret
+     * that token when the generated action URI is later evaluated by the action dispatcher.
+     * </p>
+     * <p>
+     * Note that if you want to generate a parameterized action URI for some action handler, you have to set a specific
+     * URI token for every {@link RegexURIActionHandler} that can be found on the path from this action handler back to
+     * the root of the action handler tree via its parent handlers.
+     * </p>
+     *
+     * @param uriToken URI token to be used for this action handler when generating parameterized action URIs
+     * @throws IllegalArgumentException if the given argument can not be matched against the regular expression of this
+     *                                  {@link RegexURIActionHandler}
+     */
+    public void setURIToken(String uriToken) {
+        CheckForNull.check(uriToken);
+        if (!mPattern.matcher(uriToken).matches()) {
+            throw new IllegalArgumentException("action URI must match with the regular expression of this action handler");
+        }
+        mActionName = uriToken;
+        updateActionURIs();
+    }
 }

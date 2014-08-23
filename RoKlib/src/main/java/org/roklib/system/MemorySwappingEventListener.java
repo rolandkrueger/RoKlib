@@ -22,15 +22,14 @@ package org.roklib.system;
 /**
  * This interface defines a callback that is invoked by a {@link AbstractMemorySwappingDetectionThread} if a memory
  * paging event is detected by it.
- * 
- * @see AbstractMemorySwappingDetectionThread
+ *
  * @author Roland Krueger
+ * @see AbstractMemorySwappingDetectionThread
  */
-public interface MemorySwappingEventListener
-{
-  /**
-   * Callback for memory swapping events. If memory paging was detected, this method will be called. A class
-   * implementing this interface can then react accordingly.
-   */
-  public void memorySwappingDetected ();
+public interface MemorySwappingEventListener {
+    /**
+     * Callback for memory swapping events. If memory paging was detected, this method will be called. A class
+     * implementing this interface can then react accordingly.
+     */
+    public void memorySwappingDetected();
 }

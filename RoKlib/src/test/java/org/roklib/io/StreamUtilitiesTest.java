@@ -19,57 +19,48 @@
  */
 package org.roklib.io;
 
+import org.junit.Test;
+
+import java.io.*;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
+public class StreamUtilitiesTest {
+    private static String testData = "File needed for unit tests.\r\nDo not delete or change!\r\n"
+            + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
+            + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
+            + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
+            + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
+            + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
+            + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
+            + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
+            + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
+            + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
+            + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij";
 
-import org.junit.Test;
-import org.roklib.io.StreamUtilities;
+    @Test
+    public void testCopy() throws IOException {
+        String str = "teststring";
+        StringWriter writer = new StringWriter();
+        StreamUtilities.copyReaderToWriter(new StringReader(str), writer);
+        assertEquals(str, writer.toString());
+    }
 
-public class StreamUtilitiesTest
-{
-  private static String testData = "File needed for unit tests.\r\nDo not delete or change!\r\n"
-                                     + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
-                                     + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
-                                     + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
-                                     + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
-                                     + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
-                                     + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
-                                     + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
-                                     + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
-                                     + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij\r\n"
-                                     + "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij";
+    @Test
+    public void testGetStreamAsString() throws IOException {
+        File file = new File("target/test-classes/StreamUtilitiesTestFile.txt");
+        assertTrue("Can't read test file " + file.getAbsolutePath()
+                + ". Please make sure that it is stored in the root of the classpath.", file.canRead());
+        assertEquals(testData, StreamUtilities.getStreamAsString(new FileInputStream(file)));
+    }
 
-  @Test
-  public void testCopy () throws IOException
-  {
-    String str = "teststring";
-    StringWriter writer = new StringWriter ();
-    StreamUtilities.copyReaderToWriter (new StringReader (str), writer);
-    assertEquals (str, writer.toString ());
-  }
-
-  @Test
-  public void testGetStreamAsString () throws IOException
-  {
-    File file = new File ("target/test-classes/StreamUtilitiesTestFile.txt");
-    assertTrue ("Can't read test file " + file.getAbsolutePath ()
-        + ". Please make sure that it is stored in the root of the classpath.", file.canRead ());
-    assertEquals (testData, StreamUtilities.getStreamAsString (new FileInputStream (file)));
-  }
-
-  @Test
-  public void testGetFileAsString () throws IOException
-  {
-    File file = new File ("target/test-classes/StreamUtilitiesTestFile.txt");
-    assertTrue (
-        "Can't read test file UtilitiesTestFile.txt. Please make sure that it is stored in the root of the classpath.",
-        file.canRead ());
-    assertEquals (testData, StreamUtilities.getFileAsString (file));
-  }
+    @Test
+    public void testGetFileAsString() throws IOException {
+        File file = new File("target/test-classes/StreamUtilitiesTestFile.txt");
+        assertTrue(
+                "Can't read test file UtilitiesTestFile.txt. Please make sure that it is stored in the root of the classpath.",
+                file.canRead());
+        assertEquals(testData, StreamUtilities.getFileAsString(file));
+    }
 }

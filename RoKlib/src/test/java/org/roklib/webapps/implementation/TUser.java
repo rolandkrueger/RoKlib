@@ -22,13 +22,11 @@ package org.roklib.webapps.implementation;
 
 import org.roklib.webapps.data.usermgmt.GenericUser;
 
-public class TUser extends GenericUser<Long, String>
-{
-  private static final long serialVersionUID = 1294423974715547055L;
+public class TUser extends GenericUser<Long, String> {
+    private static final long serialVersionUID = 1294423974715547055L;
 
-  public TUser (String login, String password)
-  {
-    setLoginName (login);
-    setPassword (password);
-  }
+    public TUser(String login, String password) {
+        setLoginName(login);
+        setPassword(password);
+    }
 }

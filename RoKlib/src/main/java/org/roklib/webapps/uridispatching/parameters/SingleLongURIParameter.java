@@ -21,59 +21,49 @@
 package org.roklib.webapps.uridispatching.parameters;
 
 
+import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
+
 import java.util.List;
 import java.util.Map;
 
-import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
+public class SingleLongURIParameter extends AbstractSingleURIParameter<Long> {
+    private static final long serialVersionUID = -5213198758703615905L;
 
-public class SingleLongURIParameter extends AbstractSingleURIParameter<Long>
-{
-  private static final long serialVersionUID = -5213198758703615905L;
-
-  public SingleLongURIParameter (String parameterName)
-  {
-    super (parameterName);
-  }
-
-  public SingleLongURIParameter (String parameterName, Long defaultValue)
-  {
-    super (parameterName);
-    setDefaultValue (defaultValue);
-  }
-
-  protected boolean consumeImpl (Map<String, List<String>> parameters)
-  {
-    List<String> valueList = parameters.remove (getParameterName ());
-    if (valueList == null || valueList.isEmpty ())
-    {
-      return false;
+    public SingleLongURIParameter(String parameterName) {
+        super(parameterName);
     }
-    return consumeValue (valueList.get (0));
-  }
 
-  @Override
-  protected boolean consumeListImpl (String[] values)
-  {
-    if (values == null || values.length == 0)
-      return false;
-    return consumeValue (values[0]);
-  }
-
-  private boolean consumeValue (String stringValue)
-  {
-    try
-    {
-      setValue (Long.valueOf (stringValue));
-      return true;
-    } catch (NumberFormatException nfExc)
-    {
-      mError = EnumURIParameterErrors.CONVERSION_ERROR;
-      return false;
+    public SingleLongURIParameter(String parameterName, Long defaultValue) {
+        super(parameterName);
+        setDefaultValue(defaultValue);
     }
-  }
 
-  public AbstractURIActionCommand getErrorCommandIfInvalid ()
-  {
-    return null;
-  }
+    protected boolean consumeImpl(Map<String, List<String>> parameters) {
+        List<String> valueList = parameters.remove(getParameterName());
+        if (valueList == null || valueList.isEmpty()) {
+            return false;
+        }
+        return consumeValue(valueList.get(0));
+    }
+
+    @Override
+    protected boolean consumeListImpl(String[] values) {
+        if (values == null || values.length == 0)
+            return false;
+        return consumeValue(values[0]);
+    }
+
+    private boolean consumeValue(String stringValue) {
+        try {
+            setValue(Long.valueOf(stringValue));
+            return true;
+        } catch (NumberFormatException nfExc) {
+            mError = EnumURIParameterErrors.CONVERSION_ERROR;
+            return false;
+        }
+    }
+
+    public AbstractURIActionCommand getErrorCommandIfInvalid() {
+        return null;
+    }
 }

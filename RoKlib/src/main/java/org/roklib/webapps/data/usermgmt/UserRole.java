@@ -23,57 +23,47 @@ package org.roklib.webapps.data.usermgmt;
 import org.roklib.webapps.authorization.IAdmissionTicket;
 import org.roklib.webapps.data.GenericPersistableObject;
 
-public class UserRole<KeyClass> extends GenericPersistableObject<KeyClass> implements IAdmissionTicket
-{
-  private static final long serialVersionUID = 467091219897410434L;
+public class UserRole<KeyClass> extends GenericPersistableObject<KeyClass> implements IAdmissionTicket {
+    private static final long serialVersionUID = 467091219897410434L;
 
-  private String            mRoleName;
-  private String            mDescription;
+    private String mRoleName;
+    private String mDescription;
 
-  public UserRole ()
-  {
-    super ();
-  }
+    public UserRole() {
+        super();
+    }
 
-  public UserRole (KeyClass key)
-  {
-    this (key, null);
-  }
+    public UserRole(KeyClass key) {
+        this(key, null);
+    }
 
-  public UserRole (String roleName)
-  {
-    setName (roleName);
-  }
+    public UserRole(String roleName) {
+        setName(roleName);
+    }
 
-  public UserRole (KeyClass key, String roleName)
-  {
-    this (roleName);
-    setKey (key);
-  }
+    public UserRole(KeyClass key, String roleName) {
+        this(roleName);
+        setKey(key);
+    }
 
-  public void setName (String roleName)
-  {
-    mRoleName = roleName;
-  }
+    public void setName(String roleName) {
+        mRoleName = roleName;
+    }
 
-  public String getDescription ()
-  {
-    return mDescription;
-  }
+    public String getDescription() {
+        return mDescription;
+    }
 
-  public void setDescription (String description)
-  {
-    mDescription = description;
-  }
+    public void setDescription(String description) {
+        mDescription = description;
+    }
 
-  @Override
-  public String toString ()
-  {
-    return mRoleName;
-  }
+    @Override
+    public String toString() {
+        return mRoleName;
+    }
 
-  public String getName ()
-  {
-    return mRoleName;
-  }
+    public String getName() {
+        return mRoleName;
+    }
 }

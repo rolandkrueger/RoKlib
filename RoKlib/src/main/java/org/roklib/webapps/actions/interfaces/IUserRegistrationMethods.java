@@ -21,12 +21,11 @@
 package org.roklib.webapps.actions.interfaces;
 
 
-import java.io.Serializable;
-
 import org.roklib.webapps.data.usermgmt.GenericUser;
 
+import java.io.Serializable;
+
 public interface IUserRegistrationMethods<KeyClass, UserData, U extends GenericUser<KeyClass, UserData>> extends
-    Serializable
-{
-  public boolean sendRegistrationNotification (U registeredUser);
+        Serializable {
+    public boolean sendRegistrationNotification(U registeredUser);
 }

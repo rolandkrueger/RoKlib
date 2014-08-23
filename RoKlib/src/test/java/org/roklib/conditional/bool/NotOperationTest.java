@@ -20,55 +20,45 @@
  */
 package org.roklib.conditional.bool;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.conditional.bool.NotOperation;
 
-public class NotOperationTest
-{
-  private NotOperation mTestObj;
+import static org.junit.Assert.*;
 
-  @Before
-  public void setUp ()
-  {
-    mTestObj = new NotOperation ();
-    mTestObj.setLeftHandOperand (false);
-  }
+public class NotOperationTest {
+    private NotOperation mTestObj;
 
-  @Test
-  public void test ()
-  {
-    assertTrue (mTestObj.execute ());
-    mTestObj.setLeftHandOperand (true);
-    assertFalse (mTestObj.execute ());
-  }
+    @Before
+    public void setUp() {
+        mTestObj = new NotOperation();
+        mTestObj.setLeftHandOperand(false);
+    }
 
-  @Test
-  public void testCanShortCircuit ()
-  {
-    assertFalse (mTestObj.canShortCircuit (true));
-    assertFalse (mTestObj.canShortCircuit (false));
-  }
+    @Test
+    public void test() {
+        assertTrue(mTestObj.execute());
+        mTestObj.setLeftHandOperand(true);
+        assertFalse(mTestObj.execute());
+    }
 
-  @Test (expected = IllegalStateException.class)
-  public void testGetShortCircuit ()
-  {
-    mTestObj.getShortCircuit (true);
-  }
+    @Test
+    public void testCanShortCircuit() {
+        assertFalse(mTestObj.canShortCircuit(true));
+        assertFalse(mTestObj.canShortCircuit(false));
+    }
 
-  @Test
-  public void testIsUnaryOperation ()
-  {
-    assertTrue (mTestObj.isUnaryOperation ());
-  }
+    @Test(expected = IllegalStateException.class)
+    public void testGetShortCircuit() {
+        mTestObj.getShortCircuit(true);
+    }
 
-  @Test
-  public void testGetMinimumNumberOfOperands ()
-  {
-    assertEquals (1, mTestObj.getMinimumNumberOfOperands ());
-  }
+    @Test
+    public void testIsUnaryOperation() {
+        assertTrue(mTestObj.isUnaryOperation());
+    }
+
+    @Test
+    public void testGetMinimumNumberOfOperands() {
+        assertEquals(1, mTestObj.getMinimumNumberOfOperands());
+    }
 }

@@ -20,46 +20,40 @@
  */
 package org.roklib.webapps.data;
 
-public class GenericPersistableObject<KeyClass> implements IGenericPersistableObject<KeyClass>
-{
-  private static final long serialVersionUID = 1820908905463077361L;
+public class GenericPersistableObject<KeyClass> implements IGenericPersistableObject<KeyClass> {
+    private static final long serialVersionUID = 1820908905463077361L;
 
-  private KeyClass          mKey;
+    private KeyClass mKey;
 
-  public KeyClass getKey ()
-  {
-    return mKey;
-  }
-
-  public void setKey (KeyClass key)
-  {
-    mKey = key;
-  }
-
-  @SuppressWarnings ("unchecked")
-  @Override
-  public boolean equals (Object obj)
-  {
-    if (mKey == null)
-      return false;
-    if (obj == null)
-      return false;
-    if (obj == this)
-      return true;
-
-    if (obj instanceof GenericPersistableObject)
-    {
-      GenericPersistableObject other = (GenericPersistableObject) obj;
-      return mKey.equals (other.mKey);
+    public KeyClass getKey() {
+        return mKey;
     }
-    return false;
-  }
 
-  @Override
-  public int hashCode ()
-  {
-    if (mKey == null)
-      return -1;
-    return mKey.hashCode ();
-  }
+    public void setKey(KeyClass key) {
+        mKey = key;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object obj) {
+        if (mKey == null)
+            return false;
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+
+        if (obj instanceof GenericPersistableObject) {
+            GenericPersistableObject other = (GenericPersistableObject) obj;
+            return mKey.equals(other.mKey);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        if (mKey == null)
+            return -1;
+        return mKey.hashCode();
+    }
 }

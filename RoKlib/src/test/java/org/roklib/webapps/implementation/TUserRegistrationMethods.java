@@ -22,22 +22,19 @@ package org.roklib.webapps.implementation;
 
 import org.roklib.webapps.actions.interfaces.IUserRegistrationMethods;
 
-@SuppressWarnings ("serial")
-public class TUserRegistrationMethods implements IUserRegistrationMethods<Long, String, TUser>
-{
-  public TUser    notificationRecipient;
-  public boolean  registrationSent           = false;
-  private boolean sendRegistrationSuccessful = true;
+@SuppressWarnings("serial")
+public class TUserRegistrationMethods implements IUserRegistrationMethods<Long, String, TUser> {
+    public TUser notificationRecipient;
+    public boolean registrationSent = false;
+    private boolean sendRegistrationSuccessful = true;
 
-  public boolean sendRegistrationNotification (TUser registeredUser)
-  {
-    if (sendRegistrationSuccessful)
-      registrationSent = true;
-    return sendRegistrationSuccessful;
-  }
+    public boolean sendRegistrationNotification(TUser registeredUser) {
+        if (sendRegistrationSuccessful)
+            registrationSent = true;
+        return sendRegistrationSuccessful;
+    }
 
-  public void setSendRegistrationSuccessful (boolean successful)
-  {
-    sendRegistrationSuccessful = successful;
-  }
+    public void setSendRegistrationSuccessful(boolean successful) {
+        sendRegistrationSuccessful = successful;
+    }
 }

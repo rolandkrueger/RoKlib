@@ -20,69 +20,58 @@
  */
 package org.roklib.webapps.data.usermgmt;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.webapps.data.usermgmt.GenericUser;
-import org.roklib.webapps.data.usermgmt.UserRole;
 import org.roklib.webapps.state.GenericUserState;
 
-public class GenericUserTest
-{
-  private GenericUser<Long, String> mTestObj;
+import static org.junit.Assert.*;
 
-  @Before
-  public void setUp ()
-  {
-    mTestObj = new GenericUser<Long, String> ();
-  }
+public class GenericUserTest {
+    private GenericUser<Long, String> mTestObj;
 
-  @Test
-  public void testGetUserRoles ()
-  {
-    assertTrue (mTestObj.getUserRoles ().isEmpty ());
-    mTestObj.addRole (new UserRole<Long> (17L, "17"));
-    assertEquals (1, mTestObj.getUserRoles ().size ());
-  }
+    @Before
+    public void setUp() {
+        mTestObj = new GenericUser<Long, String>();
+    }
 
-  @Test
-  public void testAddRole ()
-  {
-    UserRole<Long> role1 = new UserRole<Long> (17L, "17");
-    UserRole<Long> role2 = new UserRole<Long> (23L, "23");
-    mTestObj.addRole (role1);
-    mTestObj.addRole (role1);
-    mTestObj.addRole (role2);
-    assertEquals (2, mTestObj.getUserRoles ().size ());
-  }
+    @Test
+    public void testGetUserRoles() {
+        assertTrue(mTestObj.getUserRoles().isEmpty());
+        mTestObj.addRole(new UserRole<Long>(17L, "17"));
+        assertEquals(1, mTestObj.getUserRoles().size());
+    }
 
-  @Test
-  public void testHasRole ()
-  {
-    UserRole<Long> role1 = new UserRole<Long> (17L, "17");
-    UserRole<Long> role2 = new UserRole<Long> (23L, "23");
-    UserRole<Long> role3 = new UserRole<Long> (42L, "42");
-    mTestObj.addRole (role1);
-    mTestObj.addRole (role2);
-    assertTrue (mTestObj.hasRole (role1));
-    assertTrue (mTestObj.hasRole (role2));
-    assertFalse (mTestObj.hasRole (role3));
-  }
+    @Test
+    public void testAddRole() {
+        UserRole<Long> role1 = new UserRole<Long>(17L, "17");
+        UserRole<Long> role2 = new UserRole<Long>(23L, "23");
+        mTestObj.addRole(role1);
+        mTestObj.addRole(role1);
+        mTestObj.addRole(role2);
+        assertEquals(2, mTestObj.getUserRoles().size());
+    }
 
-  @Test
-  public void testSetState ()
-  {
-    assertFalse (mTestObj.getState ().hasState (GenericUserState.DEACTIVATED));
-    mTestObj.setState (GenericUserState.DEACTIVATED);
-    assertTrue (mTestObj.getState ().hasState (GenericUserState.DEACTIVATED));
-  }
+    @Test
+    public void testHasRole() {
+        UserRole<Long> role1 = new UserRole<Long>(17L, "17");
+        UserRole<Long> role2 = new UserRole<Long>(23L, "23");
+        UserRole<Long> role3 = new UserRole<Long>(42L, "42");
+        mTestObj.addRole(role1);
+        mTestObj.addRole(role2);
+        assertTrue(mTestObj.hasRole(role1));
+        assertTrue(mTestObj.hasRole(role2));
+        assertFalse(mTestObj.hasRole(role3));
+    }
 
-  @Test (expected = IllegalStateException.class)
-  public void testSetStateExternal_Fail ()
-  {
-    mTestObj.getState ().setStateValue (GenericUserState.DEACTIVATED);
-  }
+    @Test
+    public void testSetState() {
+        assertFalse(mTestObj.getState().hasState(GenericUserState.DEACTIVATED));
+        mTestObj.setState(GenericUserState.DEACTIVATED);
+        assertTrue(mTestObj.getState().hasState(GenericUserState.DEACTIVATED));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testSetStateExternal_Fail() {
+        mTestObj.getState().setStateValue(GenericUserState.DEACTIVATED);
+    }
 }

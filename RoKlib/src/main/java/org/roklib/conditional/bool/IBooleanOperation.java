@@ -22,52 +22,48 @@ package org.roklib.conditional.bool;
 
 import java.io.Serializable;
 
-public interface IBooleanOperation extends Serializable
-{
-  public boolean execute ();
+public interface IBooleanOperation extends Serializable {
+    public boolean execute();
 
-  public void setLeftHandOperand (boolean left);
+    public void setLeftHandOperand(boolean left);
 
-  public void setRightHandOperand (boolean right);
+    public void setRightHandOperand(boolean right);
 
-  /**
-   * <p>
-   * Returns <code>true</code> if this Boolean operation could be short-circuited if the given parameter was used as the
-   * operation's first operand.
-   * </p>
-   * <p>
-   * For example, if this Boolean operation represents the <code>AND</code> operation, using <code>false</code> as the
-   * first operand would make short-circuiting possible. The short-circuited outcome of the operation would then also be
-   * <code>false</code>.
-   * </p>
-   * 
-   * @param firstOperand
-   *          value for the operation's first operand
-   */
-  public boolean canShortCircuit (boolean firstOperand);
+    /**
+     * <p>
+     * Returns <code>true</code> if this Boolean operation could be short-circuited if the given parameter was used as the
+     * operation's first operand.
+     * </p>
+     * <p>
+     * For example, if this Boolean operation represents the <code>AND</code> operation, using <code>false</code> as the
+     * first operand would make short-circuiting possible. The short-circuited outcome of the operation would then also be
+     * <code>false</code>.
+     * </p>
+     *
+     * @param firstOperand value for the operation's first operand
+     */
+    public boolean canShortCircuit(boolean firstOperand);
 
-  /**
-   * <p>
-   * Returns the final result of this Boolean operation for the given first operand value if the operation is
-   * short-circuited. For example, passing <code>true</code> as the first operand value for the <code>OR</code>
-   * operation will yield <code>true</code> as the operation's result.
-   * </p>
-   * <p>
-   * Implementations of this method should check if short-circuiting is possible at all for the given operand value. If
-   * that is not the case, an {@link IllegalStateException} should be thrown.
-   * </p>
-   * 
-   * @param firstOperand
-   *          value for the operation's first operand
-   * @throws IllegalStateException
-   *           if short-circuiting is not possible for the given operand value
-   */
-  public boolean getShortCircuit (boolean firstOperand);
+    /**
+     * <p>
+     * Returns the final result of this Boolean operation for the given first operand value if the operation is
+     * short-circuited. For example, passing <code>true</code> as the first operand value for the <code>OR</code>
+     * operation will yield <code>true</code> as the operation's result.
+     * </p>
+     * <p>
+     * Implementations of this method should check if short-circuiting is possible at all for the given operand value. If
+     * that is not the case, an {@link IllegalStateException} should be thrown.
+     * </p>
+     *
+     * @param firstOperand value for the operation's first operand
+     * @throws IllegalStateException if short-circuiting is not possible for the given operand value
+     */
+    public boolean getShortCircuit(boolean firstOperand);
 
-  public int getMinimumNumberOfOperands ();
+    public int getMinimumNumberOfOperands();
 
-  /**
-   * Returns <code>true</code> if this Boolean operation takes only one operand.
-   */
-  public boolean isUnaryOperation ();
+    /**
+     * Returns <code>true</code> if this Boolean operation takes only one operand.
+     */
+    public boolean isUnaryOperation();
 }

@@ -20,60 +20,49 @@
  */
 package org.roklib.conditional.engine;
 
-import org.roklib.conditional.bool.AndOperation;
-import org.roklib.conditional.bool.IdentityOperation;
-import org.roklib.conditional.bool.NotOperation;
-import org.roklib.conditional.bool.OrOperation;
-import org.roklib.conditional.bool.XOROperation;
+import org.roklib.conditional.bool.*;
 import org.roklib.util.helper.CheckForNull;
 
-public class BoolExpressionBuilder
-{
-  private BoolExpressionBuilder ()
-  {
-  }
+public class BoolExpressionBuilder {
+    private BoolExpressionBuilder() {
+    }
 
-  public static BooleanExpression createANDExpression (AbstractCondition... abstractConditions)
-  {
-    CheckForNull.check ((Object[]) abstractConditions);
-    BooleanExpression result = new BooleanExpression (new AndOperation ());
-    for (AbstractCondition condition : abstractConditions)
-      result.addOperand (condition);
-    return result;
-  }
+    public static BooleanExpression createANDExpression(AbstractCondition... abstractConditions) {
+        CheckForNull.check((Object[]) abstractConditions);
+        BooleanExpression result = new BooleanExpression(new AndOperation());
+        for (AbstractCondition condition : abstractConditions)
+            result.addOperand(condition);
+        return result;
+    }
 
-  public static BooleanExpression createORExpression (AbstractCondition... abstractConditions)
-  {
-    CheckForNull.check ((Object[]) abstractConditions);
-    BooleanExpression result = new BooleanExpression (new OrOperation ());
-    for (AbstractCondition condition : abstractConditions)
-      result.addOperand (condition);
-    return result;
-  }
+    public static BooleanExpression createORExpression(AbstractCondition... abstractConditions) {
+        CheckForNull.check((Object[]) abstractConditions);
+        BooleanExpression result = new BooleanExpression(new OrOperation());
+        for (AbstractCondition condition : abstractConditions)
+            result.addOperand(condition);
+        return result;
+    }
 
-  public static BooleanExpression createXORExpression (AbstractCondition... abstractConditions)
-  {
-    CheckForNull.check ((Object[]) abstractConditions);
-    BooleanExpression result = new BooleanExpression (new XOROperation ());
-    for (AbstractCondition condition : abstractConditions)
-      result.addOperand (condition);
-    return result;
-  }
+    public static BooleanExpression createXORExpression(AbstractCondition... abstractConditions) {
+        CheckForNull.check((Object[]) abstractConditions);
+        BooleanExpression result = new BooleanExpression(new XOROperation());
+        for (AbstractCondition condition : abstractConditions)
+            result.addOperand(condition);
+        return result;
+    }
 
-  public static BooleanExpression createNOTExpression (AbstractCondition abstractCondition)
-  {
-    CheckForNull.check (abstractCondition);
-    BooleanExpression result = new BooleanExpression (new NotOperation ());
-    result.addOperand (abstractCondition);
-    return result;
+    public static BooleanExpression createNOTExpression(AbstractCondition abstractCondition) {
+        CheckForNull.check(abstractCondition);
+        BooleanExpression result = new BooleanExpression(new NotOperation());
+        result.addOperand(abstractCondition);
+        return result;
 
-  }
+    }
 
-  public static BooleanExpression createIDENTITYExpression (AbstractCondition abstractCondition)
-  {
-    CheckForNull.check (abstractCondition);
-    BooleanExpression result = new BooleanExpression (new IdentityOperation ());
-    result.addOperand (abstractCondition);
-    return result;
-  }
+    public static BooleanExpression createIDENTITYExpression(AbstractCondition abstractCondition) {
+        CheckForNull.check(abstractCondition);
+        BooleanExpression result = new BooleanExpression(new IdentityOperation());
+        result.addOperand(abstractCondition);
+        return result;
+    }
 }

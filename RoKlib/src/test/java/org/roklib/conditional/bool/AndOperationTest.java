@@ -20,66 +20,55 @@
  */
 package org.roklib.conditional.bool;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.conditional.bool.AndOperation;
 
-public class AndOperationTest
-{
-  private AndOperation mTestObj;
+import static org.junit.Assert.*;
 
-  @Before
-  public void setUp ()
-  {
-    mTestObj = new AndOperation ();
-    mTestObj.setLeftHandOperand (false);
-    mTestObj.setRightHandOperand (false);
-  }
+public class AndOperationTest {
+    private AndOperation mTestObj;
 
-  @Test
-  public void test ()
-  {
-    assertFalse (mTestObj.execute ());
-    mTestObj.setLeftHandOperand (true);
-    assertFalse (mTestObj.execute ());
-    mTestObj.setRightHandOperand (true);
-    assertTrue (mTestObj.execute ());
-    mTestObj.setLeftHandOperand (false);
-    assertFalse (mTestObj.execute ());
-  }
+    @Before
+    public void setUp() {
+        mTestObj = new AndOperation();
+        mTestObj.setLeftHandOperand(false);
+        mTestObj.setRightHandOperand(false);
+    }
 
-  @Test
-  public void testCanShortCircuit ()
-  {
-    assertFalse (mTestObj.canShortCircuit (true));
-    assertTrue (mTestObj.canShortCircuit (false));
-  }
+    @Test
+    public void test() {
+        assertFalse(mTestObj.execute());
+        mTestObj.setLeftHandOperand(true);
+        assertFalse(mTestObj.execute());
+        mTestObj.setRightHandOperand(true);
+        assertTrue(mTestObj.execute());
+        mTestObj.setLeftHandOperand(false);
+        assertFalse(mTestObj.execute());
+    }
 
-  @Test
-  public void testGetShortCircuit ()
-  {
-    assertFalse (mTestObj.getShortCircuit (false));
-  }
+    @Test
+    public void testCanShortCircuit() {
+        assertFalse(mTestObj.canShortCircuit(true));
+        assertTrue(mTestObj.canShortCircuit(false));
+    }
 
-  @Test (expected = IllegalStateException.class)
-  public void testGetShortCircuit_Fail ()
-  {
-    mTestObj.getShortCircuit (true);
-  }
+    @Test
+    public void testGetShortCircuit() {
+        assertFalse(mTestObj.getShortCircuit(false));
+    }
 
-  @Test
-  public void testIsUnaryOperation ()
-  {
-    assertFalse (mTestObj.isUnaryOperation ());
-  }
+    @Test(expected = IllegalStateException.class)
+    public void testGetShortCircuit_Fail() {
+        mTestObj.getShortCircuit(true);
+    }
 
-  @Test
-  public void testGetMinimumNumberOfOperands ()
-  {
-    assertEquals (2, mTestObj.getMinimumNumberOfOperands ());
-  }
+    @Test
+    public void testIsUnaryOperation() {
+        assertFalse(mTestObj.isUnaryOperation());
+    }
+
+    @Test
+    public void testGetMinimumNumberOfOperands() {
+        assertEquals(2, mTestObj.getMinimumNumberOfOperands());
+    }
 }

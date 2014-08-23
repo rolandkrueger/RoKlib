@@ -21,20 +21,15 @@
  */
 package org.roklib.webapps.uridispatching;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.roklib.webapps.data.DownloadInfo;
 import org.roklib.webapps.uridispatching.IURIActionHandler.ParameterMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * <p>
@@ -43,11 +38,11 @@ import org.slf4j.LoggerFactory;
  * to be interpreted, this URI is passed to methdo {@link #handleURIAction(String)} or
  * {@link #handleURIAction(String, ParameterMode)}, respectively. There, the URI is split into a token list to be
  * recursively interpreted by the registered action handlers. For example, if the following URI is to be interpreted
- * 
+ * <p/>
  * <pre>
  * http://www.example.com/myapp/user/home/messages
  * </pre>
- * 
+ * <p/>
  * with the web application installed under context <code>http://www.example.com/myapp/</code> the URI fragment to be
  * interpreted is <code>/user/home/messages</code>. This is split into three individual tokens <code>user</code>,
  * <code>home</code>, and <code>messages</code> in that order. To interpret these tokens, the root action handler passes
@@ -60,289 +55,247 @@ import org.slf4j.LoggerFactory;
  * Note that this class is not thread-safe, i.e. it must not be used to handle access to several URIs in parallel. You
  * should use one action dispatcher per HTTP session.
  * </p>
- * 
+ *
  * @author Roland Krueger
  */
-public class URIActionDispatcher implements Serializable
-{
-  private static final long            serialVersionUID = 7151587763812706383L;
-  private static final Logger          LOG              = LoggerFactory.getLogger (URIActionDispatcher.class);
-  private Map<String, List<String>>    mCurrentParameters;
-  private String                       mRelativeUriOriginal;
-  private Map<String, String[]>        mCurrentParametersOriginalValues;
-  private AbstractURIActionCommand     mDefaultCommand;
-  private DispatchingURIActionHandler  mRootDispatcher;
-  private IURIActionDispatcherListener mListener;
-  private ParameterMode                mParameterMode   = ParameterMode.QUERY;
-  private boolean                      mIgnoreExclamationMark;
+public class URIActionDispatcher implements Serializable {
+    private static final long serialVersionUID = 7151587763812706383L;
+    private static final Logger LOG = LoggerFactory.getLogger(URIActionDispatcher.class);
+    private Map<String, List<String>> mCurrentParameters;
+    private String mRelativeUriOriginal;
+    private Map<String, String[]> mCurrentParametersOriginalValues;
+    private AbstractURIActionCommand mDefaultCommand;
+    private DispatchingURIActionHandler mRootDispatcher;
+    private IURIActionDispatcherListener mListener;
+    private ParameterMode mParameterMode = ParameterMode.QUERY;
+    private boolean mIgnoreExclamationMark;
 
-  public URIActionDispatcher (boolean useCaseSensitiveURIs)
-  {
-    if (useCaseSensitiveURIs)
-    {
-      mCurrentParameters = new HashMap<String, List<String>> ();
-    } else
-    {
-      mCurrentParameters = new TreeMap<String, List<String>> (String.CASE_INSENSITIVE_ORDER);
-    }
-    mRootDispatcher = new DispatchingURIActionHandler ("");
-    mRootDispatcher.setCaseSensitive (useCaseSensitiveURIs);
-    mRootDispatcher.setParent (new AbstractURIActionHandler ("")
-    {
-      private static final long serialVersionUID = 3744506992900879054L;
+    public URIActionDispatcher(boolean useCaseSensitiveURIs) {
+        if (useCaseSensitiveURIs) {
+            mCurrentParameters = new HashMap<String, List<String>>();
+        } else {
+            mCurrentParameters = new TreeMap<String, List<String>>(String.CASE_INSENSITIVE_ORDER);
+        }
+        mRootDispatcher = new DispatchingURIActionHandler("");
+        mRootDispatcher.setCaseSensitive(useCaseSensitiveURIs);
+        mRootDispatcher.setParent(new AbstractURIActionHandler("") {
+            private static final long serialVersionUID = 3744506992900879054L;
 
-      protected AbstractURIActionCommand handleURIImpl (List<String> uriTokens, Map<String, List<String>> parameters,
-          ParameterMode parameterMode)
-      {
-        return null;
-      }
+            protected AbstractURIActionCommand handleURIImpl(List<String> uriTokens, Map<String, List<String>> parameters,
+                                                             ParameterMode parameterMode) {
+                return null;
+            }
 
-      @Override
-      protected boolean isResponsibleForToken (String uriToken)
-      {
-        throw new UnsupportedOperationException ();
-      }
-    });
-  }
-
-  /**
-   * <p>
-   * If <code>true</code> is passed, the dispatcher is instructed to ignore a possible exclamation mark at the beginning
-   * of the relative path when handling the URI action. That is, e. g., a relative path <code>!user/login</code> will be
-   * handled as if the path <code>user/login</code> was given for interpretation. This is useful if your application is
-   * a rich internet application that uses URI fragments for making pages bookmarkable. In the example above, the full
-   * URI might look like <code>http://www.example.com/#!user/login</code>.
-   * </p>
-   * <p>
-   * Using an exclamation mark after the hash is a scheme proposed by Google to make an AJAX application whose HTML-code
-   * is generated by JavaScript crawlable for a web crawler. See <a
-   * href="https://developers.google.com/webmasters/ajax-crawling">https://developers.google.com/
-   * webmasters/ajax-crawling</a> for more information on this.
-   * </p>
-   * <p>
-   * By ignoring the exclamation mark, you can have URIs using this particular scheme without having to explicitly deal
-   * with the exclamation mark.
-   * </p>
-   * 
-   * @param ignoreExclamationMark
-   *          <code>true</code> if an exclamation mark at the beginning of the relative path to be handled should be
-   *          ignored
-   */
-  public void setIgnoreExclamationMark (boolean ignoreExclamationMark)
-  {
-    mIgnoreExclamationMark = ignoreExclamationMark;
-  }
-
-  public boolean isCaseSensitive ()
-  {
-    return mRootDispatcher.isCaseSensitive ();
-  }
-
-  public void setCaseSensitive (boolean caseSensitive)
-  {
-    mRootDispatcher.setCaseSensitive (caseSensitive);
-  }
-
-  /**
-   * Returns the root dispatching handler that is the entry point of the URI interpretation chain. This is a special
-   * action handler as the URI token it is responsible for (its <em>action name</em>) is the empty String. Thus, if a
-   * visited URI is to be interpreted by this action dispatcher, this URI is first passed to that root dispatching
-   * handler. All URI action handlers that are responsible for the first directory level of a URI have to be added to
-   * this root handler as sub-handlers. To do that, you can also use the delegate method
-   * {@link #addHandler(AbstractURIActionHandler)}.
-   * 
-   * @return the root dispatching handler for this action dispatcher
-   * @see #addHandler(AbstractURIActionHandler)
-   */
-  public DispatchingURIActionHandler getRootActionHandler ()
-  {
-    return mRootDispatcher;
-  }
-
-  public void setURIActionDispatcherListener (IURIActionDispatcherListener listener)
-  {
-    mListener = listener;
-  }
-
-  /**
-   * Sets the action command to be executed each time when no responsible action handler could be found for some
-   * particular relative URI. If set to <code>null</code> no particular action is performed when an unknown relative URI
-   * is handled.
-   * 
-   * @param defaultCommand
-   *          command to be executed for an unknown relative URI, may be <code>null</code>
-   */
-  public void setDefaultCommand (AbstractURIActionCommand defaultCommand)
-  {
-    mDefaultCommand = defaultCommand;
-  }
-
-  /**
-   * Returns the set of parameters that belong to the currently handled URI and have been set with
-   * {@link #handleParameters(Map)}.
-   * 
-   * @return
-   */
-  protected Map<String, List<String>> getParameters ()
-  {
-    return mCurrentParameters;
-  }
-
-  /**
-   * Clears the set of parameter values that has been set with {@link #handleParameters(Map)}.
-   */
-  public void clearParameters ()
-  {
-    mCurrentParameters.clear ();
-  }
-
-  public void handleParameters (Map<String, String[]> parameters)
-  {
-    if (parameters == null)
-      return;
-    mCurrentParameters.clear ();
-    mCurrentParametersOriginalValues = parameters;
-    for (String key : parameters.keySet ())
-    {
-      List<String> params = new ArrayList<String> (Arrays.asList (parameters.get (key)));
-      if (!params.isEmpty ())
-        mCurrentParameters.put (key, params);
-    }
-  }
-
-  /**
-   * Set the parameter mode to be used for interpreting the visited URIs.
-   * 
-   * @param parameterMode
-   *          {@link ParameterMode} which will be used by {@link #handleURIAction(String)}
-   */
-  public void setParameterMode (ParameterMode parameterMode)
-  {
-    mParameterMode = parameterMode;
-  }
-
-  /**
-   * Passes the given relative URI to the URI action handler chain and interprets all parameters with the
-   * {@link ParameterMode} defined with {@link #setParameterMode(ParameterMode)}.
-   * 
-   * @see #handleURIAction(String, ParameterMode)
-   */
-  public DownloadInfo handleURIAction (String relativeUri)
-  {
-    return handleURIAction (relativeUri, mParameterMode);
-  }
-
-  /**
-   * This method is the central entry point for the URI action handling framework.
-   * 
-   * @param relativeUri
-   *          relative URI to be interpreted by the URI action handling framework. This may be an URI such as
-   *          <code>/admin/configuration/settings/language/de</code>
-   * @param parameterMode
-   *          {@link ParameterMode} to be used for interpreting possible parameter values contained in the given
-   *          relative URI
-   * @return an object containing all necessary data for a file download. This return value is optional and may be
-   *         <code>null</code>. If a {@link DownloadInfo} object is returned, the contained {@link InputStream} should
-   *         be written to the {@link OutputStream} of the HTTP response.
-   */
-  public DownloadInfo handleURIAction (String relativeUri, ParameterMode parameterMode)
-  {
-    AbstractURIActionCommand action = getActionForURI (relativeUri, parameterMode);
-    if (action == null)
-    {
-      LOG.info ("No registered URI action handler for: " + mRelativeUriOriginal + "?" + mCurrentParameters);
-      if (mDefaultCommand != null)
-      {
-        mDefaultCommand.execute ();
-      }
-      return null;
-    } else
-    {
-      action.execute ();
-      if (mListener != null)
-      {
-        mListener.handleURIActionCommand (action);
-      }
-      return action.getDownloadStream ();
-    }
-  }
-
-  public AbstractURIActionCommand getActionForURI (String relativeUri)
-  {
-    return getActionForURI (relativeUri, mParameterMode);
-  }
-
-  public AbstractURIActionCommand getActionForURI (String relativeUri, ParameterMode parameterMode)
-  {
-    if (LOG.isTraceEnabled ())
-    {
-      LOG.trace ("Finding action for URI '" + relativeUri + "'");
-    }
-    mRelativeUriOriginal = relativeUri;
-
-    ignoreSlashAtBeginningOfRelativeURI ();
-    ignoreExclamationMarkIfNecessary ();
-
-    List<String> uriTokens = new ArrayList<String> (Arrays.asList (mRelativeUriOriginal.split ("/")));
-
-    if (LOG.isTraceEnabled ())
-    {
-      LOG.trace (String.format ("Dispatching URI: '%s', params: '%s'", mRelativeUriOriginal, mCurrentParameters));
+            @Override
+            protected boolean isResponsibleForToken(String uriToken) {
+                throw new UnsupportedOperationException();
+            }
+        });
     }
 
-    return mRootDispatcher.handleURI (uriTokens, mCurrentParameters, parameterMode);
-  }
-
-  private void ignoreExclamationMarkIfNecessary ()
-  {
-    if (mIgnoreExclamationMark && mRelativeUriOriginal.startsWith ("!"))
-    {
-      mRelativeUriOriginal = mRelativeUriOriginal.substring (1);
+    /**
+     * <p>
+     * If <code>true</code> is passed, the dispatcher is instructed to ignore a possible exclamation mark at the beginning
+     * of the relative path when handling the URI action. That is, e. g., a relative path <code>!user/login</code> will be
+     * handled as if the path <code>user/login</code> was given for interpretation. This is useful if your application is
+     * a rich internet application that uses URI fragments for making pages bookmarkable. In the example above, the full
+     * URI might look like <code>http://www.example.com/#!user/login</code>.
+     * </p>
+     * <p>
+     * Using an exclamation mark after the hash is a scheme proposed by Google to make an AJAX application whose HTML-code
+     * is generated by JavaScript crawlable for a web crawler. See <a
+     * href="https://developers.google.com/webmasters/ajax-crawling">https://developers.google.com/
+     * webmasters/ajax-crawling</a> for more information on this.
+     * </p>
+     * <p>
+     * By ignoring the exclamation mark, you can have URIs using this particular scheme without having to explicitly deal
+     * with the exclamation mark.
+     * </p>
+     *
+     * @param ignoreExclamationMark <code>true</code> if an exclamation mark at the beginning of the relative path to be handled should be
+     *                              ignored
+     */
+    public void setIgnoreExclamationMark(boolean ignoreExclamationMark) {
+        mIgnoreExclamationMark = ignoreExclamationMark;
     }
-  }
 
-  private void ignoreSlashAtBeginningOfRelativeURI ()
-  {
-    if (mRelativeUriOriginal.startsWith ("/"))
-    {
-      mRelativeUriOriginal = mRelativeUriOriginal.substring (1);
+    public boolean isCaseSensitive() {
+        return mRootDispatcher.isCaseSensitive();
     }
-  }
 
-  /**
-   * Returns the relative URI that is currently being handled by this dispatcher. This URI is set each time
-   * {@link #handleURIAction(String, ParameterMode)} is called.
-   */
-  public String getCurrentlyHandledURI ()
-  {
-    return mRelativeUriOriginal;
-  }
+    public void setCaseSensitive(boolean caseSensitive) {
+        mRootDispatcher.setCaseSensitive(caseSensitive);
+    }
 
-  public DownloadInfo replayCurrentAction ()
-  {
-    handleParameters (mCurrentParametersOriginalValues);
-    return handleURIAction (mRelativeUriOriginal);
-  }
+    /**
+     * Returns the root dispatching handler that is the entry point of the URI interpretation chain. This is a special
+     * action handler as the URI token it is responsible for (its <em>action name</em>) is the empty String. Thus, if a
+     * visited URI is to be interpreted by this action dispatcher, this URI is first passed to that root dispatching
+     * handler. All URI action handlers that are responsible for the first directory level of a URI have to be added to
+     * this root handler as sub-handlers. To do that, you can also use the delegate method
+     * {@link #addHandler(AbstractURIActionHandler)}.
+     *
+     * @return the root dispatching handler for this action dispatcher
+     * @see #addHandler(AbstractURIActionHandler)
+     */
+    public DispatchingURIActionHandler getRootActionHandler() {
+        return mRootDispatcher;
+    }
 
-  /**
-   * Adds a new sub-handler to the root action handler of this dispatcher. For example, if this method is called three
-   * times with action handlers for the fragments <code>admin</code>, <code>main</code>, and <code>login</code> on a web
-   * application running in context <code>http://www.example.com/myapp</code> this dispatcher will be able to interpret
-   * the following URIS:
-   * 
-   * <pre>
-   * http://www.example.com/myapp/admin
-   * http://www.example.com/myapp/main
-   * http://www.example.com/myapp/login
-   * </pre>
-   * 
-   * @param subHandler
-   *          the new action handler
-   * @throws IllegalArgumentException
-   *           if the given sub-handler has already been added to another parent handler
-   */
-  public final void addHandler (AbstractURIActionHandler subHandler)
-  {
-    getRootActionHandler ().addSubHandler (subHandler);
-  }
+    public void setURIActionDispatcherListener(IURIActionDispatcherListener listener) {
+        mListener = listener;
+    }
+
+    /**
+     * Sets the action command to be executed each time when no responsible action handler could be found for some
+     * particular relative URI. If set to <code>null</code> no particular action is performed when an unknown relative URI
+     * is handled.
+     *
+     * @param defaultCommand command to be executed for an unknown relative URI, may be <code>null</code>
+     */
+    public void setDefaultCommand(AbstractURIActionCommand defaultCommand) {
+        mDefaultCommand = defaultCommand;
+    }
+
+    /**
+     * Returns the set of parameters that belong to the currently handled URI and have been set with
+     * {@link #handleParameters(Map)}.
+     *
+     * @return
+     */
+    protected Map<String, List<String>> getParameters() {
+        return mCurrentParameters;
+    }
+
+    /**
+     * Clears the set of parameter values that has been set with {@link #handleParameters(Map)}.
+     */
+    public void clearParameters() {
+        mCurrentParameters.clear();
+    }
+
+    public void handleParameters(Map<String, String[]> parameters) {
+        if (parameters == null)
+            return;
+        mCurrentParameters.clear();
+        mCurrentParametersOriginalValues = parameters;
+        for (String key : parameters.keySet()) {
+            List<String> params = new ArrayList<String>(Arrays.asList(parameters.get(key)));
+            if (!params.isEmpty())
+                mCurrentParameters.put(key, params);
+        }
+    }
+
+    /**
+     * Set the parameter mode to be used for interpreting the visited URIs.
+     *
+     * @param parameterMode {@link ParameterMode} which will be used by {@link #handleURIAction(String)}
+     */
+    public void setParameterMode(ParameterMode parameterMode) {
+        mParameterMode = parameterMode;
+    }
+
+    /**
+     * Passes the given relative URI to the URI action handler chain and interprets all parameters with the
+     * {@link ParameterMode} defined with {@link #setParameterMode(ParameterMode)}.
+     *
+     * @see #handleURIAction(String, ParameterMode)
+     */
+    public DownloadInfo handleURIAction(String relativeUri) {
+        return handleURIAction(relativeUri, mParameterMode);
+    }
+
+    /**
+     * This method is the central entry point for the URI action handling framework.
+     *
+     * @param relativeUri   relative URI to be interpreted by the URI action handling framework. This may be an URI such as
+     *                      <code>/admin/configuration/settings/language/de</code>
+     * @param parameterMode {@link ParameterMode} to be used for interpreting possible parameter values contained in the given
+     *                      relative URI
+     * @return an object containing all necessary data for a file download. This return value is optional and may be
+     * <code>null</code>. If a {@link DownloadInfo} object is returned, the contained {@link InputStream} should
+     * be written to the {@link OutputStream} of the HTTP response.
+     */
+    public DownloadInfo handleURIAction(String relativeUri, ParameterMode parameterMode) {
+        AbstractURIActionCommand action = getActionForURI(relativeUri, parameterMode);
+        if (action == null) {
+            LOG.info("No registered URI action handler for: " + mRelativeUriOriginal + "?" + mCurrentParameters);
+            if (mDefaultCommand != null) {
+                mDefaultCommand.execute();
+            }
+            return null;
+        } else {
+            action.execute();
+            if (mListener != null) {
+                mListener.handleURIActionCommand(action);
+            }
+            return action.getDownloadStream();
+        }
+    }
+
+    public AbstractURIActionCommand getActionForURI(String relativeUri) {
+        return getActionForURI(relativeUri, mParameterMode);
+    }
+
+    public AbstractURIActionCommand getActionForURI(String relativeUri, ParameterMode parameterMode) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Finding action for URI '" + relativeUri + "'");
+        }
+        mRelativeUriOriginal = relativeUri;
+
+        ignoreSlashAtBeginningOfRelativeURI();
+        ignoreExclamationMarkIfNecessary();
+
+        List<String> uriTokens = new ArrayList<String>(Arrays.asList(mRelativeUriOriginal.split("/")));
+
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(String.format("Dispatching URI: '%s', params: '%s'", mRelativeUriOriginal, mCurrentParameters));
+        }
+
+        return mRootDispatcher.handleURI(uriTokens, mCurrentParameters, parameterMode);
+    }
+
+    private void ignoreExclamationMarkIfNecessary() {
+        if (mIgnoreExclamationMark && mRelativeUriOriginal.startsWith("!")) {
+            mRelativeUriOriginal = mRelativeUriOriginal.substring(1);
+        }
+    }
+
+    private void ignoreSlashAtBeginningOfRelativeURI() {
+        if (mRelativeUriOriginal.startsWith("/")) {
+            mRelativeUriOriginal = mRelativeUriOriginal.substring(1);
+        }
+    }
+
+    /**
+     * Returns the relative URI that is currently being handled by this dispatcher. This URI is set each time
+     * {@link #handleURIAction(String, ParameterMode)} is called.
+     */
+    public String getCurrentlyHandledURI() {
+        return mRelativeUriOriginal;
+    }
+
+    public DownloadInfo replayCurrentAction() {
+        handleParameters(mCurrentParametersOriginalValues);
+        return handleURIAction(mRelativeUriOriginal);
+    }
+
+    /**
+     * Adds a new sub-handler to the root action handler of this dispatcher. For example, if this method is called three
+     * times with action handlers for the fragments <code>admin</code>, <code>main</code>, and <code>login</code> on a web
+     * application running in context <code>http://www.example.com/myapp</code> this dispatcher will be able to interpret
+     * the following URIS:
+     * <p/>
+     * <pre>
+     * http://www.example.com/myapp/admin
+     * http://www.example.com/myapp/main
+     * http://www.example.com/myapp/login
+     * </pre>
+     *
+     * @param subHandler the new action handler
+     * @throws IllegalArgumentException if the given sub-handler has already been added to another parent handler
+     */
+    public final void addHandler(AbstractURIActionHandler subHandler) {
+        getRootActionHandler().addSubHandler(subHandler);
+    }
 }

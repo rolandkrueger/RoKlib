@@ -25,60 +25,50 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapData
-{
-  public static TestDataFixtureMapMap getFiveLowerCaseEntriesOrderingExpected ()
-  {
-    return new FiveLowerCaseEntriesOrderingExpected ();
-  }
-
-  public static class TestDataFixture
-  {
-    protected Map<CharSequence, String> mData = new HashMap<CharSequence, String> ();
-
-    public Map<CharSequence, String> getData ()
-    {
-      return mData;
+public class MapData {
+    public static TestDataFixtureMapMap getFiveLowerCaseEntriesOrderingExpected() {
+        return new FiveLowerCaseEntriesOrderingExpected();
     }
-  }
 
-  public static class TestDataFixtureMapMap extends TestDataFixture
-  {
-    protected Map<CharSequence, String> mExpected = new HashMap<CharSequence, String> ();
+    public static class TestDataFixture {
+        protected Map<CharSequence, String> mData = new HashMap<CharSequence, String>();
 
-    public Map<CharSequence, String> getExpected ()
-    {
-      return mExpected;
+        public Map<CharSequence, String> getData() {
+            return mData;
+        }
     }
-  }
 
-  public static class TestDataFixtureMapList extends TestDataFixture
-  {
-    protected List<CharSequence> mExpected = new ArrayList<CharSequence> ();
+    public static class TestDataFixtureMapMap extends TestDataFixture {
+        protected Map<CharSequence, String> mExpected = new HashMap<CharSequence, String>();
 
-    public List<CharSequence> getExpected ()
-    {
-      return mExpected;
+        public Map<CharSequence, String> getExpected() {
+            return mExpected;
+        }
     }
-  }
 
-  public static class FiveLowerCaseEntriesOrderingExpected extends TestDataFixtureMapMap
-  {
-    public FiveLowerCaseEntriesOrderingExpected ()
-    {
-      mData.put ("sverige", "smorgasbord");
-      mData.put ("deutschland", "sauerkraut");
-      mData.put ("england", "fishnchips");
-      mData.put ("suomi", "salmiakki");
-      mData.put ("france", "fromage");
-      mData.put ("espana", "paella");
+    public static class TestDataFixtureMapList extends TestDataFixture {
+        protected List<CharSequence> mExpected = new ArrayList<CharSequence>();
 
-      mExpected.put ("deutschland", "sauerkraut");
-      mExpected.put ("england", "fishnchips");
-      mExpected.put ("espana", "paella");
-      mExpected.put ("france", "fromage");
-      mExpected.put ("suomi", "salmiakki");
-      mExpected.put ("sverige", "smorgasbord");
+        public List<CharSequence> getExpected() {
+            return mExpected;
+        }
     }
-  }
+
+    public static class FiveLowerCaseEntriesOrderingExpected extends TestDataFixtureMapMap {
+        public FiveLowerCaseEntriesOrderingExpected() {
+            mData.put("sverige", "smorgasbord");
+            mData.put("deutschland", "sauerkraut");
+            mData.put("england", "fishnchips");
+            mData.put("suomi", "salmiakki");
+            mData.put("france", "fromage");
+            mData.put("espana", "paella");
+
+            mExpected.put("deutschland", "sauerkraut");
+            mExpected.put("england", "fishnchips");
+            mExpected.put("espana", "paella");
+            mExpected.put("france", "fromage");
+            mExpected.put("suomi", "salmiakki");
+            mExpected.put("sverige", "smorgasbord");
+        }
+    }
 }

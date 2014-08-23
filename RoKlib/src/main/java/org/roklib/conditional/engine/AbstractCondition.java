@@ -21,53 +21,46 @@
 package org.roklib.conditional.engine;
 
 
+import org.roklib.conditional.bool.IBooleanValueProvider;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.roklib.conditional.bool.IBooleanValueProvider;
+public abstract class AbstractCondition implements IBooleanValueProvider {
+    private static final long serialVersionUID = 6265626147474145199L;
 
-public abstract class AbstractCondition implements IBooleanValueProvider
-{
-  private static final long        serialVersionUID = 6265626147474145199L;
+    private List<IConditionListener> mListeners;
 
-  private List<IConditionListener> mListeners;
-
-  public void addConditionListener (IConditionListener listener)
-  {
-    if (mListeners == null)
-      mListeners = new LinkedList<IConditionListener> ();
-    mListeners.add (listener);
-  }
-
-  public void removeConditionListener (IConditionListener listener)
-  {
-    if (mListeners == null)
-      return;
-    mListeners.remove (listener);
-  }
-
-  protected void fireConditionChanged ()
-  {
-    if (mListeners == null)
-      return;
-    for (IConditionListener listener : new ArrayList<IConditionListener> (mListeners))
-    {
-      listener.conditionChanged (this);
+    public void addConditionListener(IConditionListener listener) {
+        if (mListeners == null)
+            mListeners = new LinkedList<IConditionListener>();
+        mListeners.add(listener);
     }
-  }
 
-  protected int getListenerCount ()
-  {
-    if (mListeners == null)
-      return 0;
-    return mListeners.size ();
-  }
+    public void removeConditionListener(IConditionListener listener) {
+        if (mListeners == null)
+            return;
+        mListeners.remove(listener);
+    }
 
-  public void clearConditionListeners ()
-  {
-    if (mListeners == null)
-      return;
-    mListeners.clear ();
-  }
+    protected void fireConditionChanged() {
+        if (mListeners == null)
+            return;
+        for (IConditionListener listener : new ArrayList<IConditionListener>(mListeners)) {
+            listener.conditionChanged(this);
+        }
+    }
+
+    protected int getListenerCount() {
+        if (mListeners == null)
+            return 0;
+        return mListeners.size();
+    }
+
+    public void clearConditionListeners() {
+        if (mListeners == null)
+            return;
+        mListeners.clear();
+    }
 }

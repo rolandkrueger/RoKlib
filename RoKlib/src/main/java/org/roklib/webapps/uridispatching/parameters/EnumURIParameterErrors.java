@@ -20,7 +20,6 @@
  */
 package org.roklib.webapps.uridispatching.parameters;
 
-public enum EnumURIParameterErrors
-{
-  NO_ERROR, PARAMETER_NOT_FOUND, CONVERSION_ERROR
+public enum EnumURIParameterErrors {
+    NO_ERROR, PARAMETER_NOT_FOUND, CONVERSION_ERROR
 }

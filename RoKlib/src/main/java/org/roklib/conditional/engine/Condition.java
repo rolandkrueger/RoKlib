@@ -22,69 +22,59 @@ package org.roklib.conditional.engine;
 
 import org.roklib.util.helper.CheckForNull;
 
-public class Condition extends AbstractCondition
-{
-  private static final long serialVersionUID = 2843942589476694624L;
+public class Condition extends AbstractCondition {
+    private static final long serialVersionUID = 2843942589476694624L;
 
-  private boolean           mBooleanValue;
-  private String            mName;
+    private boolean mBooleanValue;
+    private String mName;
 
-  public Condition (String name)
-  {
-    CheckForNull.check (name);
-    mName = name;
-    mBooleanValue = false;
-  }
-
-  public Condition (String name, boolean value)
-  {
-    this (name);
-    mBooleanValue = value;
-  }
-
-  public boolean getBooleanValue ()
-  {
-    return mBooleanValue;
-  }
-
-  public void setValue (boolean value)
-  {
-    boolean previousValue = mBooleanValue;
-    mBooleanValue = value;
-    if (previousValue != value)
-      fireConditionChanged ();
-  }
-
-  public String getName ()
-  {
-    return mName;
-  }
-
-  @Override
-  public boolean equals (Object obj)
-  {
-    if (obj == null)
-      return false;
-    if (obj == this)
-      return true;
-    if (obj instanceof Condition)
-    {
-      Condition other = (Condition) obj;
-      if (other.mName.equals (mName))
-        return true;
+    public Condition(String name) {
+        CheckForNull.check(name);
+        mName = name;
+        mBooleanValue = false;
     }
-    return false;
-  }
 
-  @Override
-  public int hashCode ()
-  {
-    return mName.hashCode ();
-  }
+    public Condition(String name, boolean value) {
+        this(name);
+        mBooleanValue = value;
+    }
 
-  @Override
-  public String toString ()
-  {
-    return String.format ("%s=%b", mName, mBooleanValue);
-  }
+    public boolean getBooleanValue() {
+        return mBooleanValue;
+    }
+
+    public void setValue(boolean value) {
+        boolean previousValue = mBooleanValue;
+        mBooleanValue = value;
+        if (previousValue != value)
+            fireConditionChanged();
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj instanceof Condition) {
+            Condition other = (Condition) obj;
+            if (other.mName.equals(mName))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return mName.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s=%b", mName, mBooleanValue);
+    }
 }

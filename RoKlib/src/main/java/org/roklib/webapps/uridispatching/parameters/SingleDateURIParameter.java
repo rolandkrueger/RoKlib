@@ -21,62 +21,52 @@
 package org.roklib.webapps.uridispatching.parameters;
 
 
+import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
+public class SingleDateURIParameter extends AbstractSingleURIParameter<Date> {
+    private static final long serialVersionUID = 6617369364956822893L;
 
-public class SingleDateURIParameter extends AbstractSingleURIParameter<Date>
-{
-  private static final long serialVersionUID = 6617369364956822893L;
-
-  public SingleDateURIParameter (String parameterName)
-  {
-    super (parameterName);
-  }
-
-  public SingleDateURIParameter (String parameterName, Date defaultDate)
-  {
-    super (parameterName);
-    setDefaultValue (defaultDate);
-  }
-
-  @Override
-  protected boolean consumeImpl (Map<String, List<String>> parameters)
-  {
-    List<String> valueList = parameters.remove (getParameterName ());
-    if (valueList == null || valueList.isEmpty ())
-    {
-      return false;
+    public SingleDateURIParameter(String parameterName) {
+        super(parameterName);
     }
-    return consumeValue (valueList.get (0));
-  }
 
-  @Override
-  protected boolean consumeListImpl (String[] values)
-  {
-    if (values == null || values.length == 0)
-      return false;
-
-    return consumeValue (values[0]);
-  }
-
-  private boolean consumeValue (String valueString)
-  {
-    try
-    {
-      setValue (new Date (Long.valueOf (valueString)));
-      return true;
-    } catch (NumberFormatException nfExc)
-    {
-      mError = EnumURIParameterErrors.CONVERSION_ERROR;
-      return false;
+    public SingleDateURIParameter(String parameterName, Date defaultDate) {
+        super(parameterName);
+        setDefaultValue(defaultDate);
     }
-  }
 
-  public AbstractURIActionCommand getErrorCommandIfInvalid ()
-  {
-    return null;
-  }
+    @Override
+    protected boolean consumeImpl(Map<String, List<String>> parameters) {
+        List<String> valueList = parameters.remove(getParameterName());
+        if (valueList == null || valueList.isEmpty()) {
+            return false;
+        }
+        return consumeValue(valueList.get(0));
+    }
+
+    @Override
+    protected boolean consumeListImpl(String[] values) {
+        if (values == null || values.length == 0)
+            return false;
+
+        return consumeValue(values[0]);
+    }
+
+    private boolean consumeValue(String valueString) {
+        try {
+            setValue(new Date(Long.valueOf(valueString)));
+            return true;
+        } catch (NumberFormatException nfExc) {
+            mError = EnumURIParameterErrors.CONVERSION_ERROR;
+            return false;
+        }
+    }
+
+    public AbstractURIActionCommand getErrorCommandIfInvalid() {
+        return null;
+    }
 }

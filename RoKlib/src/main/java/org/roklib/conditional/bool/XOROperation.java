@@ -20,22 +20,18 @@
  */
 package org.roklib.conditional.bool;
 
-public class XOROperation extends AbstractBinaryBooleanOperation
-{
-  private static final long serialVersionUID = 2762011847533970230L;
+public class XOROperation extends AbstractBinaryBooleanOperation {
+    private static final long serialVersionUID = 2762011847533970230L;
 
-  public boolean execute ()
-  {
-    return mLeft != mRight;
-  }
+    public boolean execute() {
+        return mLeft != mRight;
+    }
 
-  public boolean canShortCircuit (boolean firstOperand)
-  {
-    return false;
-  }
+    public boolean canShortCircuit(boolean firstOperand) {
+        return false;
+    }
 
-  public boolean getShortCircuit (boolean firstOperand)
-  {
-    throw new IllegalStateException ("Cannot short-circuit.");
-  }
+    public boolean getShortCircuit(boolean firstOperand) {
+        throw new IllegalStateException("Cannot short-circuit.");
+    }
 }

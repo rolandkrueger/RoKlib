@@ -25,17 +25,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.roklib.collections.tstmap.TernarySearchTreeMapTests;
-import org.roklib.conditional.bool.AndOperationTest;
-import org.roklib.conditional.bool.IdentityOperationTest;
-import org.roklib.conditional.bool.NotOperationTest;
-import org.roklib.conditional.bool.OrOperationTest;
-import org.roklib.conditional.bool.XOROperationTest;
+import org.roklib.conditional.bool.*;
+import org.roklib.conditional.engine.*;
 import org.roklib.conditional.engine.conditions.HasStateTest;
-import org.roklib.conditional.engine.AbstractConditionTest;
-import org.roklib.conditional.engine.BoolExpressionBuilderTest;
-import org.roklib.conditional.engine.BooleanOperationTest;
-import org.roklib.conditional.engine.ConditionTest;
-import org.roklib.conditional.engine.ExternalConditionTest;
 import org.roklib.conditional.groupvisibility.RadioComponentGroupManagerTest;
 import org.roklib.conditional.groupvisibility.VisibilityGroupManagerTest;
 import org.roklib.conditional.groupvisibility.VisibilityGroupTest;
@@ -45,13 +37,12 @@ import org.roklib.util.authorization.AdmissionTicketContainerTest;
 import org.roklib.util.helper.CheckForNullTest;
 import org.roklib.util.helper.StopWatchTest;
 
-@RunWith (Suite.class)
-@SuiteClasses ({ TernarySearchTreeMapTests.class, StopWatchTest.class, CheckForNullTest.class,
-    VisibilityGroupManagerTest.class, VisibilityGroupTest.class, AbstractConditionTest.class, ConditionTest.class,
-    BooleanOperationTest.class, BoolExpressionBuilderTest.class, AndOperationTest.class, OrOperationTest.class,
-    XOROperationTest.class, NotOperationTest.class, IdentityOperationTest.class, ManagedDataTest.class,
-    StateTest.class, HasStateTest.class, ExternalConditionTest.class, AdmissionTicketContainerTest.class,
-    RadioComponentGroupManagerTest.class, EnhancedReturnTypeTest.class, AbstractCommandTest.class })
-public class UtilsTests
-{
+@RunWith(Suite.class)
+@SuiteClasses({TernarySearchTreeMapTests.class, StopWatchTest.class, CheckForNullTest.class,
+        VisibilityGroupManagerTest.class, VisibilityGroupTest.class, AbstractConditionTest.class, ConditionTest.class,
+        BooleanOperationTest.class, BoolExpressionBuilderTest.class, AndOperationTest.class, OrOperationTest.class,
+        XOROperationTest.class, NotOperationTest.class, IdentityOperationTest.class, ManagedDataTest.class,
+        StateTest.class, HasStateTest.class, ExternalConditionTest.class, AdmissionTicketContainerTest.class,
+        RadioComponentGroupManagerTest.class, EnhancedReturnTypeTest.class, AbstractCommandTest.class})
+public class UtilsTests {
 }

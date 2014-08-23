@@ -19,55 +19,46 @@
  */
 package org.roklib.util;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.roklib.data.EnhancedReturnType;
-import org.roklib.util.AbstractCommand;
 
-public class AbstractCommandTest
-{
-  private CVoidTestCommand mTestObject;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-  @Before
-  public void setUp ()
-  {
-    mTestObject = new CVoidTestCommand ();
-  }
+public class AbstractCommandTest {
+    private CVoidTestCommand mTestObject;
 
-  @Test
-  public void testResultDoesNotRemainVoidAfterSecondCommandExecution ()
-  {
-    mTestObject.setVoid (true);
-    mTestObject.run ();
-    assertTrue (mTestObject.getResult ().isVoided ());
-    mTestObject.setVoid (false);
-    // the void status should be reset for the second execution of the same command object
-    mTestObject.run ();
-    assertFalse (mTestObject.getResult ().isVoided ());
-  }
-
-  private static class CVoidTestCommand extends AbstractCommand<Integer>
-  {
-    private boolean mSetVoid = false;
-
-    public void setVoid (boolean setVoid)
-    {
-      mSetVoid = setVoid;
+    @Before
+    public void setUp() {
+        mTestObject = new CVoidTestCommand();
     }
 
-    @Override
-    protected EnhancedReturnType<Integer> executeImpl ()
-    {
-      if (mSetVoid)
-      {
-        return EnhancedReturnType.Builder.createVoided (Integer.class).build ();
-      } else
-      {
-        return EnhancedReturnType.Builder.createSuccessful (Integer.class).withValue (1).build ();
-      }
+    @Test
+    public void testResultDoesNotRemainVoidAfterSecondCommandExecution() {
+        mTestObject.setVoid(true);
+        mTestObject.run();
+        assertTrue(mTestObject.getResult().isVoided());
+        mTestObject.setVoid(false);
+        // the void status should be reset for the second execution of the same command object
+        mTestObject.run();
+        assertFalse(mTestObject.getResult().isVoided());
     }
-  }
+
+    private static class CVoidTestCommand extends AbstractCommand<Integer> {
+        private boolean mSetVoid = false;
+
+        public void setVoid(boolean setVoid) {
+            mSetVoid = setVoid;
+        }
+
+        @Override
+        protected EnhancedReturnType<Integer> executeImpl() {
+            if (mSetVoid) {
+                return EnhancedReturnType.Builder.createVoided(Integer.class).build();
+            } else {
+                return EnhancedReturnType.Builder.createSuccessful(Integer.class).withValue(1).build();
+            }
+        }
+    }
 }

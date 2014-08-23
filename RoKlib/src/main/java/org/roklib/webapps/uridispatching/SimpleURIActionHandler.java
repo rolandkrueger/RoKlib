@@ -27,36 +27,31 @@ import java.util.Map;
  * A simple URI action handler that directly returns a predefined action command when the URI interpretation process
  * reaches this handler. By that, {@link SimpleURIActionHandler}s always represent the last token of an interpreted URI
  * as they cannot dispatch to any sub-handlers.
- * 
+ *
  * @author Roland Krüger
  */
-public class SimpleURIActionHandler extends AbstractURIActionHandler
-{
-  private static final long        serialVersionUID = 8203362201388037000L;
+public class SimpleURIActionHandler extends AbstractURIActionHandler {
+    private static final long serialVersionUID = 8203362201388037000L;
 
-  private AbstractURIActionCommand mCommand;
+    private AbstractURIActionCommand mCommand;
 
-  /**
-   * Create a new {@link SimpleURIActionHandler} with the specified action name and action command.
-   * 
-   * @param actionName
-   *          the action name for this handler
-   * @param command
-   *          action command to be returned when this action handler is being evaluated
-   */
-  public SimpleURIActionHandler (String actionName, AbstractURIActionCommand command)
-  {
-    super (actionName);
-    mCommand = command;
-  }
+    /**
+     * Create a new {@link SimpleURIActionHandler} with the specified action name and action command.
+     *
+     * @param actionName the action name for this handler
+     * @param command    action command to be returned when this action handler is being evaluated
+     */
+    public SimpleURIActionHandler(String actionName, AbstractURIActionCommand command) {
+        super(actionName);
+        mCommand = command;
+    }
 
-  /**
-   * Directly returns the URI action command passed in through the constructor. All method arguments are ignored.
-   */
-  @Override
-  protected AbstractURIActionCommand handleURIImpl (List<String> uriTokens, Map<String, List<String>> parameters,
-      ParameterMode parameterMode)
-  {
-    return mCommand;
-  }
+    /**
+     * Directly returns the URI action command passed in through the constructor. All method arguments are ignored.
+     */
+    @Override
+    protected AbstractURIActionCommand handleURIImpl(List<String> uriTokens, Map<String, List<String>> parameters,
+                                                     ParameterMode parameterMode) {
+        return mCommand;
+    }
 }

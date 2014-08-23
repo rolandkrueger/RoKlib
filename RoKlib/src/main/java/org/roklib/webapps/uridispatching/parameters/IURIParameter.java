@@ -21,40 +21,39 @@
 package org.roklib.webapps.uridispatching.parameters;
 
 
+import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
+import org.roklib.webapps.uridispatching.AbstractURIActionHandler;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
-import org.roklib.webapps.uridispatching.AbstractURIActionHandler;
+public interface IURIParameter<V extends Serializable> extends Serializable {
+    public abstract boolean consume(Map<String, List<String>> parameters);
 
-public interface IURIParameter<V extends Serializable> extends Serializable
-{
-  public abstract boolean consume (Map<String, List<String>> parameters);
+    public abstract boolean consumeList(String[] values);
 
-  public abstract boolean consumeList (String[] values);
+    public abstract V getValue();
 
-  public abstract V getValue ();
+    public abstract void setValue(V value);
 
-  public abstract void setValue (V value);
+    public abstract void clearValue();
 
-  public abstract void clearValue ();
+    public abstract AbstractURIActionCommand getErrorCommandIfInvalid();
 
-  public abstract AbstractURIActionCommand getErrorCommandIfInvalid ();
+    public abstract EnumURIParameterErrors getError();
 
-  public abstract EnumURIParameterErrors getError ();
+    public abstract void parameterizeURIHandler(AbstractURIActionHandler handler);
 
-  public abstract void parameterizeURIHandler (AbstractURIActionHandler handler);
+    public abstract void setValueAndParameterizeURIHandler(V value, AbstractURIActionHandler handler);
 
-  public abstract void setValueAndParameterizeURIHandler (V value, AbstractURIActionHandler handler);
+    public abstract boolean hasValue();
 
-  public abstract boolean hasValue ();
+    public abstract void setOptional(boolean optional);
 
-  public abstract void setOptional (boolean optional);
+    public abstract boolean isOptional();
 
-  public abstract boolean isOptional ();
+    public abstract int getSingleValueCount();
 
-  public abstract int getSingleValueCount ();
-
-  public abstract List<String> getParameterNames ();
+    public abstract List<String> getParameterNames();
 }

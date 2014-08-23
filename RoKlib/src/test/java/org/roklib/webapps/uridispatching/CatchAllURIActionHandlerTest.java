@@ -19,67 +19,62 @@
  */
 package org.roklib.webapps.uridispatching;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Before;
 import org.junit.Test;
 
-public class CatchAllURIActionHandlerTest
-{
-  private URIActionDispatcher      mDispatcher;
-  private TURIActionHandler        mTestActionHandler;
-  private TURIActionCommand        mTestActionCommand;
-  private CatchAllURIActionHandler mCatchAllActionHandler;
-  private TURIActionCommand        mCatchAllActionCommand;
-  private TURIActionHandler        mLastActionHandler;
-  private TURIActionCommand        mLastActionCommand;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-  @Before
-  public void setUp ()
-  {
-    mDispatcher = new URIActionDispatcher (false);
+public class CatchAllURIActionHandlerTest {
+    private URIActionDispatcher mDispatcher;
+    private TURIActionHandler mTestActionHandler;
+    private TURIActionCommand mTestActionCommand;
+    private CatchAllURIActionHandler mCatchAllActionHandler;
+    private TURIActionCommand mCatchAllActionCommand;
+    private TURIActionHandler mLastActionHandler;
+    private TURIActionCommand mLastActionCommand;
 
-    mTestActionCommand = new TURIActionCommand ();
-    mTestActionHandler = new TURIActionHandler ("test", mTestActionCommand);
+    @Before
+    public void setUp() {
+        mDispatcher = new URIActionDispatcher(false);
 
-    mCatchAllActionHandler = new CatchAllURIActionHandler ();
-    mCatchAllActionCommand = new TURIActionCommand ();
-    mCatchAllActionHandler.setRootCommand (mCatchAllActionCommand);
+        mTestActionCommand = new TURIActionCommand();
+        mTestActionHandler = new TURIActionHandler("test", mTestActionCommand);
 
-    mLastActionCommand = new TURIActionCommand ();
-    mLastActionHandler = new TURIActionHandler ("last", mLastActionCommand);
-    mCatchAllActionHandler.addSubHandler (mLastActionHandler);
+        mCatchAllActionHandler = new CatchAllURIActionHandler();
+        mCatchAllActionCommand = new TURIActionCommand();
+        mCatchAllActionHandler.setRootCommand(mCatchAllActionCommand);
 
-    mDispatcher.addHandler (mCatchAllActionHandler);
-    mDispatcher.addHandler (mTestActionHandler);
-  }
+        mLastActionCommand = new TURIActionCommand();
+        mLastActionHandler = new TURIActionHandler("last", mLastActionCommand);
+        mCatchAllActionHandler.addSubHandler(mLastActionHandler);
 
-  @Test
-  public void test ()
-  {
-    mDispatcher.handleURIAction ("/test");
-    assertActionCommandWasExecuted (mTestActionCommand);
-    resetActionCommands ();
+        mDispatcher.addHandler(mCatchAllActionHandler);
+        mDispatcher.addHandler(mTestActionHandler);
+    }
 
-    mDispatcher.handleURIAction ("/someurlfragment");
-    assertActionCommandWasExecuted (mCatchAllActionCommand);
-    assertEquals ("someurlfragment", mCatchAllActionHandler.getCurrentURIToken ());
-    resetActionCommands ();
+    @Test
+    public void test() {
+        mDispatcher.handleURIAction("/test");
+        assertActionCommandWasExecuted(mTestActionCommand);
+        resetActionCommands();
 
-    mDispatcher.handleURIAction ("/anything/last");
-    assertActionCommandWasExecuted (mLastActionCommand);
-    assertEquals ("anything", mCatchAllActionHandler.getCurrentURIToken ());
-  }
+        mDispatcher.handleURIAction("/someurlfragment");
+        assertActionCommandWasExecuted(mCatchAllActionCommand);
+        assertEquals("someurlfragment", mCatchAllActionHandler.getCurrentURIToken());
+        resetActionCommands();
 
-  private void assertActionCommandWasExecuted (TURIActionCommand command)
-  {
-    assertTrue (command.mExecuted);
-  }
+        mDispatcher.handleURIAction("/anything/last");
+        assertActionCommandWasExecuted(mLastActionCommand);
+        assertEquals("anything", mCatchAllActionHandler.getCurrentURIToken());
+    }
 
-  private void resetActionCommands ()
-  {
-    mTestActionCommand.mExecuted = false;
-    mCatchAllActionCommand.mExecuted = false;
-  }
+    private void assertActionCommandWasExecuted(TURIActionCommand command) {
+        assertTrue(command.mExecuted);
+    }
+
+    private void resetActionCommands() {
+        mTestActionCommand.mExecuted = false;
+        mCatchAllActionCommand.mExecuted = false;
+    }
 }

@@ -25,44 +25,38 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdmissionTicketContainer implements Serializable
-{
-  private static final long             serialVersionUID = -297124992997707673L;
+public class AdmissionTicketContainer implements Serializable {
+    private static final long serialVersionUID = -297124992997707673L;
 
-  private Map<String, IAdmissionTicket> mAdmissionTickets;
+    private Map<String, IAdmissionTicket> mAdmissionTickets;
 
-  public boolean hasTicket (IAdmissionTicket ticket)
-  {
-    if (mAdmissionTickets == null)
-      return false;
-    return mAdmissionTickets.containsKey (ticket.getName ());
-  }
+    public boolean hasTicket(IAdmissionTicket ticket) {
+        if (mAdmissionTickets == null)
+            return false;
+        return mAdmissionTickets.containsKey(ticket.getName());
+    }
 
-  public void addTicket (IAdmissionTicket ticket)
-  {
-    if (mAdmissionTickets == null)
-      mAdmissionTickets = new HashMap<String, IAdmissionTicket> ();
-    mAdmissionTickets.put (ticket.getName (), ticket);
-  }
+    public void addTicket(IAdmissionTicket ticket) {
+        if (mAdmissionTickets == null)
+            mAdmissionTickets = new HashMap<String, IAdmissionTicket>();
+        mAdmissionTickets.put(ticket.getName(), ticket);
+    }
 
-  public boolean removeTicket (IAdmissionTicket ticket)
-  {
-    if (mAdmissionTickets == null)
-      return false;
-    return mAdmissionTickets.remove (ticket.getName ()) != null;
-  }
+    public boolean removeTicket(IAdmissionTicket ticket) {
+        if (mAdmissionTickets == null)
+            return false;
+        return mAdmissionTickets.remove(ticket.getName()) != null;
+    }
 
-  public Map<String, IAdmissionTicket> getTickets ()
-  {
-    if (mAdmissionTickets == null)
-      return Collections.emptyMap ();
-    return Collections.unmodifiableMap (mAdmissionTickets);
-  }
+    public Map<String, IAdmissionTicket> getTickets() {
+        if (mAdmissionTickets == null)
+            return Collections.emptyMap();
+        return Collections.unmodifiableMap(mAdmissionTickets);
+    }
 
-  public void clear ()
-  {
-    if (mAdmissionTickets == null)
-      return;
-    mAdmissionTickets.clear ();
-  }
+    public void clear() {
+        if (mAdmissionTickets == null)
+            return;
+        mAdmissionTickets.clear();
+    }
 }

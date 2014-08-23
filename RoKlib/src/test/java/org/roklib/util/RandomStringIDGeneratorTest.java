@@ -20,82 +20,69 @@
  */
 package org.roklib.util;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 import java.util.Random;
 
-import org.junit.Test;
-import org.roklib.util.RandomStringIDGenerator;
+import static org.junit.Assert.assertEquals;
 
-public class RandomStringIDGeneratorTest
-{
-  @Test
-  public void testZeroLengthYieldsEmptyString ()
-  {
-    String randomString = RandomStringIDGenerator.getUniqueID (0);
-    assertStringIsEmpty (randomString);
-  }
-
-  @Test
-  public void testZeroLengthAndRandomYieldsEmptyString ()
-  {
-    String randomString = RandomStringIDGenerator.getUniqueID (new Random (), 0);
-    assertStringIsEmpty (randomString);
-  }
-
-  @Test
-  public void testGenerateStringWithOwnCharacters ()
-  {
-    String randomString = RandomStringIDGenerator.getUniqueID (5, "x");
-    assertEquals ("xxxxx", randomString);
-  }
-
-  public void testGenerateStringWithOwnCharactersAndRandom ()
-  {
-    String randomString = RandomStringIDGenerator.getUniqueID (new Random (), 5, "x");
-    assertEquals ("xxxxx", randomString);
-  }
-
-  @Test (expected = IllegalArgumentException.class)
-  public void testNegativeLengthThrowsException ()
-  {
-    RandomStringIDGenerator.getUniqueID (-1);
-  }
-
-  @Test (expected = IllegalArgumentException.class)
-  public void testEmptyCharacterStringThrowsAnException ()
-  {
-    RandomStringIDGenerator.getUniqueID (5, " \t ");
-  }
-
-  @Test
-  public void testWithOwnRandom ()
-  {
-    String randomString = RandomStringIDGenerator.getUniqueID (new RandomThatCountsUp (), 5);
-    assertEquals ("abcde", randomString);
-  }
-
-  private void assertStringIsEmpty (String string)
-  {
-    assertEquals ("", string);
-  }
-
-  private static class RandomThatCountsUp extends Random
-  {
-    private static final long serialVersionUID = -1239820927930277037L;
-
-    private int               mNext            = 0;
-
-    @Override
-    public int nextInt (int n)
-    {
-      return nextInt ();
+public class RandomStringIDGeneratorTest {
+    @Test
+    public void testZeroLengthYieldsEmptyString() {
+        String randomString = RandomStringIDGenerator.getUniqueID(0);
+        assertStringIsEmpty(randomString);
     }
 
-    @Override
-    public int nextInt ()
-    {
-      return mNext++;
+    @Test
+    public void testZeroLengthAndRandomYieldsEmptyString() {
+        String randomString = RandomStringIDGenerator.getUniqueID(new Random(), 0);
+        assertStringIsEmpty(randomString);
     }
-  }
+
+    @Test
+    public void testGenerateStringWithOwnCharacters() {
+        String randomString = RandomStringIDGenerator.getUniqueID(5, "x");
+        assertEquals("xxxxx", randomString);
+    }
+
+    public void testGenerateStringWithOwnCharactersAndRandom() {
+        String randomString = RandomStringIDGenerator.getUniqueID(new Random(), 5, "x");
+        assertEquals("xxxxx", randomString);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeLengthThrowsException() {
+        RandomStringIDGenerator.getUniqueID(-1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testEmptyCharacterStringThrowsAnException() {
+        RandomStringIDGenerator.getUniqueID(5, " \t ");
+    }
+
+    @Test
+    public void testWithOwnRandom() {
+        String randomString = RandomStringIDGenerator.getUniqueID(new RandomThatCountsUp(), 5);
+        assertEquals("abcde", randomString);
+    }
+
+    private void assertStringIsEmpty(String string) {
+        assertEquals("", string);
+    }
+
+    private static class RandomThatCountsUp extends Random {
+        private static final long serialVersionUID = -1239820927930277037L;
+
+        private int mNext = 0;
+
+        @Override
+        public int nextInt(int n) {
+            return nextInt();
+        }
+
+        @Override
+        public int nextInt() {
+            return mNext++;
+        }
+    }
 }

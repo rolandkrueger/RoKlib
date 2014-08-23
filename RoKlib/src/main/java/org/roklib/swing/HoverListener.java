@@ -19,9 +19,8 @@
  */
 package org.roklib.swing;
 
-public interface HoverListener
-{
-  public void hoverStarted (Hoverable source);
+public interface HoverListener {
+    public void hoverStarted(Hoverable source);
 
-  public void hoverEnded (Hoverable source);
+    public void hoverEnded(Hoverable source);
 }

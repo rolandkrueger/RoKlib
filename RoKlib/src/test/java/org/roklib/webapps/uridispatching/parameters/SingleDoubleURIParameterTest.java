@@ -20,23 +20,19 @@
  */
 package org.roklib.webapps.uridispatching.parameters;
 
-public class SingleDoubleURIParameterTest extends AbstractSingleURIParameterTest<Double>
-{
-  @Override
-  public AbstractSingleURIParameter<Double> getTestSingleURIParameter (String parameterName)
-  {
-    return new SingleDoubleURIParameter ("test");
-  }
+public class SingleDoubleURIParameterTest extends AbstractSingleURIParameterTest<Double> {
+    @Override
+    public AbstractSingleURIParameter<Double> getTestSingleURIParameter(String parameterName) {
+        return new SingleDoubleURIParameter("test");
+    }
 
-  @Override
-  public String getTestValueAsString ()
-  {
-    return "17.0";
-  }
+    @Override
+    public String getTestValueAsString() {
+        return "17.0";
+    }
 
-  @Override
-  public Double getTestValue ()
-  {
-    return 17.0d;
-  }
+    @Override
+    public Double getTestValue() {
+        return 17.0d;
+    }
 }

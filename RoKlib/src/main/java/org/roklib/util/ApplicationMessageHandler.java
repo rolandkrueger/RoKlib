@@ -23,26 +23,23 @@ package org.roklib.util;
  * This interface provides methods for reporting error and informational messages. Classes that implement
  * {@link ApplicationMessageHandler} have to take care that these messages are delivered to the user in a specific way.
  * This may happen via a command console or by writing such messages into a log file.
- * 
- * @see ApplicationError
+ *
  * @author Roland Krueger
+ * @see ApplicationError
  */
-public interface ApplicationMessageHandler
-{
-  /**
-   * Gets called in case of an error.
-   * 
-   * @see ApplicationError
-   * @param error
-   *          an {@link ApplicationError} object that summarizes the error
-   */
-  public void reportError (ApplicationError error);
+public interface ApplicationMessageHandler {
+    /**
+     * Gets called in case of an error.
+     *
+     * @param error an {@link ApplicationError} object that summarizes the error
+     * @see ApplicationError
+     */
+    public void reportError(ApplicationError error);
 
-  /**
-   * Gets called if an information message has to be delivered.
-   * 
-   * @param message
-   *          the message
-   */
-  public void infoMessage (String message);
+    /**
+     * Gets called if an information message has to be delivered.
+     *
+     * @param message the message
+     */
+    public void infoMessage(String message);
 }

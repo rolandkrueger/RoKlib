@@ -20,148 +20,116 @@
  */
 package org.roklib.swing;
 
-import java.awt.Component;
-import java.awt.DefaultKeyboardFocusManager;
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.GraphicsConfiguration;
-import java.awt.HeadlessException;
-import java.awt.KeyEventPostProcessor;
-import java.awt.KeyboardFocusManager;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
-import javax.swing.JDialog;
+public abstract class JDialogClosableWithESC extends JDialog {
+    private static final long serialVersionUID = -2908436645253742119L;
 
-public abstract class JDialogClosableWithESC extends JDialog
-{
-  private static final long    serialVersionUID = -2908436645253742119L;
+    private KeyboardFocusManager mSavedKeyboardFocusManager;
 
-  private KeyboardFocusManager mSavedKeyboardFocusManager;
-
-  public JDialogClosableWithESC () throws HeadlessException
-  {
-    super ();
-    init ();
-  }
-
-  public JDialogClosableWithESC (Dialog owner, boolean modal) throws HeadlessException
-  {
-    super (owner, modal);
-    init ();
-  }
-
-  public JDialogClosableWithESC (Dialog owner, String title, boolean modal, GraphicsConfiguration gc)
-      throws HeadlessException
-  {
-    super (owner, title, modal, gc);
-    init ();
-  }
-
-  public JDialogClosableWithESC (Dialog owner, String title, boolean modal) throws HeadlessException
-  {
-    super (owner, title, modal);
-    init ();
-  }
-
-  public JDialogClosableWithESC (Dialog owner, String title) throws HeadlessException
-  {
-    super (owner, title);
-    init ();
-  }
-
-  public JDialogClosableWithESC (Dialog owner) throws HeadlessException
-  {
-    super (owner);
-    init ();
-  }
-
-  public JDialogClosableWithESC (Frame owner, boolean modal) throws HeadlessException
-  {
-    super (owner, modal);
-    init ();
-  }
-
-  public JDialogClosableWithESC (Frame owner, String title, boolean modal, GraphicsConfiguration gc)
-  {
-    super (owner, title, modal, gc);
-    init ();
-  }
-
-  public JDialogClosableWithESC (Frame owner, String title, boolean modal) throws HeadlessException
-  {
-    super (owner, title, modal);
-    init ();
-  }
-
-  public JDialogClosableWithESC (Frame owner, String title) throws HeadlessException
-  {
-    super (owner, title);
-    init ();
-  }
-
-  public JDialogClosableWithESC (Frame owner) throws HeadlessException
-  {
-    super (owner);
-    init ();
-  }
-
-  private void init ()
-  {
-    addWindowFocusListener (new WindowFocusListener ()
-    {
-      public void windowGainedFocus (WindowEvent e)
-      {
-        installFocusManager ();
-      }
-
-      public void windowLostFocus (WindowEvent e)
-      {
-        deinstallFocusManager ();
-      }
-    });
-  }
-
-  @Override
-  public void setVisible (boolean visible)
-  {
-    if (visible)
-    {
-      installFocusManager ();
-    } else
-    {
-      deinstallFocusManager ();
+    public JDialogClosableWithESC() throws HeadlessException {
+        super();
+        init();
     }
-    super.setVisible (visible);
-  }
 
-  protected abstract void cancelDialog ();
-
-  private class LocalKeyEventPostProcessor implements KeyEventPostProcessor
-  {
-    public boolean postProcessKeyEvent (KeyEvent e)
-    {
-      if (e.getSource () instanceof Component && e.getKeyCode () == KeyEvent.VK_ESCAPE && !e.isConsumed ()
-          && isAncestorOf ((Component) e.getSource ()))
-      {
-        e.consume ();
-        cancelDialog ();
-      }
-      return true;
+    public JDialogClosableWithESC(Dialog owner, boolean modal) throws HeadlessException {
+        super(owner, modal);
+        init();
     }
-  }
 
-  private void installFocusManager ()
-  {
-    mSavedKeyboardFocusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager ();
-    KeyboardFocusManager newFocusManager = new DefaultKeyboardFocusManager ();
-    newFocusManager.addKeyEventPostProcessor (new LocalKeyEventPostProcessor ());
-    KeyboardFocusManager.setCurrentKeyboardFocusManager (newFocusManager);
-  }
+    public JDialogClosableWithESC(Dialog owner, String title, boolean modal, GraphicsConfiguration gc)
+            throws HeadlessException {
+        super(owner, title, modal, gc);
+        init();
+    }
 
-  private void deinstallFocusManager ()
-  {
-    KeyboardFocusManager.setCurrentKeyboardFocusManager (mSavedKeyboardFocusManager);
-  }
+    public JDialogClosableWithESC(Dialog owner, String title, boolean modal) throws HeadlessException {
+        super(owner, title, modal);
+        init();
+    }
+
+    public JDialogClosableWithESC(Dialog owner, String title) throws HeadlessException {
+        super(owner, title);
+        init();
+    }
+
+    public JDialogClosableWithESC(Dialog owner) throws HeadlessException {
+        super(owner);
+        init();
+    }
+
+    public JDialogClosableWithESC(Frame owner, boolean modal) throws HeadlessException {
+        super(owner, modal);
+        init();
+    }
+
+    public JDialogClosableWithESC(Frame owner, String title, boolean modal, GraphicsConfiguration gc) {
+        super(owner, title, modal, gc);
+        init();
+    }
+
+    public JDialogClosableWithESC(Frame owner, String title, boolean modal) throws HeadlessException {
+        super(owner, title, modal);
+        init();
+    }
+
+    public JDialogClosableWithESC(Frame owner, String title) throws HeadlessException {
+        super(owner, title);
+        init();
+    }
+
+    public JDialogClosableWithESC(Frame owner) throws HeadlessException {
+        super(owner);
+        init();
+    }
+
+    private void init() {
+        addWindowFocusListener(new WindowFocusListener() {
+            public void windowGainedFocus(WindowEvent e) {
+                installFocusManager();
+            }
+
+            public void windowLostFocus(WindowEvent e) {
+                deinstallFocusManager();
+            }
+        });
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        if (visible) {
+            installFocusManager();
+        } else {
+            deinstallFocusManager();
+        }
+        super.setVisible(visible);
+    }
+
+    protected abstract void cancelDialog();
+
+    private class LocalKeyEventPostProcessor implements KeyEventPostProcessor {
+        public boolean postProcessKeyEvent(KeyEvent e) {
+            if (e.getSource() instanceof Component && e.getKeyCode() == KeyEvent.VK_ESCAPE && !e.isConsumed()
+                    && isAncestorOf((Component) e.getSource())) {
+                e.consume();
+                cancelDialog();
+            }
+            return true;
+        }
+    }
+
+    private void installFocusManager() {
+        mSavedKeyboardFocusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        KeyboardFocusManager newFocusManager = new DefaultKeyboardFocusManager();
+        newFocusManager.addKeyEventPostProcessor(new LocalKeyEventPostProcessor());
+        KeyboardFocusManager.setCurrentKeyboardFocusManager(newFocusManager);
+    }
+
+    private void deinstallFocusManager() {
+        KeyboardFocusManager.setCurrentKeyboardFocusManager(mSavedKeyboardFocusManager);
+    }
 }

@@ -19,25 +19,21 @@
  * the License.
  */
 /**
- * 
+ *
  */
 package org.roklib.plugins;
 
 /**
- * 
  * @author Roland Krueger
  */
-public class InvalidManifestException extends Exception
-{
-  private static final long serialVersionUID = -1306455567786206597L;
+public class InvalidManifestException extends Exception {
+    private static final long serialVersionUID = -1306455567786206597L;
 
-  public InvalidManifestException ()
-  {
-    super ();
-  }
+    public InvalidManifestException() {
+        super();
+    }
 
-  public InvalidManifestException (String message)
-  {
-    super (message);
-  }
+    public InvalidManifestException(String message) {
+        super(message);
+    }
 }

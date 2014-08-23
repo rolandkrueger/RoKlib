@@ -19,168 +19,155 @@
  */
 package org.roklib.webapps.uridispatching;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Arrays;
-
 import org.junit.Before;
 import org.junit.Test;
 
-public class RegexURIActionHandlerTest
-{
-  private URIActionDispatcher         mDispatcher;
-  private TURIActionHandler           mTtestActionHandler;
-  private TURIActionCommand           mTestActionCommand;
-  private TURIActionHandler           mLastActionHandler;
-  private TURIActionCommand           mLastActionCommand;
-  private DispatchingURIActionHandler mMiddleActionHandler;
-  private TURIActionCommand           mMiddleActionCommand;
-  private TURIActionCommand           mRegexActionCommand1;
-  private RegexURIActionHandler       mRegexActionHandler1;
-  private TURIActionCommand           mRegexActionCommand2;
-  private RegexURIActionHandler       mRegexActionHandler2;
+import java.util.Arrays;
 
-  @Before
-  public void setUp ()
-  {
-    mDispatcher = new URIActionDispatcher (false);
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-    mTestActionCommand = new TURIActionCommand ();
-    mTtestActionHandler = new TURIActionHandler ("1test_x", mTestActionCommand);
+public class RegexURIActionHandlerTest {
+    private URIActionDispatcher mDispatcher;
+    private TURIActionHandler mTtestActionHandler;
+    private TURIActionCommand mTestActionCommand;
+    private TURIActionHandler mLastActionHandler;
+    private TURIActionCommand mLastActionCommand;
+    private DispatchingURIActionHandler mMiddleActionHandler;
+    private TURIActionCommand mMiddleActionCommand;
+    private TURIActionCommand mRegexActionCommand1;
+    private RegexURIActionHandler mRegexActionHandler1;
+    private TURIActionCommand mRegexActionCommand2;
+    private RegexURIActionHandler mRegexActionHandler2;
 
-    mRegexActionCommand1 = new TURIActionCommand ();
-    mRegexActionCommand2 = new TURIActionCommand ();
+    @Before
+    public void setUp() {
+        mDispatcher = new URIActionDispatcher(false);
 
-    // first regex action handler is responsible for URIs like '1test_abc' or '2test_123test'
-    mRegexActionHandler1 = new RegexURIActionHandler ("(\\d)test_(.*)");
-    mRegexActionHandler1.setRootCommand (mRegexActionCommand1);
+        mTestActionCommand = new TURIActionCommand();
+        mTtestActionHandler = new TURIActionHandler("1test_x", mTestActionCommand);
 
-    // second regex action handler is responsible for URIs like '3test_5xxx' or '12test_9yyy'
-    mRegexActionHandler2 = new RegexURIActionHandler ("(\\d{1,2})test_(\\d\\w+)");
-    mRegexActionHandler2.setRootCommand (mRegexActionCommand2);
+        mRegexActionCommand1 = new TURIActionCommand();
+        mRegexActionCommand2 = new TURIActionCommand();
 
-    mLastActionCommand = new TURIActionCommand ();
-    mLastActionHandler = new TURIActionHandler ("last", mLastActionCommand);
+        // first regex action handler is responsible for URIs like '1test_abc' or '2test_123test'
+        mRegexActionHandler1 = new RegexURIActionHandler("(\\d)test_(.*)");
+        mRegexActionHandler1.setRootCommand(mRegexActionCommand1);
 
-    mMiddleActionCommand = new TURIActionCommand ();
-    mMiddleActionHandler = new DispatchingURIActionHandler ("middle");
-    mMiddleActionHandler.setRootCommand (mMiddleActionCommand);
+        // second regex action handler is responsible for URIs like '3test_5xxx' or '12test_9yyy'
+        mRegexActionHandler2 = new RegexURIActionHandler("(\\d{1,2})test_(\\d\\w+)");
+        mRegexActionHandler2.setRootCommand(mRegexActionCommand2);
 
-    mRegexActionHandler2.addSubHandler (mMiddleActionHandler);
-    mMiddleActionHandler.addSubHandler (mLastActionHandler);
+        mLastActionCommand = new TURIActionCommand();
+        mLastActionHandler = new TURIActionHandler("last", mLastActionCommand);
 
-    mDispatcher.addHandler (mRegexActionHandler1);
-    mDispatcher.addHandler (mTtestActionHandler);
-    mDispatcher.addHandler (mRegexActionHandler2); // add second regex handler last, so that it has
-                                                   // least precedence
-  }
+        mMiddleActionCommand = new TURIActionCommand();
+        mMiddleActionHandler = new DispatchingURIActionHandler("middle");
+        mMiddleActionHandler.setRootCommand(mMiddleActionCommand);
 
-  @Test
-  public void testDispatching ()
-  {
-    mDispatcher.handleURIAction ("/23test_123/middle/last");
-    assertActionCommandWasExecuted (mLastActionCommand);
-  }
+        mRegexActionHandler2.addSubHandler(mMiddleActionHandler);
+        mMiddleActionHandler.addSubHandler(mLastActionHandler);
 
-  @Test
-  public void testURLDecoding ()
-  {
-    mDispatcher.handleURIAction ("/3test_%22xx+xx%22");
-    assertActionCommandWasExecuted (mRegexActionCommand1);
-    assertMatchedTokenFragments (mRegexActionHandler1, new String[] { "3", "\"xx xx\"" });
-  }
+        mDispatcher.addHandler(mRegexActionHandler1);
+        mDispatcher.addHandler(mTtestActionHandler);
+        mDispatcher.addHandler(mRegexActionHandler2); // add second regex handler last, so that it has
+        // least precedence
+    }
 
-  @Test
-  public void testCaseInsensitive ()
-  {
-    mDispatcher.setCaseSensitive (false);
-    mDispatcher.handleURIAction ("/1TEST_x");
+    @Test
+    public void testDispatching() {
+        mDispatcher.handleURIAction("/23test_123/middle/last");
+        assertActionCommandWasExecuted(mLastActionCommand);
+    }
 
-    // the dispatching action handler is added second to the dispatcher, but it has highest
-    // precedence
-    assertActionCommandWasExecuted (mTestActionCommand);
-    resetActionCommands ();
+    @Test
+    public void testURLDecoding() {
+        mDispatcher.handleURIAction("/3test_%22xx+xx%22");
+        assertActionCommandWasExecuted(mRegexActionCommand1);
+        assertMatchedTokenFragments(mRegexActionHandler1, new String[]{"3", "\"xx xx\""});
+    }
 
-    mDispatcher.handleURIAction ("/2TEST_2x");
-    assertActionCommandWasExecuted (mRegexActionCommand1);
-    assertMatchedTokenFragments (mRegexActionHandler1, new String[] { "2", "2x" });
-    resetActionCommands ();
+    @Test
+    public void testCaseInsensitive() {
+        mDispatcher.setCaseSensitive(false);
+        mDispatcher.handleURIAction("/1TEST_x");
 
-    mDispatcher.handleURIAction ("12TEST_2xxx");
-    assertActionCommandWasExecuted (mRegexActionCommand2);
-    assertMatchedTokenFragments (mRegexActionHandler2, new String[] { "12", "2xxx" });
-  }
+        // the dispatching action handler is added second to the dispatcher, but it has highest
+        // precedence
+        assertActionCommandWasExecuted(mTestActionCommand);
+        resetActionCommands();
 
-  @Test
-  public void testCaseSensitive ()
-  {
-    mDispatcher.setCaseSensitive (true);
+        mDispatcher.handleURIAction("/2TEST_2x");
+        assertActionCommandWasExecuted(mRegexActionCommand1);
+        assertMatchedTokenFragments(mRegexActionHandler1, new String[]{"2", "2x"});
+        resetActionCommands();
 
-    mDispatcher.handleURIAction ("/1test_x");
+        mDispatcher.handleURIAction("12TEST_2xxx");
+        assertActionCommandWasExecuted(mRegexActionCommand2);
+        assertMatchedTokenFragments(mRegexActionHandler2, new String[]{"12", "2xxx"});
+    }
 
-    // the dispatching action handler is added second to the dispatcher, but it has highest
-    // precedence
-    assertActionCommandWasExecuted (mTestActionCommand);
-    resetActionCommands ();
+    @Test
+    public void testCaseSensitive() {
+        mDispatcher.setCaseSensitive(true);
 
-    mDispatcher.handleURIAction ("/2test_abc");
-    assertActionCommandWasExecuted (mRegexActionCommand1);
-    assertMatchedTokenFragments (mRegexActionHandler1, new String[] { "2", "abc" });
-    resetActionCommands ();
+        mDispatcher.handleURIAction("/1test_x");
 
-    mDispatcher.handleURIAction ("12test_2xxx");
-    assertActionCommandWasExecuted (mRegexActionCommand2);
-    assertMatchedTokenFragments (mRegexActionHandler2, new String[] { "12", "2xxx" });
-  }
+        // the dispatching action handler is added second to the dispatcher, but it has highest
+        // precedence
+        assertActionCommandWasExecuted(mTestActionCommand);
+        resetActionCommands();
 
-  @Test
-  public void testGetParameterizedActionURI ()
-  {
-    mRegexActionHandler2.setURIToken ("17test_23some_value");
-    assertEquals ("/17test_23some_value/middle/last", mLastActionHandler.getParameterizedActionURI (true).toString ());
-    mRegexActionHandler2.setURIToken ("99test_9999");
-    assertEquals ("/99test_9999/middle/last", mLastActionHandler.getParameterizedActionURI (true).toString ());
-  }
+        mDispatcher.handleURIAction("/2test_abc");
+        assertActionCommandWasExecuted(mRegexActionCommand1);
+        assertMatchedTokenFragments(mRegexActionHandler1, new String[]{"2", "abc"});
+        resetActionCommands();
 
-  @Test (expected = IllegalArgumentException.class)
-  public void testSetActionURI_Failure ()
-  {
-    mRegexActionHandler2.setURIToken ("does_not_match_with_regex");
-  }
+        mDispatcher.handleURIAction("12test_2xxx");
+        assertActionCommandWasExecuted(mRegexActionCommand2);
+        assertMatchedTokenFragments(mRegexActionHandler2, new String[]{"12", "2xxx"});
+    }
 
-  @Test (expected = IllegalArgumentException.class)
-  public void testConstructor_Fail ()
-  {
-    new RegexURIActionHandler ("  ");
-  }
+    @Test
+    public void testGetParameterizedActionURI() {
+        mRegexActionHandler2.setURIToken("17test_23some_value");
+        assertEquals("/17test_23some_value/middle/last", mLastActionHandler.getParameterizedActionURI(true).toString());
+        mRegexActionHandler2.setURIToken("99test_9999");
+        assertEquals("/99test_9999/middle/last", mLastActionHandler.getParameterizedActionURI(true).toString());
+    }
 
-  @Test
-  public void testGetMatchedTokenFragmentCount ()
-  {
-    // if a regex action handler has not been evaluated yet, its matched token fragment count is 0,
-    // even if the underlying array is still null
-    assertEquals (0, mRegexActionHandler2.getMatchedTokenFragmentCount ());
-    mDispatcher.handleURIAction ("12test_2xxx");
-    assertEquals (2, mRegexActionHandler2.getMatchedTokenFragmentCount ());
-  }
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetActionURI_Failure() {
+        mRegexActionHandler2.setURIToken("does_not_match_with_regex");
+    }
 
-  private void assertActionCommandWasExecuted (TURIActionCommand command)
-  {
-    assertTrue (command.mExecuted);
-  }
+    @Test(expected = IllegalArgumentException.class)
+    public void testConstructor_Fail() {
+        new RegexURIActionHandler("  ");
+    }
 
-  private void assertMatchedTokenFragments (RegexURIActionHandler handler, String[] expectedTokenFragments)
-  {
-    assertEquals (expectedTokenFragments.length, handler.getMatchedTokenFragmentCount ());
-    assertTrue (Arrays.equals (expectedTokenFragments, handler.getMatchedTokenFragments ()));
-  }
+    @Test
+    public void testGetMatchedTokenFragmentCount() {
+        // if a regex action handler has not been evaluated yet, its matched token fragment count is 0,
+        // even if the underlying array is still null
+        assertEquals(0, mRegexActionHandler2.getMatchedTokenFragmentCount());
+        mDispatcher.handleURIAction("12test_2xxx");
+        assertEquals(2, mRegexActionHandler2.getMatchedTokenFragmentCount());
+    }
 
-  private void resetActionCommands ()
-  {
-    mTestActionCommand.mExecuted = false;
-    mRegexActionCommand1.mExecuted = false;
-    mRegexActionCommand2.mExecuted = false;
-  }
+    private void assertActionCommandWasExecuted(TURIActionCommand command) {
+        assertTrue(command.mExecuted);
+    }
+
+    private void assertMatchedTokenFragments(RegexURIActionHandler handler, String[] expectedTokenFragments) {
+        assertEquals(expectedTokenFragments.length, handler.getMatchedTokenFragmentCount());
+        assertTrue(Arrays.equals(expectedTokenFragments, handler.getMatchedTokenFragments()));
+    }
+
+    private void resetActionCommands() {
+        mTestActionCommand.mExecuted = false;
+        mRegexActionCommand1.mExecuted = false;
+        mRegexActionCommand2.mExecuted = false;
+    }
 
 }

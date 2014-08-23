@@ -20,9 +20,8 @@
  */
 package org.roklib.files;
 
-public interface FileModificationListener
-{
-  public void fileDeleted (FileModificationWatchdog source);
+public interface FileModificationListener {
+    public void fileDeleted(FileModificationWatchdog source);
 
-  public void fileChanged (FileModificationWatchdog source);
+    public void fileChanged(FileModificationWatchdog source);
 }

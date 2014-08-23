@@ -20,39 +20,32 @@
  */
 package org.roklib.conditional.bool;
 
-public abstract class AbstractUnaryBooleanOperation implements IBooleanOperation
-{
-  private static final long serialVersionUID = 3671470052740592370L;
+public abstract class AbstractUnaryBooleanOperation implements IBooleanOperation {
+    private static final long serialVersionUID = 3671470052740592370L;
 
-  protected boolean         mValue;
+    protected boolean mValue;
 
-  public final void setLeftHandOperand (boolean left)
-  {
-    mValue = left;
-  }
+    public final void setLeftHandOperand(boolean left) {
+        mValue = left;
+    }
 
-  public final void setRightHandOperand (boolean right)
-  {
-    setLeftHandOperand (right);
-  }
+    public final void setRightHandOperand(boolean right) {
+        setLeftHandOperand(right);
+    }
 
-  public final boolean canShortCircuit (boolean firstOperand)
-  {
-    return false;
-  }
+    public final boolean canShortCircuit(boolean firstOperand) {
+        return false;
+    }
 
-  public final boolean getShortCircuit (boolean firstOperand)
-  {
-    throw new IllegalStateException ("Cannot short-circuit.");
-  }
+    public final boolean getShortCircuit(boolean firstOperand) {
+        throw new IllegalStateException("Cannot short-circuit.");
+    }
 
-  public final int getMinimumNumberOfOperands ()
-  {
-    return 1;
-  }
+    public final int getMinimumNumberOfOperands() {
+        return 1;
+    }
 
-  public final boolean isUnaryOperation ()
-  {
-    return true;
-  }
+    public final boolean isUnaryOperation() {
+        return true;
+    }
 }

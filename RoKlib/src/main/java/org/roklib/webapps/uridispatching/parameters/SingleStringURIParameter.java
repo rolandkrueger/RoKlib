@@ -21,48 +21,41 @@
 package org.roklib.webapps.uridispatching.parameters;
 
 
+import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
+
 import java.util.List;
 import java.util.Map;
 
-import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
+public class SingleStringURIParameter extends AbstractSingleURIParameter<String> {
+    private static final long serialVersionUID = -9010093565464929620L;
 
-public class SingleStringURIParameter extends AbstractSingleURIParameter<String>
-{
-  private static final long serialVersionUID = -9010093565464929620L;
-
-  public SingleStringURIParameter (String parameterName)
-  {
-    super (parameterName);
-  }
-
-  public SingleStringURIParameter (String parameterName, String defaultString)
-  {
-    super (parameterName);
-    setDefaultValue (defaultString);
-  }
-
-  protected boolean consumeImpl (Map<String, List<String>> parameters)
-  {
-    List<String> valueList = parameters.remove (getParameterName ());
-    if (valueList != null)
-    {
-      setValue (valueList.get (0));
-      return true;
+    public SingleStringURIParameter(String parameterName) {
+        super(parameterName);
     }
-    return false;
-  }
 
-  @Override
-  protected boolean consumeListImpl (String[] values)
-  {
-    if (values == null || values.length == 0)
-      return false;
-    setValue (values[0]);
-    return true;
-  }
+    public SingleStringURIParameter(String parameterName, String defaultString) {
+        super(parameterName);
+        setDefaultValue(defaultString);
+    }
 
-  public AbstractURIActionCommand getErrorCommandIfInvalid ()
-  {
-    return null;
-  }
+    protected boolean consumeImpl(Map<String, List<String>> parameters) {
+        List<String> valueList = parameters.remove(getParameterName());
+        if (valueList != null) {
+            setValue(valueList.get(0));
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected boolean consumeListImpl(String[] values) {
+        if (values == null || values.length == 0)
+            return false;
+        setValue(values[0]);
+        return true;
+    }
+
+    public AbstractURIActionCommand getErrorCommandIfInvalid() {
+        return null;
+    }
 }

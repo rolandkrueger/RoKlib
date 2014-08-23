@@ -22,12 +22,12 @@
 package org.roklib.io;
 
 
+import org.roklib.data.EnhancedReturnType;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import org.roklib.data.EnhancedReturnType;
 
 /**
  * <p>
@@ -39,83 +39,75 @@ import org.roklib.data.EnhancedReturnType;
  * array is defined by the constant {@link ByteArrayStreamDataBuffer#DEFAULT_CAPACITY_IN_BYTES}. The capacity of this
  * buffer automatically grows with the data that is written to it.
  * </p>
- * 
- * @see ByteArrayOutputStream
+ *
  * @author Roland Krueger
+ * @see ByteArrayOutputStream
  */
-public class ByteArrayStreamDataBuffer implements IStreamDataBuffer
-{
-  private static final int      DEFAULT_CAPACITY_IN_BYTES = 8192;
-  private ByteArrayOutputStream mData;
-  private int                   mCapacity;
+public class ByteArrayStreamDataBuffer implements IStreamDataBuffer {
+    private static final int DEFAULT_CAPACITY_IN_BYTES = 8192;
+    private ByteArrayOutputStream mData;
+    private int mCapacity;
 
-  /**
-   * Creates a new {@link ByteArrayStreamDataBuffer} with an initial capacity as defined by
-   * {@link ByteArrayStreamDataBuffer#DEFAULT_CAPACITY_IN_BYTES}.
-   */
-  public ByteArrayStreamDataBuffer ()
-  {
-    this (DEFAULT_CAPACITY_IN_BYTES);
-  }
+    /**
+     * Creates a new {@link ByteArrayStreamDataBuffer} with an initial capacity as defined by
+     * {@link ByteArrayStreamDataBuffer#DEFAULT_CAPACITY_IN_BYTES}.
+     */
+    public ByteArrayStreamDataBuffer() {
+        this(DEFAULT_CAPACITY_IN_BYTES);
+    }
 
-  /**
-   * Creates a new {@link ByteArrayStreamDataBuffer} with an initial capacity as defined by the capacity parameter.
-   */
-  public ByteArrayStreamDataBuffer (int capacity)
-  {
-    mCapacity = capacity;
-    reset ();
-  }
+    /**
+     * Creates a new {@link ByteArrayStreamDataBuffer} with an initial capacity as defined by the capacity parameter.
+     */
+    public ByteArrayStreamDataBuffer(int capacity) {
+        mCapacity = capacity;
+        reset();
+    }
 
-  @Override
-  public boolean reset ()
-  {
-    mData = new ByteArrayOutputStream (mCapacity);
-    return true;
-  }
+    @Override
+    public boolean reset() {
+        mData = new ByteArrayOutputStream(mCapacity);
+        return true;
+    }
 
-  /**
-   * {@inheritDoc} The contents of the returned {@link InputStream} represent the data which has been written to the
-   * {@link ByteArrayStreamDataBuffer}'s {@link OutputStream} up until the point the {@link InputStream} was requested.
-   * Any data that is written to the {@link OutputStream} at a later time cannot be read with this {@link InputStream}.
-   * <p>
-   * Calling this method more than once will yield a new {@link InputStream} instance pointing to the same data each
-   * time.
-   * </p>
-   */
-  @Override
-  public EnhancedReturnType<InputStream> getInputStream ()
-  {
-    return EnhancedReturnType.Builder.createSuccessful ((InputStream) new ByteArrayInputStream (mData.toByteArray ()));
-  }
+    /**
+     * {@inheritDoc} The contents of the returned {@link InputStream} represent the data which has been written to the
+     * {@link ByteArrayStreamDataBuffer}'s {@link OutputStream} up until the point the {@link InputStream} was requested.
+     * Any data that is written to the {@link OutputStream} at a later time cannot be read with this {@link InputStream}.
+     * <p>
+     * Calling this method more than once will yield a new {@link InputStream} instance pointing to the same data each
+     * time.
+     * </p>
+     */
+    @Override
+    public EnhancedReturnType<InputStream> getInputStream() {
+        return EnhancedReturnType.Builder.createSuccessful((InputStream) new ByteArrayInputStream(mData.toByteArray()));
+    }
 
-  /**
-   * {@inheritDoc} Calling this method more than once will always return the same {@link OutputStream} instance. Closing
-   * this stream will have no effect (see {@link ByteArrayOutputStream#close()}. You will still be able to write data to
-   * this buffer after calling the stream's close method.
-   */
-  @Override
-  public EnhancedReturnType<OutputStream> getOutputStream ()
-  {
-    return EnhancedReturnType.Builder.createSuccessful ((OutputStream) mData);
-  }
+    /**
+     * {@inheritDoc} Calling this method more than once will always return the same {@link OutputStream} instance. Closing
+     * this stream will have no effect (see {@link ByteArrayOutputStream#close()}. You will still be able to write data to
+     * this buffer after calling the stream's close method.
+     */
+    @Override
+    public EnhancedReturnType<OutputStream> getOutputStream() {
+        return EnhancedReturnType.Builder.createSuccessful((OutputStream) mData);
+    }
 
-  /**
-   * Returns the current size of this buffer.
-   * 
-   * @see ByteArrayOutputStream#size()
-   */
-  public int getSize ()
-  {
-    return mData.size ();
-  }
+    /**
+     * Returns the current size of this buffer.
+     *
+     * @see ByteArrayOutputStream#size()
+     */
+    public int getSize() {
+        return mData.size();
+    }
 
-  /**
-   * Creates a new {@link ByteArrayStreamDataBuffer} object. The result object has always a successful state.
-   */
-  @Override
-  public EnhancedReturnType<IStreamDataBuffer> create ()
-  {
-    return EnhancedReturnType.Builder.createSuccessful ((IStreamDataBuffer) new ByteArrayStreamDataBuffer ());
-  }
+    /**
+     * Creates a new {@link ByteArrayStreamDataBuffer} object. The result object has always a successful state.
+     */
+    @Override
+    public EnhancedReturnType<IStreamDataBuffer> create() {
+        return EnhancedReturnType.Builder.createSuccessful((IStreamDataBuffer) new ByteArrayStreamDataBuffer());
+    }
 }

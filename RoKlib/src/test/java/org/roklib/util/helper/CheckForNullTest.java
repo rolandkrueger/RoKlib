@@ -20,32 +20,26 @@
  */
 package org.roklib.util.helper;
 
+import org.junit.Test;
+
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-import org.roklib.util.helper.CheckForNull;
-
-public class CheckForNullTest
-{
-  @Test
-  public void testCheckNoNull ()
-  {
-    CheckForNull.check ();
-    CheckForNull.check ("not null");
-    CheckForNull.check ("not null", new Object ());
-    CheckForNull.check ("not null", new Object (), this);
-  }
-
-  @Test (expected = IllegalArgumentException.class)
-  public void testCheckWithNull ()
-  {
-    try
-    {
-      CheckForNull.check ("not null", null, "not null", null);
-    } catch (IllegalArgumentException e)
-    {
-      assertTrue (e.getMessage ().contains ("2, 4"));
-      throw e;
+public class CheckForNullTest {
+    @Test
+    public void testCheckNoNull() {
+        CheckForNull.check();
+        CheckForNull.check("not null");
+        CheckForNull.check("not null", new Object());
+        CheckForNull.check("not null", new Object(), this);
     }
-  }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCheckWithNull() {
+        try {
+            CheckForNull.check("not null", null, "not null", null);
+        } catch (IllegalArgumentException e) {
+            assertTrue(e.getMessage().contains("2, 4"));
+            throw e;
+        }
+    }
 }

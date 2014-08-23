@@ -20,7 +20,6 @@
  */
 package org.roklib.webapps.uridispatching;
 
-public interface IURIActionDispatcherListener
-{
-  public void handleURIActionCommand (AbstractURIActionCommand command);
+public interface IURIActionDispatcherListener {
+    public void handleURIActionCommand(AbstractURIActionCommand command);
 }

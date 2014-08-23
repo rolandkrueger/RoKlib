@@ -20,71 +20,62 @@
  */
 package org.roklib.util.authorization;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.roklib.webapps.authorization.AdmissionTicketContainer;
 import org.roklib.webapps.authorization.IAdmissionTicket;
 
-public class AdmissionTicketContainerTest
-{
-  private AdmissionTicketContainer mTestObj;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-  private class TTicket implements IAdmissionTicket
-  {
-    private static final long serialVersionUID = -2680076196174728564L;
-    private String            mName;
+public class AdmissionTicketContainerTest {
+    private AdmissionTicketContainer mTestObj;
 
-    public TTicket (String name)
-    {
-      mName = name;
+    private class TTicket implements IAdmissionTicket {
+        private static final long serialVersionUID = -2680076196174728564L;
+        private String mName;
+
+        public TTicket(String name) {
+            mName = name;
+        }
+
+        public String getName() {
+            return mName;
+        }
     }
 
-    public String getName ()
-    {
-      return mName;
+    @Before
+    public void setUp() {
+        mTestObj = new AdmissionTicketContainer();
+        mTestObj.addTicket(new TTicket("admin"));
+        mTestObj.addTicket(new TTicket("editor"));
     }
-  }
 
-  @Before
-  public void setUp ()
-  {
-    mTestObj = new AdmissionTicketContainer ();
-    mTestObj.addTicket (new TTicket ("admin"));
-    mTestObj.addTicket (new TTicket ("editor"));
-  }
+    @Test
+    public void testHasTicket() {
+        assertTrue(mTestObj.hasTicket(new TTicket("admin")));
+        assertFalse(mTestObj.hasTicket(new TTicket("user")));
+    }
 
-  @Test
-  public void testHasTicket ()
-  {
-    assertTrue (mTestObj.hasTicket (new TTicket ("admin")));
-    assertFalse (mTestObj.hasTicket (new TTicket ("user")));
-  }
+    @Test
+    public void testClear() {
+        mTestObj.clear();
+        assertTrue(mTestObj.getTickets().isEmpty());
+    }
 
-  @Test
-  public void testClear ()
-  {
-    mTestObj.clear ();
-    assertTrue (mTestObj.getTickets ().isEmpty ());
-  }
+    @Test
+    public void testEmptyContainer() {
+        mTestObj = new AdmissionTicketContainer();
+        assertTrue(mTestObj.getTickets().isEmpty());
+        mTestObj.clear();
+        assertTrue(mTestObj.getTickets().isEmpty());
+        assertFalse(mTestObj.hasTicket(new TTicket("user")));
+    }
 
-  @Test
-  public void testEmptyContainer ()
-  {
-    mTestObj = new AdmissionTicketContainer ();
-    assertTrue (mTestObj.getTickets ().isEmpty ());
-    mTestObj.clear ();
-    assertTrue (mTestObj.getTickets ().isEmpty ());
-    assertFalse (mTestObj.hasTicket (new TTicket ("user")));
-  }
-
-  @Test
-  public void testRemoveTicket ()
-  {
-    assertTrue (mTestObj.hasTicket (new TTicket ("admin")));
-    assertTrue (mTestObj.removeTicket (new TTicket ("admin")));
-    assertFalse (mTestObj.hasTicket (new TTicket ("admin")));
-  }
+    @Test
+    public void testRemoveTicket() {
+        assertTrue(mTestObj.hasTicket(new TTicket("admin")));
+        assertTrue(mTestObj.removeTicket(new TTicket("admin")));
+        assertFalse(mTestObj.hasTicket(new TTicket("admin")));
+    }
 }

@@ -20,71 +20,58 @@
  */
 package org.roklib.util.helper;
 
-public class StopWatch
-{
-  private long    mTotalTime;
-  private long    mStartTime;
-  private boolean mIsRunning;
+public class StopWatch {
+    private long mTotalTime;
+    private long mStartTime;
+    private boolean mIsRunning;
 
-  public StopWatch ()
-  {
-    mTotalTime = 0;
-    mIsRunning = false;
-  }
-
-  public long getTotalTime ()
-  {
-    return mTotalTime;
-  }
-
-  public void start ()
-  {
-    if (mIsRunning)
-    {
-      throw new IllegalStateException ("Stop watch is already running.");
+    public StopWatch() {
+        mTotalTime = 0;
+        mIsRunning = false;
     }
-    mStartTime = System.currentTimeMillis ();
-    mIsRunning = true;
-  }
 
-  public void stop ()
-  {
-    if (!mIsRunning)
-    {
-      throw new IllegalStateException ("Stop watch is currently not running.");
+    public long getTotalTime() {
+        return mTotalTime;
     }
-    mIsRunning = false;
-    calculateTotalTime ();
-  }
 
-  public long getStartTime ()
-  {
-    if (mStartTime == 0L)
-    {
-      throw new IllegalStateException ("Stop watch has not yet been started.");
+    public void start() {
+        if (mIsRunning) {
+            throw new IllegalStateException("Stop watch is already running.");
+        }
+        mStartTime = System.currentTimeMillis();
+        mIsRunning = true;
     }
-    return mStartTime;
-  }
 
-  public boolean isRunning ()
-  {
-    return mIsRunning;
-  }
+    public void stop() {
+        if (!mIsRunning) {
+            throw new IllegalStateException("Stop watch is currently not running.");
+        }
+        mIsRunning = false;
+        calculateTotalTime();
+    }
 
-  public void reset ()
-  {
-    mIsRunning = false;
-    mStartTime = 0;
-    mTotalTime = 0;
-  }
+    public long getStartTime() {
+        if (mStartTime == 0L) {
+            throw new IllegalStateException("Stop watch has not yet been started.");
+        }
+        return mStartTime;
+    }
 
-  private void calculateTotalTime ()
-  {
-    mTotalTime += System.currentTimeMillis () - mStartTime;
-  }
+    public boolean isRunning() {
+        return mIsRunning;
+    }
 
-  public long getSplitTime ()
-  {
-    return System.currentTimeMillis () - mStartTime;
-  }
+    public void reset() {
+        mIsRunning = false;
+        mStartTime = 0;
+        mTotalTime = 0;
+    }
+
+    private void calculateTotalTime() {
+        mTotalTime += System.currentTimeMillis() - mStartTime;
+    }
+
+    public long getSplitTime() {
+        return System.currentTimeMillis() - mStartTime;
+    }
 }

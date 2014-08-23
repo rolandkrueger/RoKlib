@@ -21,54 +21,49 @@
  */
 package org.roklib.webapps.uridispatching.parameters;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SingleBooleanURIParameterTest extends AbstractSingleURIParameterTest<Boolean>
-{
-  @Override
-  public AbstractSingleURIParameter<Boolean> getTestSingleURIParameter (String parameterName)
-  {
-    return new SingleBooleanURIParameter ("test");
-  }
+import static org.junit.Assert.assertEquals;
 
-  @Override
-  public String getTestValueAsString ()
-  {
-    return "true";
-  }
+public class SingleBooleanURIParameterTest extends AbstractSingleURIParameterTest<Boolean> {
+    @Override
+    public AbstractSingleURIParameter<Boolean> getTestSingleURIParameter(String parameterName) {
+        return new SingleBooleanURIParameter("test");
+    }
 
-  @Override
-  public Boolean getTestValue ()
-  {
-    return Boolean.TRUE;
-  }
+    @Override
+    public String getTestValueAsString() {
+        return "true";
+    }
 
-  @Override
-  public void testConsume ()
-  {
-    super.testConsume ();
-    AbstractSingleURIParameter<Boolean> testObj = getTestSingleURIParameter ("test");
+    @Override
+    public Boolean getTestValue() {
+        return Boolean.TRUE;
+    }
 
-    Map<String, List<String>> parameters = new HashMap<String, List<String>> ();
+    @Override
+    public void testConsume() {
+        super.testConsume();
+        AbstractSingleURIParameter<Boolean> testObj = getTestSingleURIParameter("test");
 
-    parameters.put ("test", Arrays.asList ("false"));
-    testObj.consume (parameters);
-    assertEquals (EnumURIParameterErrors.NO_ERROR, testObj.getError ());
-    assertEquals (Boolean.FALSE, testObj.getValue ());
+        Map<String, List<String>> parameters = new HashMap<String, List<String>>();
 
-    parameters.put ("test", Arrays.asList ("0"));
-    testObj.consume (parameters);
-    assertEquals (EnumURIParameterErrors.NO_ERROR, testObj.getError ());
-    assertEquals (Boolean.FALSE, testObj.getValue ());
+        parameters.put("test", Arrays.asList("false"));
+        testObj.consume(parameters);
+        assertEquals(EnumURIParameterErrors.NO_ERROR, testObj.getError());
+        assertEquals(Boolean.FALSE, testObj.getValue());
 
-    parameters.put ("test", Arrays.asList ("1"));
-    testObj.consume (parameters);
-    assertEquals (EnumURIParameterErrors.NO_ERROR, testObj.getError ());
-    assertEquals (Boolean.TRUE, testObj.getValue ());
-  }
+        parameters.put("test", Arrays.asList("0"));
+        testObj.consume(parameters);
+        assertEquals(EnumURIParameterErrors.NO_ERROR, testObj.getError());
+        assertEquals(Boolean.FALSE, testObj.getValue());
+
+        parameters.put("test", Arrays.asList("1"));
+        testObj.consume(parameters);
+        assertEquals(EnumURIParameterErrors.NO_ERROR, testObj.getError());
+        assertEquals(Boolean.TRUE, testObj.getValue());
+    }
 }

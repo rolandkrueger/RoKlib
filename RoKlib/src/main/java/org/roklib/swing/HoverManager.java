@@ -23,52 +23,41 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.LinkedList;
 
-public class HoverManager implements MouseListener
-{
-  protected LinkedList<HoverListener> mHoverListeners;
-  protected Hoverable                 mOwner;
+public class HoverManager implements MouseListener {
+    protected LinkedList<HoverListener> mHoverListeners;
+    protected Hoverable mOwner;
 
-  public HoverManager (Hoverable owner)
-  {
-    mHoverListeners = new LinkedList<HoverListener> ();
-    mOwner = owner;
-  }
-
-  public boolean addHoverListener (HoverListener listener)
-  {
-    return mHoverListeners.add (listener);
-  }
-
-  public boolean removeHoverListener (HoverListener listener)
-  {
-    return mHoverListeners.remove (listener);
-  }
-
-  public void mouseEntered (MouseEvent e)
-  {
-    for (HoverListener listener : mHoverListeners)
-    {
-      listener.hoverStarted (mOwner);
+    public HoverManager(Hoverable owner) {
+        mHoverListeners = new LinkedList<HoverListener>();
+        mOwner = owner;
     }
-  }
 
-  public void mouseExited (MouseEvent e)
-  {
-    for (HoverListener listener : mHoverListeners)
-    {
-      listener.hoverEnded (mOwner);
+    public boolean addHoverListener(HoverListener listener) {
+        return mHoverListeners.add(listener);
     }
-  }
 
-  public void mouseClicked (MouseEvent e)
-  {
-  }
+    public boolean removeHoverListener(HoverListener listener) {
+        return mHoverListeners.remove(listener);
+    }
 
-  public void mousePressed (MouseEvent e)
-  {
-  }
+    public void mouseEntered(MouseEvent e) {
+        for (HoverListener listener : mHoverListeners) {
+            listener.hoverStarted(mOwner);
+        }
+    }
 
-  public void mouseReleased (MouseEvent e)
-  {
-  }
+    public void mouseExited(MouseEvent e) {
+        for (HoverListener listener : mHoverListeners) {
+            listener.hoverEnded(mOwner);
+        }
+    }
+
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+    }
 }

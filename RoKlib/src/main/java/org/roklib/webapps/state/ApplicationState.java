@@ -20,7 +20,6 @@
  */
 package org.roklib.webapps.state;
 
-public class ApplicationState
-{
+public class ApplicationState {
 
 }

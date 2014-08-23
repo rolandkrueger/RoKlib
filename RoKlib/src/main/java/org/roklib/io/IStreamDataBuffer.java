@@ -22,11 +22,11 @@
 package org.roklib.io;
 
 
+import org.roklib.data.EnhancedReturnType;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import org.roklib.data.EnhancedReturnType;
 
 /**
  * <p>
@@ -43,44 +43,42 @@ import org.roklib.data.EnhancedReturnType;
  * Classes implementing this interface can be used, for example, to provide a data buffer which stores its contents
  * either in a temporary file or in memory.
  * </p>
- * 
+ *
  * @author Roland Krueger
  */
-public interface IStreamDataBuffer
-{
-  /**
-   * Provides an {@link OutputStream} pointing to the buffered data. Writing to this {@link OutputStream} will write to
-   * the buffer.
-   * 
-   * @return a return object containing the requested {@link OutputStream} if this operation was successful. Otherwise,
-   *         this return object contains an error description and/or an exception object.
-   */
-  EnhancedReturnType<OutputStream> getOutputStream ();
+public interface IStreamDataBuffer {
+    /**
+     * Provides an {@link OutputStream} pointing to the buffered data. Writing to this {@link OutputStream} will write to
+     * the buffer.
+     *
+     * @return a return object containing the requested {@link OutputStream} if this operation was successful. Otherwise,
+     * this return object contains an error description and/or an exception object.
+     */
+    EnhancedReturnType<OutputStream> getOutputStream();
 
-  /**
-   * Provides an {@link InputStream} pointing to the buffered data. Reading from this {@link InputStream} will read the
-   * buffered data.
-   * 
-   * @return a return object containing the requested {@link InputStream} if this operation was successful. Otherwise,
-   *         this return object contains an error description and/or an exception object.
-   */
-  EnhancedReturnType<InputStream> getInputStream ();
+    /**
+     * Provides an {@link InputStream} pointing to the buffered data. Reading from this {@link InputStream} will read the
+     * buffered data.
+     *
+     * @return a return object containing the requested {@link InputStream} if this operation was successful. Otherwise,
+     * this return object contains an error description and/or an exception object.
+     */
+    EnhancedReturnType<InputStream> getInputStream();
 
-  /**
-   * Resets the data buffer. Resetting the buffer will clear all data from it.
-   * 
-   * @return <code>true</code> if the operation succeeded
-   * @throws IOException
-   *           if an error occurred while clearing the data
-   */
-  boolean reset () throws IOException;
+    /**
+     * Resets the data buffer. Resetting the buffer will clear all data from it.
+     *
+     * @return <code>true</code> if the operation succeeded
+     * @throws IOException if an error occurred while clearing the data
+     */
+    boolean reset() throws IOException;
 
-  /**
-   * Factory method that creates a new {@link IStreamDataBuffer} object. Implementing classes should create a new
-   * instance of themself and return this instance.
-   * 
-   * @return a return object containing a new instance of a {@link IStreamDataBuffer} if this operation was successful.
-   *         Otherwise, this return object contains an error description and/or an exception object.
-   */
-  EnhancedReturnType<IStreamDataBuffer> create ();
+    /**
+     * Factory method that creates a new {@link IStreamDataBuffer} object. Implementing classes should create a new
+     * instance of themself and return this instance.
+     *
+     * @return a return object containing a new instance of a {@link IStreamDataBuffer} if this operation was successful.
+     * Otherwise, this return object contains an error description and/or an exception object.
+     */
+    EnhancedReturnType<IStreamDataBuffer> create();
 }

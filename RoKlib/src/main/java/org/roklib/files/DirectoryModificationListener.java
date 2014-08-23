@@ -20,9 +20,8 @@
  */
 package org.roklib.files;
 
-public interface DirectoryModificationListener extends FileModificationListener
-{
-  public void filesAdded (FileModificationWatchdog source);
+public interface DirectoryModificationListener extends FileModificationListener {
+    public void filesAdded(FileModificationWatchdog source);
 
-  public void filesRemoved (FileModificationWatchdog source);
+    public void filesRemoved(FileModificationWatchdog source);
 }

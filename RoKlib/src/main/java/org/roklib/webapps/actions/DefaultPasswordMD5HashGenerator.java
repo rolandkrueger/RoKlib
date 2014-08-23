@@ -21,35 +21,30 @@
 package org.roklib.webapps.actions;
 
 
+import org.roklib.webapps.actions.interfaces.IPasswordHashGenerator;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.roklib.webapps.actions.interfaces.IPasswordHashGenerator;
+public class DefaultPasswordMD5HashGenerator implements IPasswordHashGenerator {
+    private static final long serialVersionUID = -4098113757797776880L;
 
-public class DefaultPasswordMD5HashGenerator implements IPasswordHashGenerator
-{
-  private static final long serialVersionUID = -4098113757797776880L;
+    public String createPasswordHash(String password) {
+        MessageDigest md5;
+        try {
+            md5 = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Unable to create MD5 hash of password.", e);
+        }
+        md5.reset();
+        md5.update(password.getBytes());
+        byte[] result = md5.digest();
 
-  public String createPasswordHash (String password)
-  {
-    MessageDigest md5;
-    try
-    {
-      md5 = MessageDigest.getInstance ("MD5");
-    } catch (NoSuchAlgorithmException e)
-    {
-      throw new RuntimeException ("Unable to create MD5 hash of password.", e);
+        StringBuilder hexString = new StringBuilder();
+        for (int i = 0; i < result.length; ++i) {
+            hexString.append(Integer.toHexString(0xFF & result[i]));
+        }
+
+        return hexString.toString();
     }
-    md5.reset ();
-    md5.update (password.getBytes ());
-    byte[] result = md5.digest ();
-
-    StringBuilder hexString = new StringBuilder ();
-    for (int i = 0; i < result.length; ++i)
-    {
-      hexString.append (Integer.toHexString (0xFF & result[i]));
-    }
-
-    return hexString.toString ();
-  }
 }

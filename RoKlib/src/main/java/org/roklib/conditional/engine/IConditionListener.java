@@ -20,7 +20,6 @@
  */
 package org.roklib.conditional.engine;
 
-public interface IConditionListener
-{
-  public void conditionChanged (AbstractCondition source);
+public interface IConditionListener {
+    public void conditionChanged(AbstractCondition source);
 }

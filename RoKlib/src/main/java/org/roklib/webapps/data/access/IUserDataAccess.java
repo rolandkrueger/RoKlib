@@ -21,23 +21,22 @@
 package org.roklib.webapps.data.access;
 
 
-import java.io.Serializable;
-
 import org.roklib.webapps.data.usermgmt.GenericUser;
 
-public interface IUserDataAccess<KeyClass, UserData, U extends GenericUser<KeyClass, UserData>> extends Serializable
-{
-  public U getUserWithLogin (String login);
+import java.io.Serializable;
 
-  public void persistUser (U user);
+public interface IUserDataAccess<KeyClass, UserData, U extends GenericUser<KeyClass, UserData>> extends Serializable {
+    public U getUserWithLogin(String login);
 
-  public void updateUser (U user);
+    public void persistUser(U user);
 
-  public U getUserForRegistrationKey (String registrationKey);
+    public void updateUser(U user);
 
-  public void startTransaction ();
+    public U getUserForRegistrationKey(String registrationKey);
 
-  public void commit ();
+    public void startTransaction();
 
-  public void rollback ();
+    public void commit();
+
+    public void rollback();
 }

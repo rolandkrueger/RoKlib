@@ -20,30 +20,23 @@
  */
 package org.roklib.conditional.groupvisibility;
 
-import org.roklib.conditional.groupvisibility.IVisibilityEnablingConfigurable;
+public class VisibilityEnablingConfigurableTestClass implements IVisibilityEnablingConfigurable {
+    private boolean mEnabled = true;
+    private boolean mVisible = true;
 
-public class VisibilityEnablingConfigurableTestClass implements IVisibilityEnablingConfigurable
-{
-  private boolean mEnabled = true;
-  private boolean mVisible = true;
+    public boolean isEnabled() {
+        return mEnabled;
+    }
 
-  public boolean isEnabled ()
-  {
-    return mEnabled;
-  }
+    public boolean isVisible() {
+        return mVisible;
+    }
 
-  public boolean isVisible ()
-  {
-    return mVisible;
-  }
+    public void setEnabled(boolean enabled) {
+        mEnabled = enabled;
+    }
 
-  public void setEnabled (boolean enabled)
-  {
-    mEnabled = enabled;
-  }
-
-  public void setVisible (boolean visible)
-  {
-    mVisible = visible;
-  }
+    public void setVisible(boolean visible) {
+        mVisible = visible;
+    }
 }

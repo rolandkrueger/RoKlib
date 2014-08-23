@@ -21,16 +21,12 @@
 package org.roklib.conditional.groupvisibility;
 
 
+import org.roklib.conditional.bool.AndOperation;
+import org.roklib.conditional.engine.*;
+
 import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Map;
-
-import org.roklib.conditional.bool.AndOperation;
-import org.roklib.conditional.engine.AbstractCondition;
-import org.roklib.conditional.engine.BoolExpressionBuilder;
-import org.roklib.conditional.engine.BooleanExpression;
-import org.roklib.conditional.engine.Condition;
-import org.roklib.conditional.engine.IConditionListener;
 
 /**
  * <p>
@@ -45,109 +41,93 @@ import org.roklib.conditional.engine.IConditionListener;
  * other link images have to show the unselected image accordingly. This behavior is controlled automatically by the
  * {@link RadioComponentGroupManager}.
  * </p>
- * 
+ *
  * @author Roland Krueger
  * @see VisibilityGroupManager
  */
-public class RadioComponentGroupManager implements Serializable
-{
-  private static final long serialVersionUID = 3934091376239028966L;
+public class RadioComponentGroupManager implements Serializable {
+    private static final long serialVersionUID = 3934091376239028966L;
 
-  public enum Mode
-  {
-    ENABLING, VISIBILITY
-  };
-
-  private VisibilityGroupManager            mManager;
-  private Map<String, RadioComponentSwitch> mConditions;
-  private Mode                              mMode;
-
-  public RadioComponentGroupManager (Mode mode)
-  {
-    this (7, mode);
-  }
-
-  public RadioComponentGroupManager ()
-  {
-    this (7);
-  }
-
-  public RadioComponentGroupManager (int numberOfManagedComponents, Mode mode)
-  {
-    mMode = mode;
-    if (mMode == null)
-    {
-      mMode = Mode.ENABLING;
-    }
-    mManager = new VisibilityGroupManager (numberOfManagedComponents);
-    mConditions = new Hashtable<String, RadioComponentSwitch> (numberOfManagedComponents);
-  }
-
-  public RadioComponentGroupManager (int numberOfManagedComponents)
-  {
-    this (numberOfManagedComponents, Mode.ENABLING);
-  }
-
-  public RadioComponentSwitch addComponent (String groupId, IVisibilityEnablingConfigurable component)
-  {
-    RadioComponentSwitch result = new RadioComponentSwitch (groupId + "_switch");
-    mConditions.put (groupId, result);
-    mManager.addGroupMember (groupId, component);
-    recalculateExpressions ();
-    return result;
-  }
-
-  private void recalculateExpressions ()
-  {
-    if (mConditions.size () < 2)
-      return;
-
-    for (Map.Entry<String, RadioComponentSwitch> currentEntry : mConditions.entrySet ())
-    {
-      currentEntry.getValue ().clearConditionListeners ();
-      BooleanExpression expression = new BooleanExpression (new AndOperation ());
-
-      for (Map.Entry<String, RadioComponentSwitch> entry : mConditions.entrySet ())
-      {
-        if (currentEntry == entry)
-          continue;
-        expression.addOperand (entry.getValue ());
-        currentEntry.getValue ().addConditionListener (entry.getValue ());
-      }
-
-      expression = BoolExpressionBuilder.createANDExpression (currentEntry.getValue (),
-          BoolExpressionBuilder.createNOTExpression (expression));
-
-      if (mMode == Mode.ENABLING)
-      {
-        mManager.setExpressionForEnabling (currentEntry.getKey (), expression);
-      } else
-      {
-        mManager.setExpressionForVisibility (currentEntry.getKey (), expression);
-      }
-    }
-  }
-
-  public static class RadioComponentSwitch extends Condition implements IConditionListener
-  {
-    private static final long serialVersionUID = 4106071527518882170L;
-
-    public RadioComponentSwitch (String name)
-    {
-      super (name);
+    public enum Mode {
+        ENABLING, VISIBILITY
     }
 
-    public void select ()
-    {
-      setValue (true);
+    ;
+
+    private VisibilityGroupManager mManager;
+    private Map<String, RadioComponentSwitch> mConditions;
+    private Mode mMode;
+
+    public RadioComponentGroupManager(Mode mode) {
+        this(7, mode);
     }
 
-    public void conditionChanged (AbstractCondition source)
-    {
-      if (source.getBooleanValue () == true)
-      {
-        setValue (false);
-      }
+    public RadioComponentGroupManager() {
+        this(7);
     }
-  }
+
+    public RadioComponentGroupManager(int numberOfManagedComponents, Mode mode) {
+        mMode = mode;
+        if (mMode == null) {
+            mMode = Mode.ENABLING;
+        }
+        mManager = new VisibilityGroupManager(numberOfManagedComponents);
+        mConditions = new Hashtable<String, RadioComponentSwitch>(numberOfManagedComponents);
+    }
+
+    public RadioComponentGroupManager(int numberOfManagedComponents) {
+        this(numberOfManagedComponents, Mode.ENABLING);
+    }
+
+    public RadioComponentSwitch addComponent(String groupId, IVisibilityEnablingConfigurable component) {
+        RadioComponentSwitch result = new RadioComponentSwitch(groupId + "_switch");
+        mConditions.put(groupId, result);
+        mManager.addGroupMember(groupId, component);
+        recalculateExpressions();
+        return result;
+    }
+
+    private void recalculateExpressions() {
+        if (mConditions.size() < 2)
+            return;
+
+        for (Map.Entry<String, RadioComponentSwitch> currentEntry : mConditions.entrySet()) {
+            currentEntry.getValue().clearConditionListeners();
+            BooleanExpression expression = new BooleanExpression(new AndOperation());
+
+            for (Map.Entry<String, RadioComponentSwitch> entry : mConditions.entrySet()) {
+                if (currentEntry == entry)
+                    continue;
+                expression.addOperand(entry.getValue());
+                currentEntry.getValue().addConditionListener(entry.getValue());
+            }
+
+            expression = BoolExpressionBuilder.createANDExpression(currentEntry.getValue(),
+                    BoolExpressionBuilder.createNOTExpression(expression));
+
+            if (mMode == Mode.ENABLING) {
+                mManager.setExpressionForEnabling(currentEntry.getKey(), expression);
+            } else {
+                mManager.setExpressionForVisibility(currentEntry.getKey(), expression);
+            }
+        }
+    }
+
+    public static class RadioComponentSwitch extends Condition implements IConditionListener {
+        private static final long serialVersionUID = 4106071527518882170L;
+
+        public RadioComponentSwitch(String name) {
+            super(name);
+        }
+
+        public void select() {
+            setValue(true);
+        }
+
+        public void conditionChanged(AbstractCondition source) {
+            if (source.getBooleanValue() == true) {
+                setValue(false);
+            }
+        }
+    }
 }

@@ -22,7 +22,6 @@ package org.roklib.webapps.actions.interfaces;
 
 import java.io.Serializable;
 
-public interface IPasswordHashGenerator extends Serializable
-{
-  public String createPasswordHash (String password);
+public interface IPasswordHashGenerator extends Serializable {
+    public String createPasswordHash(String password);
 }

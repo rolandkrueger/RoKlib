@@ -20,33 +20,28 @@
  */
 package org.roklib.conditional.engine;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.roklib.conditional.engine.Condition;
+public class ConditionTest {
+    private Condition mTestObj;
 
-public class ConditionTest
-{
-  private Condition mTestObj;
+    @Before
+    public void setUp() {
+        mTestObj = new Condition("test", false);
+    }
 
-  @Before
-  public void setUp ()
-  {
-    mTestObj = new Condition ("test", false);
-  }
+    @Test
+    public void testSetValue() {
+        mTestObj.setValue(true);
+        assertTrue(mTestObj.getBooleanValue());
+    }
 
-  @Test
-  public void testSetValue ()
-  {
-    mTestObj.setValue (true);
-    assertTrue (mTestObj.getBooleanValue ());
-  }
-
-  @Test
-  public void testGetName ()
-  {
-    assertEquals ("test", mTestObj.getName ());
-  }
+    @Test
+    public void testGetName() {
+        assertEquals("test", mTestObj.getName());
+    }
 }

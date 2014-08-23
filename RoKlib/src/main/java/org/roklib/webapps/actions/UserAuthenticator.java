@@ -21,72 +21,66 @@
 package org.roklib.webapps.actions;
 
 
-import java.io.Serializable;
-
 import org.roklib.util.helper.CheckForNull;
 import org.roklib.webapps.data.access.IUserDataAccess;
 import org.roklib.webapps.data.usermgmt.GenericUser;
 import org.roklib.webapps.state.GenericUserState;
 
-public class UserAuthenticator<KeyClass, UserData, U extends GenericUser<KeyClass, UserData>> implements Serializable
-{
-  private static final long serialVersionUID = 5402843962259459370L;
+import java.io.Serializable;
 
-  public enum AuthenticationOutcome
-  {
-    USER_AUTHENTICATED, INCORRECT_PASSWORD, UNKNOWN_USER, USER_DEACTIVATED, CONFIRMATION_PENDING_FOR_USER
-  };
+public class UserAuthenticator<KeyClass, UserData, U extends GenericUser<KeyClass, UserData>> implements Serializable {
+    private static final long serialVersionUID = 5402843962259459370L;
 
-  public class AuthenticationResult implements Serializable
-  {
-    private static final long     serialVersionUID = -2978021069510568345L;
-
-    private AuthenticationOutcome mOutcome;
-    private U                     mUser;
-
-    public AuthenticationResult (U user, AuthenticationOutcome outcome)
-    {
-      CheckForNull.check (outcome);
-      mOutcome = outcome;
-      mUser = user;
+    public enum AuthenticationOutcome {
+        USER_AUTHENTICATED, INCORRECT_PASSWORD, UNKNOWN_USER, USER_DEACTIVATED, CONFIRMATION_PENDING_FOR_USER
     }
 
-    public AuthenticationOutcome getOutcome ()
-    {
-      return mOutcome;
+    ;
+
+    public class AuthenticationResult implements Serializable {
+        private static final long serialVersionUID = -2978021069510568345L;
+
+        private AuthenticationOutcome mOutcome;
+        private U mUser;
+
+        public AuthenticationResult(U user, AuthenticationOutcome outcome) {
+            CheckForNull.check(outcome);
+            mOutcome = outcome;
+            mUser = user;
+        }
+
+        public AuthenticationOutcome getOutcome() {
+            return mOutcome;
+        }
+
+        public U getUser() {
+            return mUser;
+        }
     }
 
-    public U getUser ()
-    {
-      return mUser;
+    private IUserDataAccess<KeyClass, UserData, U> mDataAccess;
+
+    public UserAuthenticator(IUserDataAccess<KeyClass, UserData, U> dataAccess) {
+        CheckForNull.check(dataAccess);
+        mDataAccess = dataAccess;
     }
-  }
 
-  private IUserDataAccess<KeyClass, UserData, U> mDataAccess;
+    public AuthenticationResult authenticate(String userLogin, String password) {
+        CheckForNull.check(userLogin, password);
+        U user = mDataAccess.getUserWithLogin(userLogin);
+        if (user == null)
+            return new AuthenticationResult(null, AuthenticationOutcome.UNKNOWN_USER);
+        GenericUserState userState = user.getState();
+        assert userState != null;
+        if (userState.hasState(GenericUserState.DEACTIVATED))
+            return new AuthenticationResult(user, AuthenticationOutcome.USER_DEACTIVATED);
+        if (userState.hasState(GenericUserState.REGISTRATION_CONFIRMATION_PENDING))
+            return new AuthenticationResult(user, AuthenticationOutcome.CONFIRMATION_PENDING_FOR_USER);
+        if (user.getPasswordHash() == null
+                || !user.getPasswordHash().equals(user.getPasswordHashGenerator().createPasswordHash(password)))
+            return new AuthenticationResult(user, AuthenticationOutcome.INCORRECT_PASSWORD);
 
-  public UserAuthenticator (IUserDataAccess<KeyClass, UserData, U> dataAccess)
-  {
-    CheckForNull.check (dataAccess);
-    mDataAccess = dataAccess;
-  }
-
-  public AuthenticationResult authenticate (String userLogin, String password)
-  {
-    CheckForNull.check (userLogin, password);
-    U user = mDataAccess.getUserWithLogin (userLogin);
-    if (user == null)
-      return new AuthenticationResult (null, AuthenticationOutcome.UNKNOWN_USER);
-    GenericUserState userState = user.getState ();
-    assert userState != null;
-    if (userState.hasState (GenericUserState.DEACTIVATED))
-      return new AuthenticationResult (user, AuthenticationOutcome.USER_DEACTIVATED);
-    if (userState.hasState (GenericUserState.REGISTRATION_CONFIRMATION_PENDING))
-      return new AuthenticationResult (user, AuthenticationOutcome.CONFIRMATION_PENDING_FOR_USER);
-    if (user.getPasswordHash () == null
-        || !user.getPasswordHash ().equals (user.getPasswordHashGenerator ().createPasswordHash (password)))
-      return new AuthenticationResult (user, AuthenticationOutcome.INCORRECT_PASSWORD);
-
-    user.getOnlineStatus ().setOnline (true);
-    return new AuthenticationResult (user, AuthenticationOutcome.USER_AUTHENTICATED);
-  }
+        user.getOnlineStatus().setOnline(true);
+        return new AuthenticationResult(user, AuthenticationOutcome.USER_AUTHENTICATED);
+    }
 }

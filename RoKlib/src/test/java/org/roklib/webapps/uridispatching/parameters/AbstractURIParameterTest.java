@@ -20,15 +20,6 @@
  */
 package org.roklib.webapps.uridispatching.parameters;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
@@ -36,110 +27,101 @@ import org.roklib.webapps.uridispatching.AbstractURIActionHandler;
 import org.roklib.webapps.uridispatching.TURIActionCommand;
 import org.roklib.webapps.uridispatching.TURIActionHandler;
 
-public abstract class AbstractURIParameterTest<V extends Serializable>
-{
-  private AbstractURIParameter<V> mTestObj;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
-  public abstract AbstractURIParameter<V> getTestURIParameter ();
+import static org.junit.Assert.*;
 
-  public abstract V getTestValue ();
+public abstract class AbstractURIParameterTest<V extends Serializable> {
+    private AbstractURIParameter<V> mTestObj;
 
-  @Test
-  public abstract void testGetSingleValueCount ();
+    public abstract AbstractURIParameter<V> getTestURIParameter();
 
-  @Test
-  public abstract void testGetParameterNames ();
+    public abstract V getTestValue();
 
-  @Before
-  public void setUp ()
-  {
-    mTestObj = getTestURIParameter ();
-  }
+    @Test
+    public abstract void testGetSingleValueCount();
 
-  @Test
-  public void testSetGetValue ()
-  {
-    V value = getTestValue ();
-    mTestObj.setValue (value);
-    assertEquals (value, mTestObj.getValue ());
-  }
+    @Test
+    public abstract void testGetParameterNames();
 
-  @Test
-  public void testHasValue ()
-  {
-    V value = getTestValue ();
-    assertFalse (mTestObj.hasValue ());
-    mTestObj.setValue (value);
-    assertTrue (mTestObj.hasValue ());
-  }
-
-  @Test
-  public void testClearValue ()
-  {
-    mTestObj.setValue (getTestValue ());
-    mTestObj.clearValue ();
-    assertNull (mTestObj.getValue ());
-  }
-
-  @Test
-  public void testSetValueAndParameterizeURLHandler ()
-  {
-    TURLParameter testObj = new TURLParameter ();
-
-    testObj.setValueAndParameterizeURIHandler ("value", new TURIActionHandler ("action", new TURIActionCommand ()));
-    assertEquals ("value", testObj.getValue ());
-    assertTrue (testObj.parameterized ());
-  }
-
-  @Test
-  public void testSetOptional ()
-  {
-    mTestObj.setOptional (true);
-    assertTrue (mTestObj.isOptional ());
-    mTestObj.setOptional (false);
-    assertFalse (mTestObj.isOptional ());
-  }
-
-  @SuppressWarnings ("serial")
-  private static class TURLParameter extends AbstractURIParameter<String>
-  {
-    boolean parameterized = false;
-
-    public boolean parameterized ()
-    {
-      return parameterized;
+    @Before
+    public void setUp() {
+        mTestObj = getTestURIParameter();
     }
 
-    @Override
-    protected boolean consumeImpl (Map<String, List<String>> parameters)
-    {
-      return true;
+    @Test
+    public void testSetGetValue() {
+        V value = getTestValue();
+        mTestObj.setValue(value);
+        assertEquals(value, mTestObj.getValue());
     }
 
-    public AbstractURIActionCommand getErrorCommandIfInvalid ()
-    {
-      return null;
+    @Test
+    public void testHasValue() {
+        V value = getTestValue();
+        assertFalse(mTestObj.hasValue());
+        mTestObj.setValue(value);
+        assertTrue(mTestObj.hasValue());
     }
 
-    public void parameterizeURIHandler (AbstractURIActionHandler handler)
-    {
-      parameterized = true;
+    @Test
+    public void testClearValue() {
+        mTestObj.setValue(getTestValue());
+        mTestObj.clearValue();
+        assertNull(mTestObj.getValue());
     }
 
-    @Override
-    protected boolean consumeListImpl (String[] values)
-    {
-      return true;
+    @Test
+    public void testSetValueAndParameterizeURLHandler() {
+        TURLParameter testObj = new TURLParameter();
+
+        testObj.setValueAndParameterizeURIHandler("value", new TURIActionHandler("action", new TURIActionCommand()));
+        assertEquals("value", testObj.getValue());
+        assertTrue(testObj.parameterized());
     }
 
-    public int getSingleValueCount ()
-    {
-      return 1;
+    @Test
+    public void testSetOptional() {
+        mTestObj.setOptional(true);
+        assertTrue(mTestObj.isOptional());
+        mTestObj.setOptional(false);
+        assertFalse(mTestObj.isOptional());
     }
 
-    public List<String> getParameterNames ()
-    {
-      return null;
+    @SuppressWarnings("serial")
+    private static class TURLParameter extends AbstractURIParameter<String> {
+        boolean parameterized = false;
+
+        public boolean parameterized() {
+            return parameterized;
+        }
+
+        @Override
+        protected boolean consumeImpl(Map<String, List<String>> parameters) {
+            return true;
+        }
+
+        public AbstractURIActionCommand getErrorCommandIfInvalid() {
+            return null;
+        }
+
+        public void parameterizeURIHandler(AbstractURIActionHandler handler) {
+            parameterized = true;
+        }
+
+        @Override
+        protected boolean consumeListImpl(String[] values) {
+            return true;
+        }
+
+        public int getSingleValueCount() {
+            return 1;
+        }
+
+        public List<String> getParameterNames() {
+            return null;
+        }
     }
-  }
 }

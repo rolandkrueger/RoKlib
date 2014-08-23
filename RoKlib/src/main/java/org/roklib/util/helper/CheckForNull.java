@@ -20,33 +20,27 @@
  */
 package org.roklib.util.helper;
 
-public class CheckForNull
-{
-  public static void check (Object... objects)
-  {
-    StringBuilder buf = null;
-    int count = 0;
-    for (Object o : objects)
-    {
-      count++;
-      if (o == null)
-      {
-        if (buf == null)
-          buf = new StringBuilder ("Argument at position ");
-        buf.append (count).append (", ");
-      }
+public class CheckForNull {
+    public static void check(Object... objects) {
+        StringBuilder buf = null;
+        int count = 0;
+        for (Object o : objects) {
+            count++;
+            if (o == null) {
+                if (buf == null)
+                    buf = new StringBuilder("Argument at position ");
+                buf.append(count).append(", ");
+            }
+        }
+        if (buf != null) {
+            buf.setLength(buf.length() - 2); // remove last comma
+            StringBuilder buf2 = new StringBuilder();
+            for (Object o : objects) {
+                buf2.append(o == null ? "null, " : "set, ");
+            }
+            buf2.setLength(buf2.length() - 2);
+            buf.append(" is null (").append(buf2.toString()).append(").");
+            throw new IllegalArgumentException(buf.toString());
+        }
     }
-    if (buf != null)
-    {
-      buf.setLength (buf.length () - 2); // remove last comma
-      StringBuilder buf2 = new StringBuilder ();
-      for (Object o : objects)
-      {
-        buf2.append (o == null ? "null, " : "set, ");
-      }
-      buf2.setLength (buf2.length () - 2);
-      buf.append (" is null (").append (buf2.toString ()).append (").");
-      throw new IllegalArgumentException (buf.toString ());
-    }
-  }
 }

@@ -21,9 +21,8 @@ package org.roklib.data;
 
 import java.io.Serializable;
 
-public interface IThreadLocalContainer extends Serializable
-{
-  public void setCurrentInstance ();
+public interface IThreadLocalContainer extends Serializable {
+    public void setCurrentInstance();
 
-  public void resetCurrentInstance ();
+    public void resetCurrentInstance();
 }

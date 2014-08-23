@@ -20,20 +20,6 @@
  */
 package org.roklib.webapps.uridispatching;
 
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import org.roklib.conditional.engine.AbstractCondition;
 import org.roklib.util.helper.CheckForNull;
 import org.roklib.webapps.uridispatching.parameters.EnumURIParameterErrors;
@@ -41,556 +27,467 @@ import org.roklib.webapps.uridispatching.parameters.IURIParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractURIActionHandler implements IURIActionHandler
-{
-  private static final long               serialVersionUID                = 8450975393827044559L;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.*;
 
-  private static final String[]           STRING_ARRAY_PROTOTYPE          = new String[] {};
-  private static final Logger             LOG                             = LoggerFactory
-                                                                              .getLogger (AbstractURIActionHandler.class);
-  private List<CommandForCondition>       mCommandsForCondition;
-  private List<IURIParameter<?>>          mURIParameters;
-  private List<String>                    mActionArgumentOrder;
-  protected List<IURIActionHandler>       mHandlerChain;
-  private Map<String, List<Serializable>> mActionArgumentMap;
-  protected AbstractURIActionHandler      mParentHandler;
-  private AbstractURIActionCommand        mDefaultCommand;
+public abstract class AbstractURIActionHandler implements IURIActionHandler {
+    private static final long serialVersionUID = 8450975393827044559L;
 
-  /**
-   * The name of the URI portion for which this action handler is responsible.
-   */
-  protected String                        mActionName;
-  private String                          mActionURI;
-  private boolean                         mCaseSensitive                  = false;
-  private boolean                         mUseHashExclamationMarkNotation = false;
-  private Locale                          mLocale;
+    private static final String[] STRING_ARRAY_PROTOTYPE = new String[]{};
+    private static final Logger LOG = LoggerFactory
+            .getLogger(AbstractURIActionHandler.class);
+    private List<CommandForCondition> mCommandsForCondition;
+    private List<IURIParameter<?>> mURIParameters;
+    private List<String> mActionArgumentOrder;
+    protected List<IURIActionHandler> mHandlerChain;
+    private Map<String, List<Serializable>> mActionArgumentMap;
+    protected AbstractURIActionHandler mParentHandler;
+    private AbstractURIActionCommand mDefaultCommand;
 
-  /**
-   * Creates a new action handler with the given action name. The action name must not be <code>null</code>. This name
-   * identifies the fragment of a URI which is handled by this action handler. For example, if this action handler is
-   * responsible for the <code>admin</code> part in the following URI
-   * 
-   * <pre>
-   * http://www.example.com/admin/settings
-   * </pre>
-   * 
-   * then the action name for this handler has to be set to <code>admin</code> as well.
-   * 
-   * @param actionName
-   *          the name of the URI portion for which this action handler is responsible. Must not be <code>null</code>.
-   */
-  public AbstractURIActionHandler (String actionName)
-  {
-    CheckForNull.check (actionName);
-    mActionName = actionName;
-    mActionURI = actionName;
-    mDefaultCommand = null;
-  }
+    /**
+     * The name of the URI portion for which this action handler is responsible.
+     */
+    protected String mActionName;
+    private String mActionURI;
+    private boolean mCaseSensitive = false;
+    private boolean mUseHashExclamationMarkNotation = false;
+    private Locale mLocale;
 
-  protected void setUseHashExclamationMarkNotation (boolean useHashExclamationMarkNotation)
-  {
-    mUseHashExclamationMarkNotation = useHashExclamationMarkNotation;
-  }
-
-  /**
-   * <p>
-   * Sets the case sensitivity of this action handler. A case insentitive action handler will match a URI token without
-   * regarding the token's case. You have to be careful with case insensitive action handlers if you have more than one
-   * action handler with action names differing only in case. You might get unexpected results since one action handler
-   * might shadow the other.
-   * </p>
-   */
-  protected void setCaseSensitive (boolean caseSensitive)
-  {
-    mCaseSensitive = caseSensitive;
-  }
-
-  public boolean isCaseSensitive ()
-  {
-    return mCaseSensitive;
-  }
-
-  public String getActionName ()
-  {
-    return mActionName;
-  }
-
-  public String getCaseInsensitiveActionName ()
-  {
-    return mActionName.toLowerCase (getLocale ());
-  }
-
-  public void setDefaultActionCommand (AbstractURIActionCommand command)
-  {
-    mDefaultCommand = command;
-  }
-
-  protected AbstractURIActionCommand getDefaultCommand ()
-  {
-    return mDefaultCommand;
-  }
-
-  protected void registerURIParameter (IURIParameter<?> parameter)
-  {
-    if (parameter == null)
-      return;
-    if (mURIParameters == null)
-      mURIParameters = new LinkedList<IURIParameter<?>> ();
-    if (!mURIParameters.contains (parameter))
-      mURIParameters.add (parameter);
-  }
-
-  protected void registerURIParameter (IURIParameter<?> parameter, boolean isOptional)
-  {
-    registerURIParameter (parameter);
-    parameter.setOptional (isOptional);
-  }
-
-  protected boolean haveRegisteredURIParametersErrors ()
-  {
-    if (mURIParameters == null)
-      return false;
-    boolean result = false;
-
-    for (IURIParameter<?> parameter : mURIParameters)
-    {
-      result |= parameter.getError () != EnumURIParameterErrors.NO_ERROR;
+    /**
+     * Creates a new action handler with the given action name. The action name must not be <code>null</code>. This name
+     * identifies the fragment of a URI which is handled by this action handler. For example, if this action handler is
+     * responsible for the <code>admin</code> part in the following URI
+     * <p/>
+     * <pre>
+     * http://www.example.com/admin/settings
+     * </pre>
+     * <p/>
+     * then the action name for this handler has to be set to <code>admin</code> as well.
+     *
+     * @param actionName the name of the URI portion for which this action handler is responsible. Must not be <code>null</code>.
+     */
+    public AbstractURIActionHandler(String actionName) {
+        CheckForNull.check(actionName);
+        mActionName = actionName;
+        mActionURI = actionName;
+        mDefaultCommand = null;
     }
 
-    return result;
-  }
-
-  public final AbstractURIActionCommand handleURI (List<String> pUriTokens, Map<String, List<String>> pParameters,
-      ParameterMode pParameterMode)
-  {
-    if (mCommandsForCondition != null)
-    {
-      for (CommandForCondition cfc : mCommandsForCondition)
-      {
-        if (cfc.mCondition.getBooleanValue () == true)
-          return cfc.mDefaultCommandForCondition;
-      }
+    protected void setUseHashExclamationMarkNotation(boolean useHashExclamationMarkNotation) {
+        mUseHashExclamationMarkNotation = useHashExclamationMarkNotation;
     }
-    if (mURIParameters != null)
-    {
-      if (pParameterMode == ParameterMode.QUERY)
-      {
-        for (IURIParameter<?> parameter : mURIParameters)
-        {
-          parameter.clearValue ();
-          parameter.consume (pParameters);
+
+    /**
+     * <p>
+     * Sets the case sensitivity of this action handler. A case insentitive action handler will match a URI token without
+     * regarding the token's case. You have to be careful with case insensitive action handlers if you have more than one
+     * action handler with action names differing only in case. You might get unexpected results since one action handler
+     * might shadow the other.
+     * </p>
+     */
+    protected void setCaseSensitive(boolean caseSensitive) {
+        mCaseSensitive = caseSensitive;
+    }
+
+    public boolean isCaseSensitive() {
+        return mCaseSensitive;
+    }
+
+    public String getActionName() {
+        return mActionName;
+    }
+
+    public String getCaseInsensitiveActionName() {
+        return mActionName.toLowerCase(getLocale());
+    }
+
+    public void setDefaultActionCommand(AbstractURIActionCommand command) {
+        mDefaultCommand = command;
+    }
+
+    protected AbstractURIActionCommand getDefaultCommand() {
+        return mDefaultCommand;
+    }
+
+    protected void registerURIParameter(IURIParameter<?> parameter) {
+        if (parameter == null)
+            return;
+        if (mURIParameters == null)
+            mURIParameters = new LinkedList<IURIParameter<?>>();
+        if (!mURIParameters.contains(parameter))
+            mURIParameters.add(parameter);
+    }
+
+    protected void registerURIParameter(IURIParameter<?> parameter, boolean isOptional) {
+        registerURIParameter(parameter);
+        parameter.setOptional(isOptional);
+    }
+
+    protected boolean haveRegisteredURIParametersErrors() {
+        if (mURIParameters == null)
+            return false;
+        boolean result = false;
+
+        for (IURIParameter<?> parameter : mURIParameters) {
+            result |= parameter.getError() != EnumURIParameterErrors.NO_ERROR;
         }
-      } else
-      {
-        List<String> parameterNames = new LinkedList<String> ();
-        for (IURIParameter<?> parameter : mURIParameters)
-        {
-          parameterNames.addAll (parameter.getParameterNames ());
-        }
-        if (pParameterMode == ParameterMode.DIRECTORY_WITH_NAMES)
-        {
-          Map<String, List<String>> parameters = new HashMap<String, List<String>> (4);
-          String parameterName;
-          String value;
-          for (Iterator<String> it = pUriTokens.iterator (); it.hasNext ();)
-          {
-            parameterName = it.next ();
-            try
-            {
-              parameterName = URLDecoder.decode (parameterName, "UTF-8");
-            } catch (UnsupportedEncodingException e)
-            {
-              // nothing to do, parameterName stays encoded
+
+        return result;
+    }
+
+    public final AbstractURIActionCommand handleURI(List<String> pUriTokens, Map<String, List<String>> pParameters,
+                                                    ParameterMode pParameterMode) {
+        if (mCommandsForCondition != null) {
+            for (CommandForCondition cfc : mCommandsForCondition) {
+                if (cfc.mCondition.getBooleanValue() == true)
+                    return cfc.mDefaultCommandForCondition;
             }
-            value = "";
-            if (parameterNames.contains (parameterName))
-            {
-              it.remove ();
-              if (it.hasNext ())
-              {
-                value = it.next ();
-                try
-                {
-                  value = URLDecoder.decode (value, "UTF-8");
-                } catch (UnsupportedEncodingException e)
-                {
-                  // nothing to do, value stays encoded
+        }
+        if (mURIParameters != null) {
+            if (pParameterMode == ParameterMode.QUERY) {
+                for (IURIParameter<?> parameter : mURIParameters) {
+                    parameter.clearValue();
+                    parameter.consume(pParameters);
                 }
-                it.remove ();
-              }
-              List<String> values = parameters.get (parameterName);
-              if (values == null)
-              {
-                values = new LinkedList<String> ();
-                parameters.put (parameterName, values);
-              }
-              values.add (value);
+            } else {
+                List<String> parameterNames = new LinkedList<String>();
+                for (IURIParameter<?> parameter : mURIParameters) {
+                    parameterNames.addAll(parameter.getParameterNames());
+                }
+                if (pParameterMode == ParameterMode.DIRECTORY_WITH_NAMES) {
+                    Map<String, List<String>> parameters = new HashMap<String, List<String>>(4);
+                    String parameterName;
+                    String value;
+                    for (Iterator<String> it = pUriTokens.iterator(); it.hasNext(); ) {
+                        parameterName = it.next();
+                        try {
+                            parameterName = URLDecoder.decode(parameterName, "UTF-8");
+                        } catch (UnsupportedEncodingException e) {
+                            // nothing to do, parameterName stays encoded
+                        }
+                        value = "";
+                        if (parameterNames.contains(parameterName)) {
+                            it.remove();
+                            if (it.hasNext()) {
+                                value = it.next();
+                                try {
+                                    value = URLDecoder.decode(value, "UTF-8");
+                                } catch (UnsupportedEncodingException e) {
+                                    // nothing to do, value stays encoded
+                                }
+                                it.remove();
+                            }
+                            List<String> values = parameters.get(parameterName);
+                            if (values == null) {
+                                values = new LinkedList<String>();
+                                parameters.put(parameterName, values);
+                            }
+                            values.add(value);
+                        }
+                    }
+                    for (IURIParameter<?> parameter : mURIParameters) {
+                        parameter.clearValue();
+                        parameter.consume(parameters);
+                    }
+                } else {
+                    List<String> valueList = new LinkedList<String>();
+                    for (IURIParameter<?> parameter : mURIParameters) {
+                        parameter.clearValue();
+                        if (pUriTokens.isEmpty())
+                            continue;
+                        valueList.clear();
+                        int singleValueCount = parameter.getSingleValueCount();
+                        int i = 0;
+                        while (!pUriTokens.isEmpty() && i < singleValueCount) {
+                            String token = pUriTokens.remove(0);
+                            try {
+                                token = URLDecoder.decode(token, "UTF-8");
+                            } catch (UnsupportedEncodingException e) {
+                                // nothing to do, token stays encoded
+                            }
+                            valueList.add(token);
+                            ++i;
+                        }
+                        parameter.consumeList(valueList.toArray(STRING_ARRAY_PROTOTYPE));
+                    }
+                }
             }
-          }
-          for (IURIParameter<?> parameter : mURIParameters)
-          {
-            parameter.clearValue ();
-            parameter.consume (parameters);
-          }
-        } else
-        {
-          List<String> valueList = new LinkedList<String> ();
-          for (IURIParameter<?> parameter : mURIParameters)
-          {
-            parameter.clearValue ();
-            if (pUriTokens.isEmpty ())
-              continue;
-            valueList.clear ();
-            int singleValueCount = parameter.getSingleValueCount ();
-            int i = 0;
-            while (!pUriTokens.isEmpty () && i < singleValueCount)
-            {
-              String token = pUriTokens.remove (0);
-              try
-              {
-                token = URLDecoder.decode (token, "UTF-8");
-              } catch (UnsupportedEncodingException e)
-              {
-                // nothing to do, token stays encoded
-              }
-              valueList.add (token);
-              ++i;
+        }
+
+        if (mHandlerChain != null) {
+            for (IURIActionHandler chainedHandler : mHandlerChain) {
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("Executing chained handler " + chainedHandler + " (" + mHandlerChain.size()
+                            + " chained handler(s) in list)");
+                }
+                AbstractURIActionCommand commandFromChain = chainedHandler.handleURI(pUriTokens, pParameters, pParameterMode);
+                if (commandFromChain != null)
+                    return commandFromChain;
             }
-            parameter.consumeList (valueList.toArray (STRING_ARRAY_PROTOTYPE));
-          }
         }
-      }
+
+        return handleURIImpl(pUriTokens, pParameters, pParameterMode);
     }
 
-    if (mHandlerChain != null)
-    {
-      for (IURIActionHandler chainedHandler : mHandlerChain)
-      {
-        if (LOG.isTraceEnabled ())
-        {
-          LOG.trace ("Executing chained handler " + chainedHandler + " (" + mHandlerChain.size ()
-              + " chained handler(s) in list)");
+    protected abstract AbstractURIActionCommand handleURIImpl(List<String> uriTokens,
+                                                              Map<String, List<String>> parameters, ParameterMode parameterMode);
+
+    protected boolean isResponsibleForToken(String uriToken) {
+        if (isCaseSensitive()) {
+            return mActionName.equals(uriToken);
+        } else {
+            return mActionName.equalsIgnoreCase(uriToken);
         }
-        AbstractURIActionCommand commandFromChain = chainedHandler.handleURI (pUriTokens, pParameters, pParameterMode);
-        if (commandFromChain != null)
-          return commandFromChain;
-      }
     }
 
-    return handleURIImpl (pUriTokens, pParameters, pParameterMode);
-  }
-
-  protected abstract AbstractURIActionCommand handleURIImpl (List<String> uriTokens,
-      Map<String, List<String>> parameters, ParameterMode parameterMode);
-
-  protected boolean isResponsibleForToken (String uriToken)
-  {
-    if (isCaseSensitive ())
-    {
-      return mActionName.equals (uriToken);
-    } else
-    {
-      return mActionName.equalsIgnoreCase (uriToken);
-    }
-  }
-
-  protected String urlEncode (String term)
-  {
-    try
-    {
-      return URLEncoder.encode (term, "UTF-8");
-    } catch (UnsupportedEncodingException e)
-    {
-      // this should not happen
-      return term;
-    }
-  }
-
-  /**
-   * Returns the full relative action URI for this action handler. This is the concatenation of all parent handler
-   * action names going back to the handler root separated by a slash. For example, if this action handler's action name
-   * is <code>languageSettings</code>, with its parent's action name <code>configuration</code> and the next parent's
-   * action name <code>admin</code> then the action URI for this handler evaluates to
-   * 
-   * <pre>
-   * /admin/configuration/languageSettings.
-   * </pre>
-   * 
-   * This String is needed for generating fully configured URIs (this URI together with the corresponding parameter
-   * values) which can be used for rendering links pointing to this action handler.
-   * 
-   * @return the action URI for this action handler (such as <code>/admin/configuration/languageSettings</code> if this
-   *         action handler's action name is <code>languageSettings</code>).
-   */
-  public String getActionURI ()
-  {
-    return mActionURI;
-  }
-
-  /**
-   * Sets the parent action handler for this object. An action handler can only be added as sub-handler to one action
-   * handler. In other words, an action handler can only have one parent. This parent relationship is established when
-   * adding a sub-handler to an action handler with
-   * {@link AbstractURIActionHandler#addSubHandler(AbstractURIActionHandler)}.
-   * 
-   * @param parent
-   *          the parent handler for this action handler
-   */
-  protected final void setParent (AbstractURIActionHandler parent)
-  {
-    mParentHandler = parent;
-  }
-
-  public URI getParameterizedHashbangActionURI (boolean clearParametersAfterwards)
-  {
-    return getParameterizedHashbangActionURI (clearParametersAfterwards, ParameterMode.DIRECTORY_WITH_NAMES);
-  }
-
-  public URI getParameterizedHashbangActionURI (boolean clearParametersAfterwards, ParameterMode parameterMode)
-  {
-    return getParameterizedActionURI (clearParametersAfterwards, parameterMode, true, true);
-  }
-
-  public URI getParameterizedActionURI (boolean clearParametersAfterwards)
-  {
-    return getParameterizedActionURI (clearParametersAfterwards, ParameterMode.QUERY);
-  }
-
-  public URI getParameterizedActionURI (boolean clearParametersAfterwards, ParameterMode parameterMode)
-  {
-    return getParameterizedActionURI (clearParametersAfterwards, parameterMode, false);
-  }
-
-  public URI getParameterizedActionURI (boolean clearParametersAfterwards, ParameterMode parameterMode,
-      boolean addHashMark)
-  {
-    return getParameterizedActionURI (clearParametersAfterwards, parameterMode, addHashMark,
-        mUseHashExclamationMarkNotation);
-  }
-
-  private URI getParameterizedActionURI (boolean clearParametersAfterwards, ParameterMode parameterMode,
-      boolean addHashMark, boolean addExclamationMark)
-  {
-    StringBuilder buf = new StringBuilder ();
-    if (addHashMark)
-    {
-      buf.append ('#');
-      if (addExclamationMark)
-      {
-        buf.append ('!');
-      }
-      buf.append (getActionURI ().substring (1));
-    } else
-    {
-      buf.append (getActionURI ());
-    }
-
-    boolean removeLastCharacter = false;
-    if (mActionArgumentMap != null && !mActionArgumentMap.isEmpty ())
-    {
-      if (parameterMode == ParameterMode.QUERY)
-      {
-        buf.append ('?');
-        for (String argument : mActionArgumentOrder)
-        {
-          for (Serializable value : mActionArgumentMap.get (argument))
-          {
-            buf.append (urlEncode (argument)).append ('=').append (urlEncode (value.toString ()));
-            buf.append ('&');
-            removeLastCharacter = true;
-          }
+    protected String urlEncode(String term) {
+        try {
+            return URLEncoder.encode(term, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // this should not happen
+            return term;
         }
-      } else
-      {
-        buf.append ('/');
-        for (String argument : mActionArgumentOrder)
-        {
-          for (Serializable value : mActionArgumentMap.get (argument))
-          {
-            if (parameterMode == ParameterMode.DIRECTORY_WITH_NAMES)
-            {
-              buf.append (urlEncode (argument)).append ('/');
+    }
+
+    /**
+     * Returns the full relative action URI for this action handler. This is the concatenation of all parent handler
+     * action names going back to the handler root separated by a slash. For example, if this action handler's action name
+     * is <code>languageSettings</code>, with its parent's action name <code>configuration</code> and the next parent's
+     * action name <code>admin</code> then the action URI for this handler evaluates to
+     * <p/>
+     * <pre>
+     * /admin/configuration/languageSettings.
+     * </pre>
+     * <p/>
+     * This String is needed for generating fully configured URIs (this URI together with the corresponding parameter
+     * values) which can be used for rendering links pointing to this action handler.
+     *
+     * @return the action URI for this action handler (such as <code>/admin/configuration/languageSettings</code> if this
+     * action handler's action name is <code>languageSettings</code>).
+     */
+    public String getActionURI() {
+        return mActionURI;
+    }
+
+    /**
+     * Sets the parent action handler for this object. An action handler can only be added as sub-handler to one action
+     * handler. In other words, an action handler can only have one parent. This parent relationship is established when
+     * adding a sub-handler to an action handler with
+     * {@link AbstractURIActionHandler#addSubHandler(AbstractURIActionHandler)}.
+     *
+     * @param parent the parent handler for this action handler
+     */
+    protected final void setParent(AbstractURIActionHandler parent) {
+        mParentHandler = parent;
+    }
+
+    public URI getParameterizedHashbangActionURI(boolean clearParametersAfterwards) {
+        return getParameterizedHashbangActionURI(clearParametersAfterwards, ParameterMode.DIRECTORY_WITH_NAMES);
+    }
+
+    public URI getParameterizedHashbangActionURI(boolean clearParametersAfterwards, ParameterMode parameterMode) {
+        return getParameterizedActionURI(clearParametersAfterwards, parameterMode, true, true);
+    }
+
+    public URI getParameterizedActionURI(boolean clearParametersAfterwards) {
+        return getParameterizedActionURI(clearParametersAfterwards, ParameterMode.QUERY);
+    }
+
+    public URI getParameterizedActionURI(boolean clearParametersAfterwards, ParameterMode parameterMode) {
+        return getParameterizedActionURI(clearParametersAfterwards, parameterMode, false);
+    }
+
+    public URI getParameterizedActionURI(boolean clearParametersAfterwards, ParameterMode parameterMode,
+                                         boolean addHashMark) {
+        return getParameterizedActionURI(clearParametersAfterwards, parameterMode, addHashMark,
+                mUseHashExclamationMarkNotation);
+    }
+
+    private URI getParameterizedActionURI(boolean clearParametersAfterwards, ParameterMode parameterMode,
+                                          boolean addHashMark, boolean addExclamationMark) {
+        StringBuilder buf = new StringBuilder();
+        if (addHashMark) {
+            buf.append('#');
+            if (addExclamationMark) {
+                buf.append('!');
             }
-            buf.append (urlEncode (value.toString ()));
-            buf.append ('/');
-            removeLastCharacter = true;
-          }
+            buf.append(getActionURI().substring(1));
+        } else {
+            buf.append(getActionURI());
         }
-      }
+
+        boolean removeLastCharacter = false;
+        if (mActionArgumentMap != null && !mActionArgumentMap.isEmpty()) {
+            if (parameterMode == ParameterMode.QUERY) {
+                buf.append('?');
+                for (String argument : mActionArgumentOrder) {
+                    for (Serializable value : mActionArgumentMap.get(argument)) {
+                        buf.append(urlEncode(argument)).append('=').append(urlEncode(value.toString()));
+                        buf.append('&');
+                        removeLastCharacter = true;
+                    }
+                }
+            } else {
+                buf.append('/');
+                for (String argument : mActionArgumentOrder) {
+                    for (Serializable value : mActionArgumentMap.get(argument)) {
+                        if (parameterMode == ParameterMode.DIRECTORY_WITH_NAMES) {
+                            buf.append(urlEncode(argument)).append('/');
+                        }
+                        buf.append(urlEncode(value.toString()));
+                        buf.append('/');
+                        removeLastCharacter = true;
+                    }
+                }
+            }
+        }
+
+        if (removeLastCharacter)
+            buf.setLength(buf.length() - 1);
+
+        try {
+            return new URI(buf.toString());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException("Unable to create URL object.", e);
+        } finally {
+            if (clearParametersAfterwards) {
+                clearActionArguments();
+            }
+        }
     }
 
-    if (removeLastCharacter)
-      buf.setLength (buf.length () - 1);
-
-    try
-    {
-      return new URI (buf.toString ());
-    } catch (URISyntaxException e)
-    {
-      throw new RuntimeException ("Unable to create URL object.", e);
-    } finally
-    {
-      if (clearParametersAfterwards)
-      {
-        clearActionArguments ();
-      }
-    }
-  }
-
-  public final void addDefaultCommandForCondition (AbstractURIActionCommand command, AbstractCondition condition)
-  {
-    CheckForNull.check (command, condition);
-    if (mCommandsForCondition == null)
-      mCommandsForCondition = new LinkedList<CommandForCondition> ();
-    CommandForCondition cfc = new CommandForCondition ();
-    cfc.mDefaultCommandForCondition = command;
-    cfc.mCondition = condition;
-    mCommandsForCondition.add (cfc);
-  }
-
-  public void addToHandlerChain (IURIActionHandler handler)
-  {
-    CheckForNull.check (handler);
-    if (mHandlerChain == null)
-    {
-      mHandlerChain = new LinkedList<IURIActionHandler> ();
-    }
-    mHandlerChain.add (handler);
-  }
-
-  /**
-   * <code>null</code> argument values are ignored.
-   * 
-   * @param argumentName
-   * @param argumentValues
-   */
-  public void addActionArgument (String argumentName, Serializable... argumentValues)
-  {
-    CheckForNull.check (argumentName);
-    if (mActionArgumentMap == null)
-    {
-      mActionArgumentMap = new HashMap<String, List<Serializable>> (4);
-      mActionArgumentOrder = new LinkedList<String> ();
+    public final void addDefaultCommandForCondition(AbstractURIActionCommand command, AbstractCondition condition) {
+        CheckForNull.check(command, condition);
+        if (mCommandsForCondition == null)
+            mCommandsForCondition = new LinkedList<CommandForCondition>();
+        CommandForCondition cfc = new CommandForCondition();
+        cfc.mDefaultCommandForCondition = command;
+        cfc.mCondition = condition;
+        mCommandsForCondition.add(cfc);
     }
 
-    List<Serializable> valueList = mActionArgumentMap.get (argumentName);
-    if (valueList == null)
-    {
-      valueList = new LinkedList<Serializable> ();
-      mActionArgumentMap.put (argumentName, valueList);
+    public void addToHandlerChain(IURIActionHandler handler) {
+        CheckForNull.check(handler);
+        if (mHandlerChain == null) {
+            mHandlerChain = new LinkedList<IURIActionHandler>();
+        }
+        mHandlerChain.add(handler);
     }
-    for (Serializable value : argumentValues)
-    {
-      if (value != null)
-        valueList.add (value);
+
+    /**
+     * <code>null</code> argument values are ignored.
+     *
+     * @param argumentName
+     * @param argumentValues
+     */
+    public void addActionArgument(String argumentName, Serializable... argumentValues) {
+        CheckForNull.check(argumentName);
+        if (mActionArgumentMap == null) {
+            mActionArgumentMap = new HashMap<String, List<Serializable>>(4);
+            mActionArgumentOrder = new LinkedList<String>();
+        }
+
+        List<Serializable> valueList = mActionArgumentMap.get(argumentName);
+        if (valueList == null) {
+            valueList = new LinkedList<Serializable>();
+            mActionArgumentMap.put(argumentName, valueList);
+        }
+        for (Serializable value : argumentValues) {
+            if (value != null)
+                valueList.add(value);
+        }
+        if (valueList.isEmpty()) {
+            mActionArgumentMap.remove(argumentName);
+        } else if (!mActionArgumentOrder.contains(argumentName)) {
+            mActionArgumentOrder.add(argumentName);
+        }
     }
-    if (valueList.isEmpty ())
-    {
-      mActionArgumentMap.remove (argumentName);
-    } else if (!mActionArgumentOrder.contains (argumentName))
-    {
-      mActionArgumentOrder.add (argumentName);
+
+    public void clearActionArguments() {
+        if (mActionArgumentMap != null) {
+            mActionArgumentMap.clear();
+            mActionArgumentOrder.clear();
+        }
     }
-  }
 
-  public void clearActionArguments ()
-  {
-    if (mActionArgumentMap != null)
-    {
-      mActionArgumentMap.clear ();
-      mActionArgumentOrder.clear ();
+    public final void clearDefaultCommands() {
+        mCommandsForCondition.clear();
     }
-  }
 
-  public final void clearDefaultCommands ()
-  {
-    mCommandsForCondition.clear ();
-  }
+    private static class CommandForCondition implements Serializable {
+        private static final long serialVersionUID = 2090692709855753816L;
 
-  private static class CommandForCondition implements Serializable
-  {
-    private static final long        serialVersionUID = 2090692709855753816L;
+        private AbstractURIActionCommand mDefaultCommandForCondition;
 
-    private AbstractURIActionCommand mDefaultCommandForCondition;
-
-    private AbstractCondition        mCondition;
-  }
-
-  public void getActionURIOverview (List<String> targetList)
-  {
-    StringBuilder buf = new StringBuilder ();
-    buf.append (getActionURI ());
-
-    if (mURIParameters != null && mURIParameters.size () > 0)
-    {
-      buf.append (" ? ");
-      for (IURIParameter<?> parameter : mURIParameters)
-      {
-        buf.append (parameter).append (", ");
-      }
-      buf.setLength (buf.length () - 2);
+        private AbstractCondition mCondition;
     }
-    if (buf.length () > 0)
-      targetList.add (buf.toString ());
-    for (AbstractURIActionHandler subHandler : getSubHandlerMap ().values ())
-    {
-      subHandler.getActionURIOverview (targetList);
+
+    public void getActionURIOverview(List<String> targetList) {
+        StringBuilder buf = new StringBuilder();
+        buf.append(getActionURI());
+
+        if (mURIParameters != null && mURIParameters.size() > 0) {
+            buf.append(" ? ");
+            for (IURIParameter<?> parameter : mURIParameters) {
+                buf.append(parameter).append(", ");
+            }
+            buf.setLength(buf.length() - 2);
+        }
+        if (buf.length() > 0)
+            targetList.add(buf.toString());
+        for (AbstractURIActionHandler subHandler : getSubHandlerMap().values()) {
+            subHandler.getActionURIOverview(targetList);
+        }
     }
-  }
 
-  /**
-   * Returns a map of all registered sub-handlers for this URI action handler. This method is only implemented by
-   * {@link DispatchingURIActionHandler} since this is the only URI action handler implementation in the framework which
-   * can have sub-handlers. All other subclasses of {@link AbstractURIActionHandler} return an empty map.
-   * 
-   * @return map containing a mapping of URI tokens on the corresponding sub-handlers that handle these tokens.
-   */
-  protected Map<String, AbstractURIActionHandler> getSubHandlerMap ()
-  {
-    return Collections.emptyMap ();
-  }
-
-  public boolean hasSubHandlers ()
-  {
-    return !getSubHandlerMap ().isEmpty ();
-  }
-
-  protected void setSubhandlersActionURI (AbstractURIActionHandler subHandler)
-  {
-    subHandler.setActionURI (String.format ("%s%s%s", getActionURI (), "/", urlEncode (subHandler.mActionName)));
-    if (subHandler.hasSubHandlers ())
-    {
-      subHandler.updateActionURIs ();
+    /**
+     * Returns a map of all registered sub-handlers for this URI action handler. This method is only implemented by
+     * {@link DispatchingURIActionHandler} since this is the only URI action handler implementation in the framework which
+     * can have sub-handlers. All other subclasses of {@link AbstractURIActionHandler} return an empty map.
+     *
+     * @return map containing a mapping of URI tokens on the corresponding sub-handlers that handle these tokens.
+     */
+    protected Map<String, AbstractURIActionHandler> getSubHandlerMap() {
+        return Collections.emptyMap();
     }
-  }
 
-  protected void updateActionURIs ()
-  {
-    setActionURI (mParentHandler.getActionURI () + "/" + mActionName);
-    for (AbstractURIActionHandler subHandler : getSubHandlerMap ().values ())
-    {
-      setSubhandlersActionURI (subHandler);
+    public boolean hasSubHandlers() {
+        return !getSubHandlerMap().isEmpty();
     }
-  }
 
-  public void setLocale (Locale locale)
-  {
-    mLocale = locale;
-  }
+    protected void setSubhandlersActionURI(AbstractURIActionHandler subHandler) {
+        subHandler.setActionURI(String.format("%s%s%s", getActionURI(), "/", urlEncode(subHandler.mActionName)));
+        if (subHandler.hasSubHandlers()) {
+            subHandler.updateActionURIs();
+        }
+    }
 
-  public Locale getLocale ()
-  {
-    return mLocale == null ? Locale.getDefault () : mLocale;
-  }
+    protected void updateActionURIs() {
+        setActionURI(mParentHandler.getActionURI() + "/" + mActionName);
+        for (AbstractURIActionHandler subHandler : getSubHandlerMap().values()) {
+            setSubhandlersActionURI(subHandler);
+        }
+    }
 
-  protected void setActionURI (String actionURI)
-  {
-    mActionURI = actionURI;
-  }
+    public void setLocale(Locale locale) {
+        mLocale = locale;
+    }
 
-  @Override
-  public String toString ()
-  {
-    return String.format ("%s='%s'", getClass ().getSimpleName (), mActionName);
-  }
+    public Locale getLocale() {
+        return mLocale == null ? Locale.getDefault() : mLocale;
+    }
+
+    protected void setActionURI(String actionURI) {
+        mActionURI = actionURI;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s='%s'", getClass().getSimpleName(), mActionName);
+    }
 }

@@ -23,29 +23,25 @@ package org.roklib.webapps.data.usermgmt;
 import java.io.Serializable;
 import java.util.Date;
 
-public class UserOnlineStatus implements Serializable
-{
-  private static final long serialVersionUID = -4054866399984707095L;
+public class UserOnlineStatus implements Serializable {
+    private static final long serialVersionUID = -4054866399984707095L;
 
-  private boolean           mOnline;
-  private Date              mOnlineSince;
+    private boolean mOnline;
+    private Date mOnlineSince;
 
-  public void setOnline (boolean online)
-  {
-    mOnline = online;
-    if (online)
-      mOnlineSince = new Date ();
-    else
-      mOnlineSince = null;
-  }
+    public void setOnline(boolean online) {
+        mOnline = online;
+        if (online)
+            mOnlineSince = new Date();
+        else
+            mOnlineSince = null;
+    }
 
-  public boolean isOnline ()
-  {
-    return mOnline;
-  }
+    public boolean isOnline() {
+        return mOnline;
+    }
 
-  public Date getOnlineSince ()
-  {
-    return mOnlineSince;
-  }
+    public Date getOnlineSince() {
+        return mOnlineSince;
+    }
 }

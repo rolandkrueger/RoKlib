@@ -20,17 +20,13 @@
  */
 package org.roklib.webapps.uridispatching;
 
-import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
+public class TURIActionCommand extends AbstractURIActionCommand {
+    private static final long serialVersionUID = 8282933112969092819L;
 
-public class TURIActionCommand extends AbstractURIActionCommand
-{
-  private static final long serialVersionUID = 8282933112969092819L;
+    public boolean mExecuted = false;
 
-  public boolean            mExecuted        = false;
-
-  @Override
-  public void execute ()
-  {
-    mExecuted = true;
-  }
+    @Override
+    public void execute() {
+        mExecuted = true;
+    }
 }
