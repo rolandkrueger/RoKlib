@@ -40,8 +40,6 @@ public class StateTest {
         }
     }
 
-    ;
-
     private static class TestStateDerived extends TestState {
         private static final long serialVersionUID = 3136674823264291904L;
         public final static StateValue<TestState> TEST_STATE_NONE = new StateValue<TestState>("TEST_STATE_NONE");

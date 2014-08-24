@@ -37,8 +37,6 @@ public class UserRegistration<KeyClass, UserData, U extends GenericUser<KeyClass
         USERNAME_ALREADY_REGISTERED, ERROR_DURING_REGISTRATION, OK
     }
 
-    ;
-
     public enum RegistrationConfirmationOutcome {
         REGISTRATION_KEY_UNKNOWN, OK
     }

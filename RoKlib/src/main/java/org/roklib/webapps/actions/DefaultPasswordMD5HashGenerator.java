@@ -41,8 +41,8 @@ public class DefaultPasswordMD5HashGenerator implements IPasswordHashGenerator {
         byte[] result = md5.digest();
 
         StringBuilder hexString = new StringBuilder();
-        for (int i = 0; i < result.length; ++i) {
-            hexString.append(Integer.toHexString(0xFF & result[i]));
+        for (final byte aResult : result) {
+            hexString.append(Integer.toHexString(0xFF & aResult));
         }
 
         return hexString.toString();

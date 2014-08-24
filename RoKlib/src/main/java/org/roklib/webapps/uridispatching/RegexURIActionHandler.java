@@ -152,7 +152,7 @@ public class RegexURIActionHandler extends DispatchingURIActionHandler {
      */
     @Override
     protected boolean isResponsibleForToken(String pUriToken) {
-        String uriToken = null;
+        String uriToken;
         try {
             uriToken = URLDecoder.decode(pUriToken, "UTF-8");
         } catch (UnsupportedEncodingException ueExc) {

@@ -90,9 +90,7 @@ public class VisibilityGroupManager implements Serializable {
      * Checks if a {@link VisibilityGroup} object for the given name is managed by this {@link VisibilityGroupManager}.
      */
     public boolean doesGroupExist(String groupName) {
-        if (groupName == null)
-            return false;
-        return mGroups.containsKey(groupName);
+        return groupName != null && mGroups.containsKey(groupName);
     }
 
     /**

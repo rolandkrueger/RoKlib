@@ -117,9 +117,6 @@ public class BooleanExpression extends AbstractCondition implements IConditionLi
 
     @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder();
-        buf.append("[").append(mOperation.getClass().getSimpleName());
-        buf.append(": ").append(mConditions);
-        return buf.toString();
+        return "[" + mOperation.getClass().getSimpleName() + ": " + mConditions;
     }
 }

@@ -40,17 +40,12 @@ public class SingleDoubleURIParameter extends AbstractSingleURIParameter<Double>
 
     protected boolean consumeImpl(Map<String, List<String>> parameters) {
         List<String> valueList = parameters.remove(getParameterName());
-        if (valueList == null || valueList.isEmpty()) {
-            return false;
-        }
-        return consumeValue(valueList.get(0));
+        return !(valueList == null || valueList.isEmpty()) && consumeValue(valueList.get(0));
     }
 
     @Override
     protected boolean consumeListImpl(String[] values) {
-        if (values == null || values.length == 0)
-            return false;
-        return consumeValue(values[0]);
+        return !(values == null || values.length == 0) && consumeValue(values[0]);
     }
 
     private boolean consumeValue(String stringValue) {

@@ -45,8 +45,6 @@ public class ApplicationError {
         SEVERE
     }
 
-    ;
-
     private String mDescription;
     private Throwable mCause;
     private ErrorType mType;

@@ -144,7 +144,7 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
                                                     ParameterMode pParameterMode) {
         if (mCommandsForCondition != null) {
             for (CommandForCondition cfc : mCommandsForCondition) {
-                if (cfc.mCondition.getBooleanValue() == true)
+                if (cfc.mCondition.getBooleanValue())
                     return cfc.mDefaultCommandForCondition;
             }
         }

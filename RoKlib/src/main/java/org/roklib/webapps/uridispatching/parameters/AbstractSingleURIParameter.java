@@ -64,9 +64,6 @@ public abstract class AbstractSingleURIParameter<V extends Serializable> extends
 
     @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder();
-        buf.append("{").append(getClass().getSimpleName()).append(": ");
-        buf.append(mParameterName.get(0)).append("}");
-        return buf.toString();
+        return "{" + getClass().getSimpleName() + ": " + mParameterName.get(0) + "}";
     }
 }

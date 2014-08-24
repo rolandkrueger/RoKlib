@@ -65,7 +65,7 @@ public class TernarySearchTreeMapCaseInsensitive<V> implements ITernarySearchTre
     }
 
     public Entry<CharSequence, V> getEntry(Object key) {
-        String keyString = ((CharSequence) key).toString().toLowerCase(mLocale);
+        String keyString = key.toString().toLowerCase(mLocale);
         Entry<CharSequence, Map.Entry<CharSequence, V>> entry = mData.getEntry(keyString);
         return entry == null ? null : new AbstractMap.SimpleEntry<CharSequence, V>(entry.getValue().getKey(), entry
                 .getValue().getValue());
@@ -157,13 +157,13 @@ public class TernarySearchTreeMapCaseInsensitive<V> implements ITernarySearchTre
     }
 
     public Entry<CharSequence, V> predecessorEntry(Object keyObject) {
-        Map.Entry<CharSequence, Map.Entry<CharSequence, V>> entry = mData.predecessorEntry(((CharSequence) keyObject)
+        Map.Entry<CharSequence, Map.Entry<CharSequence, V>> entry = mData.predecessorEntry(keyObject
                 .toString().toLowerCase(mLocale));
         return entry == null ? null : entry.getValue();
     }
 
     public Entry<CharSequence, V> successorEntry(Object keyObject) {
-        Map.Entry<CharSequence, Map.Entry<CharSequence, V>> entry = mData.successorEntry(((CharSequence) keyObject)
+        Map.Entry<CharSequence, Map.Entry<CharSequence, V>> entry = mData.successorEntry(keyObject
                 .toString().toLowerCase(mLocale));
         return entry == null ? null : entry.getValue();
     }
@@ -194,7 +194,7 @@ public class TernarySearchTreeMapCaseInsensitive<V> implements ITernarySearchTre
     }
 
     public V get(Object key) {
-        String keyString = ((CharSequence) key).toString().toLowerCase(mLocale);
+        String keyString = key.toString().toLowerCase(mLocale);
         Map.Entry<CharSequence, V> result = mData.get(keyString);
         return result == null ? null : result.getValue();
     }
@@ -207,7 +207,7 @@ public class TernarySearchTreeMapCaseInsensitive<V> implements ITernarySearchTre
     }
 
     public V remove(Object key) {
-        String keyString = ((CharSequence) key).toString().toLowerCase(mLocale);
+        String keyString = key.toString().toLowerCase(mLocale);
         Map.Entry<CharSequence, V> entry = mData.remove(keyString);
         return entry == null ? null : entry.getValue();
     }
@@ -324,16 +324,12 @@ public class TernarySearchTreeMapCaseInsensitive<V> implements ITernarySearchTre
                 return false;
             String lowerCaseKey = entry.getKey().toString().toLowerCase(mLocale);
             Map.Entry value = mData.get(lowerCaseKey);
-            if (value == null)
-                return false;
-            return mEntrySet.contains(new SimpleEntry<CharSequence, Map.Entry<CharSequence, V>>(lowerCaseKey,
-                    new SimpleEntry(value.getKey(), entry.getValue())));
+            return value != null && mEntrySet.contains(new SimpleEntry<CharSequence, Entry<CharSequence, V>>(lowerCaseKey, new SimpleEntry(value.getKey(), entry.getValue())));
         }
 
         @Override
         public boolean add(Map.Entry<CharSequence, V> e) {
-            throw new UnsupportedOperationException(new String(
-                    "TernarySearchTreeMapCaseInsensitive's entry set: add() not allowed!"));
+            throw new UnsupportedOperationException("TernarySearchTreeMapCaseInsensitive's entry set: add() not allowed!");
         }
 
         @Override
@@ -346,10 +342,7 @@ public class TernarySearchTreeMapCaseInsensitive<V> implements ITernarySearchTre
                 return false;
             String lowerCaseKey = entry.getKey().toString().toLowerCase(mLocale);
             Map.Entry value = mData.get(lowerCaseKey);
-            if (value == null)
-                return false;
-            return mEntrySet.remove(new SimpleEntry<CharSequence, Map.Entry<CharSequence, V>>(lowerCaseKey,
-                    new SimpleEntry(value.getKey(), entry.getValue())));
+            return value != null && mEntrySet.remove(new SimpleEntry<CharSequence, Entry<CharSequence, V>>(lowerCaseKey, new SimpleEntry(value.getKey(), entry.getValue())));
         }
 
         @Override
@@ -378,8 +371,7 @@ public class TernarySearchTreeMapCaseInsensitive<V> implements ITernarySearchTre
 
         @Override
         public boolean addAll(Collection<? extends Map.Entry<CharSequence, V>> c) {
-            throw new UnsupportedOperationException(new String(
-                    "TernarySearchTreeMapCaseInsensitive's entry set: addAll() not allowed!"));
+            throw new UnsupportedOperationException("TernarySearchTreeMapCaseInsensitive's entry set: addAll() not allowed!");
         }
 
         @Override
@@ -428,9 +420,7 @@ public class TernarySearchTreeMapCaseInsensitive<V> implements ITernarySearchTre
         public boolean containsKey(Object key) {
             if (key == null)
                 return false;
-            if (!(key instanceof CharSequence))
-                return false;
-            return mSubMap.containsKey(key.toString().toLowerCase(mLocale));
+            return key instanceof CharSequence && mSubMap.containsKey(key.toString().toLowerCase(mLocale));
         }
 
         public SortedMap<CharSequence, V> subMap(CharSequence fromKey, CharSequence toKey) {
@@ -480,12 +470,12 @@ public class TernarySearchTreeMapCaseInsensitive<V> implements ITernarySearchTre
 
         @Override
         public boolean contains(Object o) {
-            return super.contains(((CharSequence) o).toString().toLowerCase(mLocale));
+            return super.contains(o.toString().toLowerCase(mLocale));
         }
 
         @Override
         public boolean remove(Object o) {
-            return super.remove(((CharSequence) o).toString().toLowerCase(mLocale));
+            return super.remove(o.toString().toLowerCase(mLocale));
         }
 
         @Override

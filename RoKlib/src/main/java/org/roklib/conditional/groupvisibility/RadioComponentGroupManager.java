@@ -52,8 +52,6 @@ public class RadioComponentGroupManager implements Serializable {
         ENABLING, VISIBILITY
     }
 
-    ;
-
     private VisibilityGroupManager mManager;
     private Map<String, RadioComponentSwitch> mConditions;
     private Mode mMode;
@@ -125,7 +123,7 @@ public class RadioComponentGroupManager implements Serializable {
         }
 
         public void conditionChanged(AbstractCondition source) {
-            if (source.getBooleanValue() == true) {
+            if (source.getBooleanValue()) {
                 setValue(false);
             }
         }

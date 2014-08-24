@@ -70,8 +70,6 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
         NONE, LOKID, EQKID, HIKID
     }
 
-    ;
-
     private TSTNode<V> mRootNode;
     private TreeSet<CharSequence> mMatchingKeys;                  // needed for method
     // matchAlmost()
@@ -163,7 +161,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
             throw new NullPointerException("key is null");
         }
         try {
-            String keyString = ((CharSequence) key).toString();
+            String keyString = key.toString();
             V oldValue;
             if (keyString.equals("") && mContainsEmptyStringKey) {
                 mContainsEmptyStringKey = false;
@@ -173,7 +171,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
             }
             Stack<TSTStackNode<V>> stack = new Stack<TSTStackNode<V>>();
             TSTNode<V> currentNode = mRootNode;
-            TSTStackNode<V> currentStackNode = null;
+            TSTStackNode<V> currentStackNode;
             int charIndex = 0;
             int keyStringLength = keyString.length();
 
@@ -329,25 +327,20 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
      */
     public Entry<CharSequence, V> getEntry(Object key) {
         CheckForNull.check(key);
-        String keyString = ((CharSequence) key).toString();
+        String keyString = key.toString();
         if (keyString.equals("") && mContainsEmptyStringKey)
             return new TSTEntry<CharSequence, V>(keyString, mEmptyStringKeyValue);
         else if (keyString.equals("") && !mContainsEmptyStringKey)
             return null;
 
-        Stack<TSTStackNode<V>> stack = new Stack<TSTStackNode<V>>();
-        TSTStackNode<V> currentStackNode = null;
         TSTNode<V> currentNode = mRootNode;
         int charIndex = 0;
         int keyStringLength = keyString.length();
         while (true) {
             if (currentNode == null) {
                 return null; // given key is not contained in map
-            } else {
-                currentStackNode = new TSTStackNode<V>(currentNode);
             }
 
-            stack.push(currentStackNode);
             char splitChar = currentNode.mSplitChar;
             char keyChar = keyString.charAt(charIndex);
 
@@ -606,7 +599,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
         if (inverseSearch)
             return new TSTIterator();
         else
-            return new TSTIterator(null, "", inverseSearch, null, null);
+            return new TSTIterator(null, "", false, null, null);
     }
 
     public V put(CharSequence key, V value) {
@@ -861,7 +854,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
             if (prefix != null)
                 mPrefix = prefix;
             if (mPrefix.equals("") && mContainsEmptyStringKey) {
-                if (mFromKey == null || (mFromKey != null && "".equals(mFromKey))) {
+                if (mFromKey == null || "".equals(mFromKey)) {
                     mProvideEmptyKeyValue = true;
                 }
             }
@@ -873,7 +866,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
             currentNode = mStack.pop();
 
             while (true) {
-                if ((currentNode.mNode.mData != null) && (currentNode.mReturned == false)
+                if ((currentNode.mNode.mData != null) && (!currentNode.mReturned)
                         && (currentNode.mVisited == TSTItStackNode.LOKID)) {
                     mStack.push(currentNode);
                     if (!mInverseSearch || mBuffer.length() + 1 < mPrefixForInverseSearchLength)
@@ -1197,13 +1190,11 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
         }
 
         public boolean contains(Object o) {
-            String key = ((CharSequence) o).toString();
+            String key = o.toString();
             if (mFromKey != null && compare(mFromKey, key) > 0)
                 return false;
-            if (mExclusiveToKey != null && (compare(key, mExclusiveToKey) > 0 || compare(key, mExclusiveToKey) == 0))
-                return false;
+            return !(mExclusiveToKey != null && (compare(key, mExclusiveToKey) > 0 || compare(key, mExclusiveToKey) == 0)) && TernarySearchTreeMap.this.containsKey(o);
 
-            return TernarySearchTreeMap.this.containsKey(o);
         }
 
         public boolean containsAll(Collection<?> c) {
@@ -1296,11 +1287,11 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
 
         @Override
         public boolean addAll(Collection<? extends java.util.Map.Entry<CharSequence, V>> c) {
-            throw new UnsupportedOperationException(new String("TernarySearchTreeMap's entry set: addAll() not allowed!"));
+            throw new UnsupportedOperationException("TernarySearchTreeMap's entry set: addAll() not allowed!");
         }
 
         public boolean add(Entry<CharSequence, V> o) {
-            throw new UnsupportedOperationException(new String("TernarySearchTreeMap's entry set: add() not allowed!"));
+            throw new UnsupportedOperationException("TernarySearchTreeMap's entry set: add() not allowed!");
         }
 
         public void clear() {
@@ -1312,10 +1303,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
 
         @SuppressWarnings("unchecked")
         public boolean contains(Object entry) {
-            if (!(entry instanceof Map.Entry<?, ?>))
-                return false;
-            else
-                return containsEntry((Map.Entry<CharSequence, V>) entry);
+            return entry instanceof Entry<?, ?> && containsEntry((Entry<CharSequence, V>) entry);
         }
 
         private boolean containsEntry(Map.Entry<CharSequence, V> entry) {
@@ -1327,9 +1315,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
             if (!containsKey(entry.getKey()))
                 return false;
             V value = TernarySearchTreeMap.this.get(entry.getKey());
-            if (value == null || !value.equals(entry.getValue()))
-                return false;
-            return true;
+            return !(value == null || !value.equals(entry.getValue()));
         }
 
         // public boolean containsAll (Collection<?> c)
@@ -1364,9 +1350,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
             Map.Entry mapEntry = getEntry(key);
             if (mapEntry == null)
                 return false;
-            if (!mapEntry.getValue().equals(entry.getValue()))
-                return false;
-            return TernarySearchTreeMap.this.remove(key) != null;
+            return mapEntry.getValue().equals(entry.getValue()) && TernarySearchTreeMap.this.remove(key) != null;
         }
 
         // public boolean removeAll (Collection<?> c)
@@ -1469,23 +1453,21 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
             mExclusiveToKey = toKey;
         }
 
-        private boolean isInRange(Object keyObj) {
+        private boolean isNotInRange(Object keyObj) {
             CharSequence key = (CharSequence) keyObj;
             if (mContainsEmptyStringKey && "".equals(key.toString())) {
                 if ((mFromKey != null && !"".equals(mFromKey)) || (mExclusiveToKey != null && "".equals(mExclusiveToKey))) {
-                    return false;
+                    return true;
                 }
                 if (mFromKey != null && "".equals(mFromKey)) {
-                    return true;
+                    return false;
                 }
             }
             if (mFromKey != null && compare(key, mFromKey) < 0)
-                return false;
-            if (mExclusiveToKey == null)
                 return true;
-            if (compare(key, mExclusiveToKey) >= 0)
+            if (mExclusiveToKey == null)
                 return false;
-            return true;
+            return compare(key, mExclusiveToKey) >= 0;
         }
 
         public Comparator<? super CharSequence> comparator() {
@@ -1541,9 +1523,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
         }
 
         public boolean containsKey(Object key) {
-            if (!isInRange(key))
-                return false;
-            return (TernarySearchTreeMap.this.containsKey(key));
+            return !isNotInRange(key) && (TernarySearchTreeMap.this.containsKey(key));
         }
 
         public boolean containsValue(Object value) {
@@ -1555,7 +1535,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
         }
 
         public V get(Object key) {
-            if (!isInRange(key))
+            if (isNotInRange(key))
                 return null;
             return TernarySearchTreeMap.this.get(key);
         }
@@ -1565,7 +1545,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
         }
 
         public V put(CharSequence key, V value) {
-            if (!isInRange(key))
+            if (isNotInRange(key))
                 throw new IllegalArgumentException("The key " + key + " is not within the bounds of this submap.");
             return TernarySearchTreeMap.this.put(key, value);
         }

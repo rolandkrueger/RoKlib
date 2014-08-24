@@ -347,6 +347,7 @@ public class SuggestionComboBox extends JComboBox implements ActionListener {
                     // System.out.println("after insert: "+getContent().getString(0,
                     // getLength()));
                 } catch (BadLocationException blExc) {
+                    throw new RuntimeException(blExc);
                 }
                 selectionStartIndex = selItem.length();
             }

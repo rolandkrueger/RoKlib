@@ -36,7 +36,6 @@ import java.util.Random;
  * @version $Id: RandomStringIDGenerator.java 246 2011-01-19 17:03:10Z roland $
  */
 public final class RandomStringIDGenerator {
-    private static String sCharList = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     private RandomStringIDGenerator() {
     }
@@ -103,6 +102,7 @@ public final class RandomStringIDGenerator {
      * @see RandomStringIDGenerator#getUniqueID(int)
      */
     public static String getUniqueID(Random random, int length) {
+        final String sCharList = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         return getUniqueID(random, length, sCharList);
     }
 }

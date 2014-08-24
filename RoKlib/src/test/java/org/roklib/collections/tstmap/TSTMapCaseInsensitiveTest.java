@@ -21,7 +21,6 @@
 package org.roklib.collections.tstmap;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.roklib.collections.TernarySearchTreeMapCaseInsensitive;
 
@@ -49,12 +48,6 @@ public class TSTMapCaseInsensitiveTest {
         mTestObj.put(ABCD, ABCD);
         mTestObj.put(XYZ, XYZ);
         mTestObj.put(FOO, FOO);
-    }
-
-    @Test
-    @Ignore
-    public void testComparator() {
-        fail();
     }
 
     @Test

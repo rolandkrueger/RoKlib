@@ -31,9 +31,7 @@ public class AdmissionTicketContainer implements Serializable {
     private Map<String, IAdmissionTicket> mAdmissionTickets;
 
     public boolean hasTicket(IAdmissionTicket ticket) {
-        if (mAdmissionTickets == null)
-            return false;
-        return mAdmissionTickets.containsKey(ticket.getName());
+        return mAdmissionTickets != null && mAdmissionTickets.containsKey(ticket.getName());
     }
 
     public void addTicket(IAdmissionTicket ticket) {
@@ -43,9 +41,7 @@ public class AdmissionTicketContainer implements Serializable {
     }
 
     public boolean removeTicket(IAdmissionTicket ticket) {
-        if (mAdmissionTickets == null)
-            return false;
-        return mAdmissionTickets.remove(ticket.getName()) != null;
+        return mAdmissionTickets != null && mAdmissionTickets.remove(ticket.getName()) != null;
     }
 
     public Map<String, IAdmissionTicket> getTickets() {

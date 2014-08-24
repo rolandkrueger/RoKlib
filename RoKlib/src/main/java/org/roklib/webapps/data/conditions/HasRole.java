@@ -40,8 +40,6 @@ public class HasRole<KeyClass, UserData> implements IBooleanValueProvider {
     }
 
     public boolean getBooleanValue() {
-        if (mUser == null || mRole == null)
-            return false;
-        return mUser.hasRole(mRole);
+        return !(mUser == null || mRole == null) && mUser.hasRole(mRole);
     }
 }

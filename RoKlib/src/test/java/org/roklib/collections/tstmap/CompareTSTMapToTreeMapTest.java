@@ -28,7 +28,9 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * This test fixture will compare the method results of the various {@link SortedMap} methods if the respective methods
@@ -105,10 +107,10 @@ public class CompareTSTMapToTreeMapTest {
         }
     }
 
-    @Test(expected = ClassCastException.class)
-    public void testTSTMapGetWithArbitraryClassFails() {
+    @Test
+    public void testTSTMapGetWithArbitraryClass() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        mTSTMap.get(new GermanyTestClass());
+        assertThat(mTSTMap.get(new GermanyTestClass()), equalTo("sauerkraut"));
     }
 
     @Test(expected = ClassCastException.class)
@@ -117,10 +119,10 @@ public class CompareTSTMapToTreeMapTest {
         mTreeMap.get(new GermanyTestClass());
     }
 
-    @Test(expected = ClassCastException.class)
-    public void testTSTMapKeySetContainsWithArbitraryClassFails() {
+    @Test
+    public void testTSTMapKeySetContainsWithArbitraryClass() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        mTSTMap.keySet().contains(new GermanyTestClass());
+        assertThat(mTSTMap.keySet().contains(new GermanyTestClass()), equalTo(true));
     }
 
     @Test(expected = ClassCastException.class)
@@ -135,10 +137,10 @@ public class CompareTSTMapToTreeMapTest {
         mTreeMap.remove(new GermanyTestClass());
     }
 
-    @Test(expected = ClassCastException.class)
-    public void testJavaMapRemoveWithArbitraryClassFails() {
+    @Test
+    public void testJavaMapRemoveWithArbitraryClass() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        mTSTMap.remove(new GermanyTestClass());
+        assertThat(mTSTMap.remove(new GermanyTestClass()), equalTo("sauerkraut"));
     }
 
     @Test

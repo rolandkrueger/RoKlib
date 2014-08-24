@@ -35,8 +35,6 @@ public class UserAuthenticator<KeyClass, UserData, U extends GenericUser<KeyClas
         USER_AUTHENTICATED, INCORRECT_PASSWORD, UNKNOWN_USER, USER_DEACTIVATED, CONFIRMATION_PENDING_FOR_USER
     }
 
-    ;
-
     public class AuthenticationResult implements Serializable {
         private static final long serialVersionUID = -2978021069510568345L;
 

@@ -86,7 +86,7 @@ public class DispatchingURIActionHandler extends AbstractURIActionHandler {
         return forwardToSubHandler(currentActionName, uriTokens, parameters, parameterMode);
     }
 
-    private final AbstractURIActionCommand forwardToSubHandler(String currentActionName, List<String> uriTokens,
+    private AbstractURIActionCommand forwardToSubHandler(String currentActionName, List<String> uriTokens,
                                                                Map<String, List<String>> parameters, ParameterMode parameterMode) {
         AbstractURIActionHandler subHandler = getResponsibleSubHandlerForActionName(currentActionName);
         if (subHandler == null) {

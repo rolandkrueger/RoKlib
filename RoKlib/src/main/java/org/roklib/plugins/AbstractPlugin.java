@@ -68,7 +68,7 @@ public abstract class AbstractPlugin {
         return mProperties.put(key, value);
     }
 
-    public void putAllProperties(Map<? extends Object, ? extends Object> t) {
+    public void putAllProperties(Map<?, ?> t) {
         mProperties.putAll(t);
     }
 }

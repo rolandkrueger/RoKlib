@@ -74,10 +74,8 @@ public class State<S extends State<?>> implements Serializable {
     public boolean hasState(StateValue<S> state) {
         if (state == null && mCurrentState == null)
             return true;
-        if (state == null && mCurrentState != null)
-            return false;
+        return state != null && mCurrentState.equals(state);
 
-        return mCurrentState.equals(state);
     }
 
     public void setStateValue(StateValue<S> state) {
@@ -145,9 +143,7 @@ public class State<S extends State<?>> implements Serializable {
         if (obj instanceof State) {
             @SuppressWarnings("rawtypes")
             State other = (State) obj;
-            if (other.mCurrentState == null)
-                return false;
-            return other.mCurrentState.equals(mCurrentState);
+            return other.mCurrentState != null && other.mCurrentState.equals(mCurrentState);
         }
 
         return false;

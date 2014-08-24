@@ -56,8 +56,6 @@ public class VMStatSwappingDetectionThread extends AbstractMemorySwappingDetecti
     private int mSamplingRate;
     private Process mVMStatProcess;
     private BufferedReader mProcessReader;
-    private String mLine;
-    private Matcher mMatcher;
 
     /**
      * Constructor.
@@ -109,6 +107,7 @@ public class VMStatSwappingDetectionThread extends AbstractMemorySwappingDetecti
     protected boolean isSwapEventDetected() {
         if (mProcessReader == null)
             throw new IllegalStateException("Thread must be started with startProcess().");
+        final String mLine;
         try {
             mLine = mProcessReader.readLine();
             if (mLine == null) {
@@ -121,7 +120,7 @@ public class VMStatSwappingDetectionThread extends AbstractMemorySwappingDetecti
             return false;
         }
 
-        mMatcher = SWAP_PATTERN.matcher(mLine);
+        final Matcher mMatcher = SWAP_PATTERN.matcher(mLine);
         if (mMatcher.matches()) {
             if (!mMatcher.group(1).equals("0") || !mMatcher.group(2).equals("0"))
                 return true;
