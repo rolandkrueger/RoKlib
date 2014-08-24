@@ -61,11 +61,11 @@ import java.util.*;
 public class URIActionDispatcher implements Serializable {
     private static final long serialVersionUID = 7151587763812706383L;
     private static final Logger LOG = LoggerFactory.getLogger(URIActionDispatcher.class);
-    private Map<String, List<String>> mCurrentParameters;
+    private final Map<String, List<String>> mCurrentParameters;
     private String mRelativeUriOriginal;
     private Map<String, String[]> mCurrentParametersOriginalValues;
     private AbstractURIActionCommand mDefaultCommand;
-    private DispatchingURIActionHandler mRootDispatcher;
+    private final DispatchingURIActionHandler mRootDispatcher;
     private IURIActionDispatcherListener mListener;
     private ParameterMode mParameterMode = ParameterMode.QUERY;
     private boolean mIgnoreExclamationMark;

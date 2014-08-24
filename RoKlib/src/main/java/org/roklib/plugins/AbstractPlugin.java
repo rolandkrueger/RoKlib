@@ -26,7 +26,6 @@ package org.roklib.plugins;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.util.InvalidPropertiesFormatException;
 import java.util.Map;
 import java.util.Properties;
 
@@ -34,7 +33,7 @@ import java.util.Properties;
  * @author Roland Krueger
  */
 public abstract class AbstractPlugin {
-    private Properties mProperties;
+    private final Properties mProperties;
 
     public AbstractPlugin() {
         mProperties = new Properties();
@@ -60,7 +59,7 @@ public abstract class AbstractPlugin {
         mProperties.load(reader);
     }
 
-    public void loadPropertiesFromXML(InputStream in) throws IOException, InvalidPropertiesFormatException {
+    public void loadPropertiesFromXML(InputStream in) throws IOException {
         mProperties.loadFromXML(in);
     }
 

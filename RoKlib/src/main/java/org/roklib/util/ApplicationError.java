@@ -47,7 +47,7 @@ public class ApplicationError {
 
     private String mDescription;
     private Throwable mCause;
-    private ErrorType mType;
+    private final ErrorType mType;
 
     /**
      * Default constructor that initializes the error level with {@link ErrorType#UNCRITICAL}.

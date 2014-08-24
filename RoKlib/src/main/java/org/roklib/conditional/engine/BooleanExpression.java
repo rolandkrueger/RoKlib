@@ -30,7 +30,7 @@ import java.util.List;
 public class BooleanExpression extends AbstractCondition implements IConditionListener {
     private static final long serialVersionUID = 3479069548966346585L;
 
-    private IBooleanOperation mOperation;
+    private final IBooleanOperation mOperation;
     private List<AbstractCondition> mConditions;
     private Boolean mCurrentValue;
 

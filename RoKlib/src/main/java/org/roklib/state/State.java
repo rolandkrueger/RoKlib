@@ -33,7 +33,7 @@ public class State<S extends State<?>> implements Serializable {
 
     public static class StateValue<S extends State<?>> implements Serializable {
         private static final long serialVersionUID = -1916548888416932116L;
-        private String mName;
+        private final String mName;
 
         public StateValue(String name) {
             mName = name;
@@ -72,9 +72,7 @@ public class State<S extends State<?>> implements Serializable {
     }
 
     public boolean hasState(StateValue<S> state) {
-        if (state == null && mCurrentState == null)
-            return true;
-        return state != null && mCurrentState.equals(state);
+        return state == null && mCurrentState == null || state != null && mCurrentState.equals(state);
 
     }
 

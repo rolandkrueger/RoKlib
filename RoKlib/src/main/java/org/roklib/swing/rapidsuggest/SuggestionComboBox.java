@@ -96,7 +96,7 @@ public class SuggestionComboBox extends JComboBox implements ActionListener {
      * @author Roland Krueger
      */
     private class SuggestionComboBoxEditor implements ComboBoxEditor {
-        private SuggestionEditorComponent editor;
+        private final SuggestionEditorComponent editor;
 
         public SuggestionComboBoxEditor(SuggestionComboBox parent) {
             editor = new SuggestionEditorComponent(parent);
@@ -172,7 +172,7 @@ public class SuggestionComboBox extends JComboBox implements ActionListener {
     private class SuggestionEditorComponent extends JTextField implements MouseMotionListener, MouseListener, KeyListener {
         private static final long serialVersionUID = 8515002528978775937L;
 
-        private AutoCompletionDocument doc;
+        private final AutoCompletionDocument doc;
 
         public SuggestionEditorComponent(SuggestionComboBox parent) {
             super();
@@ -263,12 +263,12 @@ public class SuggestionComboBox extends JComboBox implements ActionListener {
         private class AutoCompletionDocument extends PlainDocument implements ItemListener {
             private static final long serialVersionUID = -2716231755948898477L;
 
-            private SuggestionComboBox mParent;
-            private SuggestionComboBoxModel model;
-            private SuggestionEditorComponent component;
+            private final SuggestionComboBox mParent;
+            private final SuggestionComboBoxModel model;
+            private final SuggestionEditorComponent component;
             private int selectionStartIndex;
             private Object highlight;
-            private Color highlighterColor;
+            private final Color highlighterColor;
 
             public AutoCompletionDocument(SuggestionComboBox mother, SuggestionEditorComponent component) {
                 this(mother, component, new Color(153, 153, 204));

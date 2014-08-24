@@ -28,7 +28,7 @@ package org.roklib.system;
  * @author Roland Krueger
  */
 public abstract class AbstractMemorySwappingDetectionThread extends Thread {
-    private MemorySwappingEventListener mListener;
+    private final MemorySwappingEventListener mListener;
     private boolean mStopRequest = false; // true if thread is supposed to stop
 
     /**

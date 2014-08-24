@@ -30,7 +30,7 @@ import java.util.Map;
  * @author Roland Krueger
  */
 public class AugmentedTypingKeyMapping {
-    private HashMap<Character, Character[]> mMapping;
+    private final HashMap<Character, Character[]> mMapping;
     private boolean mIsInstalled = false;
 
     public AugmentedTypingKeyMapping() {

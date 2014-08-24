@@ -30,7 +30,7 @@ import java.util.*;
 
 public class FileModificationWatchdog {
     private final static long DEFAULT_WAIT_INTERVAL = 1000;
-    private File mFile;
+    private final File mFile;
     private long mLastModified;
     private List<FileModificationListener> mFileModificationListeners;
     private List<DirectoryModificationListener> mDirectoryModificationListeners;

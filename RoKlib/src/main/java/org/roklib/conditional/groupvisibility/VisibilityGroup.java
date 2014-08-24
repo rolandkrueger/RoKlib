@@ -35,8 +35,8 @@ public class VisibilityGroup implements IVisibilityEnablingConfigurable, ICondit
 
     private boolean mVisible;
     private boolean mEnabled;
-    private String mGroupName;
-    private Set<IVisibilityEnablingConfigurable> mGroupMembers;
+    private final String mGroupName;
+    private final Set<IVisibilityEnablingConfigurable> mGroupMembers;
     private BooleanExpression mBooleanExpressionForVisibility;
     private BooleanExpression mBooleanExpressionForEnabling;
 

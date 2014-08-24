@@ -52,8 +52,8 @@ public class RadioComponentGroupManager implements Serializable {
         ENABLING, VISIBILITY
     }
 
-    private VisibilityGroupManager mManager;
-    private Map<String, RadioComponentSwitch> mConditions;
+    private final VisibilityGroupManager mManager;
+    private final Map<String, RadioComponentSwitch> mConditions;
     private Mode mMode;
 
     public RadioComponentGroupManager(Mode mode) {

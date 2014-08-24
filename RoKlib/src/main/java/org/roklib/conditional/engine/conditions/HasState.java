@@ -28,8 +28,8 @@ import org.roklib.util.helper.CheckForNull;
 public class HasState<S extends State<?>> implements IBooleanValueProvider {
     private static final long serialVersionUID = -232946455411913695L;
 
-    private State<S> mState;
-    private StateValue<S> mStateValue;
+    private final State<S> mState;
+    private final StateValue<S> mStateValue;
 
     public HasState(State<S> state, StateValue<S> stateValue) {
         CheckForNull.check(state, stateValue);

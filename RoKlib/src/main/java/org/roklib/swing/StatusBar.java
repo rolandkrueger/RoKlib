@@ -62,13 +62,13 @@ import java.util.TimerTask;
 public class StatusBar extends JPanel implements HoverListener {
     private static final long serialVersionUID = 1777229355563005791L;
 
-    private JLabel mInfoLabel;
-    private JPanel mElementsPanel;
-    private Timer mTimer;
+    private final JLabel mInfoLabel;
+    private final JPanel mElementsPanel;
+    private final Timer mTimer;
     private long mDelay;
     private String mReadyText = "";
     private String mCurrentMessage = "";
-    private ArrayList<BarElement> mElements;
+    private final ArrayList<BarElement> mElements;
 
     /**
      * Default constructor. The duration of displaying a timed message is set to 2 seconds.
@@ -218,7 +218,7 @@ public class StatusBar extends JPanel implements HoverListener {
         private static final long serialVersionUID = 9159375387417999283L;
 
         private String mHelpText;
-        private HoverManager mHoverManager;
+        private final HoverManager mHoverManager;
 
         public BarElement(String text, String helpText) {
             super(text);
@@ -230,10 +230,6 @@ public class StatusBar extends JPanel implements HoverListener {
 
         public BarElement(String text) {
             this(text, "");
-        }
-
-        public void setText(String text) {
-            super.setText(text);
         }
 
         public void setHelpText(String helpText) {

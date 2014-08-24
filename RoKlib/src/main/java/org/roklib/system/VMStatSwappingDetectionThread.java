@@ -43,7 +43,7 @@ import java.util.regex.Pattern;
  * @author Roland Krueger
  */
 public class VMStatSwappingDetectionThread extends AbstractMemorySwappingDetectionThread {
-    protected static Logger sLogger = Logger.getLogger(VMStatSwappingDetectionThread.class.getPackage()
+    protected static final Logger sLogger = Logger.getLogger(VMStatSwappingDetectionThread.class.getPackage()
             .getName());
     private final static String CMD_STRING = "%s %d";
 
@@ -52,7 +52,7 @@ public class VMStatSwappingDetectionThread extends AbstractMemorySwappingDetecti
      */
     private final static Pattern SWAP_PATTERN = Pattern.compile("^(?:\\s*\\d+){6}\\s*(\\d+)\\s*(\\d+).*$");
 
-    private String mVMStatBinaryLocation;
+    private final String mVMStatBinaryLocation;
     private int mSamplingRate;
     private Process mVMStatProcess;
     private BufferedReader mProcessReader;

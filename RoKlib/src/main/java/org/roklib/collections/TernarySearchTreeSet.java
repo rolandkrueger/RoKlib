@@ -25,9 +25,9 @@ import java.util.*;
 
 public class TernarySearchTreeSet extends AbstractSet<CharSequence> implements SortedSet<CharSequence>,
         ITernarySearchTreeQuery {
-    private static Object MARKER = new Object();
+    private static final Object MARKER = new Object();
 
-    private ITernarySearchTreeMap<Object> mData;
+    private final ITernarySearchTreeMap<Object> mData;
 
     public TernarySearchTreeSet() {
         this(false);
@@ -149,7 +149,7 @@ public class TernarySearchTreeSet extends AbstractSet<CharSequence> implements S
     }
 
     private class TSTStringSetSubSet extends AbstractSet<CharSequence> implements SortedSet<CharSequence> {
-        private SortedMap<CharSequence, Object> mParent;
+        private final SortedMap<CharSequence, Object> mParent;
 
         private TSTStringSetSubSet(SortedMap<CharSequence, Object> parent) {
             mParent = parent;

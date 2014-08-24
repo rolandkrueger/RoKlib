@@ -26,7 +26,7 @@ public class Condition extends AbstractCondition {
     private static final long serialVersionUID = 2843942589476694624L;
 
     private boolean mBooleanValue;
-    private String mName;
+    private final String mName;
 
     public Condition(String name) {
         CheckForNull.check(name);

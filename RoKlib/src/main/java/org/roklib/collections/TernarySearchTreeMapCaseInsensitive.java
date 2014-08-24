@@ -30,7 +30,7 @@ import java.util.AbstractMap.SimpleEntry;
 public class TernarySearchTreeMapCaseInsensitive<V> implements ITernarySearchTreeMap<V> {
     private static final long serialVersionUID = 6106815305526987949L;
 
-    private TernarySearchTreeMap<Map.Entry<CharSequence, V>> mData;
+    private final TernarySearchTreeMap<Map.Entry<CharSequence, V>> mData;
     private Locale mLocale;
 
     public TernarySearchTreeMapCaseInsensitive() {
@@ -127,7 +127,7 @@ public class TernarySearchTreeMapCaseInsensitive<V> implements ITernarySearchTre
     public Iterable<Entry<CharSequence, V>> getPrefixSubtreeIterator(final CharSequence pPrefix,
                                                                      final boolean inverseSearch) {
         return new Iterable<Map.Entry<CharSequence, V>>() {
-            private Iterator<Map.Entry<CharSequence, V>> mIterator = getPrefixSubtreeIteratorImpl(pPrefix, inverseSearch);
+            private final Iterator<Map.Entry<CharSequence, V>> mIterator = getPrefixSubtreeIteratorImpl(pPrefix, inverseSearch);
 
             public Iterator<java.util.Map.Entry<CharSequence, V>> iterator() {
                 return mIterator;
@@ -269,15 +269,15 @@ public class TernarySearchTreeMapCaseInsensitive<V> implements ITernarySearchTre
 
     private class TSTEntrySetCaseInsensitive extends AbstractSet<Entry<CharSequence, V>> implements Serializable {
         private static final long serialVersionUID = -291147638123041581L;
-        private Set<Map.Entry<CharSequence, Map.Entry<CharSequence, V>>> mEntrySet;
+        private final Set<Map.Entry<CharSequence, Map.Entry<CharSequence, V>>> mEntrySet;
 
         public TSTEntrySetCaseInsensitive(CharSequence fromKey, CharSequence toKey) {
             if (fromKey != null && toKey != null) {
                 mEntrySet = mData.subMap(fromKey.toString().toLowerCase(mLocale), toKey.toString().toLowerCase(mLocale))
                         .entrySet();
-            } else if (fromKey != null && toKey == null) {
+            } else if (fromKey != null) {
                 mEntrySet = mData.tailMap(fromKey.toString().toLowerCase(mLocale)).entrySet();
-            } else if (fromKey == null && toKey != null) {
+            } else if (toKey != null) {
                 mEntrySet = mData.headMap(toKey.toString().toLowerCase(mLocale)).entrySet();
             } else {
                 mEntrySet = mData.entrySet();
@@ -398,7 +398,7 @@ public class TernarySearchTreeMapCaseInsensitive<V> implements ITernarySearchTre
                 mSubMap = mData.headMap(toKey.toString().toLowerCase(mLocale));
             } else if (toKey == null && fromKey != null) {
                 mSubMap = mData.tailMap(fromKey.toString().toLowerCase(mLocale));
-            } else if (fromKey != null && toKey != null) {
+            } else if (fromKey != null) {
                 mSubMap = mData.subMap(fromKey.toString().toLowerCase(mLocale), toKey.toString().toLowerCase(mLocale));
             } else {
                 throw new IllegalArgumentException("fromKey is null and toKey is null");
@@ -418,9 +418,7 @@ public class TernarySearchTreeMapCaseInsensitive<V> implements ITernarySearchTre
 
         @Override
         public boolean containsKey(Object key) {
-            if (key == null)
-                return false;
-            return key instanceof CharSequence && mSubMap.containsKey(key.toString().toLowerCase(mLocale));
+            return key != null && key instanceof CharSequence && mSubMap.containsKey(key.toString().toLowerCase(mLocale));
         }
 
         public SortedMap<CharSequence, V> subMap(CharSequence fromKey, CharSequence toKey) {

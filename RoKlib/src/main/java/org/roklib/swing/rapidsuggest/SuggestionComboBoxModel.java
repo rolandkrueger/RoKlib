@@ -35,7 +35,7 @@ import java.util.Iterator;
 public class SuggestionComboBoxModel extends DefaultComboBoxModel {
     private static final long serialVersionUID = -8908886493531931076L;
 
-    private TernarySearchTreeSet mData;
+    private final TernarySearchTreeSet mData;
     private int selectedItemIndex = -1;
 
     public SuggestionComboBoxModel(CharSequence[] items) {

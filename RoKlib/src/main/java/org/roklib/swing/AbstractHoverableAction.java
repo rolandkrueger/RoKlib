@@ -40,7 +40,7 @@ public abstract class AbstractHoverableAction extends AbstractAction implements 
 
     protected JButton mButton;
     protected JMenuItem mMenuItem;
-    private HoverManager mHoverManager;
+    private final HoverManager mHoverManager;
 
     /**
      * Constructs a new {@link AbstractHoverableAction}.

@@ -35,9 +35,9 @@ import java.util.Map;
 public class AugmentedTypingTextField extends JComboBox implements KeyListener {
     private static final long serialVersionUID = 1637805828266123965L;
 
-    private AugmentedTypingTextFieldDataModel mDataModel;
+    private final AugmentedTypingTextFieldDataModel mDataModel;
     private Map<Character, Character[]> mCharacterMapping;
-    private AugmentedTypingTextFieldEditor mEditor;
+    private final AugmentedTypingTextFieldEditor mEditor;
 
     public AugmentedTypingTextField() {
         this(new DefaultIPAKeyMapping());
@@ -163,7 +163,7 @@ public class AugmentedTypingTextField extends JComboBox implements KeyListener {
      */
     private class AugmentedTypingTextFieldDataModel implements ComboBoxModel {
         private Character[] mData;
-        private List<ListDataListener> mDataListeners;
+        private final List<ListDataListener> mDataListeners;
         private Character mSelectedItem;
         private Character mMouseSelectedItem;
         private int mSelectedIndex = -1;
@@ -230,7 +230,7 @@ public class AugmentedTypingTextField extends JComboBox implements KeyListener {
     }
 
     private class AugmentedTypingTextFieldEditor implements ComboBoxEditor {
-        JTextField mTextField;
+        final JTextField mTextField;
 
         public AugmentedTypingTextFieldEditor() {
             mTextField = new JTextField();

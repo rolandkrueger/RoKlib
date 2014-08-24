@@ -28,7 +28,7 @@ public class HasRole<KeyClass, UserData> implements IBooleanValueProvider {
     private static final long serialVersionUID = -3841669716191027492L;
 
     private GenericUser<KeyClass, UserData> mUser;
-    private UserRole<KeyClass> mRole;
+    private final UserRole<KeyClass> mRole;
 
     public HasRole(GenericUser<KeyClass, UserData> user, UserRole<KeyClass> role) {
         mUser = user;

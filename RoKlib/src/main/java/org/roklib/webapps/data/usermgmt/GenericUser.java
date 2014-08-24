@@ -44,9 +44,9 @@ public class GenericUser<KeyClass, UserData> extends GenericPersistableObject<Ke
     private String mLoginName;
     private String mPasswordHash;
     protected UserData mUserData;
-    private Set<UserRole<KeyClass>> mUserRoles;
-    private AdmissionTicketContainer mRoleHandler;
-    private GenericUserState mState;
+    private final Set<UserRole<KeyClass>> mUserRoles;
+    private final AdmissionTicketContainer mRoleHandler;
+    private final GenericUserState mState;
     private UserOnlineStatus mOnlineStatus;
     private UserRegistrationStatus mRegistrationStatus;
     private IPasswordHashGenerator mPasswordHashGenerator;

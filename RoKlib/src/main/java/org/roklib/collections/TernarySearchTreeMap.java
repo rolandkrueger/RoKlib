@@ -77,7 +77,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
     // matchAlmost()
     private boolean mContainsEmptyStringKey = false;
     private V mEmptyStringKeyValue = null;
-    private Comparator<? super CharSequence> mComparator = null;
+    private final Comparator<? super CharSequence> mComparator = null;
 
     // statistical data
     private int mNodeCount;
@@ -124,8 +124,6 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
                 return true;
         }
         for (Map.Entry<CharSequence, V> entry : entrySet()) {
-            if (entry.getValue() == null && value == null)
-                return true;
             if (entry.getValue().equals(value))
                 return true;
         }
@@ -209,10 +207,8 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
                             // and delete the correct child node
                             if (charIndex < 0)
                                 break;
-                            if (keyChar == splitChar && currentNode.mEqkid != null && currentNode.mEqkid.mSubarrayLength == 0)
+                            if (currentNode.mEqkid != null && currentNode.mEqkid.mSubarrayLength == 0)
                                 currentNode.mEqkid = null;
-                            else if (keyChar < splitChar && currentNode.mLokid != null && currentNode.mLokid.mSubarrayLength == 0)
-                                currentNode.mLokid = null;
                             else if (currentNode.mHikid != null && currentNode.mHikid.mSubarrayLength == 0)
                                 currentNode.mHikid = null;
                         }
@@ -518,8 +514,8 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
 
     public Iterable<CharSequence> getPrefixMatch(final CharSequence prefix) {
         return new Iterable<CharSequence>() {
-            private Iterator<CharSequence> mIterator = new Iterator<CharSequence>() {
-                Iterator<Entry<CharSequence, V>> it = getPrefixSubtreeIterator(
+            private final Iterator<CharSequence> mIterator = new Iterator<CharSequence>() {
+                final Iterator<Entry<CharSequence, V>> it = getPrefixSubtreeIterator(
                         prefix.toString())
                         .iterator();
 
@@ -549,7 +545,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
     public Iterable<Entry<CharSequence, V>> getPrefixSubtreeIterator(final CharSequence pPrefix,
                                                                      final boolean inverseSearch) {
         return new Iterable<Map.Entry<CharSequence, V>>() {
-            private Iterator<Map.Entry<CharSequence, V>> mIterator = getPrefixSubtreeIteratorImpl(pPrefix, inverseSearch);
+            private final Iterator<Map.Entry<CharSequence, V>> mIterator = getPrefixSubtreeIteratorImpl(pPrefix, inverseSearch);
 
             public Iterator<Map.Entry<CharSequence, V>> iterator() {
                 return mIterator;
@@ -747,7 +743,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
             mNode = node;
         }
 
-        public TSTNode<NodeValue> mNode;
+        public final TSTNode<NodeValue> mNode;
         public boolean mNeedsRecheck = false;
         public int mCharIndex;
         public boolean mRecheckHiKid = false;
@@ -988,7 +984,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
             public final static int LOKID = 1;
             public final static int LOEQKID = 2;
             public final static int ALL = 3;
-            public TSTNode<V> mNode;
+            public final TSTNode<V> mNode;
             public int mVisited;                                // which child nodes have already been visited
             public boolean mReturned;                               // has data for specific node already been
             // returned
@@ -1191,9 +1187,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
 
         public boolean contains(Object o) {
             String key = o.toString();
-            if (mFromKey != null && compare(mFromKey, key) > 0)
-                return false;
-            return !(mExclusiveToKey != null && (compare(key, mExclusiveToKey) > 0 || compare(key, mExclusiveToKey) == 0)) && TernarySearchTreeMap.this.containsKey(o);
+            return !(mFromKey != null && compare(mFromKey, key) > 0) && !(mExclusiveToKey != null && (compare(key, mExclusiveToKey) > 0 || compare(key, mExclusiveToKey) == 0)) && TernarySearchTreeMap.this.containsKey(o);
 
         }
 
@@ -1348,9 +1342,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
                 return false;
             Object key = ((Map.Entry) o).getKey();
             Map.Entry mapEntry = getEntry(key);
-            if (mapEntry == null)
-                return false;
-            return mapEntry.getValue().equals(entry.getValue()) && TernarySearchTreeMap.this.remove(key) != null;
+            return mapEntry != null && mapEntry.getValue().equals(entry.getValue()) && TernarySearchTreeMap.this.remove(key) != null;
         }
 
         // public boolean removeAll (Collection<?> c)
@@ -1394,7 +1386,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
             Serializable {
         private static final long serialVersionUID = -5785604459208599077L;
 
-        private EntryK mKey;
+        private final EntryK mKey;
         private EntryV mValue;
 
         public TSTEntry(EntryK key, EntryV value) {
@@ -1463,11 +1455,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
                     return false;
                 }
             }
-            if (mFromKey != null && compare(key, mFromKey) < 0)
-                return true;
-            if (mExclusiveToKey == null)
-                return false;
-            return compare(key, mExclusiveToKey) >= 0;
+            return mFromKey != null && compare(key, mFromKey) < 0 || mExclusiveToKey != null && compare(key, mExclusiveToKey) >= 0;
         }
 
         public Comparator<? super CharSequence> comparator() {

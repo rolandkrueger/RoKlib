@@ -31,7 +31,7 @@ import java.util.List;
 public abstract class AbstractSingleURIParameter<V extends Serializable> extends AbstractURIParameter<V> {
     private static final long serialVersionUID = -4048110873045678896L;
 
-    private List<String> mParameterName;
+    private final List<String> mParameterName;
 
     public AbstractSingleURIParameter(String parameterName, boolean optional) {
         this(parameterName);

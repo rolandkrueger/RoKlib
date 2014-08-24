@@ -33,7 +33,7 @@ import java.util.Map;
 public class SimpleURIActionHandler extends AbstractURIActionHandler {
     private static final long serialVersionUID = 8203362201388037000L;
 
-    private AbstractURIActionCommand mCommand;
+    private final AbstractURIActionCommand mCommand;
 
     /**
      * Create a new {@link SimpleURIActionHandler} with the specified action name and action command.

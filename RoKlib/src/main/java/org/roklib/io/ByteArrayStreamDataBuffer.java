@@ -46,7 +46,7 @@ import java.io.OutputStream;
 public class ByteArrayStreamDataBuffer implements IStreamDataBuffer {
     private static final int DEFAULT_CAPACITY_IN_BYTES = 8192;
     private ByteArrayOutputStream mData;
-    private int mCapacity;
+    private final int mCapacity;
 
     /**
      * Creates a new {@link ByteArrayStreamDataBuffer} with an initial capacity as defined by

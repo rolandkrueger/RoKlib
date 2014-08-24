@@ -213,7 +213,7 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
                             valueList.add(token);
                             ++i;
                         }
-                        parameter.consumeList(valueList.toArray(STRING_ARRAY_PROTOTYPE));
+                        parameter.consumeList(valueList.toArray(new String[valueList.size()]));
                     }
                 }
             }
@@ -276,9 +276,7 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
 
     /**
      * Sets the parent action handler for this object. An action handler can only be added as sub-handler to one action
-     * handler. In other words, an action handler can only have one parent. This parent relationship is established when
-     * adding a sub-handler to an action handler with
-     * {@link AbstractURIActionHandler#addSubHandler(AbstractURIActionHandler)}.
+     * handler. In other words, an action handler can only have one parent.
      *
      * @param parent the parent handler for this action handler
      */

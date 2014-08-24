@@ -106,8 +106,8 @@ public class UserRegistration<KeyClass, UserData, U extends GenericUser<KeyClass
     }
 
     public class RegistrationConfirmationResult {
-        private RegistrationConfirmationOutcome mOutcome;
-        private U mUser;
+        private final RegistrationConfirmationOutcome mOutcome;
+        private final U mUser;
 
         protected RegistrationConfirmationResult(RegistrationConfirmationOutcome outcome, U user) {
             mOutcome = outcome;

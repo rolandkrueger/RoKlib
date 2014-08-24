@@ -135,7 +135,7 @@ public class EnhancedReturnType<T_ReturnType> implements Serializable {
     }
 
     private static class BuilderImpl<T_ReturnType> {
-        private EnhancedReturnType<T_ReturnType> mResult;
+        private final EnhancedReturnType<T_ReturnType> mResult;
 
         private BuilderImpl() {
             mResult = new EnhancedReturnType<T_ReturnType>();
@@ -173,7 +173,7 @@ public class EnhancedReturnType<T_ReturnType> implements Serializable {
     }
 
     public static class Builder<T_ReturnType> {
-        private BuilderImpl<T_ReturnType> mBuilderImpl;
+        private final BuilderImpl<T_ReturnType> mBuilderImpl;
 
         private Builder() {
             mBuilderImpl = new BuilderImpl<T_ReturnType>();

@@ -34,9 +34,9 @@ import java.util.Map;
 public class Point2DURIParameter extends AbstractURIParameter<Point2D.Double> {
     private static final long serialVersionUID = -8452255745085323681L;
 
-    private List<String> mParameterNames;
-    private SingleDoubleURIParameter mXURIParameter;
-    private SingleDoubleURIParameter mYURIParameter;
+    private final List<String> mParameterNames;
+    private final SingleDoubleURIParameter mXURIParameter;
+    private final SingleDoubleURIParameter mYURIParameter;
 
     public Point2DURIParameter(String xParamName, String yParamName) {
         CheckForNull.check(xParamName, yParamName);

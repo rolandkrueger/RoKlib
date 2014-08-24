@@ -31,7 +31,7 @@ import java.util.Map;
 public class VisibilityGroupManager implements Serializable {
     private static final long serialVersionUID = 4836663644491428361L;
 
-    private Map<String, VisibilityGroup> mGroups;
+    private final Map<String, VisibilityGroup> mGroups;
 
     public VisibilityGroupManager(int numberOfManagedObjects) {
         mGroups = new Hashtable<String, VisibilityGroup>(numberOfManagedObjects);

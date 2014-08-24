@@ -32,7 +32,7 @@ import org.roklib.util.helper.CheckForNull;
 public class ExternalCondition extends AbstractCondition {
     private static final long serialVersionUID = 1133757473871960974L;
 
-    private IBooleanValueProvider mValueProvider;
+    private final IBooleanValueProvider mValueProvider;
 
     public ExternalCondition(IBooleanValueProvider valueProvider) {
         super();

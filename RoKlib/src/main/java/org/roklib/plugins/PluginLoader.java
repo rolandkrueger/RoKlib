@@ -37,7 +37,7 @@ import java.util.jar.Manifest;
 public class PluginLoader<P extends AbstractPlugin> {
     public final static String PLUGIN_MAINCLASS_PROPERTY = "PluginMainClass";
 
-    private Set<String> mPropertiesToLoad;
+    private final Set<String> mPropertiesToLoad;
 
     public PluginLoader() {
         mPropertiesToLoad = new HashSet<String>();

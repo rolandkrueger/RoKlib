@@ -24,8 +24,8 @@ import java.awt.event.MouseListener;
 import java.util.LinkedList;
 
 public class HoverManager implements MouseListener {
-    protected LinkedList<HoverListener> mHoverListeners;
-    protected Hoverable mOwner;
+    protected final LinkedList<HoverListener> mHoverListeners;
+    protected final Hoverable mOwner;
 
     public HoverManager(Hoverable owner) {
         mHoverListeners = new LinkedList<HoverListener>();

@@ -38,8 +38,8 @@ public class UserAuthenticator<KeyClass, UserData, U extends GenericUser<KeyClas
     public class AuthenticationResult implements Serializable {
         private static final long serialVersionUID = -2978021069510568345L;
 
-        private AuthenticationOutcome mOutcome;
-        private U mUser;
+        private final AuthenticationOutcome mOutcome;
+        private final U mUser;
 
         public AuthenticationResult(U user, AuthenticationOutcome outcome) {
             CheckForNull.check(outcome);
@@ -56,7 +56,7 @@ public class UserAuthenticator<KeyClass, UserData, U extends GenericUser<KeyClas
         }
     }
 
-    private IUserDataAccess<KeyClass, UserData, U> mDataAccess;
+    private final IUserDataAccess<KeyClass, UserData, U> mDataAccess;
 
     public UserAuthenticator(IUserDataAccess<KeyClass, UserData, U> dataAccess) {
         CheckForNull.check(dataAccess);

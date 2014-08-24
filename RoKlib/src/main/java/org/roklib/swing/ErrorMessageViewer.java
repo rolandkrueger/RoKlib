@@ -29,7 +29,7 @@ import java.awt.event.ActionListener;
 
 public class ErrorMessageViewer extends JDialog implements ActionListener {
     private static final long serialVersionUID = -6062453811062792927L;
-    private JButton mButton;
+    private final JButton mButton;
 
     public ErrorMessageViewer(Frame owner, String title, String message) {
         super(owner, "Error!", true);
