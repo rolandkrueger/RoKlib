@@ -1,3 +1,10 @@
 <component name="CopyrightManager">
-  <settings default="" />
+  <settings default="RoKlib">
+    <module2copyright>
+      <element module="All" copyright="RoKlib" />
+    </module2copyright>
+    <LanguageOptions name="JAVA">
+      <option name="addBlankAfter" value="false" />
+    </LanguageOptions>
+  </settings>
 </component>
