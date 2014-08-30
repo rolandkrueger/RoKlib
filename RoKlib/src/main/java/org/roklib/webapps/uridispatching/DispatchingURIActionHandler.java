@@ -50,7 +50,7 @@ public class DispatchingURIActionHandler extends AbstractURIActionHandler {
     /**
      * Sets the root command for this dispatching action handler. This is the {@link AbstractURIActionCommand} which will
      * be returned when the token list to be interpreted by this handler is empty. This is the case when a URI is being
-     * interpreted that directly points to a {@link DispatchingURIActionHandler}. For example, if the following URI is
+     * interpreted that directly points to this {@link DispatchingURIActionHandler}. For example, if the following URI is
      * passed to the URI action handling framework
      * <p/>
      * <pre>
