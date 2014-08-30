@@ -133,10 +133,10 @@ public class URIActionDispatcher implements Serializable {
      * visited URI is to be interpreted by this action dispatcher, this URI is first passed to that root dispatching
      * handler. All URI action handlers that are responsible for the first directory level of a URI have to be added to
      * this root handler as sub-handlers. To do that, you can also use the delegate method
-     * {@link #addHandler(AbstractURIPathSegmentActionMapper)}.
+     * {@link #addURIPathSegmentMapper(AbstractURIPathSegmentActionMapper)}.
      *
      * @return the root dispatching handler for this action dispatcher
-     * @see #addHandler(AbstractURIPathSegmentActionMapper)
+     * @see #addURIPathSegmentMapper(AbstractURIPathSegmentActionMapper)
      */
     public DispatchingURIPathSegmentActionMapper getRootActionHandler() {
         return rootDispatcher;
@@ -295,7 +295,7 @@ public class URIActionDispatcher implements Serializable {
      * @param subHandler the new action handler
      * @throws IllegalArgumentException if the given sub-handler has already been added to another parent handler
      */
-    public final void addHandler(AbstractURIPathSegmentActionMapper subHandler) {
+    public final void addURIPathSegmentMapper(AbstractURIPathSegmentActionMapper subHandler) {
         getRootActionHandler().addSubHandler(subHandler);
     }
 }

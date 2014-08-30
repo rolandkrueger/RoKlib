@@ -61,7 +61,7 @@ public class AbstractURIPathSegmentActionMapperTest {
         testHandler2 = new TURIPathSegmentActionMapper("123", testCommand2);
         testHandler3 = new TURIPathSegmentActionMapper("cmd", testCommand1);
         dispatchingHandler = new DispatchingURIPathSegmentActionMapper("test");
-        dispatcher.addHandler(dispatchingHandler);
+        dispatcher.addURIPathSegmentMapper(dispatchingHandler);
         dispatchingHandler.addSubHandler(testHandler1);
         dispatchingHandler.addSubHandler(testHandler2);
         dispatchingHandler.addSubHandler(testHandler3);

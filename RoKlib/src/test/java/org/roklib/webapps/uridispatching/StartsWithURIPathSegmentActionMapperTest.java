@@ -50,8 +50,8 @@ public class StartsWithURIPathSegmentActionMapperTest {
         lastActionHandler = new TURIPathSegmentActionMapper("last", lastActionCommand);
         startsWithActionHandler.addSubHandler(lastActionHandler);
 
-        dispatcher.addHandler(startsWithActionHandler);
-        dispatcher.addHandler(testActionHandler);
+        dispatcher.addURIPathSegmentMapper(startsWithActionHandler);
+        dispatcher.addURIPathSegmentMapper(testActionHandler);
     }
 
     @Test

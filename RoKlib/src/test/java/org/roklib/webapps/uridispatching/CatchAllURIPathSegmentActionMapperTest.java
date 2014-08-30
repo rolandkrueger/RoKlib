@@ -49,8 +49,8 @@ public class CatchAllURIPathSegmentActionMapperTest {
         lastActionHandler = new TURIPathSegmentActionMapper("last", lastActionCommand);
         catchAllActionHandler.addSubHandler(lastActionHandler);
 
-        dispatcher.addHandler(catchAllActionHandler);
-        dispatcher.addHandler(testActionHandler);
+        dispatcher.addURIPathSegmentMapper(catchAllActionHandler);
+        dispatcher.addURIPathSegmentMapper(testActionHandler);
     }
 
     @Test

@@ -68,9 +68,9 @@ public class RegexURIPathSegmentActionMapperTest {
         regexActionHandler2.addSubHandler(middleActionHandler);
         middleActionHandler.addSubHandler(lastActionHandler);
 
-        dispatcher.addHandler(regexActionHandler1);
-        dispatcher.addHandler(testActionHandler);
-        dispatcher.addHandler(regexActionHandler2); // add second regex handler last, so that it has
+        dispatcher.addURIPathSegmentMapper(regexActionHandler1);
+        dispatcher.addURIPathSegmentMapper(testActionHandler);
+        dispatcher.addURIPathSegmentMapper(regexActionHandler2); // add second regex handler last, so that it has
         // least precedence
     }
 
