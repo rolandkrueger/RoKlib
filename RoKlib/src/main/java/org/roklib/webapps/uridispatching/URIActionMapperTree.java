@@ -22,8 +22,8 @@ package org.roklib.webapps.uridispatching;
 
 import org.roklib.util.helper.CheckForNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -50,7 +50,7 @@ public class URIActionMapperTree {
     }
 
     public static SubtreeActionMapperBuilder subtree() {
-        return null;
+        return new SubtreeActionMapperBuilder();
     }
 
     public Collection<AbstractURIPathSegmentActionMapper> getRootActionMappers() {
@@ -62,21 +62,19 @@ public class URIActionMapperTree {
     }
 
     public static class URIActionMapperTreeBuilder {
-        private List<URIPathSegmentActionMapperBuilder> builders = new ArrayList<>();
+        private SubtreeActionMapperBuilder subtreeActionMapperBuilder = new SubtreeActionMapperBuilder();
 
         public URIActionMapperTree build() {
             return addMappersFromBuilderToMapperTreeRoot(new URIActionMapperTree());
         }
 
         private URIActionMapperTree addMappersFromBuilderToMapperTreeRoot(final URIActionMapperTree uriActionMapperTree) {
-            for (URIPathSegmentActionMapperBuilder builder : builders) {
-                uriActionMapperTree.dispatcher.addURIPathSegmentMapper(builder.getMapper());
-            }
+            subtreeActionMapperBuilder.build(uriActionMapperTree.dispatcher.getRootActionMapper());
             return uriActionMapperTree;
         }
 
         public URIActionMapperTreeBuilder map(URIPathSegmentActionMapperBuilder pathSegmentBuilder) {
-            builders.add(pathSegmentBuilder);
+            subtreeActionMapperBuilder.builders.add(pathSegmentBuilder);
             return this;
         }
     }
@@ -97,7 +95,7 @@ public class URIActionMapperTree {
         }
 
         public URIPathSegmentActionMapperBuilder on(final SubtreeActionMapperBuilder subtreeBuilder) {
-            mapper = new DispatchingURIPathSegmentActionMapper(segmentName);
+            mapper = subtreeBuilder.build(new DispatchingURIPathSegmentActionMapper(segmentName));
             return this;
         }
 
@@ -120,5 +118,18 @@ public class URIActionMapperTree {
     }
 
     public static class SubtreeActionMapperBuilder {
+        private List<URIPathSegmentActionMapperBuilder> builders = new LinkedList<>();
+
+        private AbstractURIPathSegmentActionMapper build(final DispatchingURIPathSegmentActionMapper mapper) {
+            for (URIPathSegmentActionMapperBuilder builder : builders) {
+                mapper.addSubMapper(builder.getMapper());
+            }
+            return mapper;
+        }
+
+        public SubtreeActionMapperBuilder map(URIPathSegmentActionMapperBuilder pathSegmentBuilder) {
+            builders.add(pathSegmentBuilder);
+            return this;
+        }
     }
 }

@@ -64,6 +64,21 @@ public class URIActionMapperTreeBuilderTest {
         assert_that_mapper_is_correct(mapperTree.getRootActionMapper("admin"), "admin", SimpleURIPathSegmentActionMapper.class, adminCommandMock);
     }
 
+    @Test
+    public void test_add_subtree_mapper_to_root() {
+        // @formatter:off
+        final URIActionMapperTree mapperTree = create().map(
+               pathSegment("subtree").on(
+                   subtree()
+                       .map(pathSegment("home").on(action(homeCommandMock)))
+                       .map(pathSegment("admin").on(action(adminCommandMock)))
+               )
+            ).build();
+        // @formatter:on
+        assert_number_of_root_path_segment_mappers(mapperTree, 1);
+
+    }
+
     private void assert_that_mapper_is_correct(final AbstractURIPathSegmentActionMapper actualMapper, String expectedSegmentName, Class<?> expectedClass, AbstractURIActionCommand expectedCommand) {
         assertThat(actualMapper, instanceOf(expectedClass));
         assertThat(actualMapper.getActionName(), equalTo(expectedSegmentName));
