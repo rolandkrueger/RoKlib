@@ -45,7 +45,7 @@ public class URIActionMapperTreeBuilderTest {
         final URIActionMapperTree mapperTree = create().build();
 
         assertThat(mapperTree, notNullValue());
-        assertNumberOfRootPathSegmentMappersIs(mapperTree, 0);
+        assert_number_of_root_path_segment_mappers(mapperTree, 0);
     }
 
     @Test
@@ -59,18 +59,18 @@ public class URIActionMapperTreeBuilderTest {
            .build();
         // @formatter:on
 
-        assertNumberOfRootPathSegmentMappersIs(mapperTree, 2);
-        assertThatMapperIsCorrect(mapperTree.getRootActionMapper("home"), "home", SimpleURIPathSegmentActionMapper.class, homeCommandMock);
-        assertThatMapperIsCorrect(mapperTree.getRootActionMapper("admin"), "admin", SimpleURIPathSegmentActionMapper.class, adminCommandMock);
+        assert_number_of_root_path_segment_mappers(mapperTree, 2);
+        assert_that_mapper_is_correct(mapperTree.getRootActionMapper("home"), "home", SimpleURIPathSegmentActionMapper.class, homeCommandMock);
+        assert_that_mapper_is_correct(mapperTree.getRootActionMapper("admin"), "admin", SimpleURIPathSegmentActionMapper.class, adminCommandMock);
     }
 
-    private void assertThatMapperIsCorrect(final AbstractURIPathSegmentActionMapper actualMapper, String expectedSegmentName, Class<?> expectedClass, AbstractURIActionCommand expectedCommand) {
+    private void assert_that_mapper_is_correct(final AbstractURIPathSegmentActionMapper actualMapper, String expectedSegmentName, Class<?> expectedClass, AbstractURIActionCommand expectedCommand) {
         assertThat(actualMapper, instanceOf(expectedClass));
         assertThat(actualMapper.getActionName(), equalTo(expectedSegmentName));
         assertThat(actualMapper.getActionCommand(), equalTo(expectedCommand));
     }
 
-    private void assertNumberOfRootPathSegmentMappersIs(final URIActionMapperTree mapperTree, final int number) {
+    private void assert_number_of_root_path_segment_mappers(final URIActionMapperTree mapperTree, final int number) {
         assertThat(mapperTree.getRootActionMappers(), hasSize(number));
     }
 }
