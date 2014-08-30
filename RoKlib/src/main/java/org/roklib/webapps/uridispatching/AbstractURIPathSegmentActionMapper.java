@@ -43,7 +43,7 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
     private List<CommandForCondition> commandsForCondition;
     private List<URIParameter<?>> uriParameters;
     private List<String> actionArgumentOrder;
-    protected List<URIPathSegmentActionMapper> handlerChain;
+    protected List<URIPathSegmentActionMapper> mapperChain;
     private Map<String, List<Serializable>> actionArgumentMap;
     protected AbstractURIPathSegmentActionMapper parentMapper;
     private AbstractURIActionCommand actionCommand;
@@ -238,13 +238,13 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
             }
         }
 
-        if (handlerChain != null) {
-            for (URIPathSegmentActionMapper chainedHandler : handlerChain) {
+        if (mapperChain != null) {
+            for (URIPathSegmentActionMapper chainedMapper : mapperChain) {
                 if (LOG.isTraceEnabled()) {
-                    LOG.trace("Executing chained mapper " + chainedHandler + " (" + handlerChain.size()
+                    LOG.trace("Executing chained mapper " + chainedMapper + " (" + mapperChain.size()
                             + " chained mapper(s) in list)");
                 }
-                AbstractURIActionCommand commandFromChain = chainedHandler.handleURI(pUriTokens, pParameters, pParameterMode);
+                AbstractURIActionCommand commandFromChain = chainedMapper.handleURI(pUriTokens, pParameters, pParameterMode);
                 if (commandFromChain != null)
                     return commandFromChain;
             }
@@ -388,19 +388,16 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
         commandsForCondition.add(cfc);
     }
 
-    public void addToHandlerChain(URIPathSegmentActionMapper handler) {
-        CheckForNull.check(handler);
-        if (handlerChain == null) {
-            handlerChain = new LinkedList<URIPathSegmentActionMapper>();
+    public void addToMapperChain(URIPathSegmentActionMapper mapper) {
+        CheckForNull.check(mapper);
+        if (mapperChain == null) {
+            mapperChain = new LinkedList<URIPathSegmentActionMapper>();
         }
-        handlerChain.add(handler);
+        mapperChain.add(mapper);
     }
 
     /**
      * <code>null</code> argument values are ignored.
-     *
-     * @param argumentName
-     * @param argumentValues
      */
     public void addActionArgument(String argumentName, Serializable... argumentValues) {
         CheckForNull.check(argumentName);
@@ -457,8 +454,8 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
         }
         if (buf.length() > 0)
             targetList.add(buf.toString());
-        for (AbstractURIPathSegmentActionMapper subHandler : getSubMapperMap().values()) {
-            subHandler.getActionURIOverview(targetList);
+        for (AbstractURIPathSegmentActionMapper subMapper : getSubMapperMap().values()) {
+            subMapper.getActionURIOverview(targetList);
         }
     }
 
@@ -473,21 +470,21 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
         return Collections.emptyMap();
     }
 
-    public boolean hasSubHandlers() {
+    public boolean hasSubMappers() {
         return !getSubMapperMap().isEmpty();
     }
 
-    protected void setSubhandlersActionURI(AbstractURIPathSegmentActionMapper subHandler) {
-        subHandler.setActionURI(String.format("%s%s%s", getActionURI(), "/", urlEncode(subHandler.actionName)));
-        if (subHandler.hasSubHandlers()) {
-            subHandler.updateActionURIs();
+    protected void setSubMapperssActionURI(AbstractURIPathSegmentActionMapper subMapper) {
+        subMapper.setActionURI(String.format("%s%s%s", getActionURI(), "/", urlEncode(subMapper.actionName)));
+        if (subMapper.hasSubMappers()) {
+            subMapper.updateActionURIs();
         }
     }
 
     protected void updateActionURIs() {
         setActionURI(parentMapper.getActionURI() + "/" + actionName);
-        for (AbstractURIPathSegmentActionMapper subHandler : getSubMapperMap().values()) {
-            setSubhandlersActionURI(subHandler);
+        for (AbstractURIPathSegmentActionMapper subMapper : getSubMapperMap().values()) {
+            setSubMapperssActionURI(subMapper);
         }
     }
 
