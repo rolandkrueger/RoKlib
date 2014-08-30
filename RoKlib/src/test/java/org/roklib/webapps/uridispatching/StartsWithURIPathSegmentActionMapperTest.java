@@ -91,7 +91,7 @@ public class StartsWithURIPathSegmentActionMapperTest {
     }
 
     private void assertActionCommandWasExecuted(TURIActionCommand command) {
-        assertTrue(command.mExecuted);
+        assertTrue(command.executed);
     }
 
     private void assertMatchedTokenFragments(RegexURIPathSegmentActionMapper handler, String[] expectedTokenFragments) {

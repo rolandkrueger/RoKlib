@@ -70,11 +70,11 @@ public class CatchAllURIPathSegmentActionMapperTest {
     }
 
     private void assertActionCommandWasExecuted(TURIActionCommand command) {
-        assertTrue(command.mExecuted);
+        assertTrue(command.executed);
     }
 
     private void resetActionCommands() {
-        testActionCommand.mExecuted = false;
-        catchAllActionCommand.mExecuted = false;
+        testActionCommand.executed = false;
+        catchAllActionCommand.executed = false;
     }
 }

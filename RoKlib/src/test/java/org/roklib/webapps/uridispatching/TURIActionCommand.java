@@ -23,10 +23,10 @@ package org.roklib.webapps.uridispatching;
 public class TURIActionCommand extends AbstractURIActionCommand {
     private static final long serialVersionUID = 8282933112969092819L;
 
-    public boolean mExecuted = false;
+    public boolean executed = false;
 
     @Override
     public void execute() {
-        mExecuted = true;
+        executed = true;
     }
 }

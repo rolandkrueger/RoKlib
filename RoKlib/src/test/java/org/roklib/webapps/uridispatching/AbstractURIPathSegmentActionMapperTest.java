@@ -80,12 +80,12 @@ public class AbstractURIPathSegmentActionMapperTest {
         testHandler1.addDefaultCommandForCondition(defaultCommand, condition);
         // use different case to test case insensitivity
         dispatcher.handleURIAction("Test/ABC");
-        assertTrue(defaultCommand.mExecuted);
+        assertTrue(defaultCommand.executed);
         condition = new TCondition(false);
         defaultCommand = new TURIActionCommand();
         testHandler2.addDefaultCommandForCondition(defaultCommand, condition);
         dispatcher.handleURIAction("test/123");
-        assertFalse(defaultCommand.mExecuted);
+        assertFalse(defaultCommand.executed);
     }
 
     @Test
@@ -96,7 +96,7 @@ public class AbstractURIPathSegmentActionMapperTest {
         testHandler1.clearDefaultCommands();
         // use different case to test case insensitivity
         dispatcher.handleURIAction("TEST/Abc");
-        assertFalse(defaultCommand.mExecuted);
+        assertFalse(defaultCommand.executed);
     }
 
     @Test
@@ -104,9 +104,9 @@ public class AbstractURIPathSegmentActionMapperTest {
         TURIActionCommand test404ActionCommand = new TURIActionCommand();
         dispatcher.setDefaultCommand(test404ActionCommand);
         dispatcher.handleURIAction("test/123");
-        assertFalse(test404ActionCommand.mExecuted);
+        assertFalse(test404ActionCommand.executed);
         dispatcher.handleURIAction("no/actionhandler/registered");
-        assertTrue(test404ActionCommand.mExecuted);
+        assertTrue(test404ActionCommand.executed);
     }
 
     @Test
@@ -160,13 +160,13 @@ public class AbstractURIPathSegmentActionMapperTest {
     @Test
     public void testCaseSensitiveActionHandling() {
         caseSensitiveDispatcher.handleURIAction("TEST/ABC");
-        assertTrue(testCommand1.mExecuted);
+        assertTrue(testCommand1.executed);
     }
 
     @Test
     public void testCaseSensitiveActionHandlingFails() {
         caseSensitiveDispatcher.handleURIAction("test/ABC");
-        assertFalse(testCommand1.mExecuted);
+        assertFalse(testCommand1.executed);
     }
 
     @Test
@@ -336,9 +336,9 @@ public class AbstractURIPathSegmentActionMapperTest {
     @Test
     public void testIgnoreExclamationMark() {
         caseSensitiveDispatcher.handleURIAction("!TEST/ABC");
-        assertFalse(testCommand1.mExecuted);
+        assertFalse(testCommand1.executed);
         caseSensitiveDispatcher.setIgnoreExclamationMark(true);
         caseSensitiveDispatcher.handleURIAction("!TEST/ABC");
-        assertTrue(testCommand1.mExecuted);
+        assertTrue(testCommand1.executed);
     }
 }

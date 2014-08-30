@@ -156,7 +156,7 @@ public class RegexURIPathSegmentActionMapperTest {
     }
 
     private void assertActionCommandWasExecuted(TURIActionCommand command) {
-        assertTrue(command.mExecuted);
+        assertTrue(command.executed);
     }
 
     private void assertMatchedTokenFragments(RegexURIPathSegmentActionMapper handler, String[] expectedTokenFragments) {
@@ -165,9 +165,9 @@ public class RegexURIPathSegmentActionMapperTest {
     }
 
     private void resetActionCommands() {
-        testActionCommand.mExecuted = false;
-        regexActionCommand1.mExecuted = false;
-        regexActionCommand2.mExecuted = false;
+        testActionCommand.executed = false;
+        regexActionCommand1.executed = false;
+        regexActionCommand2.executed = false;
     }
 
 }
