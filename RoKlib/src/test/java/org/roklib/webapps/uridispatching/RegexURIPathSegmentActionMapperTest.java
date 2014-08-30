@@ -27,42 +27,42 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class RegexURIActionHandlerTest {
+public class RegexURIPathSegmentActionMapperTest {
     private URIActionDispatcher dispatcher;
-    private TURIActionHandler testActionHandler;
+    private TURIPathSegmentActionMapper testActionHandler;
     private TURIActionCommand testActionCommand;
-    private TURIActionHandler lastActionHandler;
+    private TURIPathSegmentActionMapper lastActionHandler;
     private TURIActionCommand lastActionCommand;
-    private DispatchingURIActionHandler middleActionHandler;
+    private DispatchingURIPathSegmentActionMapper middleActionHandler;
     private TURIActionCommand middleActionCommand;
     private TURIActionCommand regexActionCommand1;
-    private RegexURIActionHandler regexActionHandler1;
+    private RegexURIPathSegmentActionMapper regexActionHandler1;
     private TURIActionCommand regexActionCommand2;
-    private RegexURIActionHandler regexActionHandler2;
+    private RegexURIPathSegmentActionMapper regexActionHandler2;
 
     @Before
     public void setUp() {
         dispatcher = new URIActionDispatcher(false);
 
         testActionCommand = new TURIActionCommand();
-        testActionHandler = new TURIActionHandler("1test_x", testActionCommand);
+        testActionHandler = new TURIPathSegmentActionMapper("1test_x", testActionCommand);
 
         regexActionCommand1 = new TURIActionCommand();
         regexActionCommand2 = new TURIActionCommand();
 
         // first regex action handler is responsible for URIs like '1test_abc' or '2test_123test'
-        regexActionHandler1 = new RegexURIActionHandler("(\\d)test_(.*)");
+        regexActionHandler1 = new RegexURIPathSegmentActionMapper("(\\d)test_(.*)");
         regexActionHandler1.setRootCommand(regexActionCommand1);
 
         // second regex action handler is responsible for URIs like '3test_5xxx' or '12test_9yyy'
-        regexActionHandler2 = new RegexURIActionHandler("(\\d{1,2})test_(\\d\\w+)");
+        regexActionHandler2 = new RegexURIPathSegmentActionMapper("(\\d{1,2})test_(\\d\\w+)");
         regexActionHandler2.setRootCommand(regexActionCommand2);
 
         lastActionCommand = new TURIActionCommand();
-        lastActionHandler = new TURIActionHandler("last", lastActionCommand);
+        lastActionHandler = new TURIPathSegmentActionMapper("last", lastActionCommand);
 
         middleActionCommand = new TURIActionCommand();
-        middleActionHandler = new DispatchingURIActionHandler("middle");
+        middleActionHandler = new DispatchingURIPathSegmentActionMapper("middle");
         middleActionHandler.setRootCommand(middleActionCommand);
 
         regexActionHandler2.addSubHandler(middleActionHandler);
@@ -143,7 +143,7 @@ public class RegexURIActionHandlerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testConstructor_Fail() {
-        new RegexURIActionHandler("  ");
+        new RegexURIPathSegmentActionMapper("  ");
     }
 
     @Test
@@ -159,7 +159,7 @@ public class RegexURIActionHandlerTest {
         assertTrue(command.mExecuted);
     }
 
-    private void assertMatchedTokenFragments(RegexURIActionHandler handler, String[] expectedTokenFragments) {
+    private void assertMatchedTokenFragments(RegexURIPathSegmentActionMapper handler, String[] expectedTokenFragments) {
         assertEquals(expectedTokenFragments.length, handler.getMatchedTokenFragmentCount());
         assertTrue(Arrays.equals(expectedTokenFragments, handler.getMatchedTokenFragments()));
     }

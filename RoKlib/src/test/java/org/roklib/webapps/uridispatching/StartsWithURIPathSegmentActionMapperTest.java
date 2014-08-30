@@ -26,13 +26,13 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertTrue;
 
-public class StartsWithURIActionHandlerTest {
+public class StartsWithURIPathSegmentActionMapperTest {
     private URIActionDispatcher dispatcher;
-    private TURIActionHandler testActionHandler;
+    private TURIPathSegmentActionMapper testActionHandler;
     private TURIActionCommand testActionCommand;
-    private StartsWithURIActionHandler startsWithActionHandler;
+    private StartsWithURIPathSegmentActionMapper startsWithActionHandler;
     private TURIActionCommand startsWithActionCommand;
-    private TURIActionHandler lastActionHandler;
+    private TURIPathSegmentActionMapper lastActionHandler;
     private TURIActionCommand lastActionCommand;
 
     @Before
@@ -40,14 +40,14 @@ public class StartsWithURIActionHandlerTest {
         dispatcher = new URIActionDispatcher(false);
 
         testActionCommand = new TURIActionCommand();
-        testActionHandler = new TURIActionHandler("testhandler", testActionCommand);
+        testActionHandler = new TURIPathSegmentActionMapper("testhandler", testActionCommand);
 
-        startsWithActionHandler = new StartsWithURIActionHandler("test");
+        startsWithActionHandler = new StartsWithURIPathSegmentActionMapper("test");
         startsWithActionCommand = new TURIActionCommand();
         startsWithActionHandler.setRootCommand(startsWithActionCommand);
 
         lastActionCommand = new TURIActionCommand();
-        lastActionHandler = new TURIActionHandler("last", lastActionCommand);
+        lastActionHandler = new TURIPathSegmentActionMapper("last", lastActionCommand);
         startsWithActionHandler.addSubHandler(lastActionHandler);
 
         dispatcher.addHandler(startsWithActionHandler);
@@ -82,7 +82,7 @@ public class StartsWithURIActionHandlerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testConstructor_Fail() {
-        new StartsWithURIActionHandler("  ");
+        new StartsWithURIPathSegmentActionMapper("  ");
     }
 
     private void assertOutcome() {
@@ -94,7 +94,7 @@ public class StartsWithURIActionHandlerTest {
         assertTrue(command.mExecuted);
     }
 
-    private void assertMatchedTokenFragments(RegexURIActionHandler handler, String[] expectedTokenFragments) {
+    private void assertMatchedTokenFragments(RegexURIPathSegmentActionMapper handler, String[] expectedTokenFragments) {
         assertTrue(Arrays.equals(expectedTokenFragments, handler.getMatchedTokenFragments()));
     }
 }

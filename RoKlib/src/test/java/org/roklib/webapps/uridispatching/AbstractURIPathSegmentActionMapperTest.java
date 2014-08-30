@@ -21,7 +21,7 @@ package org.roklib.webapps.uridispatching;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.webapps.uridispatching.URIActionHandler.ParameterMode;
+import org.roklib.webapps.uridispatching.URIPathSegmentActionMapper.ParameterMode;
 import org.roklib.webapps.uridispatching.parameters.EnumURIParameterErrors;
 import org.roklib.webapps.uridispatching.parameters.SingleBooleanURIParameter;
 import org.roklib.webapps.uridispatching.parameters.SingleIntegerURIParameter;
@@ -32,19 +32,19 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-public class AbstractURIActionHandlerTest {
+public class AbstractURIPathSegmentActionMapperTest {
     private URIActionDispatcher dispatcher;
-    private TURIActionHandler testHandler1;
-    private TURIActionHandler testHandler2;
-    private TURIActionHandler testHandler3;
-    private DispatchingURIActionHandler dispatchingHandler;
+    private TURIPathSegmentActionMapper testHandler1;
+    private TURIPathSegmentActionMapper testHandler2;
+    private TURIPathSegmentActionMapper testHandler3;
+    private DispatchingURIPathSegmentActionMapper dispatchingHandler;
     private TURIActionCommand testCommand1;
     private TURIActionCommand testCommand2;
     private SingleStringURIParameter urlParameter;
     private SingleBooleanURIParameter urlParameter2;
-    private DispatchingURIActionHandler caseSensitiveDispatchingHandler;
+    private DispatchingURIPathSegmentActionMapper caseSensitiveDispatchingHandler;
     private URIActionDispatcher caseSensitiveDispatcher;
-    private TURIActionHandler caseSensitiveTestHandler1;
+    private TURIPathSegmentActionMapper caseSensitiveTestHandler1;
 
     @Before
     public void setUp() {
@@ -55,20 +55,20 @@ public class AbstractURIActionHandlerTest {
         urlParameter2 = new SingleBooleanURIParameter("bool");
         testCommand1 = new TURIActionCommand();
         testCommand2 = new TURIActionCommand();
-        testHandler1 = new TURIActionHandler("abc", testCommand1);
+        testHandler1 = new TURIPathSegmentActionMapper("abc", testCommand1);
         testHandler1.registerURLParameterForTest(urlParameter, true);
         testHandler1.registerURLParameterForTest(urlParameter2, true);
-        testHandler2 = new TURIActionHandler("123", testCommand2);
-        testHandler3 = new TURIActionHandler("cmd", testCommand1);
-        dispatchingHandler = new DispatchingURIActionHandler("test");
+        testHandler2 = new TURIPathSegmentActionMapper("123", testCommand2);
+        testHandler3 = new TURIPathSegmentActionMapper("cmd", testCommand1);
+        dispatchingHandler = new DispatchingURIPathSegmentActionMapper("test");
         dispatcher.addHandler(dispatchingHandler);
         dispatchingHandler.addSubHandler(testHandler1);
         dispatchingHandler.addSubHandler(testHandler2);
         dispatchingHandler.addSubHandler(testHandler3);
 
-        caseSensitiveTestHandler1 = new TURIActionHandler("ABC", testCommand1);
+        caseSensitiveTestHandler1 = new TURIPathSegmentActionMapper("ABC", testCommand1);
         caseSensitiveTestHandler1.registerURLParameterForTest(urlParameter, true);
-        caseSensitiveDispatchingHandler = new DispatchingURIActionHandler("TEST");
+        caseSensitiveDispatchingHandler = new DispatchingURIPathSegmentActionMapper("TEST");
         caseSensitiveDispatcher.getRootActionHandler().addSubHandler(caseSensitiveDispatchingHandler);
         caseSensitiveDispatchingHandler.addSubHandler(caseSensitiveTestHandler1);
     }

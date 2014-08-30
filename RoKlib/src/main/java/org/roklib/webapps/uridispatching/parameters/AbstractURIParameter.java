@@ -21,7 +21,7 @@
 package org.roklib.webapps.uridispatching.parameters;
 
 
-import org.roklib.webapps.uridispatching.AbstractURIActionHandler;
+import org.roklib.webapps.uridispatching.AbstractURIPathSegmentActionMapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -84,7 +84,7 @@ public abstract class AbstractURIParameter<V extends Serializable> implements UR
         this.value = value;
     }
 
-    public void setValueAndParameterizeURIHandler(V value, AbstractURIActionHandler handler) {
+    public void setValueAndParameterizeURIHandler(V value, AbstractURIPathSegmentActionMapper handler) {
         setValue(value);
         parameterizeURIHandler(handler);
     }

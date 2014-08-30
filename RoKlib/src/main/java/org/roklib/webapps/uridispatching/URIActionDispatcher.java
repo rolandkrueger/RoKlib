@@ -21,7 +21,7 @@
 package org.roklib.webapps.uridispatching;
 
 import org.roklib.webapps.data.DownloadInfo;
-import org.roklib.webapps.uridispatching.URIActionHandler.ParameterMode;
+import org.roklib.webapps.uridispatching.URIPathSegmentActionMapper.ParameterMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +34,7 @@ import java.util.*;
  * <p>
  * The central dispatcher which provides the main entry point for the URI action handling framework. The action
  * dispatcher manages one internal root URI action handler which dispatches to its sub-handlers. When a visited URI has
- * to be interpreted, this URI is passed to methdo {@link #handleURIAction(String)} or
+ * to be interpreted, this URI is passed to method {@link #handleURIAction(String)} or
  * {@link #handleURIAction(String, ParameterMode)}, respectively. There, the URI is split into a token list to be
  * recursively interpreted by the registered action handlers. For example, if the following URI is to be interpreted
  * <p/>
@@ -65,7 +65,7 @@ public class URIActionDispatcher implements Serializable {
     private String relativeUriOriginal;
     private Map<String, String[]> currentParametersOriginalValues;
     private AbstractURIActionCommand defaultCommand;
-    private final DispatchingURIActionHandler rootDispatcher;
+    private final DispatchingURIPathSegmentActionMapper rootDispatcher;
     private URIActionDispatcherListener listener;
     private ParameterMode parameterMode = ParameterMode.QUERY;
     private boolean ignoreExclamationMark;
@@ -76,9 +76,9 @@ public class URIActionDispatcher implements Serializable {
         } else {
             currentParameters = new TreeMap<String, List<String>>(String.CASE_INSENSITIVE_ORDER);
         }
-        rootDispatcher = new DispatchingURIActionHandler("");
+        rootDispatcher = new DispatchingURIPathSegmentActionMapper("");
         rootDispatcher.setCaseSensitive(useCaseSensitiveURIs);
-        rootDispatcher.setParent(new AbstractURIActionHandler("") {
+        rootDispatcher.setParent(new AbstractURIPathSegmentActionMapper("") {
             private static final long serialVersionUID = 3744506992900879054L;
 
             protected AbstractURIActionCommand handleURIImpl(List<String> uriTokens, Map<String, List<String>> parameters,
@@ -133,12 +133,12 @@ public class URIActionDispatcher implements Serializable {
      * visited URI is to be interpreted by this action dispatcher, this URI is first passed to that root dispatching
      * handler. All URI action handlers that are responsible for the first directory level of a URI have to be added to
      * this root handler as sub-handlers. To do that, you can also use the delegate method
-     * {@link #addHandler(AbstractURIActionHandler)}.
+     * {@link #addHandler(AbstractURIPathSegmentActionMapper)}.
      *
      * @return the root dispatching handler for this action dispatcher
-     * @see #addHandler(AbstractURIActionHandler)
+     * @see #addHandler(AbstractURIPathSegmentActionMapper)
      */
-    public DispatchingURIActionHandler getRootActionHandler() {
+    public DispatchingURIPathSegmentActionMapper getRootActionHandler() {
         return rootDispatcher;
     }
 
@@ -295,7 +295,7 @@ public class URIActionDispatcher implements Serializable {
      * @param subHandler the new action handler
      * @throws IllegalArgumentException if the given sub-handler has already been added to another parent handler
      */
-    public final void addHandler(AbstractURIActionHandler subHandler) {
+    public final void addHandler(AbstractURIPathSegmentActionMapper subHandler) {
         getRootActionHandler().addSubHandler(subHandler);
     }
 }

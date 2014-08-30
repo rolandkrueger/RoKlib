@@ -26,12 +26,12 @@ import org.roklib.webapps.uridispatching.parameters.URIParameter;
 import java.util.List;
 import java.util.Map;
 
-public class TURIActionHandler extends DispatchingURIActionHandler {
+public class TURIPathSegmentActionMapper extends DispatchingURIPathSegmentActionMapper {
     private static final long serialVersionUID = 6202866717473440168L;
 
     private TURIActionCommand command;
 
-    public TURIActionHandler(String actionName, TURIActionCommand command) {
+    public TURIPathSegmentActionMapper(String actionName, TURIActionCommand command) {
         super(actionName);
         this.command = command;
     }

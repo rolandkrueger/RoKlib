@@ -25,13 +25,13 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class CatchAllURIActionHandlerTest {
+public class CatchAllURIPathSegmentActionMapperTest {
     private URIActionDispatcher dispatcher;
-    private TURIActionHandler testActionHandler;
+    private TURIPathSegmentActionMapper testActionHandler;
     private TURIActionCommand testActionCommand;
-    private CatchAllURIActionHandler catchAllActionHandler;
+    private CatchAllURIPathSegmentActionMapper catchAllActionHandler;
     private TURIActionCommand catchAllActionCommand;
-    private TURIActionHandler lastActionHandler;
+    private TURIPathSegmentActionMapper lastActionHandler;
     private TURIActionCommand lastActionCommand;
 
     @Before
@@ -39,14 +39,14 @@ public class CatchAllURIActionHandlerTest {
         dispatcher = new URIActionDispatcher(false);
 
         testActionCommand = new TURIActionCommand();
-        testActionHandler = new TURIActionHandler("test", testActionCommand);
+        testActionHandler = new TURIPathSegmentActionMapper("test", testActionCommand);
 
-        catchAllActionHandler = new CatchAllURIActionHandler();
+        catchAllActionHandler = new CatchAllURIPathSegmentActionMapper();
         catchAllActionCommand = new TURIActionCommand();
         catchAllActionHandler.setRootCommand(catchAllActionCommand);
 
         lastActionCommand = new TURIActionCommand();
-        lastActionHandler = new TURIActionHandler("last", lastActionCommand);
+        lastActionHandler = new TURIPathSegmentActionMapper("last", lastActionCommand);
         catchAllActionHandler.addSubHandler(lastActionHandler);
 
         dispatcher.addHandler(catchAllActionHandler);

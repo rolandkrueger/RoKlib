@@ -27,7 +27,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import org.roklib.webapps.uridispatching.parameters.URIParametersTests;
 
 @RunWith(Suite.class)
-@SuiteClasses({AbstractURIActionHandlerTest.class, URIParametersTests.class, RegexURIActionHandlerTest.class,
-        StartsWithURIActionHandlerTest.class, CatchAllURIActionHandlerTest.class})
+@SuiteClasses({AbstractURIPathSegmentActionMapperTest.class, URIParametersTests.class, RegexURIPathSegmentActionMapperTest.class,
+        StartsWithURIPathSegmentActionMapperTest.class, CatchAllURIPathSegmentActionMapperTest.class})
 public class URIDispatchingTests {
 }

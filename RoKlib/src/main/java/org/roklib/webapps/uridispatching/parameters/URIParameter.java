@@ -22,7 +22,7 @@ package org.roklib.webapps.uridispatching.parameters;
 
 
 import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
-import org.roklib.webapps.uridispatching.AbstractURIActionHandler;
+import org.roklib.webapps.uridispatching.AbstractURIPathSegmentActionMapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -43,9 +43,9 @@ public interface URIParameter<V extends Serializable> extends Serializable {
 
     public abstract EnumURIParameterErrors getError();
 
-    public abstract void parameterizeURIHandler(AbstractURIActionHandler handler);
+    public abstract void parameterizeURIHandler(AbstractURIPathSegmentActionMapper handler);
 
-    public abstract void setValueAndParameterizeURIHandler(V value, AbstractURIActionHandler handler);
+    public abstract void setValueAndParameterizeURIHandler(V value, AbstractURIPathSegmentActionMapper handler);
 
     public abstract boolean hasValue();
 

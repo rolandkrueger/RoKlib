@@ -23,7 +23,7 @@ package org.roklib.webapps.uridispatching.parameters;
 import org.junit.Before;
 import org.junit.Test;
 import org.roklib.webapps.uridispatching.TURIActionCommand;
-import org.roklib.webapps.uridispatching.TURIActionHandler;
+import org.roklib.webapps.uridispatching.TURIPathSegmentActionMapper;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -89,10 +89,10 @@ public abstract class AbstractSingleURIParameterTest<V extends Serializable> ext
 
     @Test
     public void testParameterizeURIHandler() {
-        T2URIActionHandler<V> handler = new T2URIActionHandler<V>("test", getTestValue());
+        T2URIPathSegmentActionMapper<V> handler = new T2URIPathSegmentActionMapper<V>("test", getTestValue());
         testSingleURIParameter.parameterizeURIHandler(handler);
         testSingleURIParameter.setValue(getTestValue());
-        handler = new T2URIActionHandler<V>("test", null);
+        handler = new T2URIPathSegmentActionMapper<V>("test", null);
         testSingleURIParameter.clearValue();
         testSingleURIParameter.parameterizeURIHandler(handler);
     }
@@ -108,11 +108,11 @@ public abstract class AbstractSingleURIParameterTest<V extends Serializable> ext
     }
 
     @SuppressWarnings("serial")
-    private static class T2URIActionHandler<V extends Serializable> extends TURIActionHandler {
+    private static class T2URIPathSegmentActionMapper<V extends Serializable> extends TURIPathSegmentActionMapper {
         String mExpectedParameterName;
         V mExpectedValue;
 
-        public T2URIActionHandler(String expectedParameterName, V expectedValue) {
+        public T2URIPathSegmentActionMapper(String expectedParameterName, V expectedValue) {
             super("", new TURIActionCommand());
             mExpectedParameterName = expectedParameterName;
             mExpectedValue = expectedValue;

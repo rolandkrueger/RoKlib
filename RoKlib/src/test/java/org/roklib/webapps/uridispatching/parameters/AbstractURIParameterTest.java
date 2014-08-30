@@ -23,9 +23,9 @@ package org.roklib.webapps.uridispatching.parameters;
 import org.junit.Before;
 import org.junit.Test;
 import org.roklib.webapps.uridispatching.AbstractURIActionCommand;
-import org.roklib.webapps.uridispatching.AbstractURIActionHandler;
+import org.roklib.webapps.uridispatching.AbstractURIPathSegmentActionMapper;
 import org.roklib.webapps.uridispatching.TURIActionCommand;
-import org.roklib.webapps.uridispatching.TURIActionHandler;
+import org.roklib.webapps.uridispatching.TURIPathSegmentActionMapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -77,7 +77,7 @@ public abstract class AbstractURIParameterTest<V extends Serializable> {
     public void testSetValueAndParameterizeURLHandler() {
         TURLParameter testObj = new TURLParameter();
 
-        testObj.setValueAndParameterizeURIHandler("value", new TURIActionHandler("action", new TURIActionCommand()));
+        testObj.setValueAndParameterizeURIHandler("value", new TURIPathSegmentActionMapper("action", new TURIActionCommand()));
         assertEquals("value", testObj.getValue());
         assertTrue(testObj.parameterized());
     }
@@ -107,7 +107,7 @@ public abstract class AbstractURIParameterTest<V extends Serializable> {
             return null;
         }
 
-        public void parameterizeURIHandler(AbstractURIActionHandler handler) {
+        public void parameterizeURIHandler(AbstractURIPathSegmentActionMapper handler) {
             parameterized = true;
         }
 
