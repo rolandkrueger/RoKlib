@@ -25,8 +25,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.roklib.webapps.uridispatching.URIActionMapperTree.*;
 
@@ -58,9 +60,17 @@ public class URIActionMapperTreeBuilderTest {
         // @formatter:on
 
         assertNumberOfRootPathSegmentMappersIs(mapperTree, 2);
+        assertThatMapperIsCorrect(mapperTree.getRootActionMapper("home"), "home", SimpleURIPathSegmentActionMapper.class, homeCommandMock);
+        assertThatMapperIsCorrect(mapperTree.getRootActionMapper("admin"), "admin", SimpleURIPathSegmentActionMapper.class, adminCommandMock);
+    }
+
+    private void assertThatMapperIsCorrect(final AbstractURIPathSegmentActionMapper actualMapper, String expectedSegmentName, Class<?> expectedClass, AbstractURIActionCommand expectedCommand) {
+        assertThat(actualMapper, instanceOf(expectedClass));
+        assertThat(actualMapper.getActionName(), equalTo(expectedSegmentName));
+        assertThat(actualMapper.getActionCommand(), equalTo(expectedCommand));
     }
 
     private void assertNumberOfRootPathSegmentMappersIs(final URIActionMapperTree mapperTree, final int number) {
-        assertThat(mapperTree.getRootPathSegmentActionMappers(), hasSize(number));
+        assertThat(mapperTree.getRootActionMappers(), hasSize(number));
     }
 }

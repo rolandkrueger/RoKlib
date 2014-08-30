@@ -138,7 +138,7 @@ public class URIActionDispatcher implements Serializable {
      * @return the root dispatching handler for this action dispatcher
      * @see #addURIPathSegmentMapper(AbstractURIPathSegmentActionMapper)
      */
-    public DispatchingURIPathSegmentActionMapper getRootActionHandler() {
+    public DispatchingURIPathSegmentActionMapper getRootActionMapper() {
         return rootDispatcher;
     }
 
@@ -296,6 +296,6 @@ public class URIActionDispatcher implements Serializable {
      * @throws IllegalArgumentException if the given sub-handler has already been added to another parent handler
      */
     public final void addURIPathSegmentMapper(AbstractURIPathSegmentActionMapper subHandler) {
-        getRootActionHandler().addSubMapper(subHandler);
+        getRootActionMapper().addSubMapper(subHandler);
     }
 }

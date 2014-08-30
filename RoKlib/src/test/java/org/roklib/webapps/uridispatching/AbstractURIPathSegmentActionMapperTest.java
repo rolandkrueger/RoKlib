@@ -69,7 +69,7 @@ public class AbstractURIPathSegmentActionMapperTest {
         caseSensitiveTestHandler1 = new TURIPathSegmentActionMapper("ABC", testCommand1);
         caseSensitiveTestHandler1.registerURLParameterForTest(urlParameter, true);
         caseSensitiveDispatchingHandler = new DispatchingURIPathSegmentActionMapper("TEST");
-        caseSensitiveDispatcher.getRootActionHandler().addSubMapper(caseSensitiveDispatchingHandler);
+        caseSensitiveDispatcher.getRootActionMapper().addSubMapper(caseSensitiveDispatchingHandler);
         caseSensitiveDispatchingHandler.addSubMapper(caseSensitiveTestHandler1);
     }
 
