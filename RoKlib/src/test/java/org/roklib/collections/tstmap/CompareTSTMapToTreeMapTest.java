@@ -28,6 +28,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -194,13 +195,13 @@ public class CompareTSTMapToTreeMapTest {
     @Test
     public void testValues_toArray() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        assertEquals(mTreeMap.values().toArray(), mTSTMap.values().toArray());
+        assertThat(mTreeMap.values(), contains(mTSTMap.values().toArray()));
     }
 
     @Test
     public void testValues_toArrayArrayParam() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        assertEquals(mTreeMap.values().toArray(new String[1]), mTSTMap.values().toArray(new String[1]));
+        assertThat(mTreeMap.values(), contains(mTSTMap.values().toArray()));
     }
 
     private class GermanyTestClass implements Comparable<GermanyTestClass> {
