@@ -36,7 +36,7 @@ import java.util.regex.PatternSyntaxException;
  * A {@link RegexURIPathSegmentActionMapper} is itself a {@link DispatchingURIPathSegmentActionMapper}, that is, it can have its own
  * sub-handlers to which the responsibility to interpret part of a URI can be passed. To set the action command for this
  * {@link RegexURIPathSegmentActionMapper} in case there are no more URI tokens to be passed to sub-handlers (i. e. the currently
- * interpreted URI directly points to this handler), you use method {@link #setRootCommand(AbstractURIActionCommand)}.
+ * interpreted URI directly points to this handler), you use method {@link #setMissingSubHandlerCommand(AbstractURIActionCommand)}.
  * </p>
  * <h1>Capturing Groups</h1>
  * <p>

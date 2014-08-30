@@ -29,6 +29,6 @@ public interface URIPathSegmentActionMapper extends Serializable {
         QUERY, DIRECTORY, DIRECTORY_WITH_NAMES
     }
 
-    public abstract AbstractURIActionCommand handleURI(List<String> uriTokens, Map<String, List<String>> parameters,
-                                                       ParameterMode parameterMode);
+    AbstractURIActionCommand handleURI(List<String> uriTokens, Map<String, List<String>> parameters,
+                                       ParameterMode parameterMode);
 }

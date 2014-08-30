@@ -43,7 +43,7 @@ public class CatchAllURIPathSegmentActionMapperTest {
 
         catchAllActionHandler = new CatchAllURIPathSegmentActionMapper();
         catchAllActionCommand = new TURIActionCommand();
-        catchAllActionHandler.setRootCommand(catchAllActionCommand);
+        catchAllActionHandler.setActionCommand(catchAllActionCommand);
 
         lastActionCommand = new TURIActionCommand();
         lastActionHandler = new TURIPathSegmentActionMapper("last", lastActionCommand);

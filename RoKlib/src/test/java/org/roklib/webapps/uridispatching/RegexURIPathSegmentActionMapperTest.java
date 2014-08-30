@@ -52,18 +52,18 @@ public class RegexURIPathSegmentActionMapperTest {
 
         // first regex action handler is responsible for URIs like '1test_abc' or '2test_123test'
         regexActionHandler1 = new RegexURIPathSegmentActionMapper("(\\d)test_(.*)");
-        regexActionHandler1.setRootCommand(regexActionCommand1);
+        regexActionHandler1.setActionCommand(regexActionCommand1);
 
         // second regex action handler is responsible for URIs like '3test_5xxx' or '12test_9yyy'
         regexActionHandler2 = new RegexURIPathSegmentActionMapper("(\\d{1,2})test_(\\d\\w+)");
-        regexActionHandler2.setRootCommand(regexActionCommand2);
+        regexActionHandler2.setActionCommand(regexActionCommand2);
 
         lastActionCommand = new TURIActionCommand();
         lastActionHandler = new TURIPathSegmentActionMapper("last", lastActionCommand);
 
         middleActionCommand = new TURIActionCommand();
         middleActionHandler = new DispatchingURIPathSegmentActionMapper("middle");
-        middleActionHandler.setRootCommand(middleActionCommand);
+        middleActionHandler.setActionCommand(middleActionCommand);
 
         regexActionHandler2.addSubHandler(middleActionHandler);
         middleActionHandler.addSubHandler(lastActionHandler);

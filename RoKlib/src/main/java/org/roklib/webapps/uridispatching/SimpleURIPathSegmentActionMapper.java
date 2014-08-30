@@ -24,26 +24,22 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A simple URI action handler that directly returns a predefined action command when the URI interpretation process
- * reaches this handler. By that, {@link SimpleURIPathSegmentActionMapper}s always represent the last token of an interpreted URI
- * as they cannot dispatch to any sub-handlers.
+ * A simple URI action mapper that directly returns a predefined action command when the URI interpretation process
+ * reaches this mapper. By that, {@link SimpleURIPathSegmentActionMapper}s always represent the last token of an interpreted URI
+ * as they cannot dispatch to any sub-mappers.
  *
  * @author Roland Krüger
  */
 public class SimpleURIPathSegmentActionMapper extends AbstractURIPathSegmentActionMapper {
     private static final long serialVersionUID = 8203362201388037000L;
 
-    private final AbstractURIActionCommand command;
-
     /**
      * Create a new {@link SimpleURIPathSegmentActionMapper} with the specified action name and action command.
+     *  @param actionName the action name for this mapper
      *
-     * @param actionName the action name for this handler
-     * @param command    action command to be returned when this action handler is being evaluated
      */
-    public SimpleURIPathSegmentActionMapper(String actionName, AbstractURIActionCommand command) {
+    public SimpleURIPathSegmentActionMapper(String actionName) {
         super(actionName);
-        this.command = command;
     }
 
     /**
@@ -52,6 +48,6 @@ public class SimpleURIPathSegmentActionMapper extends AbstractURIPathSegmentActi
     @Override
     protected AbstractURIActionCommand handleURIImpl(List<String> uriTokens, Map<String, List<String>> parameters,
                                                      ParameterMode parameterMode) {
-        return command;
+        return getActionCommand();
     }
 }

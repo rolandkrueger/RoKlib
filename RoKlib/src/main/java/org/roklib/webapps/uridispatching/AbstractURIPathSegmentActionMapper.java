@@ -37,20 +37,19 @@ import java.util.*;
 
 public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegmentActionMapper {
     private static final long serialVersionUID = 8450975393827044559L;
-
     private static final String[] STRING_ARRAY_PROTOTYPE = new String[]{};
-    private static final Logger LOG = LoggerFactory
-            .getLogger(AbstractURIPathSegmentActionMapper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractURIPathSegmentActionMapper.class);
+
     private List<CommandForCondition> commandsForCondition;
     private List<URIParameter<?>> uriParameters;
     private List<String> actionArgumentOrder;
     protected List<URIPathSegmentActionMapper> handlerChain;
     private Map<String, List<Serializable>> actionArgumentMap;
     protected AbstractURIPathSegmentActionMapper parentHandler;
-    private AbstractURIActionCommand defaultCommand;
+    private AbstractURIActionCommand actionCommand;
 
     /**
-     * The name of the URI portion for which this action handler is responsible.
+     * The name of the URI portion for which this action mapper is responsible.
      */
     protected String actionName;
     private String actionURI;
@@ -59,23 +58,22 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
     private Locale locale;
 
     /**
-     * Creates a new action handler with the given action name. The action name must not be <code>null</code>. This name
-     * identifies the fragment of a URI which is handled by this action handler. For example, if this action handler is
+     * Creates a new action mapper with the given action name. The action name must not be <code>null</code>. This name
+     * identifies the fragment of a URI which is handled by this action mapper. For example, if this action mapper is
      * responsible for the <code>admin</code> part in the following URI
      * <p/>
      * <pre>
      * http://www.example.com/admin/settings
      * </pre>
      * <p/>
-     * then the action name for this handler has to be set to <code>admin</code> as well.
+     * then the action name for this mapper has to be set to <code>admin</code> as well.
      *
-     * @param actionName the name of the URI portion for which this action handler is responsible. Must not be <code>null</code>.
+     * @param actionName the name of the URI portion for which this action mapper is responsible. Must not be <code>null</code>.
      */
     public AbstractURIPathSegmentActionMapper(String actionName) {
         CheckForNull.check(actionName);
         this.actionName = actionName;
         actionURI = actionName;
-        defaultCommand = null;
     }
 
     protected void setUseHashExclamationMarkNotation(boolean useHashExclamationMarkNotation) {
@@ -84,9 +82,9 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
 
     /**
      * <p>
-     * Sets the case sensitivity of this action handler. A case insentitive action handler will match a URI token without
-     * regarding the token's case. You have to be careful with case insensitive action handlers if you have more than one
-     * action handler with action names differing only in case. You might get unexpected results since one action handler
+     * Sets the case sensitivity of this action mapper. A case insentitive action mapper will match a URI token without
+     * regarding the token's case. You have to be careful with case insensitive action mappers if you have more than one
+     * action mapper with action names differing only in case. You might get unexpected results since one action mapper
      * might shadow the other.
      * </p>
      */
@@ -106,12 +104,37 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
         return actionName.toLowerCase(getLocale());
     }
 
-    public void setDefaultActionCommand(AbstractURIActionCommand command) {
-        defaultCommand = command;
+    /**
+     * Sets the action command for this action mapper. This is the {@link AbstractURIActionCommand} which will
+     * be returned when the token list to be interpreted by this mapper is empty. This is the case when a URI is being
+     * interpreted that directly points to this {@link AbstractURIPathSegmentActionMapper}. For example, if the following URI is
+     * passed to the URI action handling framework
+     * <p/>
+     * <pre>
+     * http://www.example.com/myapp/home/
+     * </pre>
+     * <p/>
+     * where the URI action mapper for token <code>home</code> is a {@link DispatchingURIPathSegmentActionMapper}, then this
+     * mapper's root command is used as the outcome of the URI interpretation. This command could then provide some
+     * default logic for the interpreted URI, such as redirecting to the correct home screen for the currently signed in
+     * user. If instead the following URI is interpreted
+     * <p/>
+     * <pre>
+     * http://www.example.com/myapp/home/manager
+     * </pre>
+     * <p/>
+     * then the <code>home</code> dispatcher will pass the URI token handling to its sub-mapper which is responsible for
+     * the <code>manager</code> token.
+     *
+     * @param command action command to be used when interpreting a URI which points directly to this action mapper. Can be
+     *                    <code>null</code>.
+     */
+    public void setActionCommand(AbstractURIActionCommand command) {
+        actionCommand = command;
     }
 
-    protected AbstractURIActionCommand getDefaultCommand() {
-        return defaultCommand;
+    protected AbstractURIActionCommand getActionCommand() {
+        return actionCommand;
     }
 
     protected void registerURIParameter(URIParameter<?> parameter) {
@@ -222,8 +245,8 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
         if (handlerChain != null) {
             for (URIPathSegmentActionMapper chainedHandler : handlerChain) {
                 if (LOG.isTraceEnabled()) {
-                    LOG.trace("Executing chained handler " + chainedHandler + " (" + handlerChain.size()
-                            + " chained handler(s) in list)");
+                    LOG.trace("Executing chained mapper " + chainedHandler + " (" + handlerChain.size()
+                            + " chained mapper(s) in list)");
                 }
                 AbstractURIActionCommand commandFromChain = chainedHandler.handleURI(pUriTokens, pParameters, pParameterMode);
                 if (commandFromChain != null)
@@ -255,30 +278,30 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
     }
 
     /**
-     * Returns the full relative action URI for this action handler. This is the concatenation of all parent handler
-     * action names going back to the handler root separated by a slash. For example, if this action handler's action name
+     * Returns the full relative action URI for this action mapper. This is the concatenation of all parent mapper
+     * action names going back to the mapper root separated by a slash. For example, if this action mapper's action name
      * is <code>languageSettings</code>, with its parent's action name <code>configuration</code> and the next parent's
-     * action name <code>admin</code> then the action URI for this handler evaluates to
+     * action name <code>admin</code> then the action URI for this mapper evaluates to
      * <p/>
      * <pre>
      * /admin/configuration/languageSettings.
      * </pre>
      * <p/>
      * This String is needed for generating fully configured URIs (this URI together with the corresponding parameter
-     * values) which can be used for rendering links pointing to this action handler.
+     * values) which can be used for rendering links pointing to this action mapper.
      *
-     * @return the action URI for this action handler (such as <code>/admin/configuration/languageSettings</code> if this
-     * action handler's action name is <code>languageSettings</code>).
+     * @return the action URI for this action mapper (such as <code>/admin/configuration/languageSettings</code> if this
+     * action mapper's action name is <code>languageSettings</code>).
      */
     public String getActionURI() {
         return actionURI;
     }
 
     /**
-     * Sets the parent action handler for this object. An action handler can only be added as sub-handler to one action
-     * handler. In other words, an action handler can only have one parent.
+     * Sets the parent action mapper for this object. An action mapper can only be added as sub-mapper to one action
+     * mapper. In other words, an action mapper can only have one parent.
      *
-     * @param parent the parent handler for this action handler
+     * @param parent the parent mapper for this action mapper
      */
     protected final void setParent(AbstractURIPathSegmentActionMapper parent) {
         parentHandler = parent;
@@ -444,11 +467,11 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
     }
 
     /**
-     * Returns a map of all registered sub-handlers for this URI action handler. This method is only implemented by
-     * {@link DispatchingURIPathSegmentActionMapper} since this is the only URI action handler implementation in the framework which
-     * can have sub-handlers. All other subclasses of {@link AbstractURIPathSegmentActionMapper} return an empty map.
+     * Returns a map of all registered sub-mappers for this URI action mapper. This method is only implemented by
+     * {@link DispatchingURIPathSegmentActionMapper} since this is the only URI action mapper implementation in the framework which
+     * can have sub-mappers. All other subclasses of {@link AbstractURIPathSegmentActionMapper} return an empty map.
      *
-     * @return map containing a mapping of URI tokens on the corresponding sub-handlers that handle these tokens.
+     * @return map containing a mapping of URI tokens on the corresponding sub-mappers that handle these tokens.
      */
     protected Map<String, AbstractURIPathSegmentActionMapper> getSubHandlerMap() {
         return Collections.emptyMap();
