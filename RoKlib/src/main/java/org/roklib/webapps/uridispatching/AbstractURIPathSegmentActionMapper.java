@@ -68,12 +68,12 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
      * <p/>
      * then the action name for this mapper has to be set to <code>admin</code> as well.
      *
-     * @param actionName the name of the URI portion for which this action mapper is responsible. Must not be <code>null</code>.
+     * @param segmentName the name of the URI path segment for which this action mapper is responsible. Must not be <code>null</code>.
      */
-    public AbstractURIPathSegmentActionMapper(String actionName) {
-        CheckForNull.check(actionName);
-        this.actionName = actionName;
-        actionURI = actionName;
+    public AbstractURIPathSegmentActionMapper(String segmentName) {
+        CheckForNull.check(segmentName);
+        this.actionName = segmentName;
+        actionURI = segmentName;
     }
 
     protected void setUseHashExclamationMarkNotation(boolean useHashExclamationMarkNotation) {

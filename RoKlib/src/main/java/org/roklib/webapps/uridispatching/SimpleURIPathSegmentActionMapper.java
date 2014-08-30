@@ -35,11 +35,11 @@ public class SimpleURIPathSegmentActionMapper extends AbstractURIPathSegmentActi
 
     /**
      * Create a new {@link SimpleURIPathSegmentActionMapper} with the specified action name and action command.
-     *  @param actionName the action name for this mapper
+     *  @param segmentName the name of the URI path segment this mapper is responsible for
      *
      */
-    public SimpleURIPathSegmentActionMapper(String actionName) {
-        super(actionName);
+    public SimpleURIPathSegmentActionMapper(String segmentName) {
+        super(segmentName);
     }
 
     /**

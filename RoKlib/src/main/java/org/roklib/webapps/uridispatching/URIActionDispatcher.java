@@ -70,7 +70,7 @@ public class URIActionDispatcher implements Serializable {
     private ParameterMode parameterMode = ParameterMode.QUERY;
     private boolean ignoreExclamationMark;
 
-    public URIActionDispatcher(boolean useCaseSensitiveURIs) {
+    public URIActionDispatcher(boolean useCaseSensitiveURIs /* TODO: remove this parameter */) {
         if (useCaseSensitiveURIs) {
             currentParameters = new HashMap<String, List<String>>();
         } else {

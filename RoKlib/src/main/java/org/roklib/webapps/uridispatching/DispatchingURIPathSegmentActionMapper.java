@@ -40,10 +40,10 @@ public class DispatchingURIPathSegmentActionMapper extends AbstractURIPathSegmen
      * Create a dispatching action mapper with the provided action name. The action name is the part of the URI that is
      * handled by this action mapper.
      *
-     * @param actionName the action name for this dispatching action mapper
+     * @param segmentName the path segment name for this dispatching action mapper
      */
-    public DispatchingURIPathSegmentActionMapper(String actionName) {
-        super(actionName);
+    public DispatchingURIPathSegmentActionMapper(String segmentName) {
+        super(segmentName);
     }
 
     public void setMissingSubMapperCommand(AbstractURIActionCommand missingSubMapperCommand) {
@@ -53,11 +53,15 @@ public class DispatchingURIPathSegmentActionMapper extends AbstractURIPathSegmen
     @Override
     protected AbstractURIActionCommand handleURIImpl(List<String> uriTokens, Map<String, List<String>> parameters,
                                                      ParameterMode parameterMode) {
-        if (uriTokens == null || uriTokens.isEmpty() || "".equals(uriTokens.get(0))) {
+        if (noMoreTokensAvailable(uriTokens)) {
             return getActionCommand();
         }
         String currentActionName = uriTokens.remove(0);
         return forwardToSubHandler(currentActionName, uriTokens, parameters, parameterMode);
+    }
+
+    private boolean noMoreTokensAvailable(final List<String> uriTokens) {
+        return uriTokens == null || uriTokens.isEmpty() || "".equals(uriTokens.get(0));
     }
 
     private AbstractURIActionCommand forwardToSubHandler(String currentActionName, List<String> uriTokens,
