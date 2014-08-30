@@ -27,21 +27,21 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ConditionTest {
-    private Condition mTestObj;
+    private Condition condition;
 
     @Before
     public void setUp() {
-        mTestObj = new Condition("test", false);
+        condition = new Condition("test", false);
     }
 
     @Test
     public void testSetValue() {
-        mTestObj.setValue(true);
-        assertTrue(mTestObj.getBooleanValue());
+        condition.setValue(true);
+        assertTrue(condition.getBooleanValue());
     }
 
     @Test
     public void testGetName() {
-        assertEquals("test", mTestObj.getName());
+        assertEquals("test", condition.getName());
     }
 }

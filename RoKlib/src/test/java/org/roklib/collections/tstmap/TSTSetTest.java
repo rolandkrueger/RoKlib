@@ -33,11 +33,11 @@ public class TSTSetTest {
             "parsley", "basil", "juniper", "sorrel", "sorrel"};
     private final int EXPECTED_SIZE = STRINGS.length - 2; // two strings are contained twice in the array
 
-    private TernarySearchTreeSet mTestObj;
+    private TernarySearchTreeSet testObj;
 
     @Before
     public void setUp() {
-        mTestObj = new TernarySearchTreeSet(STRINGS);
+        testObj = new TernarySearchTreeSet(STRINGS);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class TSTSetTest {
 
     @Test
     public void testConstructorForCharSequenceArray() {
-        assertEquals(EXPECTED_SIZE, mTestObj.size());
+        assertEquals(EXPECTED_SIZE, testObj.size());
     }
 
     @Test
@@ -67,81 +67,81 @@ public class TSTSetTest {
 
     @Test
     public void testComparator() {
-        assertNull(mTestObj.comparator());
+        assertNull(testObj.comparator());
     }
 
     @Test
     public void testFirst() {
-        assertEquals("artichoke", mTestObj.first());
+        assertEquals("artichoke", testObj.first());
     }
 
     @Test
     public void testLast() {
-        assertEquals("sorrel", mTestObj.last());
+        assertEquals("sorrel", testObj.last());
     }
 
     @Test
     public void testAdd() {
-        assertFalse(mTestObj.add("clover"));
-        assertEquals(STRINGS.length - 1, mTestObj.size());
-        assertTrue(mTestObj.add("clover"));
-        assertEquals(STRINGS.length - 1, mTestObj.size());
+        assertFalse(testObj.add("clover"));
+        assertEquals(STRINGS.length - 1, testObj.size());
+        assertTrue(testObj.add("clover"));
+        assertEquals(STRINGS.length - 1, testObj.size());
     }
 
     @Test(expected = NullPointerException.class)
     public void testAddNull() {
-        mTestObj.add(null);
+        testObj.add(null);
     }
 
     @Test
     public void testAddAll() {
         List<CharSequence> list = new LinkedList<CharSequence>();
         list.addAll(Arrays.asList("boletus", "chanterelle", "truffle", "truffle"));
-        mTestObj.addAll(list);
-        assertEquals(STRINGS.length + list.size() - 3, mTestObj.size());
+        testObj.addAll(list);
+        assertEquals(STRINGS.length + list.size() - 3, testObj.size());
     }
 
     @Test
     public void testContains() {
-        assertTrue(mTestObj.contains("sorrel"));
-        assertFalse(mTestObj.contains("boletus"));
+        assertTrue(testObj.contains("sorrel"));
+        assertFalse(testObj.contains("boletus"));
     }
 
     @Test(expected = NullPointerException.class)
     public void testContainsNull() {
-        mTestObj.contains(null);
+        testObj.contains(null);
     }
 
     @Test
     public void testContainsAll() {
         List<CharSequence> list = new LinkedList<CharSequence>();
         list.addAll(Arrays.asList("parsley", "basil", "juniper", "sorrel", "sorrel"));
-        assertTrue(mTestObj.containsAll(list));
+        assertTrue(testObj.containsAll(list));
     }
 
     @Test
     public void testDoesNotContainAll() {
         List<CharSequence> list = new LinkedList<CharSequence>();
         list.addAll(Arrays.asList("boletus", "basil", "sorrel"));
-        assertFalse(mTestObj.containsAll(list));
+        assertFalse(testObj.containsAll(list));
     }
 
     @Test(expected = NullPointerException.class)
     public void testContainsAllFails() {
         List<CharSequence> list = new LinkedList<CharSequence>();
         list.addAll(Arrays.asList(null, "basil", "sorrel"));
-        mTestObj.containsAll(list);
+        testObj.containsAll(list);
     }
 
     @Test
     public void testRetainAll() {
         List<CharSequence> list = new LinkedList<CharSequence>();
         list.addAll(Arrays.asList("boletus", "basil", "sorrel"));
-        boolean changed = mTestObj.retainAll(list);
-        assertEquals(2, mTestObj.size());
+        boolean changed = testObj.retainAll(list);
+        assertEquals(2, testObj.size());
 
-        assertTrue(mTestObj.contains("basil"));
-        assertTrue(mTestObj.contains("sorrel"));
+        assertTrue(testObj.contains("basil"));
+        assertTrue(testObj.contains("sorrel"));
         assertTrue(changed);
     }
 
@@ -149,53 +149,53 @@ public class TSTSetTest {
     public void testRetainAllDoesntChangeSet() {
         List<CharSequence> list = new LinkedList<CharSequence>();
         list.addAll(Arrays.asList(STRINGS));
-        boolean changed = mTestObj.retainAll(list);
-        assertEquals(EXPECTED_SIZE, mTestObj.size());
+        boolean changed = testObj.retainAll(list);
+        assertEquals(EXPECTED_SIZE, testObj.size());
         assertFalse(changed);
     }
 
     @Test(expected = NullPointerException.class)
     public void testRetainAllWithNull() {
-        mTestObj.retainAll(null);
+        testObj.retainAll(null);
     }
 
     @Test
     public void testClear() {
-        mTestObj.clear();
-        assertIsEmpty(mTestObj);
+        testObj.clear();
+        assertIsEmpty(testObj);
     }
 
     @Test
     public void testRemove() {
-        boolean wasContained = mTestObj.remove("basil");
+        boolean wasContained = testObj.remove("basil");
         assertTrue(wasContained);
-        assertFalse(mTestObj.contains("basil"));
+        assertFalse(testObj.contains("basil"));
 
-        wasContained = mTestObj.remove("bolete");
+        wasContained = testObj.remove("bolete");
         assertFalse(wasContained);
     }
 
     @Test(expected = NullPointerException.class)
     public void testRemoveNull() {
-        mTestObj.remove(null);
+        testObj.remove(null);
     }
 
     @Test
     public void testRemoveAll() {
         List<CharSequence> list = new LinkedList<CharSequence>();
         list.addAll(Arrays.asList("boletus", "basil", "sorrel"));
-        boolean changed = mTestObj.removeAll(list);
+        boolean changed = testObj.removeAll(list);
         assertTrue(changed);
-        assertFalse(mTestObj.contains("basil"));
-        assertFalse(mTestObj.contains("sorrel"));
-        assertEquals(EXPECTED_SIZE - 2, mTestObj.size());
+        assertFalse(testObj.contains("basil"));
+        assertFalse(testObj.contains("sorrel"));
+        assertEquals(EXPECTED_SIZE - 2, testObj.size());
     }
 
     @Test
     public void testRemoveAllDoesntChange() {
         List<CharSequence> list = new LinkedList<CharSequence>();
         list.addAll(Arrays.asList("boletus", "chanterelle", "truffle", "truffle"));
-        boolean changed = mTestObj.removeAll(list);
+        boolean changed = testObj.removeAll(list);
         assertFalse(changed);
     }
 
@@ -203,12 +203,12 @@ public class TSTSetTest {
     public void testRemoveAllWithNull() {
         List<CharSequence> list = new LinkedList<CharSequence>();
         list.addAll(Arrays.asList(null, "basil"));
-        mTestObj.removeAll(list);
+        testObj.removeAll(list);
     }
 
     @Test
     public void testToArray() {
-        Object[] array = mTestObj.toArray();
+        Object[] array = testObj.toArray();
         assertEquals(EXPECTED_SIZE, array.length);
         assertEquals(new Object[]{"artichoke", "avocado", "basil", "courgette", "eggplant", "juniper", "parsley",
                 "sorrel"}, array);
@@ -216,7 +216,7 @@ public class TSTSetTest {
 
     @Test
     public void testToCharSequenceArray() {
-        CharSequence[] array = mTestObj.toArray(new CharSequence[]{});
+        CharSequence[] array = testObj.toArray(new CharSequence[]{});
         assertEquals(EXPECTED_SIZE, array.length);
         assertEquals(new CharSequence[]{"artichoke", "avocado", "basil", "courgette", "eggplant", "juniper", "parsley",
                 "sorrel"}, array);
@@ -225,31 +225,31 @@ public class TSTSetTest {
     @Test
     public void testToString() {
         Set<CharSequence> dataSet = new TreeSet<CharSequence>(Arrays.asList(STRINGS));
-        assertEquals(dataSet.toString(), mTestObj.toString());
+        assertEquals(dataSet.toString(), testObj.toString());
     }
 
     @Test
     public void testEquals() {
         Set<CharSequence> treeSet = new TreeSet<CharSequence>(Arrays.asList(STRINGS));
         Set<CharSequence> hashSet = new HashSet<CharSequence>(Arrays.asList(STRINGS));
-        assertEquals(treeSet, mTestObj);
-        assertEquals(mTestObj, treeSet);
-        assertEquals(hashSet, mTestObj);
-        assertEquals(mTestObj, hashSet);
+        assertEquals(treeSet, testObj);
+        assertEquals(testObj, treeSet);
+        assertEquals(hashSet, testObj);
+        assertEquals(testObj, hashSet);
 
-        assertEquals(mTestObj, mTestObj);
-        assertFalse(mTestObj.equals(null));
+        assertEquals(testObj, testObj);
+        assertFalse(testObj.equals(null));
     }
 
     @Test
     public void testHashCode() {
         Set<CharSequence> treeSet = new TreeSet<CharSequence>(Arrays.asList(STRINGS));
-        assertEquals(treeSet.hashCode(), mTestObj.hashCode());
+        assertEquals(treeSet.hashCode(), testObj.hashCode());
     }
 
     @Test
     public void testIterator() {
-        Iterator<CharSequence> testIterator = mTestObj.iterator();
+        Iterator<CharSequence> testIterator = testObj.iterator();
         Set<CharSequence> treeSet = new TreeSet<CharSequence>(Arrays.asList(STRINGS));
         Iterator<CharSequence> compareIterator = treeSet.iterator();
         while (testIterator.hasNext()) {
@@ -259,7 +259,7 @@ public class TSTSetTest {
 
     @Test
     public void testHeadSet() {
-        SortedSet<CharSequence> headSet = mTestObj.headSet("pomegranade");
+        SortedSet<CharSequence> headSet = testObj.headSet("pomegranade");
         assertNotNull(headSet);
         assertEquals(7, headSet.size());
         assertEquals(
@@ -269,7 +269,7 @@ public class TSTSetTest {
 
     @Test
     public void testTailSet() {
-        SortedSet<CharSequence> tailSet = mTestObj.tailSet("pomegranade");
+        SortedSet<CharSequence> tailSet = testObj.tailSet("pomegranade");
         assertNotNull(tailSet);
         assertEquals(1, tailSet.size());
         assertTrue(tailSet.contains("sorrel"));
@@ -277,7 +277,7 @@ public class TSTSetTest {
 
     @Test
     public void testSubSet() {
-        SortedSet<CharSequence> subSet = mTestObj.subSet("cranberry", "pomegranade");
+        SortedSet<CharSequence> subSet = testObj.subSet("cranberry", "pomegranade");
         assertNotNull(subSet);
         assertEquals(3, subSet.size());
         assertEquals(new TreeSet<CharSequence>(Arrays.asList("eggplant", "juniper", "parsley")), subSet);
@@ -285,64 +285,64 @@ public class TSTSetTest {
 
     @Test
     public void testIndexOf() {
-        assertEquals(-1, mTestObj.indexOf("not in set"));
-        assertEquals(0, mTestObj.indexOf("artichoke"));
-        assertEquals(EXPECTED_SIZE - 1, mTestObj.indexOf("sorrel"));
+        assertEquals(-1, testObj.indexOf("not in set"));
+        assertEquals(0, testObj.indexOf("artichoke"));
+        assertEquals(EXPECTED_SIZE - 1, testObj.indexOf("sorrel"));
     }
 
     @Test
     public void testGetElementAt() {
-        for (int index = 0; index < mTestObj.size(); ++index) {
-            assertEquals(index, mTestObj.indexOf(mTestObj.getElementAt(index)));
+        for (int index = 0; index < testObj.size(); ++index) {
+            assertEquals(index, testObj.indexOf(testObj.getElementAt(index)));
         }
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void testGetElementAtWithIndexTooLarge() {
-        assertNull(mTestObj.getElementAt(999));
+        assertNull(testObj.getElementAt(999));
     }
 
     @Test
     public void testPredecessorOfFirstElementIsNull() {
-        assertNull(mTestObj.predecessor(mTestObj.first()));
+        assertNull(testObj.predecessor(testObj.first()));
     }
 
     @Test
     public void testPredecessorForKeysInSet() {
-        assertEquals("parsley", mTestObj.predecessor(mTestObj.last()));
-        assertEquals("artichoke", mTestObj.predecessor("avocado"));
-        assertEquals("avocado", mTestObj.predecessor("basil"));
-        assertEquals("basil", mTestObj.predecessor("courgette"));
+        assertEquals("parsley", testObj.predecessor(testObj.last()));
+        assertEquals("artichoke", testObj.predecessor("avocado"));
+        assertEquals("avocado", testObj.predecessor("basil"));
+        assertEquals("basil", testObj.predecessor("courgette"));
     }
 
     @Test
     public void testPredecessorForKeysNotInSet() {
-        assertEquals("courgette", mTestObj.predecessor("cranberry"));
-        assertNull(mTestObj.predecessor("aardvark"));
+        assertEquals("courgette", testObj.predecessor("cranberry"));
+        assertNull(testObj.predecessor("aardvark"));
     }
 
     @Test
     public void testSuccessorOfLastElementIsNull() {
-        assertNull(mTestObj.successor(mTestObj.last()));
+        assertNull(testObj.successor(testObj.last()));
     }
 
     @Test
     public void testSuccessorForKeysInSet() {
-        assertEquals("courgette", mTestObj.successor("basil"));
-        assertEquals("parsley", mTestObj.successor("juniper"));
+        assertEquals("courgette", testObj.successor("basil"));
+        assertEquals("parsley", testObj.successor("juniper"));
     }
 
     @Test
     public void testSuccessorForKeysNotInSet() {
-        assertNull(mTestObj.successor("yams"));
-        assertEquals("juniper", mTestObj.successor("horseradish"));
+        assertNull(testObj.successor("yams"));
+        assertEquals("juniper", testObj.successor("horseradish"));
     }
 
     @Test
     public void testGetPrefixMatch() {
         CharSequence[] expectedValues = new CharSequence[]{"artichoke", "avocado"};
         int index = 0;
-        for (CharSequence string : mTestObj.getPrefixMatch("a")) {
+        for (CharSequence string : testObj.getPrefixMatch("a")) {
             assertEquals(expectedValues[index], string);
             index++;
         }
@@ -350,7 +350,7 @@ public class TSTSetTest {
 
     @Test
     public void testPrefixMatchYieldsNoResult() {
-        Iterable<CharSequence> it = mTestObj.getPrefixMatch("x");
+        Iterable<CharSequence> it = testObj.getPrefixMatch("x");
         assertFalse(it.iterator().hasNext());
     }
 
@@ -359,7 +359,7 @@ public class TSTSetTest {
         CharSequence[] expectedValues = new CharSequence[]{"artichoke", "avocado", "basil", "courgette", "eggplant",
                 "juniper", "parsley", "sorrel"};
         int index = 0;
-        for (CharSequence string : mTestObj.getPrefixMatch("")) {
+        for (CharSequence string : testObj.getPrefixMatch("")) {
             assertEquals(expectedValues[index], string);
             index++;
         }
@@ -375,12 +375,12 @@ public class TSTSetTest {
 
     @Test
     public void testMatchAlmostYieldsNoResult() {
-        assertEquals(0, mTestObj.matchAlmost("xxxx", 0, 0).size());
+        assertEquals(0, testObj.matchAlmost("xxxx", 0, 0).size());
     }
 
     @Test
     public void testMatchAlmostYieldsAllElements() {
-        assertEquals(8, mTestObj.matchAlmost("xxxxxxxx", 999, 999).size());
+        assertEquals(8, testObj.matchAlmost("xxxxxxxx", 999, 999).size());
     }
 
     private void assertIsEmpty(TernarySearchTreeSet set) {

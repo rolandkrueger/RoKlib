@@ -24,7 +24,7 @@ public class OrOperation extends AbstractBinaryBooleanOperation {
     private static final long serialVersionUID = 2060306880093108085L;
 
     public boolean execute() {
-        return mLeft || mRight;
+        return left || right;
     }
 
     public boolean canShortCircuit(boolean firstOperand) {

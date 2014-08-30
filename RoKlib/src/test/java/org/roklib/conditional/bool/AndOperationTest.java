@@ -26,49 +26,49 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class AndOperationTest {
-    private AndOperation mTestObj;
+    private AndOperation andOperation;
 
     @Before
     public void setUp() {
-        mTestObj = new AndOperation();
-        mTestObj.setLeftHandOperand(false);
-        mTestObj.setRightHandOperand(false);
+        andOperation = new AndOperation();
+        andOperation.setLeftHandOperand(false);
+        andOperation.setRightHandOperand(false);
     }
 
     @Test
     public void test() {
-        assertFalse(mTestObj.execute());
-        mTestObj.setLeftHandOperand(true);
-        assertFalse(mTestObj.execute());
-        mTestObj.setRightHandOperand(true);
-        assertTrue(mTestObj.execute());
-        mTestObj.setLeftHandOperand(false);
-        assertFalse(mTestObj.execute());
+        assertFalse(andOperation.execute());
+        andOperation.setLeftHandOperand(true);
+        assertFalse(andOperation.execute());
+        andOperation.setRightHandOperand(true);
+        assertTrue(andOperation.execute());
+        andOperation.setLeftHandOperand(false);
+        assertFalse(andOperation.execute());
     }
 
     @Test
     public void testCanShortCircuit() {
-        assertFalse(mTestObj.canShortCircuit(true));
-        assertTrue(mTestObj.canShortCircuit(false));
+        assertFalse(andOperation.canShortCircuit(true));
+        assertTrue(andOperation.canShortCircuit(false));
     }
 
     @Test
     public void testGetShortCircuit() {
-        assertFalse(mTestObj.getShortCircuit(false));
+        assertFalse(andOperation.getShortCircuit(false));
     }
 
     @Test(expected = IllegalStateException.class)
     public void testGetShortCircuit_Fail() {
-        mTestObj.getShortCircuit(true);
+        andOperation.getShortCircuit(true);
     }
 
     @Test
     public void testIsUnaryOperation() {
-        assertFalse(mTestObj.isUnaryOperation());
+        assertFalse(andOperation.isUnaryOperation());
     }
 
     @Test
     public void testGetMinimumNumberOfOperands() {
-        assertEquals(2, mTestObj.getMinimumNumberOfOperands());
+        assertEquals(2, andOperation.getMinimumNumberOfOperands());
     }
 }

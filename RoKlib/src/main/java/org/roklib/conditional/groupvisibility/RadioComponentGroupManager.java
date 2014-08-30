@@ -31,7 +31,7 @@ import java.util.Map;
 /**
  * <p>
  * This class manages a set of components which can be switched on or off in the same way as a group of radio buttons.
- * Component in this context means any object which implements the {@link IVisibilityEnablingConfigurable} interface.
+ * Component in this context means any object which implements the {@link VisibilityEnablingConfigurable} interface.
  * This may be a UI component or any other object that can be switched on or off.
  * </p>
  * <p>
@@ -52,9 +52,9 @@ public class RadioComponentGroupManager implements Serializable {
         ENABLING, VISIBILITY
     }
 
-    private final VisibilityGroupManager mManager;
-    private final Map<String, RadioComponentSwitch> mConditions;
-    private Mode mMode;
+    private final VisibilityGroupManager manager;
+    private final Map<String, RadioComponentSwitch> conditions;
+    private Mode mode;
 
     public RadioComponentGroupManager(Mode mode) {
         this(7, mode);
@@ -65,35 +65,35 @@ public class RadioComponentGroupManager implements Serializable {
     }
 
     public RadioComponentGroupManager(int numberOfManagedComponents, Mode mode) {
-        mMode = mode;
-        if (mMode == null) {
-            mMode = Mode.ENABLING;
+        this.mode = mode;
+        if (this.mode == null) {
+            this.mode = Mode.ENABLING;
         }
-        mManager = new VisibilityGroupManager(numberOfManagedComponents);
-        mConditions = new Hashtable<String, RadioComponentSwitch>(numberOfManagedComponents);
+        manager = new VisibilityGroupManager(numberOfManagedComponents);
+        conditions = new Hashtable<String, RadioComponentSwitch>(numberOfManagedComponents);
     }
 
     public RadioComponentGroupManager(int numberOfManagedComponents) {
         this(numberOfManagedComponents, Mode.ENABLING);
     }
 
-    public RadioComponentSwitch addComponent(String groupId, IVisibilityEnablingConfigurable component) {
+    public RadioComponentSwitch addComponent(String groupId, VisibilityEnablingConfigurable component) {
         RadioComponentSwitch result = new RadioComponentSwitch(groupId + "_switch");
-        mConditions.put(groupId, result);
-        mManager.addGroupMember(groupId, component);
+        conditions.put(groupId, result);
+        manager.addGroupMember(groupId, component);
         recalculateExpressions();
         return result;
     }
 
     private void recalculateExpressions() {
-        if (mConditions.size() < 2)
+        if (conditions.size() < 2)
             return;
 
-        for (Map.Entry<String, RadioComponentSwitch> currentEntry : mConditions.entrySet()) {
+        for (Map.Entry<String, RadioComponentSwitch> currentEntry : conditions.entrySet()) {
             currentEntry.getValue().clearConditionListeners();
             BooleanExpression expression = new BooleanExpression(new AndOperation());
 
-            for (Map.Entry<String, RadioComponentSwitch> entry : mConditions.entrySet()) {
+            for (Map.Entry<String, RadioComponentSwitch> entry : conditions.entrySet()) {
                 if (currentEntry == entry)
                     continue;
                 expression.addOperand(entry.getValue());
@@ -103,15 +103,15 @@ public class RadioComponentGroupManager implements Serializable {
             expression = BoolExpressionBuilder.createANDExpression(currentEntry.getValue(),
                     BoolExpressionBuilder.createNOTExpression(expression));
 
-            if (mMode == Mode.ENABLING) {
-                mManager.setExpressionForEnabling(currentEntry.getKey(), expression);
+            if (mode == Mode.ENABLING) {
+                manager.setExpressionForEnabling(currentEntry.getKey(), expression);
             } else {
-                mManager.setExpressionForVisibility(currentEntry.getKey(), expression);
+                manager.setExpressionForVisibility(currentEntry.getKey(), expression);
             }
         }
     }
 
-    public static class RadioComponentSwitch extends Condition implements IConditionListener {
+    public static class RadioComponentSwitch extends Condition implements ConditionListener {
         private static final long serialVersionUID = 4106071527518882170L;
 
         public RadioComponentSwitch(String name) {

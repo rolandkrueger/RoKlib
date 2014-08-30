@@ -24,10 +24,10 @@ import java.util.*;
 
 
 public class TernarySearchTreeSet extends AbstractSet<CharSequence> implements SortedSet<CharSequence>,
-        ITernarySearchTreeQuery {
+        TernarySearchTreeQuery {
     private static final Object MARKER = new Object();
 
-    private final ITernarySearchTreeMap<Object> mData;
+    private final TernarySearchTreeMapInterface<Object> data;
 
     public TernarySearchTreeSet() {
         this(false);
@@ -35,9 +35,9 @@ public class TernarySearchTreeSet extends AbstractSet<CharSequence> implements S
 
     public TernarySearchTreeSet(boolean caseInsensitive) {
         if (caseInsensitive) {
-            mData = new TernarySearchTreeMapCaseInsensitive<Object>();
+            data = new TernarySearchTreeMapCaseInsensitive<Object>();
         } else {
-            mData = new TernarySearchTreeMap<Object>();
+            data = new TernarySearchTreeMap<Object>();
         }
     }
 
@@ -72,80 +72,80 @@ public class TernarySearchTreeSet extends AbstractSet<CharSequence> implements S
     }
 
     public CharSequence first() {
-        return mData.firstKey();
+        return data.firstKey();
     }
 
     public SortedSet<CharSequence> headSet(CharSequence toElement) {
-        return new TSTStringSetSubSet(mData.headMap(toElement));
+        return new TSTStringSetSubSet(data.headMap(toElement));
     }
 
     public CharSequence last() {
-        return mData.lastKey();
+        return data.lastKey();
     }
 
     public SortedSet<CharSequence> subSet(CharSequence fromElement, CharSequence toElement) {
-        return new TSTStringSetSubSet(mData.subMap(fromElement, toElement));
+        return new TSTStringSetSubSet(data.subMap(fromElement, toElement));
     }
 
     public SortedSet<CharSequence> tailSet(CharSequence fromElement) {
-        return new TSTStringSetSubSet(mData.tailMap(fromElement));
+        return new TSTStringSetSubSet(data.tailMap(fromElement));
     }
 
     public boolean add(CharSequence key) {
-        return mData.put(key, MARKER) != null;
+        return data.put(key, MARKER) != null;
     }
 
     public boolean contains(Object object) {
         if (object == null) {
             throw new NullPointerException();
         }
-        return mData.containsKey(object);
+        return data.containsKey(object);
     }
 
     public Iterator<CharSequence> iterator() {
-        return mData.keySet().iterator();
+        return data.keySet().iterator();
     }
 
     public boolean remove(Object element) {
         if (element == null) {
             throw new NullPointerException();
         }
-        return mData.remove(element) != null;
+        return data.remove(element) != null;
     }
 
     public int size() {
-        return mData.size();
+        return data.size();
     }
 
     public int indexOf(CharSequence string) {
-        return mData.indexOf(string);
+        return data.indexOf(string);
     }
 
     public CharSequence getElementAt(int index) {
-        return mData.getKeyAt(index);
+        return data.getKeyAt(index);
     }
 
     public CharSequence predecessor(CharSequence forElement) {
-        Map.Entry<CharSequence, Object> entry = mData.predecessorEntry(forElement);
+        Map.Entry<CharSequence, Object> entry = data.predecessorEntry(forElement);
         return entry == null ? null : entry.getKey();
     }
 
     public CharSequence successor(CharSequence forElement) {
-        Map.Entry<CharSequence, Object> entry = mData.successorEntry(forElement);
+        Map.Entry<CharSequence, Object> entry = data.successorEntry(forElement);
         return entry == null ? null : entry.getKey();
     }
 
     public Iterable<CharSequence> getPrefixMatch(CharSequence prefix) {
-        return mData.getPrefixMatch(prefix);
+        return data.getPrefixMatch(prefix);
     }
 
     public SortedSet<CharSequence> matchAlmost(CharSequence string, int distance, int lengthTolerance) {
-        return mData.matchAlmost(string, distance, lengthTolerance);
+        return data.matchAlmost(string, distance, lengthTolerance);
     }
 
     @Override
     public String toString() {
-        return mData.keySet().toString();
+        return data.keySet().toString();
     }
 
     private class TSTStringSetSubSet extends AbstractSet<CharSequence> implements SortedSet<CharSequence> {

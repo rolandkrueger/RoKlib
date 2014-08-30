@@ -24,6 +24,6 @@ public class NotOperation extends AbstractUnaryBooleanOperation {
     private static final long serialVersionUID = 7505425679233940362L;
 
     public boolean execute() {
-        return !mValue;
+        return !value;
     }
 }

@@ -20,18 +20,18 @@
  */
 package org.roklib.conditional.bool;
 
-public abstract class AbstractBinaryBooleanOperation implements IBooleanOperation {
+public abstract class AbstractBinaryBooleanOperation implements BooleanOperation {
     private static final long serialVersionUID = 2820346799434520249L;
 
-    protected boolean mLeft;
-    protected boolean mRight;
+    protected boolean left;
+    protected boolean right;
 
     public final void setLeftHandOperand(boolean left) {
-        mLeft = left;
+        this.left = left;
     }
 
     public final void setRightHandOperand(boolean right) {
-        mRight = right;
+        this.right = right;
     }
 
     public final int getMinimumNumberOfOperands() {

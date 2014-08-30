@@ -37,145 +37,145 @@ public class TSTSubMapTest {
     private final static String F = "fff";
     private final static String G = "ggg";
 
-    private TernarySearchTreeMap<String> mTestObj;
+    private TernarySearchTreeMap<String> testObj;
 
     // TODO: test removing boundary values
     // TODO: test submaps of submaps
 
     @Before
     public void setUp() {
-        mTestObj = new TernarySearchTreeMap<String>();
-        mTestObj.put("", "EMPTY");
-        mTestObj.put(D, D.toUpperCase());
-        mTestObj.put(F, F.toUpperCase());
-        mTestObj.put(C, C.toUpperCase());
-        mTestObj.put(B, B.toUpperCase());
-        mTestObj.put(A, A.toUpperCase());
-        mTestObj.put(G, G.toUpperCase());
-        mTestObj.put(E, E.toUpperCase());
+        testObj = new TernarySearchTreeMap<String>();
+        testObj.put("", "EMPTY");
+        testObj.put(D, D.toUpperCase());
+        testObj.put(F, F.toUpperCase());
+        testObj.put(C, C.toUpperCase());
+        testObj.put(B, B.toUpperCase());
+        testObj.put(A, A.toUpperCase());
+        testObj.put(G, G.toUpperCase());
+        testObj.put(E, E.toUpperCase());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSubMapInvalidArguments() {
-        mTestObj.subMap(F, A);
+        testObj.subMap(F, A);
     }
 
     @Test
     public void testSubMapGetComparator() {
-        assertEquals(mTestObj.comparator(), mTestObj.subMap(A, B).comparator());
+        assertEquals(testObj.comparator(), testObj.subMap(A, B).comparator());
     }
 
     @Test
     public void testFirstKeyFromSubMap_EndpointsInMap() {
         // low endpoint is contained in submap
-        assertEquals("aaa", mTestObj.subMap(A, D).firstKey());
+        assertEquals("aaa", testObj.subMap(A, D).firstKey());
     }
 
     @Test
     public void testLastKeyFromSubMap_EndpointsInMap() {
         // high endpoint is not contained in the submap
-        assertEquals("ccc", mTestObj.subMap(A, D).lastKey());
+        assertEquals("ccc", testObj.subMap(A, D).lastKey());
     }
 
     @Test
     public void testFirstKeyFromSubMap_EndpointsNotInMap() {
         // low endpoint is contained in submap
-        assertEquals("aaa", mTestObj.subMap("a", "faaaa").firstKey());
+        assertEquals("aaa", testObj.subMap("a", "faaaa").firstKey());
     }
 
     @Test
     public void testLastKeyFromSubMap_EndpointsNotInMap() {
         // high endpoint is not contained in the submap
-        assertEquals("eee", mTestObj.subMap("a", "faaaa").lastKey());
+        assertEquals("eee", testObj.subMap("a", "faaaa").lastKey());
     }
 
     @Test
     public void testFirstKeyWithEmptyMap() {
-        mTestObj.clear();
-        assertNull(mTestObj.subMap("ab", "xy").firstKey());
+        testObj.clear();
+        assertNull(testObj.subMap("ab", "xy").firstKey());
     }
 
     @Test
     public void testLastKeyWithEmptyMap() {
-        mTestObj.clear();
-        assertNull(mTestObj.subMap("ab", "xy").lastKey());
+        testObj.clear();
+        assertNull(testObj.subMap("ab", "xy").lastKey());
     }
 
     @Test
     public void testFirstKeyWithEmptySubMap() {
-        assertNull(mTestObj.subMap("vvv", "xxx").firstKey());
+        assertNull(testObj.subMap("vvv", "xxx").firstKey());
     }
 
     @Test
     public void testLastKeyWithEmptySubMap() {
-        assertNull(mTestObj.subMap("vvv", "xxx").lastKey());
+        assertNull(testObj.subMap("vvv", "xxx").lastKey());
     }
 
     @Test
     public void testSize_EndpointsInMap() {
-        assertEquals(3, mTestObj.subMap(A, D).size());
+        assertEquals(3, testObj.subMap(A, D).size());
     }
 
     @Test
     public void testSize_EndpointsNotInMap() {
-        assertEquals(4, mTestObj.subMap("abbb", "faaaa").size());
+        assertEquals(4, testObj.subMap("abbb", "faaaa").size());
     }
 
     @Test
     public void testSizeForEmptyBaseMap() {
-        SortedMap<CharSequence, String> subMap = mTestObj.subMap(C, "dumbo");
-        mTestObj.clear();
+        SortedMap<CharSequence, String> subMap = testObj.subMap(C, "dumbo");
+        testObj.clear();
         assertEquals(0, subMap.size());
     }
 
     @Test
     public void testValues_EndpointsInMap() {
-        List<String> valueList = new ArrayList<String>(mTestObj.subMap(B, D).values());
+        List<String> valueList = new ArrayList<String>(testObj.subMap(B, D).values());
         Collection<String> expectedValues = Arrays.asList("BBB", "CCC");
         assertEquals(expectedValues, valueList);
     }
 
     @Test
     public void testValues_EndpointsNotInMap() {
-        List<String> valueList = new ArrayList<String>(mTestObj.subMap("abbb", "faaaa").values());
+        List<String> valueList = new ArrayList<String>(testObj.subMap("abbb", "faaaa").values());
         Collection<String> expectedValues = Arrays.asList("BBB", "CCC", "DDD", "EEE");
         assertEquals(expectedValues, valueList);
-        assertEquals(mTestObj.subMap("ab", "fa"), mTestObj.subMap(B, F));
+        assertEquals(testObj.subMap("ab", "fa"), testObj.subMap(B, F));
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testValuesAddNotSupported() {
-        mTestObj.subMap("ab", F).values().add(null);
+        testObj.subMap("ab", F).values().add(null);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testValuesAddAllNotSupported() {
-        mTestObj.subMap("ab", F).values().addAll(null);
+        testObj.subMap("ab", F).values().addAll(null);
     }
 
     @Test
     public void testValuesRemove() {
-        Collection<String> values = mTestObj.subMap(C, E).values();
+        Collection<String> values = testObj.subMap(C, E).values();
         assertFalse(values.remove(A.toUpperCase()));
         assertFalse(values.remove(F.toUpperCase()));
         assertTrue(values.remove(D.toUpperCase()));
-        assertFalse(mTestObj.containsValue(D.toUpperCase()));
+        assertFalse(testObj.containsValue(D.toUpperCase()));
     }
 
     @Test
     public void testValuesClear() {
-        Collection<String> values = mTestObj.subMap(C, E).values();
+        Collection<String> values = testObj.subMap(C, E).values();
         values.clear();
         assertEquals(0, values.size());
-        assertEquals(6, mTestObj.size());
-        assertFalse(mTestObj.containsKey(C));
-        assertFalse(mTestObj.containsKey(D));
-        assertTrue(mTestObj.containsKey(E));
+        assertEquals(6, testObj.size());
+        assertFalse(testObj.containsKey(C));
+        assertFalse(testObj.containsKey(D));
+        assertTrue(testObj.containsKey(E));
     }
 
     @Test
     public void testValuesContains() {
-        Collection<String> values = mTestObj.subMap(C, E).values();
+        Collection<String> values = testObj.subMap(C, E).values();
         assertFalse(values.contains(B.toUpperCase()));
         assertTrue(values.contains(C.toUpperCase()));
         assertTrue(values.contains(D.toUpperCase()));
@@ -184,55 +184,55 @@ public class TSTSubMapTest {
 
     @Test
     public void testSubMapWithEqualBoundaries() {
-        assertTrue(mTestObj.subMap(D, D).isEmpty());
+        assertTrue(testObj.subMap(D, D).isEmpty());
     }
 
     @Test
     public void testClearSubMapChangesMap() {
         Map<CharSequence, String> expected = new HashMap<CharSequence, String>();
-        expected.putAll(mTestObj);
+        expected.putAll(testObj);
         expected.remove(A);
         expected.remove(B);
-        mTestObj.subMap(A, C).clear();
-        assertEquals(expected, mTestObj);
-        assertTrue(mTestObj.subMap(A, C).isEmpty());
+        testObj.subMap(A, C).clear();
+        assertEquals(expected, testObj);
+        assertTrue(testObj.subMap(A, C).isEmpty());
     }
 
     @Test
     public void testClearSubMapWithEqualBoundariesDoesntChangeMap() {
         Map<CharSequence, String> expected = new HashMap<CharSequence, String>();
-        expected.putAll(mTestObj);
-        mTestObj.subMap(D, D).clear();
-        assertEquals(expected, mTestObj);
+        expected.putAll(testObj);
+        testObj.subMap(D, D).clear();
+        assertEquals(expected, testObj);
     }
 
     @Test
     public void testClearDisjunctSubMapDoesntChangeMap() {
         Map<CharSequence, String> expected = new HashMap<CharSequence, String>();
-        expected.putAll(mTestObj);
-        mTestObj.subMap("xxx", "zzz").clear();
-        assertEquals(expected, mTestObj);
+        expected.putAll(testObj);
+        testObj.subMap("xxx", "zzz").clear();
+        assertEquals(expected, testObj);
     }
 
     @Test(expected = NullPointerException.class)
     public void testSubMapWithNullFromKey() {
-        mTestObj.subMap(null, C);
+        testObj.subMap(null, C);
     }
 
     @Test(expected = NullPointerException.class)
     public void testSubMapWithNullToKey() {
-        mTestObj.subMap(C, null);
+        testObj.subMap(C, null);
     }
 
     @Test
     public void testContainsKeyWithEmptyStringKey() {
-        SortedMap<CharSequence, String> subMap = mTestObj.subMap("", "dumbo");
+        SortedMap<CharSequence, String> subMap = testObj.subMap("", "dumbo");
         assertTrue(subMap.containsKey(""));
     }
 
     @Test
     public void testContainsKey() {
-        SortedMap<CharSequence, String> subMap = mTestObj.subMap(C, "dumbo");
+        SortedMap<CharSequence, String> subMap = testObj.subMap(C, "dumbo");
         assertFalse(subMap.containsKey(""));
         assertTrue(subMap.containsKey(C));
         assertTrue(subMap.containsKey(D));
@@ -242,13 +242,13 @@ public class TSTSubMapTest {
         assertFalse(subMap.containsKey("dumbo"));
 
         // add new key to base map, which falls into the range of the submap
-        mTestObj.put("cd", "CD");
+        testObj.put("cd", "CD");
         assertTrue(subMap.containsKey("cd"));
     }
 
     @Test
     public void testContainsValue() {
-        SortedMap<CharSequence, String> subMap = mTestObj.subMap(C, "dumbo");
+        SortedMap<CharSequence, String> subMap = testObj.subMap(C, "dumbo");
         assertTrue(subMap.containsValue(C.toUpperCase()));
         assertTrue(subMap.containsValue(D.toUpperCase()));
         assertFalse(subMap.containsValue(E.toUpperCase()));
@@ -256,13 +256,13 @@ public class TSTSubMapTest {
         assertFalse(subMap.containsValue(B.toUpperCase()));
 
         // add new key to base map, which falls into the range of the submap
-        mTestObj.put("cd", "CD");
+        testObj.put("cd", "CD");
         assertTrue(subMap.containsValue("CD"));
     }
 
     @Test
     public void testGet() {
-        SortedMap<CharSequence, String> subMap = mTestObj.subMap(C, "dumbo");
+        SortedMap<CharSequence, String> subMap = testObj.subMap(C, "dumbo");
         assertEquals(C.toUpperCase(), subMap.get(C));
         assertEquals(D.toUpperCase(), subMap.get(D));
         assertNull(subMap.get(A));
@@ -271,65 +271,65 @@ public class TSTSubMapTest {
 
     @Test
     public void testIsEmpty() {
-        SortedMap<CharSequence, String> subMap = mTestObj.subMap(C, "dumbo");
+        SortedMap<CharSequence, String> subMap = testObj.subMap(C, "dumbo");
         assertFalse(subMap.isEmpty());
         subMap.clear();
         assertTrue(subMap.isEmpty());
-        assertTrue(mTestObj.subMap("xxx", "yyy").isEmpty());
+        assertTrue(testObj.subMap("xxx", "yyy").isEmpty());
     }
 
     @Test
     public void testPut() {
-        SortedMap<CharSequence, String> subMap = mTestObj.subMap(C, G);
+        SortedMap<CharSequence, String> subMap = testObj.subMap(C, G);
         subMap.put("fargo", "jesses");
-        assertTrue(mTestObj.containsKey("fargo"));
-        assertTrue(mTestObj.containsValue("jesses"));
+        assertTrue(testObj.containsKey("fargo"));
+        assertTrue(testObj.containsValue("jesses"));
         assertTrue(subMap.containsKey("fargo"));
         assertTrue(subMap.containsValue("jesses"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testPutOutsideRange() {
-        SortedMap<CharSequence, String> subMap = mTestObj.subMap(C, G);
+        SortedMap<CharSequence, String> subMap = testObj.subMap(C, G);
         subMap.put("illegal", "argument");
     }
 
     @Test
     public void testPutAll() {
-        SortedMap<CharSequence, String> subMap = mTestObj.subMap(C, G);
+        SortedMap<CharSequence, String> subMap = testObj.subMap(C, G);
         Map<CharSequence, String> map = new HashMap<CharSequence, String>();
         map.put("dumbo", "elephant");
         map.put("elephant", "man");
         subMap.putAll(map);
-        assertTrue(mTestObj.containsKey("dumbo"));
-        assertTrue(mTestObj.containsKey("elephant"));
-        assertTrue(mTestObj.containsValue("elephant"));
-        assertTrue(mTestObj.containsValue("man"));
+        assertTrue(testObj.containsKey("dumbo"));
+        assertTrue(testObj.containsKey("elephant"));
+        assertTrue(testObj.containsValue("elephant"));
+        assertTrue(testObj.containsValue("man"));
     }
 
     @Test
     public void testRemove() {
-        SortedMap<CharSequence, String> subMap = mTestObj.subMap(C, F);
+        SortedMap<CharSequence, String> subMap = testObj.subMap(C, F);
         String value = subMap.remove(E);
         assertEquals(E.toUpperCase(), value);
         assertFalse(subMap.containsKey(E));
-        assertFalse(mTestObj.containsKey(E));
+        assertFalse(testObj.containsKey(E));
 
         // remove keys from outside the boundaries of the submap
         assertNull(subMap.remove(A));
-        assertTrue(mTestObj.containsKey(A));
+        assertTrue(testObj.containsKey(A));
         assertNull(subMap.remove(F));
-        assertTrue(mTestObj.containsKey(F));
+        assertTrue(testObj.containsKey(F));
     }
 
     @Test(expected = NullPointerException.class)
     public void testRemoveNullKey() {
-        mTestObj.subMap(A, C).remove(null);
+        testObj.subMap(A, C).remove(null);
     }
 
     @Test
     public void testKeySet() {
-        SortedMap<CharSequence, String> subMap = mTestObj.subMap("baaa", "dzzz");
+        SortedMap<CharSequence, String> subMap = testObj.subMap("baaa", "dzzz");
         Set<CharSequence> keySet = subMap.keySet();
         assertEquals(subMap.size(), keySet.size());
         Set<CharSequence> expectedSet = new HashSet<CharSequence>(Arrays.asList(B, C, D));
@@ -338,31 +338,31 @@ public class TSTSubMapTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void testKeySetAdd() {
-        mTestObj.subMap("baaa", "dzzz").keySet().add(null);
+        testObj.subMap("baaa", "dzzz").keySet().add(null);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testKeySetAddAll() {
-        mTestObj.subMap("baaa", "dzzz").keySet().addAll(null);
+        testObj.subMap("baaa", "dzzz").keySet().addAll(null);
     }
 
     @Test
     public void testKeySetClear() {
-        Set<CharSequence> keySet = mTestObj.subMap("baaa", "dzzz").keySet();
+        Set<CharSequence> keySet = testObj.subMap("baaa", "dzzz").keySet();
         keySet.clear();
         assertTrue(keySet.isEmpty());
-        assertTrue(mTestObj.containsKey(A));
-        assertFalse(mTestObj.containsKey(B));
-        assertFalse(mTestObj.containsKey(C));
-        assertFalse(mTestObj.containsKey(D));
-        assertTrue(mTestObj.containsKey(E));
-        assertTrue(mTestObj.containsKey(F));
-        assertTrue(mTestObj.containsKey(G));
+        assertTrue(testObj.containsKey(A));
+        assertFalse(testObj.containsKey(B));
+        assertFalse(testObj.containsKey(C));
+        assertFalse(testObj.containsKey(D));
+        assertTrue(testObj.containsKey(E));
+        assertTrue(testObj.containsKey(F));
+        assertTrue(testObj.containsKey(G));
     }
 
     @Test
     public void testKeySetContains() {
-        Set<CharSequence> keySet = mTestObj.subMap("baaa", "dzzz").keySet();
+        Set<CharSequence> keySet = testObj.subMap("baaa", "dzzz").keySet();
         assertFalse(keySet.contains(""));
         assertFalse(keySet.contains(A));
         assertTrue(keySet.contains(B));
@@ -375,20 +375,20 @@ public class TSTSubMapTest {
 
     @Test
     public void testKeySetContainsAll() {
-        Set<CharSequence> keySet = mTestObj.subMap("baaa", "dzzz").keySet();
+        Set<CharSequence> keySet = testObj.subMap("baaa", "dzzz").keySet();
         assertTrue(keySet.containsAll(Arrays.asList(B, C, D)));
         assertFalse(keySet.containsAll(Arrays.asList(A, E, F, G)));
     }
 
     @Test
     public void testKeySetIsEmpty() {
-        assertFalse(mTestObj.subMap("baaa", "dzzz").keySet().isEmpty());
-        assertTrue(mTestObj.subMap("xxx", "zzz").keySet().isEmpty());
+        assertFalse(testObj.subMap("baaa", "dzzz").keySet().isEmpty());
+        assertTrue(testObj.subMap("xxx", "zzz").keySet().isEmpty());
     }
 
     @Test
     public void testKeySetIterator() {
-        Iterator<CharSequence> it = mTestObj.subMap("baaa", "dzzz").keySet().iterator();
+        Iterator<CharSequence> it = testObj.subMap("baaa", "dzzz").keySet().iterator();
         assertTrue(it.hasNext());
         assertEquals(B, it.next());
         assertTrue(it.hasNext());
@@ -400,17 +400,17 @@ public class TSTSubMapTest {
 
     @Test
     public void testKeySetRemove() {
-        Set<CharSequence> keySet = mTestObj.subMap("baaa", "dzzz").keySet();
-        assertTrue(mTestObj.containsKey(C));
+        Set<CharSequence> keySet = testObj.subMap("baaa", "dzzz").keySet();
+        assertTrue(testObj.containsKey(C));
         assertTrue(keySet.remove(C));
-        assertFalse(mTestObj.containsKey(C));
+        assertFalse(testObj.containsKey(C));
         assertFalse(keySet.remove(G));
-        assertTrue(mTestObj.containsKey(G));
+        assertTrue(testObj.containsKey(G));
     }
 
     @Test
     public void testKeySetRemoveAll() {
-        Set<CharSequence> keySet = mTestObj.subMap("baaa", "dzzz").keySet();
+        Set<CharSequence> keySet = testObj.subMap("baaa", "dzzz").keySet();
         // remove keys A, B, and C. Only B and C are expected to be contained by the key set
         assertTrue(keySet.removeAll(Arrays.asList(A, B, C)));
         assertFalse(keySet.removeAll(Arrays.asList(A, B, C)));
@@ -420,7 +420,7 @@ public class TSTSubMapTest {
 
     @Test
     public void testKeySetRetainAll() {
-        Set<CharSequence> keySet = mTestObj.subMap("baaa", "dzzz").keySet();
+        Set<CharSequence> keySet = testObj.subMap("baaa", "dzzz").keySet();
         assertEquals(3, keySet.size());
         assertTrue(keySet.retainAll(Arrays.asList(A, B, C)));
         assertEquals(2, keySet.size());
@@ -429,13 +429,13 @@ public class TSTSubMapTest {
         assertTrue(keySet.contains(C));
         assertFalse(keySet.contains(D));
 
-        keySet = mTestObj.subMap("baaa", "dzzz").keySet();
+        keySet = testObj.subMap("baaa", "dzzz").keySet();
         assertFalse(keySet.retainAll(Arrays.asList(B, C, D)));
     }
 
     @Test
     public void testEntrySet() {
-        Set<Map.Entry<CharSequence, String>> entrySet = mTestObj.subMap("baaa", "dzzz").entrySet();
+        Set<Map.Entry<CharSequence, String>> entrySet = testObj.subMap("baaa", "dzzz").entrySet();
         assertEquals(3, entrySet.size());
         Iterator<Map.Entry<CharSequence, String>> it = entrySet.iterator();
         assertTrue(it.hasNext());
@@ -455,14 +455,14 @@ public class TSTSubMapTest {
         assertEquals(D.toUpperCase(), entry.setValue("new value"));
         assertFalse(it.hasNext());
 
-        assertEquals("new value", mTestObj.get(B));
-        assertEquals("new value", mTestObj.get(C));
-        assertEquals("new value", mTestObj.get(D));
+        assertEquals("new value", testObj.get(B));
+        assertEquals("new value", testObj.get(C));
+        assertEquals("new value", testObj.get(D));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetEntryValueNull() {
-        Set<Map.Entry<CharSequence, String>> entrySet = mTestObj.subMap("baaa", "dzzz").entrySet();
+        Set<Map.Entry<CharSequence, String>> entrySet = testObj.subMap("baaa", "dzzz").entrySet();
         Iterator<Map.Entry<CharSequence, String>> it = entrySet.iterator();
         Map.Entry<CharSequence, String> entry = it.next();
         entry.setValue(null);
@@ -470,28 +470,28 @@ public class TSTSubMapTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void testEntrySetAdd() {
-        mTestObj.subMap("baaa", "dzzz").entrySet().add(null);
+        testObj.subMap("baaa", "dzzz").entrySet().add(null);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testEntrySetAddAll() {
-        mTestObj.subMap("baaa", "dzzz").entrySet().addAll(null);
+        testObj.subMap("baaa", "dzzz").entrySet().addAll(null);
     }
 
     @Test
     public void testEntrySetClear() {
-        Set<Map.Entry<CharSequence, String>> entrySet = mTestObj.subMap("baaa", "dzzz").entrySet();
+        Set<Map.Entry<CharSequence, String>> entrySet = testObj.subMap("baaa", "dzzz").entrySet();
         assertEquals(3, entrySet.size());
         entrySet.clear();
-        assertEquals(5, mTestObj.size());
-        assertFalse(mTestObj.containsKey(B));
-        assertFalse(mTestObj.containsKey(C));
-        assertFalse(mTestObj.containsKey(D));
+        assertEquals(5, testObj.size());
+        assertFalse(testObj.containsKey(B));
+        assertFalse(testObj.containsKey(C));
+        assertFalse(testObj.containsKey(D));
     }
 
     @Test
     public void testEntrySetContains() {
-        Set<Map.Entry<CharSequence, String>> entrySet = mTestObj.subMap("baaa", "dzzz").entrySet();
+        Set<Map.Entry<CharSequence, String>> entrySet = testObj.subMap("baaa", "dzzz").entrySet();
         assertEquals(3, entrySet.size());
         TernarySearchTreeMap<String> expected = new TernarySearchTreeMap<String>();
         expected.put(B, B.toUpperCase());
@@ -509,12 +509,12 @@ public class TSTSubMapTest {
         for (Iterator<Map.Entry<CharSequence, String>> it = notExpected.entrySet().iterator(); it.hasNext(); ) {
             assertFalse(entrySet.contains(it.next()));
         }
-        assertFalse(entrySet.contains(mTestObj));
+        assertFalse(entrySet.contains(testObj));
     }
 
     @Test
     public void testEntrySetContainsAll() {
-        Set<Map.Entry<CharSequence, String>> entrySet = mTestObj.subMap("baaa", "dzzz").entrySet();
+        Set<Map.Entry<CharSequence, String>> entrySet = testObj.subMap("baaa", "dzzz").entrySet();
         TernarySearchTreeMap<String> expected = new TernarySearchTreeMap<String>();
         expected.put(B, B.toUpperCase());
         expected.put(C, C.toUpperCase());
@@ -531,20 +531,20 @@ public class TSTSubMapTest {
 
     @Test
     public void testEntrySetIsEmpty() {
-        assertFalse(mTestObj.subMap("baaa", "dzzz").entrySet().isEmpty());
-        assertTrue(mTestObj.subMap("xxx", "zzz").entrySet().isEmpty());
+        assertFalse(testObj.subMap("baaa", "dzzz").entrySet().isEmpty());
+        assertTrue(testObj.subMap("xxx", "zzz").entrySet().isEmpty());
     }
 
     @Test
     public void testEntrySetRemove() {
-        Set<Map.Entry<CharSequence, String>> entrySet = mTestObj.subMap("baaa", D).entrySet();
-        assertFalse(entrySet.remove(mTestObj));
-        assertFalse(entrySet.remove(mTestObj.entrySet().iterator().next()));
+        Set<Map.Entry<CharSequence, String>> entrySet = testObj.subMap("baaa", D).entrySet();
+        assertFalse(entrySet.remove(testObj));
+        assertFalse(entrySet.remove(testObj.entrySet().iterator().next()));
         TernarySearchTreeMap<String> map = new TernarySearchTreeMap<String>();
         map.put(B, B.toUpperCase());
         Map.Entry<CharSequence, String> entry = map.entrySet().iterator().next();
         assertTrue(entrySet.remove(entry));
-        assertFalse(mTestObj.containsKey(B));
+        assertFalse(testObj.containsKey(B));
         assertFalse(entrySet.contains(entry));
 
         // removing the upper bound of the entry set will not succeed
@@ -561,14 +561,14 @@ public class TSTSubMapTest {
 
     @Test
     public void testEntrySetRemoveAll() {
-        Set<Map.Entry<CharSequence, String>> entrySet = mTestObj.subMap("baaa", D).entrySet();
+        Set<Map.Entry<CharSequence, String>> entrySet = testObj.subMap("baaa", D).entrySet();
         TernarySearchTreeMap<String> map = new TernarySearchTreeMap<String>();
         map.put(B, B.toUpperCase());
         map.put("not in map", "");
         map.put(C, C.toUpperCase());
         assertTrue(entrySet.removeAll(map.entrySet()));
-        assertFalse(mTestObj.containsKey(B));
-        assertFalse(mTestObj.containsKey(C));
+        assertFalse(testObj.containsKey(B));
+        assertFalse(testObj.containsKey(C));
 
         map.clear();
         map.put(D, D.toUpperCase());
@@ -578,7 +578,7 @@ public class TSTSubMapTest {
 
     @Test
     public void testEntrySetRetainAll() {
-        Set<Map.Entry<CharSequence, String>> entrySet = mTestObj.subMap("baaa", F).entrySet();
+        Set<Map.Entry<CharSequence, String>> entrySet = testObj.subMap("baaa", F).entrySet();
         TernarySearchTreeMap<String> map = new TernarySearchTreeMap<String>();
         map.put(B, B.toUpperCase());
         map.put("not in map", "");
@@ -593,7 +593,7 @@ public class TSTSubMapTest {
 
     @Test
     public void testEntrySetEquals() {
-        Set<Map.Entry<CharSequence, String>> entrySet = mTestObj.subMap("baaa", E).entrySet();
+        Set<Map.Entry<CharSequence, String>> entrySet = testObj.subMap("baaa", E).entrySet();
         Map<CharSequence, String> map = new HashMap<CharSequence, String>();
         map.put(B, B.toUpperCase());
         map.put(C, C.toUpperCase());
@@ -611,7 +611,7 @@ public class TSTSubMapTest {
 
     @Test
     public void testEntrySetHashCode() {
-        Set<Map.Entry<CharSequence, String>> entrySet = mTestObj.subMap("baaa", E).entrySet();
+        Set<Map.Entry<CharSequence, String>> entrySet = testObj.subMap("baaa", E).entrySet();
         Map<CharSequence, String> map = new HashMap<CharSequence, String>();
         map.put(B, B.toUpperCase());
         map.put(C, C.toUpperCase());
@@ -625,7 +625,7 @@ public class TSTSubMapTest {
 
     @Test
     public void testHeadMap() {
-        SortedMap<CharSequence, String> headMap = mTestObj.subMap(B, "dumbo").headMap(D);
+        SortedMap<CharSequence, String> headMap = testObj.subMap(B, "dumbo").headMap(D);
         assertEquals(2, headMap.size());
         assertTrue(headMap.containsKey(B));
         assertTrue(headMap.containsKey(C));
@@ -634,37 +634,37 @@ public class TSTSubMapTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testHeadMapFailsLowerBound() {
-        mTestObj.subMap(B, "dumbo").headMap(A);
+        testObj.subMap(B, "dumbo").headMap(A);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testHeadMapFailsUpperBound() {
-        mTestObj.subMap(B, "dumbo").headMap(E);
+        testObj.subMap(B, "dumbo").headMap(E);
     }
 
     @Test
     public void testAddToHeadMap() {
-        SortedMap<CharSequence, String> headMap = mTestObj.subMap(B, "dumbo").headMap(D);
+        SortedMap<CharSequence, String> headMap = testObj.subMap(B, "dumbo").headMap(D);
         headMap.put("bcd", "bcd");
         assertTrue(headMap.containsKey("bcd"));
-        assertTrue(mTestObj.containsKey("bcd"));
+        assertTrue(testObj.containsKey("bcd"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddToHeadMapFails1() {
-        SortedMap<CharSequence, String> headMap = mTestObj.subMap(B, "dumbo").headMap(D);
+        SortedMap<CharSequence, String> headMap = testObj.subMap(B, "dumbo").headMap(D);
         headMap.put("a", "a");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddToHeadMapFails2() {
-        SortedMap<CharSequence, String> headMap = mTestObj.subMap(B, "dumbo").headMap(D);
+        SortedMap<CharSequence, String> headMap = testObj.subMap(B, "dumbo").headMap(D);
         headMap.put("dzz", "dzz");
     }
 
     @Test
     public void testTailMap() {
-        SortedMap<CharSequence, String> tailMap = mTestObj.subMap(B, "dumbo").tailMap(C);
+        SortedMap<CharSequence, String> tailMap = testObj.subMap(B, "dumbo").tailMap(C);
         assertEquals(2, tailMap.size());
         assertFalse(tailMap.containsKey(B));
         assertTrue(tailMap.containsKey(C));
@@ -673,35 +673,35 @@ public class TSTSubMapTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testTailMapFailsLowerBound() {
-        mTestObj.subMap(B, "dumbo").tailMap(A);
+        testObj.subMap(B, "dumbo").tailMap(A);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testTailMapFailsUpperBound() {
-        mTestObj.subMap(B, "dumbo").tailMap(E);
+        testObj.subMap(B, "dumbo").tailMap(E);
     }
 
     @Test
     public void testAddToTailMap() {
-        SortedMap<CharSequence, String> tailMap = mTestObj.subMap(B, "dumbo").tailMap(C);
+        SortedMap<CharSequence, String> tailMap = testObj.subMap(B, "dumbo").tailMap(C);
         tailMap.put("ccd", "ccd");
         assertTrue(tailMap.containsKey("ccd"));
-        assertTrue(mTestObj.containsKey("ccd"));
+        assertTrue(testObj.containsKey("ccd"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddToTailMapFails1() {
-        mTestObj.subMap(B, "dumbo").tailMap(C).put("baa", "b");
+        testObj.subMap(B, "dumbo").tailMap(C).put("baa", "b");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddToTailMapFails2() {
-        mTestObj.subMap(B, "dumbo").tailMap(C).put("dzzz", "z");
+        testObj.subMap(B, "dumbo").tailMap(C).put("dzzz", "z");
     }
 
     @Test
     public void testSubMapOfSubmap() {
-        SortedMap<CharSequence, String> subMap = mTestObj.subMap(B, "dumbo").subMap(C, D);
+        SortedMap<CharSequence, String> subMap = testObj.subMap(B, "dumbo").subMap(C, D);
         assertEquals(1, subMap.size());
         assertTrue(subMap.containsKey(C));
         assertFalse(subMap.containsKey(D));
@@ -709,17 +709,17 @@ public class TSTSubMapTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testSubMapOfSubmapFail1() {
-        mTestObj.subMap(B, "dumbo").subMap(A, D);
+        testObj.subMap(B, "dumbo").subMap(A, D);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSubMapOfSubmapFail2() {
-        mTestObj.subMap(B, "dumbo").subMap(C, F);
+        testObj.subMap(B, "dumbo").subMap(C, F);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSubMapOfSubmapFail3() {
-        mTestObj.subMap(B, "dumbo").subMap(A, F);
+        testObj.subMap(B, "dumbo").subMap(A, F);
     }
 
 }

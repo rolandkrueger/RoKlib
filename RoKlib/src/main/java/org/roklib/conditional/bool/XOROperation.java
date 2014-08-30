@@ -24,7 +24,7 @@ public class XOROperation extends AbstractBinaryBooleanOperation {
     private static final long serialVersionUID = 2762011847533970230L;
 
     public boolean execute() {
-        return mLeft != mRight;
+        return left != right;
     }
 
     public boolean canShortCircuit(boolean firstOperand) {

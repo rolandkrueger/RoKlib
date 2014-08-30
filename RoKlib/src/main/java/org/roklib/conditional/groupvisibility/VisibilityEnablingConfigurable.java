@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2007 Roland Krueger
+ * Created on 17.10.2009
  *
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -17,17 +18,16 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.io;
+package org.roklib.conditional.groupvisibility;
 
+import java.io.Serializable;
 
-import java.io.IOException;
+public interface VisibilityEnablingConfigurable extends Serializable {
+    public void setVisible(boolean visible);
 
-/**
- * @author Roland Krueger
- */
-public class ByteArrayStreamDataBufferTest extends IStreamDataBufferTest {
-    @Override
-    public StreamDataBuffer createObjectUnderTest() throws IOException {
-        return new ByteArrayStreamDataBuffer();
-    }
+    public void setEnabled(boolean enabled);
+
+    public boolean isVisible();
+
+    public boolean isEnabled();
 }

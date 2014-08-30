@@ -27,9 +27,9 @@ import java.io.Serializable;
 public class State<S extends State<?>> implements Serializable {
     private static final long serialVersionUID = 6243348683850423328L;
 
-    private Serializable mLockKey;
-    private StateValue<S> mCurrentState;
-    private StateValue<S> mDefaultState;
+    private Serializable lockKey;
+    private StateValue<S> currentState;
+    private StateValue<S> defaultState;
 
     public static class StateValue<S extends State<?>> implements Serializable {
         private static final long serialVersionUID = -1916548888416932116L;
@@ -67,67 +67,67 @@ public class State<S extends State<?>> implements Serializable {
     }
 
     public State(StateValue<S> defaultState) {
-        mCurrentState = defaultState;
-        mDefaultState = defaultState;
+        currentState = defaultState;
+        this.defaultState = defaultState;
     }
 
     public boolean hasState(StateValue<S> state) {
-        return state == null && mCurrentState == null || state != null && mCurrentState.equals(state);
+        return state == null && currentState == null || state != null && currentState.equals(state);
 
     }
 
     public void setStateValue(StateValue<S> state) {
-        if (mLockKey != null)
+        if (lockKey != null)
             throw new IllegalStateException(
                     "Cannot set status: object is locked. Use setState with the correct key instead.");
-        mCurrentState = state;
+        currentState = state;
     }
 
     public void setStateValue(StateValue<S> state, Object lockKey) {
-        if (mLockKey != null && mLockKey != lockKey)
+        if (this.lockKey != null && this.lockKey != lockKey)
             throw new IllegalArgumentException("Unlock failed: wrong key.");
-        mCurrentState = state;
+        currentState = state;
     }
 
     public StateValue<S> getStateValue() {
-        return mCurrentState;
+        return currentState;
     }
 
     public void reset() {
-        mCurrentState = mDefaultState;
+        currentState = defaultState;
     }
 
     public void lock(Serializable lockKey) {
         CheckForNull.check(lockKey);
-        if (mLockKey != null && mLockKey != lockKey)
+        if (this.lockKey != null && this.lockKey != lockKey)
             throw new IllegalStateException("Already locked. Cannot lock again with a different key.");
-        mLockKey = lockKey;
+        this.lockKey = lockKey;
     }
 
     public void unlock(Object lockKey) {
-        if (mLockKey == null)
+        if (this.lockKey == null)
             return;
-        if (lockKey != mLockKey)
+        if (lockKey != this.lockKey)
             throw new IllegalArgumentException("Unlock failed: wrong key.");
-        mLockKey = null;
+        this.lockKey = null;
     }
 
     public boolean isLocked() {
-        return mLockKey != null;
+        return lockKey != null;
     }
 
     @Override
     public String toString() {
-        if (mCurrentState == null)
+        if (currentState == null)
             return "null";
-        return mCurrentState.mName;
+        return currentState.mName;
     }
 
     @Override
     public int hashCode() {
-        if (mCurrentState == null)
+        if (currentState == null)
             return -1;
-        return mCurrentState.hashCode();
+        return currentState.hashCode();
     }
 
     @Override
@@ -136,12 +136,12 @@ public class State<S extends State<?>> implements Serializable {
             return false;
         if (obj == this)
             return true;
-        if (mCurrentState == null)
+        if (currentState == null)
             return false;
         if (obj instanceof State) {
             @SuppressWarnings("rawtypes")
             State other = (State) obj;
-            return other.mCurrentState != null && other.mCurrentState.equals(mCurrentState);
+            return other.currentState != null && other.currentState.equals(currentState);
         }
 
         return false;

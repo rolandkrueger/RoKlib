@@ -26,39 +26,39 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class NotOperationTest {
-    private NotOperation mTestObj;
+    private NotOperation notOperation;
 
     @Before
     public void setUp() {
-        mTestObj = new NotOperation();
-        mTestObj.setLeftHandOperand(false);
+        notOperation = new NotOperation();
+        notOperation.setLeftHandOperand(false);
     }
 
     @Test
     public void test() {
-        assertTrue(mTestObj.execute());
-        mTestObj.setLeftHandOperand(true);
-        assertFalse(mTestObj.execute());
+        assertTrue(notOperation.execute());
+        notOperation.setLeftHandOperand(true);
+        assertFalse(notOperation.execute());
     }
 
     @Test
     public void testCanShortCircuit() {
-        assertFalse(mTestObj.canShortCircuit(true));
-        assertFalse(mTestObj.canShortCircuit(false));
+        assertFalse(notOperation.canShortCircuit(true));
+        assertFalse(notOperation.canShortCircuit(false));
     }
 
     @Test(expected = IllegalStateException.class)
     public void testGetShortCircuit() {
-        mTestObj.getShortCircuit(true);
+        notOperation.getShortCircuit(true);
     }
 
     @Test
     public void testIsUnaryOperation() {
-        assertTrue(mTestObj.isUnaryOperation());
+        assertTrue(notOperation.isUnaryOperation());
     }
 
     @Test
     public void testGetMinimumNumberOfOperands() {
-        assertEquals(1, mTestObj.getMinimumNumberOfOperands());
+        assertEquals(1, notOperation.getMinimumNumberOfOperands());
     }
 }

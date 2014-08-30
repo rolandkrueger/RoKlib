@@ -21,29 +21,29 @@
 package org.roklib.conditional.engine;
 
 
-import org.roklib.conditional.bool.IBooleanOperation;
+import org.roklib.conditional.bool.BooleanOperation;
 import org.roklib.util.helper.CheckForNull;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class BooleanExpression extends AbstractCondition implements IConditionListener {
+public class BooleanExpression extends AbstractCondition implements ConditionListener {
     private static final long serialVersionUID = 3479069548966346585L;
 
-    private final IBooleanOperation mOperation;
-    private List<AbstractCondition> mConditions;
-    private Boolean mCurrentValue;
+    private final BooleanOperation operation;
+    private List<AbstractCondition> conditions;
+    private Boolean currentValue;
 
-    public BooleanExpression(IBooleanOperation operation) {
+    public BooleanExpression(BooleanOperation operation) {
         CheckForNull.check(operation);
-        mOperation = operation;
-        mCurrentValue = null;
+        this.operation = operation;
+        currentValue = null;
     }
 
     public void conditionChanged(AbstractCondition source) {
-        if (mCurrentValue == null)
+        if (currentValue == null)
             getBooleanValue();
-        boolean previousValue = mCurrentValue;
+        boolean previousValue = currentValue;
         boolean value = getBooleanValue();
         if (value != previousValue) {
             fireConditionChanged();
@@ -51,9 +51,9 @@ public class BooleanExpression extends AbstractCondition implements IConditionLi
     }
 
     @Override
-    public void addConditionListener(IConditionListener listener) {
+    public void addConditionListener(ConditionListener listener) {
         if (getListenerCount() == 0) {
-            for (AbstractCondition condition : mConditions) {
+            for (AbstractCondition condition : conditions) {
                 condition.addConditionListener(this);
             }
         }
@@ -61,62 +61,62 @@ public class BooleanExpression extends AbstractCondition implements IConditionLi
     }
 
     @Override
-    public void removeConditionListener(IConditionListener listener) {
+    public void removeConditionListener(ConditionListener listener) {
         super.removeConditionListener(listener);
         if (getListenerCount() == 0) {
-            for (AbstractCondition condition : mConditions) {
+            for (AbstractCondition condition : conditions) {
                 condition.removeConditionListener(this);
             }
         }
     }
 
-    public IBooleanOperation getBooleanOperation() {
-        return mOperation;
+    public BooleanOperation getBooleanOperation() {
+        return operation;
     }
 
     public boolean getBooleanValue() {
-        if (mConditions.size() < mOperation.getMinimumNumberOfOperands())
+        if (conditions.size() < operation.getMinimumNumberOfOperands())
             throw new IllegalStateException("Not enough operands defined for this expression.");
 
-        if (mOperation.isUnaryOperation() && mConditions.size() > 1)
+        if (operation.isUnaryOperation() && conditions.size() > 1)
             throw new IllegalStateException("Too many operands defined for a unary operation.");
 
-        if (mOperation.isUnaryOperation()) {
-            mOperation.setLeftHandOperand(mConditions.get(0).getBooleanValue());
-            mCurrentValue = mOperation.execute();
-            return mCurrentValue;
+        if (operation.isUnaryOperation()) {
+            operation.setLeftHandOperand(conditions.get(0).getBooleanValue());
+            currentValue = operation.execute();
+            return currentValue;
         }
 
-        AbstractCondition firstOperand = mConditions.get(0);
+        AbstractCondition firstOperand = conditions.get(0);
         boolean firstOperandValue = firstOperand.getBooleanValue();
 
-        for (int i = 1; i < mConditions.size(); ++i) {
-            if (mOperation.canShortCircuit(firstOperandValue)) {
-                mCurrentValue = mOperation.getShortCircuit(firstOperandValue);
-                return mCurrentValue;
+        for (int i = 1; i < conditions.size(); ++i) {
+            if (operation.canShortCircuit(firstOperandValue)) {
+                currentValue = operation.getShortCircuit(firstOperandValue);
+                return currentValue;
             }
-            firstOperandValue = executeOperation(firstOperandValue, mConditions.get(i));
+            firstOperandValue = executeOperation(firstOperandValue, conditions.get(i));
         }
 
-        mCurrentValue = firstOperandValue;
+        currentValue = firstOperandValue;
         return firstOperandValue;
     }
 
     public void addOperand(AbstractCondition operand) {
         CheckForNull.check(operand);
-        if (mConditions == null)
-            mConditions = new LinkedList<AbstractCondition>();
-        mConditions.add(operand);
+        if (conditions == null)
+            conditions = new LinkedList<AbstractCondition>();
+        conditions.add(operand);
     }
 
     private boolean executeOperation(boolean firstOperand, AbstractCondition condition) {
-        mOperation.setLeftHandOperand(firstOperand);
-        mOperation.setRightHandOperand(condition.getBooleanValue());
-        return mOperation.execute();
+        operation.setLeftHandOperand(firstOperand);
+        operation.setRightHandOperand(condition.getBooleanValue());
+        return operation.execute();
     }
 
     @Override
     public String toString() {
-        return "[" + mOperation.getClass().getSimpleName() + ": " + mConditions;
+        return "[" + operation.getClass().getSimpleName() + ": " + conditions;
     }
 }

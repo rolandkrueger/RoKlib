@@ -29,7 +29,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class AdmissionTicketContainerTest {
-    private AdmissionTicketContainer mTestObj;
+    private AdmissionTicketContainer testObj;
 
     private class TTicket implements AdmissionTicket {
         private static final long serialVersionUID = -2680076196174728564L;
@@ -46,36 +46,36 @@ public class AdmissionTicketContainerTest {
 
     @Before
     public void setUp() {
-        mTestObj = new AdmissionTicketContainer();
-        mTestObj.addTicket(new TTicket("admin"));
-        mTestObj.addTicket(new TTicket("editor"));
+        testObj = new AdmissionTicketContainer();
+        testObj.addTicket(new TTicket("admin"));
+        testObj.addTicket(new TTicket("editor"));
     }
 
     @Test
     public void testHasTicket() {
-        assertTrue(mTestObj.hasTicket(new TTicket("admin")));
-        assertFalse(mTestObj.hasTicket(new TTicket("user")));
+        assertTrue(testObj.hasTicket(new TTicket("admin")));
+        assertFalse(testObj.hasTicket(new TTicket("user")));
     }
 
     @Test
     public void testClear() {
-        mTestObj.clear();
-        assertTrue(mTestObj.getTickets().isEmpty());
+        testObj.clear();
+        assertTrue(testObj.getTickets().isEmpty());
     }
 
     @Test
     public void testEmptyContainer() {
-        mTestObj = new AdmissionTicketContainer();
-        assertTrue(mTestObj.getTickets().isEmpty());
-        mTestObj.clear();
-        assertTrue(mTestObj.getTickets().isEmpty());
-        assertFalse(mTestObj.hasTicket(new TTicket("user")));
+        testObj = new AdmissionTicketContainer();
+        assertTrue(testObj.getTickets().isEmpty());
+        testObj.clear();
+        assertTrue(testObj.getTickets().isEmpty());
+        assertFalse(testObj.hasTicket(new TTicket("user")));
     }
 
     @Test
     public void testRemoveTicket() {
-        assertTrue(mTestObj.hasTicket(new TTicket("admin")));
-        assertTrue(mTestObj.removeTicket(new TTicket("admin")));
-        assertFalse(mTestObj.hasTicket(new TTicket("admin")));
+        assertTrue(testObj.hasTicket(new TTicket("admin")));
+        assertTrue(testObj.removeTicket(new TTicket("admin")));
+        assertFalse(testObj.hasTicket(new TTicket("admin")));
     }
 }

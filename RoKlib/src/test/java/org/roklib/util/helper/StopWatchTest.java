@@ -26,59 +26,59 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class StopWatchTest {
-    private StopWatch mTestObj;
+    private StopWatch testObj;
 
     @Before
     public void setUp() {
-        mTestObj = new StopWatch();
+        testObj = new StopWatch();
     }
 
     @Test
     public void testGetTotalTimeForNewInstance() {
-        assertEquals(0L, mTestObj.getTotalTime());
+        assertEquals(0L, testObj.getTotalTime());
     }
 
     @Test
     public void testGetTotalTime() throws InterruptedException {
-        mTestObj.start();
+        testObj.start();
         Thread.sleep(30);
-        mTestObj.stop();
-        long totalTime1 = mTestObj.getTotalTime();
+        testObj.stop();
+        long totalTime1 = testObj.getTotalTime();
         Thread.sleep(150);
-        mTestObj.start();
+        testObj.start();
         Thread.sleep(20);
-        mTestObj.stop();
-        long totalTime2 = mTestObj.getTotalTime();
+        testObj.stop();
+        long totalTime2 = testObj.getTotalTime();
         assertTrue(totalTime1 < totalTime2);
         assertTrue(totalTime2 < 100);
     }
 
     @Test(expected = IllegalStateException.class)
     public void testStartFailsWhenRunning() {
-        mTestObj.start();
-        mTestObj.start();
+        testObj.start();
+        testObj.start();
     }
 
     @Test
     public void testIsRunning() {
-        assertFalse(mTestObj.isRunning());
-        mTestObj.start();
-        assertTrue(mTestObj.isRunning());
-        mTestObj.stop();
-        assertFalse(mTestObj.isRunning());
+        assertFalse(testObj.isRunning());
+        testObj.start();
+        assertTrue(testObj.isRunning());
+        testObj.stop();
+        assertFalse(testObj.isRunning());
     }
 
     @Test
     public void testGetSplitTime() throws InterruptedException {
-        mTestObj.start();
+        testObj.start();
         Thread.sleep(100);
-        long splitTime1 = mTestObj.getSplitTime();
-        assertTrue(mTestObj.isRunning());
+        long splitTime1 = testObj.getSplitTime();
+        assertTrue(testObj.isRunning());
         Thread.sleep(50);
-        long splitTime2 = mTestObj.getSplitTime();
+        long splitTime2 = testObj.getSplitTime();
         Thread.sleep(50);
-        mTestObj.stop();
-        long totalTime = mTestObj.getTotalTime();
+        testObj.stop();
+        long totalTime = testObj.getTotalTime();
         assertTrue(splitTime1 < splitTime2);
         assertTrue(splitTime1 < totalTime);
         assertTrue(splitTime2 < totalTime);
@@ -86,38 +86,38 @@ public class StopWatchTest {
 
     @Test
     public void testReset() throws InterruptedException {
-        mTestObj.start();
+        testObj.start();
         Thread.sleep(10);
-        mTestObj.stop();
-        assertTrue(mTestObj.getTotalTime() > 0L);
-        mTestObj.reset();
-        assertEquals(0L, mTestObj.getTotalTime());
-        assertFalse(mTestObj.isRunning());
+        testObj.stop();
+        assertTrue(testObj.getTotalTime() > 0L);
+        testObj.reset();
+        assertEquals(0L, testObj.getTotalTime());
+        assertFalse(testObj.isRunning());
     }
 
     @Test(expected = IllegalStateException.class)
     public void testGetStartTimeFailsWhenNotStarted() {
-        mTestObj.getStartTime();
+        testObj.getStartTime();
     }
 
     @Test
     public void testGetStartTimeAfterStart() {
-        mTestObj.start();
-        assertTrue(mTestObj.getStartTime() > 0L);
+        testObj.start();
+        assertTrue(testObj.getStartTime() > 0L);
     }
 
     @Test
     public void testStart() throws InterruptedException {
-        mTestObj.start();
-        long startTime = mTestObj.getStartTime();
+        testObj.start();
+        long startTime = testObj.getStartTime();
         Thread.sleep(50);
-        mTestObj.stop();
-        assertEquals(startTime, mTestObj.getStartTime());
-        assertTrue(mTestObj.getTotalTime() > 10L);
+        testObj.stop();
+        assertEquals(startTime, testObj.getStartTime());
+        assertTrue(testObj.getTotalTime() > 10L);
     }
 
     @Test(expected = IllegalStateException.class)
     public void testStopWhenNotRunning() {
-        mTestObj.stop();
+        testObj.stop();
     }
 }

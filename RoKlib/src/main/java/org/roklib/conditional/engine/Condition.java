@@ -25,33 +25,33 @@ import org.roklib.util.helper.CheckForNull;
 public class Condition extends AbstractCondition {
     private static final long serialVersionUID = 2843942589476694624L;
 
-    private boolean mBooleanValue;
-    private final String mName;
+    private boolean booleanValue;
+    private final String name;
 
     public Condition(String name) {
         CheckForNull.check(name);
-        mName = name;
-        mBooleanValue = false;
+        this.name = name;
+        booleanValue = false;
     }
 
     public Condition(String name, boolean value) {
         this(name);
-        mBooleanValue = value;
+        booleanValue = value;
     }
 
     public boolean getBooleanValue() {
-        return mBooleanValue;
+        return booleanValue;
     }
 
     public void setValue(boolean value) {
-        boolean previousValue = mBooleanValue;
-        mBooleanValue = value;
+        boolean previousValue = booleanValue;
+        booleanValue = value;
         if (previousValue != value)
             fireConditionChanged();
     }
 
     public String getName() {
-        return mName;
+        return name;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class Condition extends AbstractCondition {
             return true;
         if (obj instanceof Condition) {
             Condition other = (Condition) obj;
-            if (other.mName.equals(mName))
+            if (other.name.equals(name))
                 return true;
         }
         return false;
@@ -70,11 +70,11 @@ public class Condition extends AbstractCondition {
 
     @Override
     public int hashCode() {
-        return mName.hashCode();
+        return name.hashCode();
     }
 
     @Override
     public String toString() {
-        return String.format("%s=%b", mName, mBooleanValue);
+        return String.format("%s=%b", name, booleanValue);
     }
 }

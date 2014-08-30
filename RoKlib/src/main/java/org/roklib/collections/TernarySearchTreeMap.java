@@ -63,7 +63,7 @@ import java.util.*;
  * @version CVS $Id: TernarySearchTreeMap.java 255 2011-01-26 16:06:32Z roland $
  */
 public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implements Serializable,
-        ITernarySearchTreeMap<V> {
+        TernarySearchTreeMapInterface<V> {
     private static final long serialVersionUID = 8532235443989332299L;
 
     private enum NodeType implements Serializable {
@@ -273,7 +273,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
     /*
      * (non-Javadoc)
      *
-     * @see org.roklib.util.ITernarySearchTreeMap#matchAlmost(java.lang.CharSequence, int, int)
+     * @see org.roklib.util.TernarySearchTreeMapInterface#matchAlmost(java.lang.CharSequence, int, int)
      */
     public SortedSet<CharSequence> matchAlmost(CharSequence key, int distance, int lengthTolerance) {
         mMatchingKeys = new TreeSet<CharSequence>();
@@ -319,7 +319,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
     /*
      * (non-Javadoc)
      *
-     * @see org.roklib.util.ITernarySearchTreeMap#getEntry(java.lang.Object)
+     * @see org.roklib.util.TernarySearchTreeMapInterface#getEntry(java.lang.Object)
      */
     public Entry<CharSequence, V> getEntry(Object key) {
         CheckForNull.check(key);
@@ -358,7 +358,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
     /*
      * (non-Javadoc)
      *
-     * @see org.roklib.util.ITernarySearchTreeMap#getValueAt(int)
+     * @see org.roklib.util.TernarySearchTreeMapInterface#getValueAt(int)
      */
     public V getValueAt(int index) throws IndexOutOfBoundsException {
         return getElementAt(index).getValue();
@@ -367,7 +367,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
     /*
      * (non-Javadoc)
      *
-     * @see org.roklib.util.ITernarySearchTreeMap#getKeyAt(int)
+     * @see org.roklib.util.TernarySearchTreeMapInterface#getKeyAt(int)
      */
     public CharSequence getKeyAt(int index) throws IndexOutOfBoundsException {
         return getElementAt(index).getKey();
@@ -444,7 +444,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
     /*
      * (non-Javadoc)
      *
-     * @see org.roklib.util.ITernarySearchTreeMap#indexOf(java.lang.CharSequence)
+     * @see org.roklib.util.TernarySearchTreeMapInterface#indexOf(java.lang.CharSequence)
      */
     public int indexOf(CharSequence key) {
         String keyString = key.toString();
@@ -696,7 +696,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
     /*
      * (non-Javadoc)
      *
-     * @see org.roklib.util.ITernarySearchTreeMap#predecessor(java.lang.Object)
+     * @see org.roklib.util.TernarySearchTreeMapInterface#predecessor(java.lang.Object)
      */
     public Entry<CharSequence, V> predecessorEntry(Object keyObject) {
         CharSequence key = (CharSequence) keyObject;
@@ -711,7 +711,7 @@ public class TernarySearchTreeMap<V> extends AbstractMap<CharSequence, V> implem
     /*
      * (non-Javadoc)
      *
-     * @see org.roklib.util.ITernarySearchTreeMap#successor(java.lang.Object)
+     * @see org.roklib.util.TernarySearchTreeMapInterface#successor(java.lang.Object)
      */
     public Entry<CharSequence, V> successorEntry(Object keyObject) {
         CharSequence key = (CharSequence) keyObject;

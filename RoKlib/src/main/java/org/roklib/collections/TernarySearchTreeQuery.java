@@ -22,7 +22,7 @@ package org.roklib.collections;
 
 import java.util.SortedSet;
 
-interface ITernarySearchTreeQuery {
+interface TernarySearchTreeQuery {
     /**
      * Returns the index of the specified string if it is stored in the Ternary Search Tree. Otherwise -1 is returned. The
      * indexing is the same as with arrays, i.e. the first element in the tree has index 0 and the last element has index

@@ -26,49 +26,49 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class OrOperationTest {
-    private OrOperation mTestObj;
+    private OrOperation orOperation;
 
     @Before
     public void setUp() {
-        mTestObj = new OrOperation();
-        mTestObj.setLeftHandOperand(false);
-        mTestObj.setRightHandOperand(false);
+        orOperation = new OrOperation();
+        orOperation.setLeftHandOperand(false);
+        orOperation.setRightHandOperand(false);
     }
 
     @Test
     public void test() {
-        assertFalse(mTestObj.execute());
-        mTestObj.setLeftHandOperand(true);
-        assertTrue(mTestObj.execute());
-        mTestObj.setRightHandOperand(true);
-        assertTrue(mTestObj.execute());
-        mTestObj.setLeftHandOperand(false);
-        assertTrue(mTestObj.execute());
+        assertFalse(orOperation.execute());
+        orOperation.setLeftHandOperand(true);
+        assertTrue(orOperation.execute());
+        orOperation.setRightHandOperand(true);
+        assertTrue(orOperation.execute());
+        orOperation.setLeftHandOperand(false);
+        assertTrue(orOperation.execute());
     }
 
     @Test
     public void testCanShortCircuit() {
-        assertFalse(mTestObj.canShortCircuit(false));
-        assertTrue(mTestObj.canShortCircuit(true));
+        assertFalse(orOperation.canShortCircuit(false));
+        assertTrue(orOperation.canShortCircuit(true));
     }
 
     @Test
     public void testGetShortCircuit() {
-        assertTrue(mTestObj.getShortCircuit(true));
+        assertTrue(orOperation.getShortCircuit(true));
     }
 
     @Test(expected = IllegalStateException.class)
     public void testGetShortCircuit_Fail() {
-        mTestObj.getShortCircuit(false);
+        orOperation.getShortCircuit(false);
     }
 
     @Test
     public void testIsUnaryOperation() {
-        assertFalse(mTestObj.isUnaryOperation());
+        assertFalse(orOperation.isUnaryOperation());
     }
 
     @Test
     public void testGetMinimumNumberOfOperands() {
-        assertEquals(2, mTestObj.getMinimumNumberOfOperands());
+        assertEquals(2, orOperation.getMinimumNumberOfOperands());
     }
 }

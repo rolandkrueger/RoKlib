@@ -45,9 +45,9 @@ public class ApplicationError {
         SEVERE
     }
 
-    private String mDescription;
-    private Throwable mCause;
-    private final ErrorType mType;
+    private String description;
+    private Throwable cause;
+    private final ErrorType type;
 
     /**
      * Default constructor that initializes the error level with {@link ErrorType#UNCRITICAL}.
@@ -62,7 +62,7 @@ public class ApplicationError {
      * @param type seriousness of the error
      */
     protected ApplicationError(ErrorType type) {
-        mType = type;
+        this.type = type;
     }
 
     /**
@@ -106,8 +106,8 @@ public class ApplicationError {
      */
     public ApplicationError(String description, Throwable cause, ErrorType type) {
         this(type);
-        mDescription = description;
-        mCause = cause;
+        this.description = description;
+        this.cause = cause;
     }
 
     /**
@@ -116,7 +116,7 @@ public class ApplicationError {
      * @return the error message
      */
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     /**
@@ -126,7 +126,7 @@ public class ApplicationError {
      * @see ApplicationError#ApplicationError(String, Throwable)
      */
     public Throwable getCause() {
-        return mCause;
+        return cause;
     }
 
     /**
@@ -135,6 +135,6 @@ public class ApplicationError {
      * @return the error level
      */
     public ErrorType getType() {
-        return mType;
+        return type;
     }
 }

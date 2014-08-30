@@ -40,35 +40,35 @@ public class TSTMapCaseInsensitiveSubMapTest {
     private static final String LEIPZIG = "LeipZig";
     private static final String FREIBURG = "freiBuRg";
 
-    private TernarySearchTreeMapCaseInsensitive<String> mTestObj;
-    private SortedMap<CharSequence, String> mSubMap;
+    private TernarySearchTreeMapCaseInsensitive<String> testObj;
+    private SortedMap<CharSequence, String> subMap;
 
     @Before
     public void setUp() {
-        mTestObj = new TernarySearchTreeMapCaseInsensitive<String>();
-        mTestObj.put(EMPTY, EMPTY);
-        mTestObj.put(DRESDEN, DRESDEN);
-        mTestObj.put(FREIBURG, FREIBURG);
-        mTestObj.put(LEIPZIG, LEIPZIG);
-        mTestObj.put(MAGDEBURG, MAGDEBURG);
-        mTestObj.put(MANNHEIM, MANNHEIM);
-        mTestObj.put(PFORZHEIM, PFORZHEIM);
-        mTestObj.put(WEINHEIM, WEINHEIM);
-        mSubMap = mTestObj.subMap("ERFURT", "marburg");
+        testObj = new TernarySearchTreeMapCaseInsensitive<String>();
+        testObj.put(EMPTY, EMPTY);
+        testObj.put(DRESDEN, DRESDEN);
+        testObj.put(FREIBURG, FREIBURG);
+        testObj.put(LEIPZIG, LEIPZIG);
+        testObj.put(MAGDEBURG, MAGDEBURG);
+        testObj.put(MANNHEIM, MANNHEIM);
+        testObj.put(PFORZHEIM, PFORZHEIM);
+        testObj.put(WEINHEIM, WEINHEIM);
+        subMap = testObj.subMap("ERFURT", "marburg");
     }
 
     @Test
     public void testSubMap() {
-        assertEquals(4, mSubMap.size());
-        assertTrue(mSubMap.containsKey(FREIBURG));
-        assertTrue(mSubMap.containsKey(LEIPZIG));
-        assertTrue(mSubMap.containsKey(MAGDEBURG));
-        assertTrue(mSubMap.containsKey(MANNHEIM));
+        assertEquals(4, subMap.size());
+        assertTrue(subMap.containsKey(FREIBURG));
+        assertTrue(subMap.containsKey(LEIPZIG));
+        assertTrue(subMap.containsKey(MAGDEBURG));
+        assertTrue(subMap.containsKey(MANNHEIM));
     }
 
     @Test
     public void testKeySet() {
-        Set<CharSequence> keySet = mSubMap.keySet();
+        Set<CharSequence> keySet = subMap.keySet();
         assertEquals(4, keySet.size());
         assertTrue(keySet.contains(MANNHEIM));
         assertTrue(keySet.contains("mannheim"));
@@ -77,18 +77,18 @@ public class TSTMapCaseInsensitiveSubMapTest {
 
     @Test
     public void testFirstKey() {
-        assertEquals(FREIBURG, mSubMap.firstKey());
+        assertEquals(FREIBURG, subMap.firstKey());
     }
 
     @Test
     public void testLastKey() {
-        assertEquals(MANNHEIM, mSubMap.lastKey());
+        assertEquals(MANNHEIM, subMap.lastKey());
     }
 
     @Test
     public void testPut() {
-        mSubMap.put("GerA", "GERA");
-        assertTrue(mTestObj.containsKey("GERA"));
+        subMap.put("GerA", "GERA");
+        assertTrue(testObj.containsKey("GERA"));
     }
 
 }

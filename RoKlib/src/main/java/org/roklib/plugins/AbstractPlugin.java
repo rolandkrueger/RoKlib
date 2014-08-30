@@ -33,41 +33,41 @@ import java.util.Properties;
  * @author Roland Krueger
  */
 public abstract class AbstractPlugin {
-    private final Properties mProperties;
+    private final Properties properties;
 
     public AbstractPlugin() {
-        mProperties = new Properties();
+        properties = new Properties();
     }
 
     public String getProperty(String key, String defaultValue) {
-        return mProperties.getProperty(key, defaultValue);
+        return properties.getProperty(key, defaultValue);
     }
 
     public String getProperty(String key) {
-        return mProperties.getProperty(key);
+        return properties.getProperty(key);
     }
 
     public Properties getProperties() {
-        return mProperties;
+        return properties;
     }
 
     public void loadProperties(InputStream inStream) throws IOException {
-        mProperties.load(inStream);
+        properties.load(inStream);
     }
 
     public void loadProperties(Reader reader) throws IOException {
-        mProperties.load(reader);
+        properties.load(reader);
     }
 
     public void loadPropertiesFromXML(InputStream in) throws IOException {
-        mProperties.loadFromXML(in);
+        properties.loadFromXML(in);
     }
 
     public Object putProperty(Object key, Object value) {
-        return mProperties.put(key, value);
+        return properties.put(key, value);
     }
 
     public void putAllProperties(Map<?, ?> t) {
-        mProperties.putAll(t);
+        properties.putAll(t);
     }
 }

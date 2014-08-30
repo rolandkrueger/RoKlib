@@ -26,39 +26,39 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class IdentityOperationTest {
-    private IdentityOperation mTestObj;
+    private IdentityOperation identityOperation;
 
     @Before
     public void setUp() {
-        mTestObj = new IdentityOperation();
-        mTestObj.setLeftHandOperand(false);
+        identityOperation = new IdentityOperation();
+        identityOperation.setLeftHandOperand(false);
     }
 
     @Test
     public void test() {
-        assertFalse(mTestObj.execute());
-        mTestObj.setLeftHandOperand(true);
-        assertTrue(mTestObj.execute());
+        assertFalse(identityOperation.execute());
+        identityOperation.setLeftHandOperand(true);
+        assertTrue(identityOperation.execute());
     }
 
     @Test
     public void testCanShortCircuit() {
-        assertFalse(mTestObj.canShortCircuit(true));
-        assertFalse(mTestObj.canShortCircuit(false));
+        assertFalse(identityOperation.canShortCircuit(true));
+        assertFalse(identityOperation.canShortCircuit(false));
     }
 
     @Test(expected = IllegalStateException.class)
     public void testGetShortCircuit() {
-        mTestObj.getShortCircuit(true);
+        identityOperation.getShortCircuit(true);
     }
 
     @Test
     public void testIsUnaryOperation() {
-        assertTrue(mTestObj.isUnaryOperation());
+        assertTrue(identityOperation.isUnaryOperation());
     }
 
     @Test
     public void testGetMinimumNumberOfOperands() {
-        assertEquals(1, mTestObj.getMinimumNumberOfOperands());
+        assertEquals(1, identityOperation.getMinimumNumberOfOperands());
     }
 }

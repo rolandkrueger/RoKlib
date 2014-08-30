@@ -26,33 +26,33 @@ import java.io.Serializable;
 public class EnhancedReturnType<T_ReturnType> implements Serializable {
     private static final long serialVersionUID = -6438018684249409869L;
 
-    private boolean mSuccessful;
+    private boolean successful;
 
-    private StringBuffer mMessage;
+    private StringBuffer message;
 
-    private T_ReturnType mResultValue;
+    private T_ReturnType resultValue;
 
-    private Throwable mException;
+    private Throwable exception;
 
-    private boolean mIsVoided;
+    private boolean isVoided;
 
     protected EnhancedReturnType() {
-        mIsVoided = false;
-        mResultValue = null;
+        isVoided = false;
+        resultValue = null;
     }
 
     public EnhancedReturnType(Throwable exception, String message) {
         this();
-        mException = exception;
-        mMessage = new StringBuffer(message);
+        this.exception = exception;
+        this.message = new StringBuffer(message);
     }
 
     public boolean isFailure() {
-        return !mSuccessful;
+        return !successful;
     }
 
     public String getMessage() {
-        return mMessage == null ? "" : mMessage.toString();
+        return message == null ? "" : message.toString();
     }
 
     public T_ReturnType getValue() {
@@ -61,77 +61,77 @@ public class EnhancedReturnType<T_ReturnType> implements Serializable {
                     "Unable to provide value: object was voided. Use isVoid() to check this condition.");
         }
 
-        return mResultValue;
+        return resultValue;
     }
 
     private void voidResult() {
         setSuccess(true);
-        mIsVoided = true;
+        isVoided = true;
     }
 
     public boolean isVoided() {
-        return mIsVoided;
+        return isVoided;
     }
 
     private EnhancedReturnType<T_ReturnType> setValue(T_ReturnType value) {
         CheckForNull.check(value);
-        mResultValue = value;
+        resultValue = value;
         return this;
     }
 
     private EnhancedReturnType<T_ReturnType> setSuccess(boolean successful) {
-        mSuccessful = successful;
+        this.successful = successful;
         return this;
     }
 
     public Throwable getException() {
-        return mException;
+        return exception;
     }
 
     private EnhancedReturnType<T_ReturnType> setException(Throwable exception) {
-        mException = exception;
+        this.exception = exception;
         return this;
     }
 
     public boolean hasException() {
-        return mException != null;
+        return exception != null;
     }
 
     private void appendToMessage(String text) {
-        if (mMessage == null) {
-            mMessage = new StringBuffer();
+        if (message == null) {
+            message = new StringBuffer();
         }
-        mMessage.append(text);
+        message.append(text);
     }
 
     public boolean hasMessage() {
-        return mMessage != null;
+        return message != null;
     }
 
     private EnhancedReturnType<T_ReturnType> setMessage(String pMessage) {
         String message = pMessage == null ? "" : pMessage;
-        mMessage = new StringBuffer(message);
+        this.message = new StringBuffer(message);
         return this;
     }
 
     private EnhancedReturnType<T_ReturnType> copy(EnhancedReturnType<?> other) {
-        mException = other.mException;
-        mIsVoided = other.mIsVoided;
-        if (other.mMessage != null) {
-            mMessage = new StringBuffer(other.mMessage.toString());
+        exception = other.exception;
+        isVoided = other.isVoided;
+        if (other.message != null) {
+            message = new StringBuffer(other.message.toString());
         }
-        mSuccessful = other.mSuccessful;
+        successful = other.successful;
         return this;
     }
 
     public boolean isSuccess() {
-        return mSuccessful;
+        return successful;
     }
 
     @Override
     public String toString() {
-        return "EnhancedReturnType [successful=" + mSuccessful + ", message=" + mMessage + ", result=" + mResultValue
-                + ", exception=" + mException + ", voided=" + mIsVoided + "]";
+        return "EnhancedReturnType [successful=" + successful + ", message=" + message + ", result=" + resultValue
+                + ", exception=" + exception + ", voided=" + isVoided + "]";
     }
 
     private static class BuilderImpl<T_ReturnType> {

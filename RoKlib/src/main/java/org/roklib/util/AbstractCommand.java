@@ -23,33 +23,33 @@ package org.roklib.util;
 import org.roklib.data.EnhancedReturnType;
 
 public abstract class AbstractCommand<T_ResultType> implements Runnable {
-    private EnhancedReturnType<T_ResultType> mResultValue;
+    private EnhancedReturnType<T_ResultType> resultValue;
 
-    private boolean mWasExecuted;
+    private boolean wasExecuted;
 
-    private boolean mExecutionCanceled;
+    private boolean executionCanceled;
 
     public AbstractCommand() {
-        mResultValue = null;
-        mWasExecuted = false;
-        mExecutionCanceled = false;
+        resultValue = null;
+        wasExecuted = false;
+        executionCanceled = false;
     }
 
     protected abstract EnhancedReturnType<T_ResultType> executeImpl();
 
     public void run() {
-        mResultValue = null;
+        resultValue = null;
         EnhancedReturnType<T_ResultType> result = executeImpl();
         if (result == null) {
             throw new NullPointerException("Return object returned from command implementation object is null.");
         }
 
-        mResultValue = result;
-        mWasExecuted = true;
+        resultValue = result;
+        wasExecuted = true;
     }
 
     public boolean wasExecuted() {
-        return mWasExecuted;
+        return wasExecuted;
     }
 
     public final EnhancedReturnType<T_ResultType> getResult() {
@@ -57,12 +57,12 @@ public abstract class AbstractCommand<T_ResultType> implements Runnable {
             throw new IllegalStateException("Command was not yet executed. Call run() first.");
         }
 
-        if (mResultValue == null) {
+        if (resultValue == null) {
             throw new IllegalStateException("Invalid result object: Subclass of " + AbstractCommand.class.getName()
                     + " failed to correctly configure command result.");
         }
 
-        return mResultValue;
+        return resultValue;
     }
 
     public final T_ResultType getResultValue() {
@@ -70,10 +70,10 @@ public abstract class AbstractCommand<T_ResultType> implements Runnable {
     }
 
     public void cancel() {
-        mExecutionCanceled = true;
+        executionCanceled = true;
     }
 
     public boolean wasCanceled() {
-        return mExecutionCanceled;
+        return executionCanceled;
     }
 }

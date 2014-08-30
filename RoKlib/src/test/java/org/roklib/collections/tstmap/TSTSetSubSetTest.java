@@ -34,128 +34,128 @@ public class TSTSetSubSetTest {
     private final CharSequence[] STRINGS = {"darmstadt", "frankenthal", "heidelberg", "hemsbach", "heppenheim",
             "ludwigshafen", "mannheim", "schwetzingen", "sulzbach", "viernheim", "weinheim"};
 
-    private TernarySearchTreeSet mTestObj;
+    private TernarySearchTreeSet testObj;
 
     @Before
     public void setUp() {
-        mTestObj = new TernarySearchTreeSet(STRINGS);
+        testObj = new TernarySearchTreeSet(STRINGS);
     }
 
     @Test
     public void testHeadSetWithElementInSet() {
-        SortedSet<CharSequence> headSet = mTestObj.headSet("heppenheim");
+        SortedSet<CharSequence> headSet = testObj.headSet("heppenheim");
         assertFalse(headSet.contains("heppenheim"));
         assertEquals(getExpectedValues("darmstadt", "frankenthal", "heidelberg", "hemsbach"), headSet);
     }
 
     @Test
     public void testHeadSetWithElementNotInSet() {
-        SortedSet<CharSequence> headSet = mTestObj.headSet("hockenheim");
+        SortedSet<CharSequence> headSet = testObj.headSet("hockenheim");
         assertEquals(getExpectedValues("darmstadt", "frankenthal", "heidelberg", "hemsbach", "heppenheim"), headSet);
     }
 
     @Test
     public void testAddToHeadSetChangesBaseSet() {
-        SortedSet<CharSequence> headSet = mTestObj.headSet("frankfurt");
+        SortedSet<CharSequence> headSet = testObj.headSet("frankfurt");
         assertFalse(headSet.add("altrip"));
-        assertTrue(mTestObj.contains("altrip"));
+        assertTrue(testObj.contains("altrip"));
         assertTrue(headSet.add("altrip"));
     }
 
     @Test
     public void testAddToBaseSetChangesHeadSet() {
-        SortedSet<CharSequence> headSet = mTestObj.headSet("frankfurt");
-        mTestObj.add("altrip");
+        SortedSet<CharSequence> headSet = testObj.headSet("frankfurt");
+        testObj.add("altrip");
         assertTrue(headSet.contains("altrip"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddToHeadSetOutOfBoundsThrowsExcpetion() {
-        mTestObj.headSet("dresden").add("pforzheim");
+        testObj.headSet("dresden").add("pforzheim");
     }
 
     @Test(expected = NullPointerException.class)
     public void testHeadSetContainsNullThrowsException() {
-        mTestObj.headSet("pforzheim").contains(null);
+        testObj.headSet("pforzheim").contains(null);
     }
 
     @Test(expected = NullPointerException.class)
     public void testRemoveNullFromHeadSetThrowsException() {
-        mTestObj.headSet("dresden").remove(null);
+        testObj.headSet("dresden").remove(null);
     }
 
     @Test
     public void testRemoveSucceeds() {
-        SortedSet<CharSequence> headSet = mTestObj.headSet("frankfurt");
+        SortedSet<CharSequence> headSet = testObj.headSet("frankfurt");
         assertTrue(headSet.remove("darmstadt"));
-        assertFalse(mTestObj.contains("darmstadt"));
+        assertFalse(testObj.contains("darmstadt"));
     }
 
     @Test
     public void testRemoveNotSuccessful() {
-        SortedSet<CharSequence> headSet = mTestObj.headSet("frankfurt");
+        SortedSet<CharSequence> headSet = testObj.headSet("frankfurt");
         assertFalse(headSet.remove("weinheim"));
-        assertTrue(mTestObj.contains("weinheim"));
+        assertTrue(testObj.contains("weinheim"));
     }
 
     @Test
     public void testHeadSetFirst() {
-        assertEquals(mTestObj.first(), mTestObj.headSet("weinheim").first());
+        assertEquals(testObj.first(), testObj.headSet("weinheim").first());
     }
 
     @Test
     public void testHeadSetLast() {
-        assertEquals("sulzbach", mTestObj.headSet("viernheim").last());
+        assertEquals("sulzbach", testObj.headSet("viernheim").last());
     }
 
     @Test
     public void testHeadSetOfHeadSetSuccessful() {
-        SortedSet<CharSequence> headSet = mTestObj.headSet("hemsbach").headSet("frankfurt");
+        SortedSet<CharSequence> headSet = testObj.headSet("hemsbach").headSet("frankfurt");
         assertEquals(getExpectedValues("darmstadt", "frankenthal"), headSet);
         headSet.add("altrip");
-        assertTrue(mTestObj.contains("altrip"));
+        assertTrue(testObj.contains("altrip"));
     }
 
     @Test
     public void testHeadSetTailSet() {
-        SortedSet<CharSequence> headSet = mTestObj.headSet("hemsbach").tailSet("frankenthal");
+        SortedSet<CharSequence> headSet = testObj.headSet("hemsbach").tailSet("frankenthal");
         assertEquals(getExpectedValues("frankenthal", "heidelberg"), headSet);
     }
 
     @Test
     public void testHeadSetSubSet() {
-        SortedSet<CharSequence> headSet = mTestObj.headSet("viernheim").subSet("heidelberg", "heppenheim");
+        SortedSet<CharSequence> headSet = testObj.headSet("viernheim").subSet("heidelberg", "heppenheim");
         assertEquals(getExpectedValues("heidelberg", "hemsbach"), headSet);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testHeadSetOfHeadSetFails() {
-        mTestObj.headSet("frankfurt").headSet("hemsbach");
+        testObj.headSet("frankfurt").headSet("hemsbach");
     }
 
     @Test(expected = NullPointerException.class)
     public void testHeadSetFailsWithNullBound() {
-        mTestObj.headSet(null);
+        testObj.headSet(null);
     }
 
     @Test(expected = NullPointerException.class)
     public void testTailSetFailsWithNullBound() {
-        mTestObj.tailSet(null);
+        testObj.tailSet(null);
     }
 
     @Test(expected = NullPointerException.class)
     public void testSubSetFailsWithNullLowerBound() {
-        mTestObj.subSet(null, "");
+        testObj.subSet(null, "");
     }
 
     @Test(expected = NullPointerException.class)
     public void testSubSetFailsWithNullUpperBound() {
-        mTestObj.subSet("", null);
+        testObj.subSet("", null);
     }
 
     @Test
     public void testHeadSetComparatorReturnsNull() {
-        assertNull(mTestObj.headSet("weinheim").comparator());
+        assertNull(testObj.headSet("weinheim").comparator());
     }
 
     private SortedSet<CharSequence> getExpectedValues(CharSequence... values) {

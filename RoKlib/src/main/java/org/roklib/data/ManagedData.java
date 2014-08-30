@@ -54,33 +54,33 @@ public class ManagedData<T> implements Serializable {
     /**
      * State of the encapsulated data object. The data can be in one of four states:
      * <ul>
-     * <li>{@link ManagedData.StatusEnum#UNDEFINED} - the value hasn't been initialized yet. Trying to access it will
+     * <li>{@link org.roklib.data.ManagedData.Status#UNDEFINED} - the value hasn't been initialized yet. Trying to access it will
      * result in an {@link IllegalStateException}.</li>
-     * <li>{@link ManagedData.StatusEnum#SET} - the value has been set and can be queried with
+     * <li>{@link org.roklib.data.ManagedData.Status#SET} - the value has been set and can be queried with
      * {@link ManagedData#getValue()}</li>
-     * <li>{@link ManagedData.StatusEnum#DELETED} - the value has been deleted. Trying to access it will result in an
+     * <li>{@link org.roklib.data.ManagedData.Status#DELETED} - the value has been deleted. Trying to access it will result in an
      * {@link IllegalStateException}.</li>
-     * <li>{@link ManagedData.StatusEnum#CHANGED} - the value has been changed. It can still be accessed.</li>
+     * <li>{@link org.roklib.data.ManagedData.Status#CHANGED} - the value has been changed. It can still be accessed.</li>
      * </ul>
      */
-    public enum StatusEnum {
+    public enum Status {
         UNDEFINED, SET, DELETED, CHANGED
     }
 
-    private T mValue;
-    private StatusEnum mStatus;
-    private Object mWriteLock;
+    private T value;
+    private Status status;
+    private Object writeLock;
 
     /**
-     * Default constructor. Sets the state of the underlying data object to {@link StatusEnum#UNDEFINED}.
+     * Default constructor. Sets the state of the underlying data object to {@link org.roklib.data.ManagedData.Status#UNDEFINED}.
      */
     public ManagedData() {
-        mStatus = StatusEnum.UNDEFINED;
+        status = Status.UNDEFINED;
     }
 
     /**
      * Creates a new {@link ManagedData} with an initial value object. The state of the newly created {@link ManagedData}
-     * is {@link ManagedData.StatusEnum#SET}.
+     * is {@link org.roklib.data.ManagedData.Status#SET}.
      *
      * @param initialValue the initial value object
      */
@@ -90,31 +90,31 @@ public class ManagedData<T> implements Serializable {
 
     /**
      * Returns <code>true</code> if the current state of the {@link ManagedData} is either
-     * {@link ManagedData.StatusEnum#SET} or {@link ManagedData.StatusEnum#CHANGED}.
+     * {@link org.roklib.data.ManagedData.Status#SET} or {@link org.roklib.data.ManagedData.Status#CHANGED}.
      *
      * @return <code>true</code> if the current state of the {@link ManagedData} is either
-     * {@link ManagedData.StatusEnum#SET} or {@link ManagedData.StatusEnum#CHANGED}.
+     * {@link org.roklib.data.ManagedData.Status#SET} or {@link org.roklib.data.ManagedData.Status#CHANGED}.
      */
     public boolean canRead() {
-        return isSet() || mStatus == StatusEnum.CHANGED;
+        return isSet() || status == Status.CHANGED;
     }
 
     /**
-     * Unsets the data object. The new state of the {@link ManagedData} is {@link ManagedData.StatusEnum#DELETED}.
+     * Unsets the data object. The new state of the {@link ManagedData} is {@link org.roklib.data.ManagedData.Status#DELETED}.
      */
     public void unset() {
-        mStatus = StatusEnum.DELETED;
-        mValue = null;
+        status = Status.DELETED;
+        value = null;
     }
 
     /**
      * Returns the current state of the data value.
      *
      * @return the current state of the data value.
-     * @see ManagedData.StatusEnum
+     * @see org.roklib.data.ManagedData.Status
      */
-    public StatusEnum getState() {
-        return mStatus;
+    public Status getState() {
+        return status;
     }
 
     /**
@@ -124,14 +124,14 @@ public class ManagedData<T> implements Serializable {
      * @throws IllegalStateException if the value either hasn't been initialized yet or was deleted with {@link ManagedData#unset()}
      */
     public T getValue() {
-        if (mStatus == StatusEnum.UNDEFINED) {
+        if (status == Status.UNDEFINED) {
             throw new IllegalStateException("Unable to get value: value is still undefined.");
         }
-        if (mStatus == StatusEnum.DELETED) {
+        if (status == Status.DELETED) {
             throw new IllegalStateException("Unable to get value: value has been deleted.");
         }
 
-        return mValue;
+        return value;
     }
 
     /**
@@ -141,9 +141,9 @@ public class ManagedData<T> implements Serializable {
      */
     public ManagedData(ManagedData<T> other) {
         this();
-        mValue = other.mValue;
-        mStatus = other.mStatus;
-        mWriteLock = other.mWriteLock;
+        value = other.value;
+        status = other.status;
+        writeLock = other.writeLock;
     }
 
     /**
@@ -159,32 +159,32 @@ public class ManagedData<T> implements Serializable {
      */
     public void lock(Object writeLock) {
         CheckForNull.check(writeLock);
-        mWriteLock = writeLock;
+        this.writeLock = writeLock;
     }
 
     /**
      * Returns <code>true</code> if the {@link ManagedData} is currently locked.
      */
     public boolean isLocked() {
-        return mWriteLock != null;
+        return writeLock != null;
     }
 
     /**
      * Resets the state of the data value. This will only have any effect if the current status is
-     * {@link ManagedData.StatusEnum#CHANGED}. If that is the case the state is reset to
-     * {@link ManagedData.StatusEnum#SET}. Thus, {@link ManagedData#reset()} can be used to acknowledge that the
+     * {@link org.roklib.data.ManagedData.Status#CHANGED}. If that is the case the state is reset to
+     * {@link org.roklib.data.ManagedData.Status#SET}. Thus, {@link ManagedData#reset()} can be used to acknowledge that the
      * {@link ManagedData}'s data has been changed.
      */
     public void reset() {
-        if (mStatus == StatusEnum.CHANGED) {
-            mStatus = StatusEnum.SET;
+        if (status == Status.CHANGED) {
+            status = Status.SET;
         }
     }
 
     /**
      * Sets the value of the data object. The {@link ManagedData} must not be locked when this method is called. The new
-     * state of the value object is either {@link ManagedData.StatusEnum#SET} if it was undefined or deleted before this
-     * operation or {@link ManagedData.StatusEnum#CHANGED} if it was already set.
+     * state of the value object is either {@link org.roklib.data.ManagedData.Status#SET} if it was undefined or deleted before this
+     * operation or {@link org.roklib.data.ManagedData.Status#CHANGED} if it was already set.
      *
      * @param value
      * @throws IllegalStateException if this {@link ManagedData} is locked
@@ -200,8 +200,8 @@ public class ManagedData<T> implements Serializable {
     /**
      * Sets the value of the data object. This method can be used if and only if the {@link ManagedData} is currently
      * locked. The lock's key is provided as the second parameter. The new state of the value object is either
-     * {@link ManagedData.StatusEnum#SET} if it was undefined or deleted before this operation or
-     * {@link ManagedData.StatusEnum#CHANGED} if it was already set.
+     * {@link org.roklib.data.ManagedData.Status#SET} if it was undefined or deleted before this operation or
+     * {@link org.roklib.data.ManagedData.Status#CHANGED} if it was already set.
      *
      * @param value   a new value
      * @param lockKey the object that was used to lock the {@link ManagedData}
@@ -213,7 +213,7 @@ public class ManagedData<T> implements Serializable {
         if (!isLocked()) {
             throw new IllegalStateException("Cannot unlock value: object is not locked.");
         }
-        if (mWriteLock != lockKey) {
+        if (writeLock != lockKey) {
             throw new IllegalArgumentException("Cannot set value: incorrect lock key.");
         }
         setValueInternal(value);
@@ -224,54 +224,54 @@ public class ManagedData<T> implements Serializable {
             throw new IllegalArgumentException("Can't overwrite value with null. Use unset() instead.");
         }
 
-        mValue = value;
-        if (mStatus == StatusEnum.SET || mStatus == StatusEnum.CHANGED) {
-            mStatus = StatusEnum.CHANGED;
+        this.value = value;
+        if (status == Status.SET || status == Status.CHANGED) {
+            status = Status.CHANGED;
         } else {
-            mStatus = StatusEnum.SET;
+            status = Status.SET;
         }
     }
 
     /**
-     * Returns <code>true</code> if the current state of the {@link ManagedData} is {@link ManagedData.StatusEnum#SET}.
+     * Returns <code>true</code> if the current state of the {@link ManagedData} is {@link org.roklib.data.ManagedData.Status#SET}.
      *
-     * @return <code>true</code> if the current state of the {@link ManagedData} is {@link ManagedData.StatusEnum#SET}.
+     * @return <code>true</code> if the current state of the {@link ManagedData} is {@link org.roklib.data.ManagedData.Status#SET}.
      */
     public boolean isSet() {
-        return mStatus == StatusEnum.SET;
+        return status == Status.SET;
     }
 
     /**
-     * Returns <code>true</code> if the current state of the {@link ManagedData} is {@link ManagedData.StatusEnum#CHANGED}
+     * Returns <code>true</code> if the current state of the {@link ManagedData} is {@link org.roklib.data.ManagedData.Status#CHANGED}
      * .
      *
-     * @return <code>true</code> if the current state of the {@link ManagedData} is {@link ManagedData.StatusEnum#CHANGED}
+     * @return <code>true</code> if the current state of the {@link ManagedData} is {@link org.roklib.data.ManagedData.Status#CHANGED}
      * .
      */
     public boolean isChanged() {
-        return mStatus == StatusEnum.CHANGED;
+        return status == Status.CHANGED;
     }
 
     /**
      * Returns <code>true</code> if the current state of the {@link ManagedData} is
-     * {@link ManagedData.StatusEnum#UNDEFINED}.
+     * {@link org.roklib.data.ManagedData.Status#UNDEFINED}.
      *
      * @return <code>true</code> if the current state of the {@link ManagedData} is
-     * {@link ManagedData.StatusEnum#UNDEFINED}.
+     * {@link org.roklib.data.ManagedData.Status#UNDEFINED}.
      */
     public boolean isUndefined() {
-        return mStatus == StatusEnum.UNDEFINED;
+        return status == Status.UNDEFINED;
     }
 
     /**
-     * Returns <code>true</code> if the current state of the {@link ManagedData} is {@link ManagedData.StatusEnum#DELETED}
+     * Returns <code>true</code> if the current state of the {@link ManagedData} is {@link org.roklib.data.ManagedData.Status#DELETED}
      * .
      *
-     * @return <code>true</code> if the current state of the {@link ManagedData} is {@link ManagedData.StatusEnum#DELETED}
+     * @return <code>true</code> if the current state of the {@link ManagedData} is {@link org.roklib.data.ManagedData.Status#DELETED}
      * .
      */
     public boolean isDeleted() {
-        return mStatus == StatusEnum.DELETED;
+        return status == Status.DELETED;
     }
 
     @Override
@@ -285,20 +285,20 @@ public class ManagedData<T> implements Serializable {
         }
         if (obj instanceof ManagedData) {
             ManagedData other = (ManagedData) obj;
-            if (!(mStatus == StatusEnum.SET || mStatus == StatusEnum.CHANGED))
+            if (!(status == Status.SET || status == Status.CHANGED))
                 return false;
-            if (!(other.mStatus == StatusEnum.SET || other.mStatus == StatusEnum.CHANGED))
+            if (!(other.status == Status.SET || other.status == Status.CHANGED))
                 return false;
 
-            return mValue.equals(other.mValue);
+            return value.equals(other.value);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        if (mStatus == StatusEnum.SET || mStatus == StatusEnum.CHANGED) {
-            return mValue.hashCode();
+        if (status == Status.SET || status == Status.CHANGED) {
+            return value.hashCode();
         } else {
             return super.hashCode();
         }
@@ -307,9 +307,9 @@ public class ManagedData<T> implements Serializable {
     @Override
     public String toString() {
         if (canRead()) {
-            return mValue.toString();
+            return value.toString();
         }
-        return String.format("%s:%s", super.toString(), mStatus.toString());
+        return String.format("%s:%s", super.toString(), status.toString());
     }
 
     /**
@@ -326,9 +326,9 @@ public class ManagedData<T> implements Serializable {
         if (!isLocked()) {
             throw new IllegalStateException("Cannot unlock value: object is not locked.");
         }
-        if (mWriteLock != writeLock) {
+        if (this.writeLock != writeLock) {
             throw new IllegalArgumentException("Cannot unlock value: wrong key.");
         }
-        mWriteLock = null;
+        this.writeLock = null;
     }
 }

@@ -29,109 +29,109 @@ public class EnhancedReturnTypeTest {
     private final static String FOOBAR = "foobar";
     private final static Exception EXCEPTION = new RuntimeException();
 
-    private EnhancedReturnType<String> mTestObject;
+    private EnhancedReturnType<String> testObject;
 
     @Test
     public void testVoidedEnhancedReturnType() {
-        mTestObject = EnhancedReturnType.Builder.createVoided(String.class).withMessage("foo").appendToMessage("bar")
+        testObject = EnhancedReturnType.Builder.createVoided(String.class).withMessage("foo").appendToMessage("bar")
                 .build();
-        assertIsVoided(mTestObject);
-        assertMessage(mTestObject, FOOBAR);
-        assertHasNoException(mTestObject);
+        assertIsVoided(testObject);
+        assertMessage(testObject, FOOBAR);
+        assertHasNoException(testObject);
 
-        mTestObject = EnhancedReturnType.Builder.createNew(String.class).voidResult().build();
-        assertIsVoided(mTestObject);
-        assertHasNoException(mTestObject);
+        testObject = EnhancedReturnType.Builder.createNew(String.class).voidResult().build();
+        assertIsVoided(testObject);
+        assertHasNoException(testObject);
     }
 
     @Test
     public void testSuccessfulEnhancedReturnType() {
-        mTestObject = EnhancedReturnType.Builder.createNew(String.class).successful().withMessage(MESSAGE)
+        testObject = EnhancedReturnType.Builder.createNew(String.class).successful().withMessage(MESSAGE)
                 .appendToMessage(MESSAGE).withValue(FOOBAR).build();
-        assertCorrect(mTestObject, true, FOOBAR);
-        assertMessage(mTestObject, MESSAGE + MESSAGE);
-        assertHasNoException(mTestObject);
+        assertCorrect(testObject, true, FOOBAR);
+        assertMessage(testObject, MESSAGE + MESSAGE);
+        assertHasNoException(testObject);
 
-        mTestObject = EnhancedReturnType.Builder.createSuccessful(String.class).withMessage(MESSAGE)
+        testObject = EnhancedReturnType.Builder.createSuccessful(String.class).withMessage(MESSAGE)
                 .appendToMessage(MESSAGE).withValue(FOOBAR).build();
-        assertCorrect(mTestObject, true, FOOBAR);
-        assertMessage(mTestObject, MESSAGE + MESSAGE);
-        assertHasNoException(mTestObject);
+        assertCorrect(testObject, true, FOOBAR);
+        assertMessage(testObject, MESSAGE + MESSAGE);
+        assertHasNoException(testObject);
 
-        mTestObject = EnhancedReturnType.Builder.createSuccessful(FOOBAR);
-        assertCorrect(mTestObject, true, FOOBAR);
-        assertEquals(mTestObject.getMessage(), "");
-        assertHasNoException(mTestObject);
+        testObject = EnhancedReturnType.Builder.createSuccessful(FOOBAR);
+        assertCorrect(testObject, true, FOOBAR);
+        assertEquals(testObject.getMessage(), "");
+        assertHasNoException(testObject);
     }
 
     @Test
     public void testFailedEnhancedReturnType() {
-        mTestObject = EnhancedReturnType.Builder.createNew(String.class).failed().withMessage(FOOBAR)
+        testObject = EnhancedReturnType.Builder.createNew(String.class).failed().withMessage(FOOBAR)
                 .withException(EXCEPTION).build();
-        assertHasCorrectException(mTestObject, EXCEPTION);
-        assertCorrect(mTestObject, false, null);
+        assertHasCorrectException(testObject, EXCEPTION);
+        assertCorrect(testObject, false, null);
 
-        mTestObject = EnhancedReturnType.Builder.createFailed(String.class).withMessage(FOOBAR).withException(EXCEPTION)
+        testObject = EnhancedReturnType.Builder.createFailed(String.class).withMessage(FOOBAR).withException(EXCEPTION)
                 .build();
-        assertHasCorrectException(mTestObject, EXCEPTION);
-        assertCorrect(mTestObject, false, null);
+        assertHasCorrectException(testObject, EXCEPTION);
+        assertCorrect(testObject, false, null);
     }
 
     @Test
     public void testSetMessageOverwritesExistingMessage() {
-        mTestObject = EnhancedReturnType.Builder.createVoided(String.class).appendToMessage("xxx").withMessage(MESSAGE)
+        testObject = EnhancedReturnType.Builder.createVoided(String.class).appendToMessage("xxx").withMessage(MESSAGE)
                 .build();
-        assertMessage(mTestObject, MESSAGE);
+        assertMessage(testObject, MESSAGE);
 
-        mTestObject = EnhancedReturnType.Builder.createSuccessful(String.class).appendToMessage("xxx")
+        testObject = EnhancedReturnType.Builder.createSuccessful(String.class).appendToMessage("xxx")
                 .withMessage(MESSAGE).build();
-        assertMessage(mTestObject, MESSAGE);
+        assertMessage(testObject, MESSAGE);
 
-        mTestObject = EnhancedReturnType.Builder.createFailed(String.class).appendToMessage("xxx").withMessage(MESSAGE)
+        testObject = EnhancedReturnType.Builder.createFailed(String.class).appendToMessage("xxx").withMessage(MESSAGE)
                 .build();
-        assertMessage(mTestObject, MESSAGE);
+        assertMessage(testObject, MESSAGE);
     }
 
     @Test
     public void testAppendToMessage() {
-        mTestObject = EnhancedReturnType.Builder.createVoided(String.class).appendToMessage(MESSAGE)
+        testObject = EnhancedReturnType.Builder.createVoided(String.class).appendToMessage(MESSAGE)
                 .appendToMessage(FOOBAR).build();
-        assertMessage(mTestObject, MESSAGE + FOOBAR);
+        assertMessage(testObject, MESSAGE + FOOBAR);
     }
 
     @Test(expected = IllegalStateException.class)
     public void testGetValueOfVoidedObjectFails() {
-        mTestObject = EnhancedReturnType.Builder.createVoided(String.class).build();
-        mTestObject.getValue();
+        testObject = EnhancedReturnType.Builder.createVoided(String.class).build();
+        testObject.getValue();
     }
 
     @Test
     public void testSetNoMessage() {
-        mTestObject = EnhancedReturnType.Builder.createVoided(String.class).build();
-        assertFalse(mTestObject.hasMessage());
+        testObject = EnhancedReturnType.Builder.createVoided(String.class).build();
+        assertFalse(testObject.hasMessage());
     }
 
     @Test
     public void testFinishedBuilderWithMessage() {
-        mTestObject = EnhancedReturnType.Builder.createSuccessful(String.class).withValue(FOOBAR)
+        testObject = EnhancedReturnType.Builder.createSuccessful(String.class).withValue(FOOBAR)
                 .appendToMessage(MESSAGE).build();
-        assertMessage(mTestObject, MESSAGE);
+        assertMessage(testObject, MESSAGE);
     }
 
     @Test
     public void testBuilder() {
-        mTestObject = EnhancedReturnType.Builder.createNew(String.class).withMessage(MESSAGE).appendToMessage(MESSAGE)
+        testObject = EnhancedReturnType.Builder.createNew(String.class).withMessage(MESSAGE).appendToMessage(MESSAGE)
                 .withValue(FOOBAR).build();
-        assertIsSuccessful(mTestObject);
-        assertMessage(mTestObject, MESSAGE + MESSAGE);
+        assertIsSuccessful(testObject);
+        assertMessage(testObject, MESSAGE + MESSAGE);
     }
 
     @Test
     public void testBuilderWithException() {
-        mTestObject = EnhancedReturnType.Builder.createNew(String.class).withException(EXCEPTION).build();
+        testObject = EnhancedReturnType.Builder.createNew(String.class).withException(EXCEPTION).build();
 
-        assertCorrect(mTestObject, false, null);
-        assertHasCorrectException(mTestObject, EXCEPTION);
+        assertCorrect(testObject, false, null);
+        assertHasCorrectException(testObject, EXCEPTION);
     }
 
     private void assertIsSuccessful(EnhancedReturnType<String> object) {

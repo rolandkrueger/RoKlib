@@ -31,7 +31,7 @@ import java.io.OutputStream;
 
 /**
  * <p>
- * An {@link IStreamDataBuffer} implementation that keeps its buffered data in a byte array. By that, this class
+ * An {@link StreamDataBuffer} implementation that keeps its buffered data in a byte array. By that, this class
  * implements an in-memory data buffer which can be accessed with {@link InputStream}s and {@link OutputStream}s.
  * </p>
  * <p>
@@ -43,10 +43,10 @@ import java.io.OutputStream;
  * @author Roland Krueger
  * @see ByteArrayOutputStream
  */
-public class ByteArrayStreamDataBuffer implements IStreamDataBuffer {
+public class ByteArrayStreamDataBuffer implements StreamDataBuffer {
     private static final int DEFAULT_CAPACITY_IN_BYTES = 8192;
-    private ByteArrayOutputStream mData;
-    private final int mCapacity;
+    private ByteArrayOutputStream data;
+    private final int capacity;
 
     /**
      * Creates a new {@link ByteArrayStreamDataBuffer} with an initial capacity as defined by
@@ -60,13 +60,13 @@ public class ByteArrayStreamDataBuffer implements IStreamDataBuffer {
      * Creates a new {@link ByteArrayStreamDataBuffer} with an initial capacity as defined by the capacity parameter.
      */
     public ByteArrayStreamDataBuffer(int capacity) {
-        mCapacity = capacity;
+        this.capacity = capacity;
         reset();
     }
 
     @Override
     public boolean reset() {
-        mData = new ByteArrayOutputStream(mCapacity);
+        data = new ByteArrayOutputStream(capacity);
         return true;
     }
 
@@ -81,7 +81,7 @@ public class ByteArrayStreamDataBuffer implements IStreamDataBuffer {
      */
     @Override
     public EnhancedReturnType<InputStream> getInputStream() {
-        return EnhancedReturnType.Builder.createSuccessful((InputStream) new ByteArrayInputStream(mData.toByteArray()));
+        return EnhancedReturnType.Builder.createSuccessful((InputStream) new ByteArrayInputStream(data.toByteArray()));
     }
 
     /**
@@ -91,7 +91,7 @@ public class ByteArrayStreamDataBuffer implements IStreamDataBuffer {
      */
     @Override
     public EnhancedReturnType<OutputStream> getOutputStream() {
-        return EnhancedReturnType.Builder.createSuccessful((OutputStream) mData);
+        return EnhancedReturnType.Builder.createSuccessful((OutputStream) data);
     }
 
     /**
@@ -100,14 +100,14 @@ public class ByteArrayStreamDataBuffer implements IStreamDataBuffer {
      * @see ByteArrayOutputStream#size()
      */
     public int getSize() {
-        return mData.size();
+        return data.size();
     }
 
     /**
      * Creates a new {@link ByteArrayStreamDataBuffer} object. The result object has always a successful state.
      */
     @Override
-    public EnhancedReturnType<IStreamDataBuffer> create() {
-        return EnhancedReturnType.Builder.createSuccessful((IStreamDataBuffer) new ByteArrayStreamDataBuffer());
+    public EnhancedReturnType<StreamDataBuffer> create() {
+        return EnhancedReturnType.Builder.createSuccessful((StreamDataBuffer) new ByteArrayStreamDataBuffer());
     }
 }

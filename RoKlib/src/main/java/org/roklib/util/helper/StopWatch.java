@@ -21,57 +21,57 @@
 package org.roklib.util.helper;
 
 public class StopWatch {
-    private long mTotalTime;
-    private long mStartTime;
-    private boolean mIsRunning;
+    private long totalTime;
+    private long startTime;
+    private boolean isRunning;
 
     public StopWatch() {
-        mTotalTime = 0;
-        mIsRunning = false;
+        totalTime = 0;
+        isRunning = false;
     }
 
     public long getTotalTime() {
-        return mTotalTime;
+        return totalTime;
     }
 
     public void start() {
-        if (mIsRunning) {
+        if (isRunning) {
             throw new IllegalStateException("Stop watch is already running.");
         }
-        mStartTime = System.currentTimeMillis();
-        mIsRunning = true;
+        startTime = System.currentTimeMillis();
+        isRunning = true;
     }
 
     public void stop() {
-        if (!mIsRunning) {
+        if (!isRunning) {
             throw new IllegalStateException("Stop watch is currently not running.");
         }
-        mIsRunning = false;
+        isRunning = false;
         calculateTotalTime();
     }
 
     public long getStartTime() {
-        if (mStartTime == 0L) {
+        if (startTime == 0L) {
             throw new IllegalStateException("Stop watch has not yet been started.");
         }
-        return mStartTime;
+        return startTime;
     }
 
     public boolean isRunning() {
-        return mIsRunning;
+        return isRunning;
     }
 
     public void reset() {
-        mIsRunning = false;
-        mStartTime = 0;
-        mTotalTime = 0;
+        isRunning = false;
+        startTime = 0;
+        totalTime = 0;
     }
 
     private void calculateTotalTime() {
-        mTotalTime += System.currentTimeMillis() - mStartTime;
+        totalTime += System.currentTimeMillis() - startTime;
     }
 
     public long getSplitTime() {
-        return System.currentTimeMillis() - mStartTime;
+        return System.currentTimeMillis() - startTime;
     }
 }

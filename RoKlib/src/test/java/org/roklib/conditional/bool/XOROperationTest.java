@@ -26,44 +26,44 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class XOROperationTest {
-    private XOROperation mTestObj;
+    private XOROperation xorOperation;
 
     @Before
     public void setUp() {
-        mTestObj = new XOROperation();
-        mTestObj.setLeftHandOperand(false);
-        mTestObj.setRightHandOperand(false);
+        xorOperation = new XOROperation();
+        xorOperation.setLeftHandOperand(false);
+        xorOperation.setRightHandOperand(false);
     }
 
     @Test
     public void test() {
-        assertFalse(mTestObj.execute());
-        mTestObj.setLeftHandOperand(true);
-        assertTrue(mTestObj.execute());
-        mTestObj.setRightHandOperand(true);
-        assertFalse(mTestObj.execute());
-        mTestObj.setLeftHandOperand(false);
-        assertTrue(mTestObj.execute());
+        assertFalse(xorOperation.execute());
+        xorOperation.setLeftHandOperand(true);
+        assertTrue(xorOperation.execute());
+        xorOperation.setRightHandOperand(true);
+        assertFalse(xorOperation.execute());
+        xorOperation.setLeftHandOperand(false);
+        assertTrue(xorOperation.execute());
     }
 
     @Test
     public void testCanShortCircuit() {
-        assertFalse(mTestObj.canShortCircuit(true));
-        assertFalse(mTestObj.canShortCircuit(false));
+        assertFalse(xorOperation.canShortCircuit(true));
+        assertFalse(xorOperation.canShortCircuit(false));
     }
 
     @Test(expected = IllegalStateException.class)
     public void testGetShortCircuit() {
-        mTestObj.getShortCircuit(true);
+        xorOperation.getShortCircuit(true);
     }
 
     @Test
     public void testIsUnaryOperation() {
-        assertFalse(mTestObj.isUnaryOperation());
+        assertFalse(xorOperation.isUnaryOperation());
     }
 
     @Test
     public void testGetMinimumNumberOfOperands() {
-        assertEquals(2, mTestObj.getMinimumNumberOfOperands());
+        assertEquals(2, xorOperation.getMinimumNumberOfOperands());
     }
 }

@@ -27,22 +27,22 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class AbstractCommandTest {
-    private CVoidTestCommand mTestObject;
+    private CVoidTestCommand testObject;
 
     @Before
     public void setUp() {
-        mTestObject = new CVoidTestCommand();
+        testObject = new CVoidTestCommand();
     }
 
     @Test
     public void testResultDoesNotRemainVoidAfterSecondCommandExecution() {
-        mTestObject.setVoid(true);
-        mTestObject.run();
-        assertTrue(mTestObject.getResult().isVoided());
-        mTestObject.setVoid(false);
+        testObject.setVoid(true);
+        testObject.run();
+        assertTrue(testObject.getResult().isVoided());
+        testObject.setVoid(false);
         // the void status should be reset for the second execution of the same command object
-        mTestObject.run();
-        assertFalse(mTestObject.getResult().isVoided());
+        testObject.run();
+        assertFalse(testObject.getResult().isVoided());
     }
 
     private static class CVoidTestCommand extends AbstractCommand<Integer> {

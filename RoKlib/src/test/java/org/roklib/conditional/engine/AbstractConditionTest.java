@@ -26,23 +26,23 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class AbstractConditionTest {
-    private Condition mTestObj;
+    private Condition condition;
 
     @Before
     public void setUp() {
-        mTestObj = new Condition("testObj", false);
+        condition = new Condition("testObj", false);
     }
 
     @Test
     public void testAddConditionListener() {
         ConditionListener listener = new ConditionListener();
-        mTestObj.addConditionListener(listener);
-        mTestObj.setValue(true);
+        condition.addConditionListener(listener);
+        condition.setValue(true);
         // call setValue again, this time the value doesn't change. The listener is
         // not expected
         // to be called this time.
-        mTestObj.setValue(true);
-        mTestObj.setValue(false);
+        condition.setValue(true);
+        condition.setValue(false);
         // listener is expected to have been called two times
         assertEquals(2, listener.callCount);
     }
@@ -50,15 +50,15 @@ public class AbstractConditionTest {
     @Test
     public void testRemoveConditionListener() {
         ConditionListener listener = new ConditionListener();
-        mTestObj.addConditionListener(listener);
-        mTestObj.setValue(true);
-        mTestObj.removeConditionListener(listener);
-        mTestObj.setValue(false);
+        condition.addConditionListener(listener);
+        condition.setValue(true);
+        condition.removeConditionListener(listener);
+        condition.setValue(false);
         // only the first value change is registered by the listener
         assertEquals(1, listener.callCount);
     }
 
-    private class ConditionListener implements IConditionListener {
+    private class ConditionListener implements org.roklib.conditional.engine.ConditionListener {
         private int callCount = 0;
 
         public void conditionChanged(AbstractCondition source) {

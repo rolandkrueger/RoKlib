@@ -37,25 +37,25 @@ public class TSTMapCaseInsensitiveMapEntrySetTest {
     private static final String BAR = "Bar";
     private static final String BAZ = "BAZ";
 
-    private TernarySearchTreeMapCaseInsensitive<String> mTestObj;
-    private Set<Map.Entry<CharSequence, String>> mEntrySet;
+    private TernarySearchTreeMapCaseInsensitive<String> testObj;
+    private Set<Map.Entry<CharSequence, String>> entrySet;
 
     @Before
     public void setUp() {
-        mTestObj = new TernarySearchTreeMapCaseInsensitive<String>();
-        mTestObj.put(EMPTY, EMPTY);
-        mTestObj.put(BAR, BAR);
-        mTestObj.put(BAZ, BAZ);
-        mTestObj.put(ABCD, ABCD);
-        mTestObj.put(XYZ, XYZ);
-        mTestObj.put(FOO, FOO);
-        mEntrySet = mTestObj.entrySet();
+        testObj = new TernarySearchTreeMapCaseInsensitive<String>();
+        testObj.put(EMPTY, EMPTY);
+        testObj.put(BAR, BAR);
+        testObj.put(BAZ, BAZ);
+        testObj.put(ABCD, ABCD);
+        testObj.put(XYZ, XYZ);
+        testObj.put(FOO, FOO);
+        entrySet = testObj.entrySet();
     }
 
     @Test
     public void testEntrySet() {
-        assertEquals(mTestObj.size(), mEntrySet.size());
-        Iterator<Map.Entry<CharSequence, String>> iterator = mEntrySet.iterator();
+        assertEquals(testObj.size(), entrySet.size());
+        Iterator<Map.Entry<CharSequence, String>> iterator = entrySet.iterator();
         assertTrue(iterator.hasNext());
         Map.Entry<CharSequence, String> entry = iterator.next();
         assertNotNull(entry);
@@ -91,42 +91,42 @@ public class TSTMapCaseInsensitiveMapEntrySetTest {
         entries.add(new SimpleEntry<CharSequence, String>("baZ", BAZ));
         entries.add(new SimpleEntry<CharSequence, String>("BAR", BAR));
         entries.add(new SimpleEntry<CharSequence, String>(XYZ, XYZ));
-        assertTrue(mEntrySet.containsAll(entries));
+        assertTrue(entrySet.containsAll(entries));
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testAdd() {
-        mEntrySet.add(null);
+        entrySet.add(null);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testAddAll() {
-        mEntrySet.addAll(null);
+        entrySet.addAll(null);
     }
 
     @Test
     public void testSize() {
-        assertEquals(6, mEntrySet.size());
+        assertEquals(6, entrySet.size());
     }
 
     @Test
     public void testIsEmpty() {
-        assertFalse(mEntrySet.isEmpty());
-        mEntrySet.clear();
-        assertTrue(mEntrySet.isEmpty());
+        assertFalse(entrySet.isEmpty());
+        entrySet.clear();
+        assertTrue(entrySet.isEmpty());
     }
 
     @Test
     public void testRemove() {
-        assertTrue(mEntrySet.remove(new SimpleEntry<CharSequence, String>("abCD", ABCD)));
-        assertFalse(mTestObj.containsKey(ABCD));
-        assertTrue(mEntrySet.remove(new SimpleEntry<CharSequence, String>("fOO", FOO)));
-        assertFalse(mTestObj.containsKey(FOO));
-        assertFalse(mEntrySet.remove(new SimpleEntry<CharSequence, String>("zzz", "zzz")));
-        assertFalse(mEntrySet.remove(new SimpleEntry<CharSequence, String>(XYZ, "zzz")));
-        assertFalse(mEntrySet.remove(new SimpleEntry<CharSequence, String>(null, "zzz")));
-        assertTrue(mTestObj.containsKey(XYZ));
-        assertFalse(mEntrySet.remove(null));
+        assertTrue(entrySet.remove(new SimpleEntry<CharSequence, String>("abCD", ABCD)));
+        assertFalse(testObj.containsKey(ABCD));
+        assertTrue(entrySet.remove(new SimpleEntry<CharSequence, String>("fOO", FOO)));
+        assertFalse(testObj.containsKey(FOO));
+        assertFalse(entrySet.remove(new SimpleEntry<CharSequence, String>("zzz", "zzz")));
+        assertFalse(entrySet.remove(new SimpleEntry<CharSequence, String>(XYZ, "zzz")));
+        assertFalse(entrySet.remove(new SimpleEntry<CharSequence, String>(null, "zzz")));
+        assertTrue(testObj.containsKey(XYZ));
+        assertFalse(entrySet.remove(null));
     }
 
     @Test
@@ -137,10 +137,10 @@ public class TSTMapCaseInsensitiveMapEntrySetTest {
         list.add(new SimpleEntry<CharSequence, String>("fOO", FOO));
         list.add(new SimpleEntry<CharSequence, String>("zzz", "zzz"));
         list.add("some String");
-        mEntrySet.retainAll(list);
-        assertEquals(2, mEntrySet.size());
-        assertTrue(mTestObj.containsKey(ABCD));
-        assertTrue(mTestObj.containsKey(FOO));
+        entrySet.retainAll(list);
+        assertEquals(2, entrySet.size());
+        assertTrue(testObj.containsKey(ABCD));
+        assertTrue(testObj.containsKey(FOO));
     }
 
     @Test
@@ -150,46 +150,46 @@ public class TSTMapCaseInsensitiveMapEntrySetTest {
         list.add(new SimpleEntry<CharSequence, String>("abCD", ABCD));
         list.add(new SimpleEntry<CharSequence, String>("fOO", FOO));
         list.add(new SimpleEntry<CharSequence, String>("zzz", "zzz"));
-        mEntrySet.removeAll(list);
-        assertEquals(4, mTestObj.size());
-        assertFalse(mTestObj.containsKey(ABCD));
-        assertFalse(mTestObj.containsKey(FOO));
+        entrySet.removeAll(list);
+        assertEquals(4, testObj.size());
+        assertFalse(testObj.containsKey(ABCD));
+        assertFalse(testObj.containsKey(FOO));
 
         list.add("1");
         list.add(new SimpleEntry<CharSequence, String>("xYz", XYZ));
         list.add(new SimpleEntry<CharSequence, String>("BAR", BAR));
         list.add(new SimpleEntry<CharSequence, String>("baZ", BAZ));
         list.add(new SimpleEntry<CharSequence, String>("", EMPTY));
-        mEntrySet.removeAll(list);
-        assertTrue(mTestObj.isEmpty());
+        entrySet.removeAll(list);
+        assertTrue(testObj.isEmpty());
     }
 
     @Test
     public void testEntrySetContains() {
         SimpleEntry<CharSequence, String> entry = new SimpleEntry<CharSequence, String>("abCD", ABCD);
-        assertTrue(mEntrySet.contains(entry));
+        assertTrue(entrySet.contains(entry));
         entry = new SimpleEntry<CharSequence, String>("abcd", ABCD);
-        assertTrue(mEntrySet.contains(entry));
+        assertTrue(entrySet.contains(entry));
         entry = new SimpleEntry<CharSequence, String>("fOO", FOO);
-        assertTrue(mEntrySet.contains(entry));
+        assertTrue(entrySet.contains(entry));
         entry = new SimpleEntry<CharSequence, String>("baZ", BAZ);
-        assertTrue(mEntrySet.contains(entry));
+        assertTrue(entrySet.contains(entry));
         entry = new SimpleEntry<CharSequence, String>("BAR", BAR);
-        assertTrue(mEntrySet.contains(entry));
+        assertTrue(entrySet.contains(entry));
         entry = new SimpleEntry<CharSequence, String>(XYZ, XYZ);
-        assertTrue(mEntrySet.contains(entry));
+        assertTrue(entrySet.contains(entry));
 
         entry = new SimpleEntry<CharSequence, String>("zzz", "zzz");
-        assertFalse(mEntrySet.contains(entry));
+        assertFalse(entrySet.contains(entry));
         entry = new SimpleEntry<CharSequence, String>(XYZ, "zzz");
-        assertFalse(mEntrySet.contains(entry));
+        assertFalse(entrySet.contains(entry));
         entry = new SimpleEntry<CharSequence, String>(XYZ, null);
-        assertFalse(mEntrySet.contains(entry));
+        assertFalse(entrySet.contains(entry));
         entry = new SimpleEntry<CharSequence, String>(null, XYZ);
-        assertFalse(mEntrySet.contains(entry));
+        assertFalse(entrySet.contains(entry));
         entry = new SimpleEntry<CharSequence, String>(null, null);
-        assertFalse(mEntrySet.contains(entry));
-        assertFalse(mEntrySet.contains("foo"));
-        assertFalse(mEntrySet.contains(null));
+        assertFalse(entrySet.contains(entry));
+        assertFalse(entrySet.contains("foo"));
+        assertFalse(entrySet.contains(null));
     }
 }

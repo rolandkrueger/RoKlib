@@ -17,17 +17,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.io;
+package org.roklib.data;
 
+import java.io.Serializable;
 
-import java.io.IOException;
+public interface ThreadLocalContainer extends Serializable {
+    public void setCurrentInstance();
 
-/**
- * @author Roland Krueger
- */
-public class ByteArrayStreamDataBufferTest extends IStreamDataBufferTest {
-    @Override
-    public StreamDataBuffer createObjectUnderTest() throws IOException {
-        return new ByteArrayStreamDataBuffer();
-    }
+    public void resetCurrentInstance();
 }

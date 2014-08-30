@@ -30,22 +30,22 @@ import java.util.*;
 
 public class FileModificationWatchdog {
     private final static long DEFAULT_WAIT_INTERVAL = 1000;
-    private final File mFile;
-    private long mLastModified;
-    private List<FileModificationListener> mFileModificationListeners;
-    private List<DirectoryModificationListener> mDirectoryModificationListeners;
-    private long mWaitInterval;
-    private Timer mTimer;
-    private int mDirectoryFileCount;
-    private long mDirectoryFileHash;
+    private final File file;
+    private long lastModified;
+    private List<FileModificationListener> fileModificationListeners;
+    private List<DirectoryModificationListener> directoryModificationListeners;
+    private long waitInterval;
+    private Timer timer;
+    private int directoryFileCount;
+    private long directoryFileHash;
 
     public FileModificationWatchdog(File watchedFileOrDirectory, long waitInterval) throws FileNotFoundException {
         CheckForNull.check(watchedFileOrDirectory);
-        mFile = watchedFileOrDirectory;
-        if (!mFile.exists())
+        file = watchedFileOrDirectory;
+        if (!file.exists())
             throw new FileNotFoundException(
-                    String.format("File %s to be watched does not exist.", mFile.getAbsolutePath()));
-        mLastModified = mFile.lastModified();
+                    String.format("File %s to be watched does not exist.", file.getAbsolutePath()));
+        lastModified = file.lastModified();
         setWaitInterval(waitInterval);
         getDirectoryStatistics();
         startWatching();
@@ -81,62 +81,62 @@ public class FileModificationWatchdog {
     public void setWaitInterval(long interval) {
         if (interval < 1)
             throw new IllegalArgumentException("Wait interval must be >= 1.");
-        mWaitInterval = interval;
+        waitInterval = interval;
     }
 
     public void startWatching() {
-        if (mTimer == null)
-            mTimer = new Timer(true);
-        mTimer.scheduleAtFixedRate(new TimerTask() {
+        if (timer == null)
+            timer = new Timer(true);
+        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if (!mFile.exists()) {
+                if (!file.exists()) {
                     fireFileDeleted();
                     return;
                 }
 
-                if (!mFile.isDirectory() && mFile.lastModified() != mLastModified)
+                if (!file.isDirectory() && file.lastModified() != lastModified)
                     fireFileChanged();
 
-                if (mFile.isDirectory()) {
+                if (file.isDirectory()) {
                     int fileCount = getDirectoryFileCount();
-                    if (mDirectoryFileHash != getDirectoryFileHash()) {
+                    if (directoryFileHash != getDirectoryFileHash()) {
                         fireFileChanged();
                     }
 
-                    if (mDirectoryFileCount > fileCount) {
+                    if (directoryFileCount > fileCount) {
                         fireFilesRemoved();
                     }
 
-                    if (mDirectoryFileCount < fileCount) {
+                    if (directoryFileCount < fileCount) {
                         fireFilesAdded();
                     }
                 }
-                mLastModified = mFile.lastModified();
+                lastModified = file.lastModified();
                 getDirectoryStatistics();
             }
-        }, mWaitInterval, mWaitInterval);
+        }, waitInterval, waitInterval);
     }
 
     public void stopWatching() {
-        mTimer.cancel();
-        mTimer = null;
+        timer.cancel();
+        timer = null;
     }
 
     private void getDirectoryStatistics() {
-        if (mFile.isDirectory()) {
-            mDirectoryFileCount = getDirectoryFileCount();
-            mDirectoryFileHash = getDirectoryFileHash();
+        if (file.isDirectory()) {
+            directoryFileCount = getDirectoryFileCount();
+            directoryFileHash = getDirectoryFileHash();
         }
     }
 
     private int getDirectoryFileCount() {
-        return mFile.list().length;
+        return file.list().length;
     }
 
     private long getDirectoryFileHash() {
         long result = 0;
-        for (File file : mFile.listFiles()) {
+        for (File file : this.file.listFiles()) {
             result += file.lastModified();
         }
         return result;
@@ -164,23 +164,23 @@ public class FileModificationWatchdog {
     }
 
     private List<DirectoryModificationListener> getDirModListenerList() {
-        if (mDirectoryModificationListeners == null)
-            mDirectoryModificationListeners = new Vector<DirectoryModificationListener>(1);
-        return mDirectoryModificationListeners;
+        if (directoryModificationListeners == null)
+            directoryModificationListeners = new Vector<DirectoryModificationListener>(1);
+        return directoryModificationListeners;
     }
 
     private List<FileModificationListener> getFileModListenerList() {
-        if (mFileModificationListeners == null)
-            mFileModificationListeners = new Vector<FileModificationListener>(1);
-        return mFileModificationListeners;
+        if (fileModificationListeners == null)
+            fileModificationListeners = new Vector<FileModificationListener>(1);
+        return fileModificationListeners;
     }
 
     public boolean isWatchedFileDirectory() {
-        return mFile.isDirectory();
+        return file.isDirectory();
     }
 
     public File getWatchedFile() {
-        return mFile;
+        return file;
     }
 
     private void fireFilesAdded() {

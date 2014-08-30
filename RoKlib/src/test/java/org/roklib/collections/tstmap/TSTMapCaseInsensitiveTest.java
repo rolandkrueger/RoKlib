@@ -37,22 +37,22 @@ public class TSTMapCaseInsensitiveTest {
     private static final String BAR = "Bar";
     private static final String BAZ = "BAZ";
 
-    private TernarySearchTreeMapCaseInsensitive<String> mTestObj;
+    private TernarySearchTreeMapCaseInsensitive<String> testObj;
 
     @Before
     public void setUp() {
-        mTestObj = new TernarySearchTreeMapCaseInsensitive<String>();
-        mTestObj.put(EMPTY, EMPTY);
-        mTestObj.put(BAR, BAR);
-        mTestObj.put(BAZ, BAZ);
-        mTestObj.put(ABCD, ABCD);
-        mTestObj.put(XYZ, XYZ);
-        mTestObj.put(FOO, FOO);
+        testObj = new TernarySearchTreeMapCaseInsensitive<String>();
+        testObj.put(EMPTY, EMPTY);
+        testObj.put(BAR, BAR);
+        testObj.put(BAZ, BAZ);
+        testObj.put(ABCD, ABCD);
+        testObj.put(XYZ, XYZ);
+        testObj.put(FOO, FOO);
     }
 
     @Test
     public void testSubMap() {
-        SortedMap<CharSequence, String> subMap = mTestObj.subMap("AXXX", "GGG");
+        SortedMap<CharSequence, String> subMap = testObj.subMap("AXXX", "GGG");
         assertEquals(3, subMap.size());
         assertTrue(subMap.containsKey("baR"));
         assertTrue(subMap.containsKey("Baz"));
@@ -73,60 +73,60 @@ public class TSTMapCaseInsensitiveTest {
 
     @Test
     public void testSuccessor() {
-        assertNull(mTestObj.successorEntry(XYZ));
-        assertEquals(ABCD, mTestObj.successorEntry(EMPTY).getKey());
-        assertEquals(FOO, mTestObj.successorEntry("baZ").getKey());
-        assertEquals(BAR, mTestObj.successorEntry("abCD").getKey());
-        assertEquals(FOO, mTestObj.successorEntry("exx").getKey());
+        assertNull(testObj.successorEntry(XYZ));
+        assertEquals(ABCD, testObj.successorEntry(EMPTY).getKey());
+        assertEquals(FOO, testObj.successorEntry("baZ").getKey());
+        assertEquals(BAR, testObj.successorEntry("abCD").getKey());
+        assertEquals(FOO, testObj.successorEntry("exx").getKey());
     }
 
     @Test
     public void testPredecessor() {
-        assertNull(mTestObj.predecessorEntry(EMPTY));
-        assertEquals(BAZ, mTestObj.predecessorEntry("bxx").getKey());
-        assertEquals(EMPTY, mTestObj.predecessorEntry(ABCD).getKey());
-        assertEquals(BAZ, mTestObj.predecessorEntry("fOO").getKey());
-        assertEquals(ABCD, mTestObj.predecessorEntry("baR").getKey());
+        assertNull(testObj.predecessorEntry(EMPTY));
+        assertEquals(BAZ, testObj.predecessorEntry("bxx").getKey());
+        assertEquals(EMPTY, testObj.predecessorEntry(ABCD).getKey());
+        assertEquals(BAZ, testObj.predecessorEntry("fOO").getKey());
+        assertEquals(ABCD, testObj.predecessorEntry("baR").getKey());
     }
 
     @Test
     public void testGetValueAt() {
-        assertEquals(EMPTY, mTestObj.getValueAt(0));
-        assertEquals(ABCD, mTestObj.getValueAt(1));
-        assertEquals(BAR, mTestObj.getValueAt(2));
-        assertEquals(BAZ, mTestObj.getValueAt(3));
-        assertEquals(FOO, mTestObj.getValueAt(4));
-        assertEquals(XYZ, mTestObj.getValueAt(5));
+        assertEquals(EMPTY, testObj.getValueAt(0));
+        assertEquals(ABCD, testObj.getValueAt(1));
+        assertEquals(BAR, testObj.getValueAt(2));
+        assertEquals(BAZ, testObj.getValueAt(3));
+        assertEquals(FOO, testObj.getValueAt(4));
+        assertEquals(XYZ, testObj.getValueAt(5));
     }
 
     @Test
     public void testGetEntry() {
-        Map.Entry<CharSequence, String> entry = mTestObj.getEntry("abCD");
+        Map.Entry<CharSequence, String> entry = testObj.getEntry("abCD");
         assertNotNull(entry);
         assertEquals(ABCD, entry.getKey());
         assertEquals(ABCD, entry.getValue());
-        entry = mTestObj.getEntry("bar");
+        entry = testObj.getEntry("bar");
         assertNotNull(entry);
         assertEquals(BAR, entry.getKey());
         assertEquals(BAR, entry.getValue());
-        entry = mTestObj.getEntry("bAZ");
+        entry = testObj.getEntry("bAZ");
         assertNotNull(entry);
         assertEquals(BAZ, entry.getKey());
         assertEquals(BAZ, entry.getValue());
-        entry = mTestObj.getEntry("fOO");
+        entry = testObj.getEntry("fOO");
         assertNotNull(entry);
         assertEquals(FOO, entry.getKey());
         assertEquals(FOO, entry.getValue());
-        entry = mTestObj.getEntry("Xyz");
+        entry = testObj.getEntry("Xyz");
         assertNotNull(entry);
         assertEquals(XYZ, entry.getKey());
         assertEquals(XYZ, entry.getValue());
-        assertNull(mTestObj.getEntry("not in map"));
+        assertNull(testObj.getEntry("not in map"));
     }
 
     @Test
     public void testGetPrefixSubtreeIterator() {
-        Iterator<Entry<CharSequence, String>> iterator = mTestObj.getPrefixSubtreeIterator("bA").iterator();
+        Iterator<Entry<CharSequence, String>> iterator = testObj.getPrefixSubtreeIterator("bA").iterator();
         assertTrue(iterator.hasNext());
         assertEquals(BAR, iterator.next().getKey());
         assertTrue(iterator.hasNext());
@@ -137,7 +137,7 @@ public class TSTMapCaseInsensitiveTest {
     @Test
     public void testGetKeysForPrefix() {
         List<CharSequence> keys = new ArrayList<CharSequence>();
-        for (CharSequence key : mTestObj.getPrefixMatch("BA")) {
+        for (CharSequence key : testObj.getPrefixMatch("BA")) {
             keys.add(key);
         }
         assertEquals(2, keys.size());
@@ -147,7 +147,7 @@ public class TSTMapCaseInsensitiveTest {
 
     @Test
     public void testMatchAlmost() {
-        Set<CharSequence> resultSet = mTestObj.matchAlmost("bam", 1, 0);
+        Set<CharSequence> resultSet = testObj.matchAlmost("bam", 1, 0);
         assertEquals(2, resultSet.size());
         assertTrue(resultSet.contains(BAR));
         assertTrue(resultSet.contains(BAZ));
@@ -158,17 +158,17 @@ public class TSTMapCaseInsensitiveTest {
 
     @Test
     public void testContainsValue() {
-        assertTrue(mTestObj.containsValue(EMPTY));
-        assertTrue(mTestObj.containsValue(ABCD));
-        assertTrue(mTestObj.containsValue(BAZ));
-        assertTrue(mTestObj.containsValue(FOO));
-        assertTrue(mTestObj.containsValue(BAR));
-        assertTrue(mTestObj.containsValue(XYZ));
+        assertTrue(testObj.containsValue(EMPTY));
+        assertTrue(testObj.containsValue(ABCD));
+        assertTrue(testObj.containsValue(BAZ));
+        assertTrue(testObj.containsValue(FOO));
+        assertTrue(testObj.containsValue(BAR));
+        assertTrue(testObj.containsValue(XYZ));
     }
 
     @Test
     public void testValues() {
-        Collection<String> values = mTestObj.values();
+        Collection<String> values = testObj.values();
         ArrayList<String> valuesList = new ArrayList<String>();
         valuesList.addAll(values);
         ArrayList<String> expected = new ArrayList<String>();
@@ -178,44 +178,44 @@ public class TSTMapCaseInsensitiveTest {
 
     @Test
     public void testFirstKey() {
-        assertEquals(EMPTY, mTestObj.firstKey());
-        mTestObj.remove(EMPTY);
-        assertEquals(ABCD, mTestObj.firstKey());
-        mTestObj.remove(ABCD);
-        assertEquals(BAR, mTestObj.firstKey());
-        mTestObj.remove(BAR);
-        assertEquals(BAZ, mTestObj.firstKey());
-        mTestObj.remove(BAZ);
-        assertEquals(FOO, mTestObj.firstKey());
-        mTestObj.remove(FOO);
-        assertEquals(XYZ, mTestObj.firstKey());
-        mTestObj.remove(XYZ);
-        assertNull(mTestObj.firstKey());
+        assertEquals(EMPTY, testObj.firstKey());
+        testObj.remove(EMPTY);
+        assertEquals(ABCD, testObj.firstKey());
+        testObj.remove(ABCD);
+        assertEquals(BAR, testObj.firstKey());
+        testObj.remove(BAR);
+        assertEquals(BAZ, testObj.firstKey());
+        testObj.remove(BAZ);
+        assertEquals(FOO, testObj.firstKey());
+        testObj.remove(FOO);
+        assertEquals(XYZ, testObj.firstKey());
+        testObj.remove(XYZ);
+        assertNull(testObj.firstKey());
     }
 
     @Test
     public void testLastKey() {
-        assertEquals(XYZ, mTestObj.lastKey());
-        mTestObj.remove(XYZ);
-        assertEquals(FOO, mTestObj.lastKey());
-        mTestObj.remove(FOO);
-        assertEquals(BAZ, mTestObj.lastKey());
-        mTestObj.remove(BAZ);
-        assertEquals(BAR, mTestObj.lastKey());
-        mTestObj.remove(BAR);
-        assertEquals(ABCD, mTestObj.lastKey());
-        mTestObj.remove(ABCD);
-        assertEquals(EMPTY, mTestObj.lastKey());
-        mTestObj.remove(EMPTY);
-        assertNull(mTestObj.lastKey());
+        assertEquals(XYZ, testObj.lastKey());
+        testObj.remove(XYZ);
+        assertEquals(FOO, testObj.lastKey());
+        testObj.remove(FOO);
+        assertEquals(BAZ, testObj.lastKey());
+        testObj.remove(BAZ);
+        assertEquals(BAR, testObj.lastKey());
+        testObj.remove(BAR);
+        assertEquals(ABCD, testObj.lastKey());
+        testObj.remove(ABCD);
+        assertEquals(EMPTY, testObj.lastKey());
+        testObj.remove(EMPTY);
+        assertNull(testObj.lastKey());
     }
 
     @Test
     public void testKeySet() {
         Set<String> expected = new HashSet<String>();
         expected.addAll(Arrays.asList(EMPTY, ABCD, XYZ, FOO, BAR, BAZ));
-        assertEquals(expected, mTestObj.keySet());
-        Set<CharSequence> keySet = mTestObj.keySet();
+        assertEquals(expected, testObj.keySet());
+        Set<CharSequence> keySet = testObj.keySet();
         assertTrue(keySet.contains(EMPTY));
         assertTrue(keySet.contains("abcd"));
         assertTrue(keySet.contains("ABCD"));
@@ -227,129 +227,129 @@ public class TSTMapCaseInsensitiveTest {
 
     @Test
     public void testKeySetRemove() {
-        Set<CharSequence> keySet = mTestObj.keySet();
+        Set<CharSequence> keySet = testObj.keySet();
         assertTrue(keySet.remove("abCD"));
-        assertEquals(5, mTestObj.size());
+        assertEquals(5, testObj.size());
         assertFalse(keySet.remove("not in map"));
     }
 
     @Test
     public void testGetKeyAt() {
-        assertEquals(EMPTY, mTestObj.getKeyAt(0));
-        assertEquals(ABCD, mTestObj.getKeyAt(1));
-        assertEquals(BAR, mTestObj.getKeyAt(2));
-        assertEquals(BAZ, mTestObj.getKeyAt(3));
-        assertEquals(FOO, mTestObj.getKeyAt(4));
-        assertEquals(XYZ, mTestObj.getKeyAt(5));
+        assertEquals(EMPTY, testObj.getKeyAt(0));
+        assertEquals(ABCD, testObj.getKeyAt(1));
+        assertEquals(BAR, testObj.getKeyAt(2));
+        assertEquals(BAZ, testObj.getKeyAt(3));
+        assertEquals(FOO, testObj.getKeyAt(4));
+        assertEquals(XYZ, testObj.getKeyAt(5));
     }
 
     @Test
     public void testIndexOf() {
-        assertEquals(0, mTestObj.indexOf(EMPTY));
-        assertEquals(1, mTestObj.indexOf(ABCD));
-        assertEquals(2, mTestObj.indexOf(BAR));
-        assertEquals(3, mTestObj.indexOf(BAZ));
-        assertEquals(4, mTestObj.indexOf(FOO));
-        assertEquals(5, mTestObj.indexOf(XYZ));
+        assertEquals(0, testObj.indexOf(EMPTY));
+        assertEquals(1, testObj.indexOf(ABCD));
+        assertEquals(2, testObj.indexOf(BAR));
+        assertEquals(3, testObj.indexOf(BAZ));
+        assertEquals(4, testObj.indexOf(FOO));
+        assertEquals(5, testObj.indexOf(XYZ));
     }
 
     @Test
     public void testGet() {
-        String value1 = mTestObj.get("Foo");
-        String value2 = mTestObj.get("FOO");
-        String value3 = mTestObj.get("FoO");
+        String value1 = testObj.get("Foo");
+        String value2 = testObj.get("FOO");
+        String value3 = testObj.get("FoO");
 
         assertSame(value1, value2);
         assertSame(value1, value3);
         assertSame(value2, value3);
-        assertSame(mTestObj.get("BAZ"), mTestObj.get("baz"));
-        assertEquals(ABCD, mTestObj.get(ABCD));
-        assertEquals(XYZ, mTestObj.get("xYz"));
-        assertEquals(BAR, mTestObj.get("bar"));
-        assertEquals(BAZ, mTestObj.get("baz"));
-        assertEquals(EMPTY, mTestObj.get(EMPTY));
+        assertSame(testObj.get("BAZ"), testObj.get("baz"));
+        assertEquals(ABCD, testObj.get(ABCD));
+        assertEquals(XYZ, testObj.get("xYz"));
+        assertEquals(BAR, testObj.get("bar"));
+        assertEquals(BAZ, testObj.get("baz"));
+        assertEquals(EMPTY, testObj.get(EMPTY));
     }
 
     @Test
     public void testContainsKey() {
-        assertFalse(mTestObj.containsKey("bzz"));
-        assertTrue(mTestObj.containsKey("abcd"));
-        assertTrue(mTestObj.containsKey("fOO"));
-        assertTrue(mTestObj.containsKey("XyZ"));
-        assertTrue(mTestObj.containsKey("Bar"));
-        assertTrue(mTestObj.containsKey("BAR"));
-        assertTrue(mTestObj.containsKey("bar"));
-        assertTrue(mTestObj.containsKey("Baz"));
-        assertTrue(mTestObj.containsKey("BAZ"));
-        assertTrue(mTestObj.containsKey("baz"));
+        assertFalse(testObj.containsKey("bzz"));
+        assertTrue(testObj.containsKey("abcd"));
+        assertTrue(testObj.containsKey("fOO"));
+        assertTrue(testObj.containsKey("XyZ"));
+        assertTrue(testObj.containsKey("Bar"));
+        assertTrue(testObj.containsKey("BAR"));
+        assertTrue(testObj.containsKey("bar"));
+        assertTrue(testObj.containsKey("Baz"));
+        assertTrue(testObj.containsKey("BAZ"));
+        assertTrue(testObj.containsKey("baz"));
     }
 
     @Test
     public void testRemove() {
-        assertNull(mTestObj.remove("bxx"));
-        assertEquals(EMPTY, mTestObj.remove(EMPTY));
-        assertEquals(ABCD, mTestObj.remove(ABCD));
-        assertEquals(XYZ, mTestObj.remove("XYZ"));
-        assertEquals(BAZ, mTestObj.remove("baz"));
-        assertEquals(FOO, mTestObj.remove("fOO"));
-        assertEquals(BAR, mTestObj.remove("bAr"));
-        assertTrue(mTestObj.isEmpty());
+        assertNull(testObj.remove("bxx"));
+        assertEquals(EMPTY, testObj.remove(EMPTY));
+        assertEquals(ABCD, testObj.remove(ABCD));
+        assertEquals(XYZ, testObj.remove("XYZ"));
+        assertEquals(BAZ, testObj.remove("baz"));
+        assertEquals(FOO, testObj.remove("fOO"));
+        assertEquals(BAR, testObj.remove("bAr"));
+        assertTrue(testObj.isEmpty());
 
-        mTestObj.put("TESTKEY1", "value1");
-        mTestObj.put("TEsTKEY2", "value2");
-        mTestObj.put("TEsTKeY3", "value3");
+        testObj.put("TESTKEY1", "value1");
+        testObj.put("TEsTKEY2", "value2");
+        testObj.put("TEsTKeY3", "value3");
 
-        assertEquals("value3", mTestObj.remove("testkey3"));
-        assertEquals("value2", mTestObj.remove("testkey2"));
-        assertEquals("value1", mTestObj.remove("testkey1"));
-        assertTrue(mTestObj.isEmpty());
+        assertEquals("value3", testObj.remove("testkey3"));
+        assertEquals("value2", testObj.remove("testkey2"));
+        assertEquals("value1", testObj.remove("testkey1"));
+        assertTrue(testObj.isEmpty());
     }
 
     @Test
     public void testPut() {
-        mTestObj.clear();
-        assertNull(mTestObj.put("key", "key"));
-        assertEquals("key", mTestObj.put("KEY", "key"));
-        assertEquals("key", mTestObj.put("Key", "value"));
-        assertEquals(1, mTestObj.size());
-        assertEquals("Key", mTestObj.keySet().iterator().next());
-        assertEquals("value", mTestObj.get("KEY"));
+        testObj.clear();
+        assertNull(testObj.put("key", "key"));
+        assertEquals("key", testObj.put("KEY", "key"));
+        assertEquals("key", testObj.put("Key", "value"));
+        assertEquals(1, testObj.size());
+        assertEquals("Key", testObj.keySet().iterator().next());
+        assertEquals("value", testObj.get("KEY"));
     }
 
     @Test
     public void testPredecessorOfFirstElementIsNull() {
-        assertNull(mTestObj.predecessor(mTestObj.firstKey()));
+        assertNull(testObj.predecessor(testObj.firstKey()));
     }
 
     @Test
     public void testPredecessorForKeysInSet() {
-        assertEquals(FOO, mTestObj.predecessor(mTestObj.lastKey()));
-        assertEquals(ABCD, mTestObj.predecessor("bar"));
-        assertEquals(EMPTY, mTestObj.predecessor("ABCD"));
-        assertEquals(BAR, mTestObj.predecessor("BAz"));
+        assertEquals(FOO, testObj.predecessor(testObj.lastKey()));
+        assertEquals(ABCD, testObj.predecessor("bar"));
+        assertEquals(EMPTY, testObj.predecessor("ABCD"));
+        assertEquals(BAR, testObj.predecessor("BAz"));
     }
 
     @Test
     public void testPredecessorForKeysNotInSet() {
-        assertEquals(EMPTY, mTestObj.predecessor("aaa"));
-        mTestObj.remove(EMPTY);
-        assertNull(mTestObj.predecessor("aaa"));
+        assertEquals(EMPTY, testObj.predecessor("aaa"));
+        testObj.remove(EMPTY);
+        assertNull(testObj.predecessor("aaa"));
     }
 
     @Test
     public void testSuccessorOfLastElementIsNull() {
-        assertNull(mTestObj.successor(mTestObj.lastKey()));
+        assertNull(testObj.successor(testObj.lastKey()));
     }
 
     @Test
     public void testSuccessorForKeysInSet() {
-        assertEquals(BAZ, mTestObj.successor("bar"));
-        assertEquals(XYZ, mTestObj.successor("fOO"));
+        assertEquals(BAZ, testObj.successor("bar"));
+        assertEquals(XYZ, testObj.successor("fOO"));
     }
 
     @Test
     public void testSuccessorForKeysNotInSet() {
-        assertNull(mTestObj.successor("zzz"));
-        assertEquals(ABCD, mTestObj.successor("aaa"));
+        assertNull(testObj.successor("zzz"));
+        assertEquals(ABCD, testObj.successor("aaa"));
     }
 }

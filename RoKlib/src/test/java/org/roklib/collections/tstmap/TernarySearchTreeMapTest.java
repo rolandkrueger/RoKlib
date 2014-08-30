@@ -36,11 +36,11 @@ public class TernarySearchTreeMapTest {
     private static final String VALUE1 = "another value";
     private static final String VALUE2 = "";
     private static final String VALUE3 = "last value";
-    private TernarySearchTreeMap<String> mTestObj, copy;
+    private TernarySearchTreeMap<String> testObj, copy;
 
     @Before
     public void setUp() {
-        mTestObj = new TernarySearchTreeMap<String>();
+        testObj = new TernarySearchTreeMap<String>();
         copy = new TernarySearchTreeMap<String>();
     }
 
@@ -48,67 +48,67 @@ public class TernarySearchTreeMapTest {
     public void testEquals() {
         String key = "some key";
         String value = "some value";
-        mTestObj.put(key, value);
-        mTestObj.put(VALUE3, VALUE1);
-        mTestObj.put(VALUE2, VALUE2);
-        mTestObj.put(VALUE1, VALUE3);
+        testObj.put(key, value);
+        testObj.put(VALUE3, VALUE1);
+        testObj.put(VALUE2, VALUE2);
+        testObj.put(VALUE1, VALUE3);
         TernarySearchTreeMap<String> other = new TernarySearchTreeMap<String>();
         other.put(key, value);
         other.put(VALUE1, VALUE3);
         other.put(VALUE2, VALUE2);
         other.put(VALUE3, VALUE1);
-        assertTrue(mTestObj.equals(mTestObj));
-        assertFalse(mTestObj.equals(null));
-        assertTrue(mTestObj.equals(other));
-        assertTrue(other.equals(mTestObj));
+        assertTrue(testObj.equals(testObj));
+        assertFalse(testObj.equals(null));
+        assertTrue(testObj.equals(other));
+        assertTrue(other.equals(testObj));
     }
 
     @Test
     public void testNotEqual() {
         String key = "some key";
         String value = "some value";
-        mTestObj.put(key, value);
-        mTestObj.put(VALUE3, VALUE1);
-        mTestObj.put(VALUE2, VALUE2);
-        mTestObj.put(VALUE1, VALUE3);
+        testObj.put(key, value);
+        testObj.put(VALUE3, VALUE1);
+        testObj.put(VALUE2, VALUE2);
+        testObj.put(VALUE1, VALUE3);
         TernarySearchTreeMap<String> other = new TernarySearchTreeMap<String>();
         other.put(key, value);
         other.put(VALUE1, VALUE3);
         other.put(VALUE2, VALUE2);
-        assertFalse(mTestObj.equals(other));
-        assertFalse(other.equals(mTestObj));
+        assertFalse(testObj.equals(other));
+        assertFalse(other.equals(testObj));
     }
 
     @Test
     public void testHashCode() {
         String key = "some key";
         String value = "some value";
-        mTestObj.put(key, value);
-        mTestObj.put(VALUE3, VALUE1);
-        mTestObj.put(VALUE2, VALUE2);
-        mTestObj.put(VALUE1, VALUE3);
+        testObj.put(key, value);
+        testObj.put(VALUE3, VALUE1);
+        testObj.put(VALUE2, VALUE2);
+        testObj.put(VALUE1, VALUE3);
         TernarySearchTreeMap<String> other = new TernarySearchTreeMap<String>();
         other.put(key, value);
         other.put(VALUE1, VALUE3);
         other.put(VALUE2, VALUE2);
         other.put(VALUE3, VALUE1);
-        assertTrue(mTestObj.hashCode() == other.hashCode());
-        assertTrue(mTestObj.hashCode() == mTestObj.hashCode());
+        assertTrue(testObj.hashCode() == other.hashCode());
+        assertTrue(testObj.hashCode() == testObj.hashCode());
     }
 
     @Test
     public void testHashCodeNotEqual() {
         String key = "some key";
         String value = "some value";
-        mTestObj.put(key, value);
-        mTestObj.put(VALUE3, VALUE1);
-        mTestObj.put(VALUE2, VALUE2);
-        mTestObj.put(VALUE1, VALUE3);
+        testObj.put(key, value);
+        testObj.put(VALUE3, VALUE1);
+        testObj.put(VALUE2, VALUE2);
+        testObj.put(VALUE1, VALUE3);
         TernarySearchTreeMap<String> other = new TernarySearchTreeMap<String>();
         other.put(key, value);
         other.put(VALUE1, VALUE3);
         other.put(VALUE2, VALUE2);
-        assertFalse(mTestObj.hashCode() == other.hashCode());
+        assertFalse(testObj.hashCode() == other.hashCode());
     }
 
     @Test
@@ -142,52 +142,52 @@ public class TernarySearchTreeMapTest {
     @Test
     public void testContainsKey() {
         fillMaps();
-        assertTrue(mTestObj.containsKey(VALUE1));
-        assertTrue(mTestObj.containsKey(VALUE2));
-        assertTrue(mTestObj.containsKey(VALUE3));
-        assertFalse(mTestObj.containsKey(NOT_IN_MAP));
+        assertTrue(testObj.containsKey(VALUE1));
+        assertTrue(testObj.containsKey(VALUE2));
+        assertTrue(testObj.containsKey(VALUE3));
+        assertFalse(testObj.containsKey(NOT_IN_MAP));
     }
 
     @Test
     public void testContainsValue() {
         fillMaps();
-        assertTrue(mTestObj.containsValue(VALUE1));
-        assertTrue(mTestObj.containsValue(VALUE2));
-        assertTrue(mTestObj.containsValue(VALUE3));
-        assertFalse(mTestObj.containsValue(NOT_IN_MAP));
+        assertTrue(testObj.containsValue(VALUE1));
+        assertTrue(testObj.containsValue(VALUE2));
+        assertTrue(testObj.containsValue(VALUE3));
+        assertFalse(testObj.containsValue(NOT_IN_MAP));
     }
 
     @Test
     public void testPut() {
         String o = new String();
-        String formerValue = mTestObj.put("testKey", o);
-        assertEquals(mTestObj.get("testKey"), o);
+        String formerValue = testObj.put("testKey", o);
+        assertEquals(testObj.get("testKey"), o);
         assertNull(formerValue);
 
-        mTestObj.clear();
+        testObj.clear();
         String x = "x";
-        mTestObj.put(x, x);
-        mTestObj.put("", "empty");
-        assertEquals(x, mTestObj.get(x));
+        testObj.put(x, x);
+        testObj.put("", "empty");
+        assertEquals(x, testObj.get(x));
     }
 
     @Test(expected = NullPointerException.class)
     public void testPutNullKey() {
-        mTestObj.put(null, "");
+        testObj.put(null, "");
     }
 
     @Test(expected = NullPointerException.class)
     public void testPutNullValue() {
-        mTestObj.put("", null);
+        testObj.put("", null);
     }
 
     @Test
     public void testClear() {
         fillMaps();
-        assertEquals(3, mTestObj.size());
-        mTestObj.clear();
-        assertEquals(0, mTestObj.size());
-        assertTrue(mTestObj.isEmpty());
+        assertEquals(3, testObj.size());
+        testObj.clear();
+        assertEquals(0, testObj.size());
+        assertTrue(testObj.isEmpty());
     }
 
     @Test
@@ -199,76 +199,76 @@ public class TernarySearchTreeMapTest {
         String x = "x";
         testKeySet.add(x);
         compareMap.put(x, x);
-        mTestObj.put(x, x);
+        testObj.put(x, x);
 
         String key;
         for (int i = 0; i < 200; ++i) {
             key = RandomStringIDGenerator.getUniqueID(random.nextInt(20) + 1);
             testKeySet.add(key);
             compareMap.put(key, key);
-            mTestObj.put(key, key);
-            assertEquals(mTestObj, compareMap);
+            testObj.put(key, key);
+            assertEquals(testObj, compareMap);
         }
 
         for (String removeKey : new HashSet<String>(testKeySet)) {
             testKeySet.remove(removeKey);
             compareMap.remove(removeKey);
-            assertEquals(removeKey, mTestObj.remove(removeKey));
-            assertEquals(mTestObj, compareMap);
-            assertEquals(testKeySet.size(), mTestObj.size());
+            assertEquals(removeKey, testObj.remove(removeKey));
+            assertEquals(testObj, compareMap);
+            assertEquals(testKeySet.size(), testObj.size());
         }
 
-        assertTrue(mTestObj.isEmpty());
+        assertTrue(testObj.isEmpty());
     }
 
     @Test
     public void testRemoveWithoutSuccess() {
         fillMaps();
-        assertNull(mTestObj.remove(NOT_IN_MAP));
-        assertEquals(3, mTestObj.size());
+        assertNull(testObj.remove(NOT_IN_MAP));
+        assertEquals(3, testObj.size());
     }
 
     @Test
     public void testIsEmpty() {
         fillMaps();
-        mTestObj.clear();
-        assertTrue(mTestObj.isEmpty());
+        testObj.clear();
+        assertTrue(testObj.isEmpty());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testEntrySetValueNull() {
         fillMaps();
-        mTestObj.getEntry(VALUE2).setValue(null);
+        testObj.getEntry(VALUE2).setValue(null);
     }
 
     @Test
     public void testGetEntry() {
         fillMaps();
-        assertEquals(VALUE1, mTestObj.getEntry(VALUE1).getValue());
-        assertEquals(VALUE1, mTestObj.getEntry(VALUE1).getKey());
-        assertEquals(VALUE2, mTestObj.getEntry(VALUE2).getValue());
-        assertEquals(VALUE2, mTestObj.getEntry(VALUE2).getKey());
-        assertEquals(VALUE3, mTestObj.getEntry(VALUE3).getValue());
-        assertEquals(VALUE3, mTestObj.getEntry(VALUE3).getKey());
+        assertEquals(VALUE1, testObj.getEntry(VALUE1).getValue());
+        assertEquals(VALUE1, testObj.getEntry(VALUE1).getKey());
+        assertEquals(VALUE2, testObj.getEntry(VALUE2).getValue());
+        assertEquals(VALUE2, testObj.getEntry(VALUE2).getKey());
+        assertEquals(VALUE3, testObj.getEntry(VALUE3).getValue());
+        assertEquals(VALUE3, testObj.getEntry(VALUE3).getKey());
 
-        for (Iterator<Map.Entry<CharSequence, String>> it = mTestObj.entrySet().iterator(); it.hasNext(); ) {
+        for (Iterator<Map.Entry<CharSequence, String>> it = testObj.entrySet().iterator(); it.hasNext(); ) {
             Map.Entry<CharSequence, String> entry = it.next();
-            assertEquals(entry, mTestObj.getEntry(entry.getKey()));
-            assertFalse(mTestObj.getEntry(entry.getKey()).equals(mTestObj));
+            assertEquals(entry, testObj.getEntry(entry.getKey()));
+            assertFalse(testObj.getEntry(entry.getKey()).equals(testObj));
         }
     }
 
     @Test
     public void testGetKeyAt() {
         fillMaps();
-        assertTrue(mTestObj.getKeyAt(1).equals(VALUE1)); // VALUE1 is the second value
+        assertTrue(testObj.getKeyAt(1).equals(VALUE1)); // VALUE1 is the second value
         // due to the map's ordering
     }
 
     @Test
     public void testGetValueAt() {
         fillMaps();
-        assertTrue(mTestObj.getValueAt(1).equals(VALUE1)); // VALUE1 is the second
+        assertTrue(testObj.getValueAt(1).equals(VALUE1)); // VALUE1 is the second
         // value due to the map's
         // ordering
     }
@@ -276,35 +276,35 @@ public class TernarySearchTreeMapTest {
     @Test
     public void testIndexOf() {
         fillMaps();
-        assertEquals(0, mTestObj.indexOf(VALUE2));
-        assertEquals(1, mTestObj.indexOf(VALUE1));
-        assertEquals(2, mTestObj.indexOf(VALUE3));
-        assertEquals(-1, mTestObj.indexOf(NOT_IN_MAP));
+        assertEquals(0, testObj.indexOf(VALUE2));
+        assertEquals(1, testObj.indexOf(VALUE1));
+        assertEquals(2, testObj.indexOf(VALUE3));
+        assertEquals(-1, testObj.indexOf(NOT_IN_MAP));
     }
 
     @Test
     public void testPredecessorEntryWithKeyFromMap() {
         fillMapWithFiveLowerCaseEntriesOrderingExpected();
-        Entry<CharSequence, String> predecessor = mTestObj.predecessorEntry("sverige");
+        Entry<CharSequence, String> predecessor = testObj.predecessorEntry("sverige");
         assertEquals("suomi", predecessor.getKey());
         assertEquals("salmiakki", predecessor.getValue());
     }
 
     @Test(expected = ClassCastException.class)
     public void testPredecessorEntryFailsWithIncorrectDataType() {
-        mTestObj.predecessorEntry(new Object());
+        testObj.predecessorEntry(new Object());
     }
 
     @Test
     public void testNoPredecessorEntryWithKeyFromMap() {
         fillMapWithFiveLowerCaseEntriesOrderingExpected();
-        assertNull(mTestObj.predecessorEntry("deutschland"));
+        assertNull(testObj.predecessorEntry("deutschland"));
     }
 
     @Test
     public void testPredecessorEntryWithKeyNotInMap() {
         fillMapWithFiveLowerCaseEntriesOrderingExpected();
-        Entry<CharSequence, String> predecessor = mTestObj.predecessorEntry("schland");
+        Entry<CharSequence, String> predecessor = testObj.predecessorEntry("schland");
         assertNotNull(predecessor);
         assertEquals("france", predecessor.getKey());
         assertEquals("fromage", predecessor.getValue());
@@ -313,13 +313,13 @@ public class TernarySearchTreeMapTest {
     @Test
     public void testPredecessorEntryForFirstKey() {
         fillMapWithFiveLowerCaseEntriesOrderingExpected();
-        assertNull(mTestObj.predecessorEntry("deutschland"));
+        assertNull(testObj.predecessorEntry("deutschland"));
     }
 
     @Test
     public void testSuccessorEntryWithKeyFromMap() {
         fillMapWithFiveLowerCaseEntriesOrderingExpected();
-        Entry<CharSequence, String> successor = mTestObj.successorEntry("deutschland");
+        Entry<CharSequence, String> successor = testObj.successorEntry("deutschland");
         assertEquals("england", successor.getKey());
         assertEquals("fishnchips", successor.getValue());
     }
@@ -327,7 +327,7 @@ public class TernarySearchTreeMapTest {
     @Test
     public void testSuccessorEntryWithKeyNotInMap() {
         fillMapWithFiveLowerCaseEntriesOrderingExpected();
-        Entry<CharSequence, String> successor = mTestObj.successorEntry("schland");
+        Entry<CharSequence, String> successor = testObj.successorEntry("schland");
         assertNotNull(successor);
         assertEquals("suomi", successor.getKey());
         assertEquals("salmiakki", successor.getValue());
@@ -336,93 +336,93 @@ public class TernarySearchTreeMapTest {
     @Test
     public void testSuccessorEntryForLastKey() {
         fillMapWithFiveLowerCaseEntriesOrderingExpected();
-        assertNull(mTestObj.successorEntry("sverige"));
+        assertNull(testObj.successorEntry("sverige"));
     }
 
     @Test(expected = ClassCastException.class)
     public void testSuccessorEntryFailsWithIncorrectDataType() {
-        mTestObj.successorEntry(new Object());
+        testObj.successorEntry(new Object());
     }
 
     @Test
     public void testNoSuccessorEntryWithKeyFromMap() {
         fillMapWithFiveLowerCaseEntriesOrderingExpected();
-        assertNull(mTestObj.successorEntry("sverige"));
+        assertNull(testObj.successorEntry("sverige"));
     }
 
     @Test
     public void testPredecessorOfFirstElementIsNull() {
         fillMapWithFiveLowerCaseEntriesOrderingExpected();
-        assertNull(mTestObj.predecessor(mTestObj.firstKey()));
+        assertNull(testObj.predecessor(testObj.firstKey()));
     }
 
     @Test
     public void testPredecessorForKeysInSet() {
         fillMapWithFiveLowerCaseEntriesOrderingExpected();
-        assertEquals("suomi", mTestObj.predecessor(mTestObj.lastKey()));
-        assertEquals("deutschland", mTestObj.predecessor("england"));
-        assertEquals("england", mTestObj.predecessor("espana"));
-        assertEquals("espana", mTestObj.predecessor("france"));
+        assertEquals("suomi", testObj.predecessor(testObj.lastKey()));
+        assertEquals("deutschland", testObj.predecessor("england"));
+        assertEquals("england", testObj.predecessor("espana"));
+        assertEquals("espana", testObj.predecessor("france"));
     }
 
     @Test
     public void testPredecessorForKeysNotInSet() {
         fillMapWithFiveLowerCaseEntriesOrderingExpected();
-        assertEquals("france", mTestObj.predecessor("ghana"));
-        assertNull(mTestObj.predecessor("australia"));
+        assertEquals("france", testObj.predecessor("ghana"));
+        assertNull(testObj.predecessor("australia"));
     }
 
     @Test
     public void testSuccessorOfLastElementIsNull() {
         fillMapWithFiveLowerCaseEntriesOrderingExpected();
-        assertNull(mTestObj.successor(mTestObj.lastKey()));
+        assertNull(testObj.successor(testObj.lastKey()));
     }
 
     @Test
     public void testSuccessorForKeysInSet() {
         fillMapWithFiveLowerCaseEntriesOrderingExpected();
-        assertEquals("england", mTestObj.successor("deutschland"));
-        assertEquals("sverige", mTestObj.successor("suomi"));
+        assertEquals("england", testObj.successor("deutschland"));
+        assertEquals("sverige", testObj.successor("suomi"));
     }
 
     @Test
     public void testSuccessorForKeysNotInSet() {
         fillMapWithFiveLowerCaseEntriesOrderingExpected();
-        assertNull(mTestObj.successor("vietnam"));
-        assertEquals("deutschland", mTestObj.successor("australia"));
+        assertNull(testObj.successor("vietnam"));
+        assertEquals("deutschland", testObj.successor("australia"));
     }
 
     @Test
     public void testGetKeysForPrefix() {
         fillMaps();
-        mTestObj.put("land", "");
-        mTestObj.put("lasso", "");
-        mTestObj.put("lasting", "");
-        Iterator<CharSequence> it = mTestObj.getPrefixMatch("la").iterator();
+        testObj.put("land", "");
+        testObj.put("lasso", "");
+        testObj.put("lasting", "");
+        Iterator<CharSequence> it = testObj.getPrefixMatch("la").iterator();
         assertEquals("land", it.next());
         assertEquals("lasso", it.next());
         assertEquals("last value", it.next());
         assertEquals("lasting", it.next());
 
-        it = mTestObj.getPrefixMatch("las").iterator();
+        it = testObj.getPrefixMatch("las").iterator();
         assertEquals("lasso", it.next());
         assertEquals("last value", it.next());
         assertEquals("lasting", it.next());
 
-        it = mTestObj.getPrefixMatch("lasso").iterator();
+        it = testObj.getPrefixMatch("lasso").iterator();
         assertEquals("lasso", it.next());
     }
 
     @Test(expected = IllegalStateException.class)
     public void testIteratorRemoveFail1() {
         fillMaps();
-        mTestObj.entrySet().iterator().remove();
+        testObj.entrySet().iterator().remove();
     }
 
     @Test(expected = IllegalStateException.class)
     public void testIteratorRemoveFail2() {
         fillMaps();
-        Iterator<Map.Entry<CharSequence, String>> it = mTestObj.entrySet().iterator();
+        Iterator<Map.Entry<CharSequence, String>> it = testObj.entrySet().iterator();
         it.next();
         it.remove();
         it.remove();
@@ -431,7 +431,7 @@ public class TernarySearchTreeMapTest {
     @Test(expected = NoSuchElementException.class)
     public void testIteratorRemoveFail3() {
         fillMaps();
-        Iterator<Map.Entry<CharSequence, String>> it = mTestObj.entrySet().iterator();
+        Iterator<Map.Entry<CharSequence, String>> it = testObj.entrySet().iterator();
         while (it.hasNext())
             it.next();
         it.remove();
@@ -439,13 +439,13 @@ public class TernarySearchTreeMapTest {
 
     private void fillMapWithFiveLowerCaseEntriesOrderingExpected() {
         TestDataFixture testData = MapData.getFiveLowerCaseEntriesOrderingExpected();
-        mTestObj.putAll(testData.getData());
+        testObj.putAll(testData.getData());
     }
 
     private void fillMaps() {
-        mTestObj.put(VALUE1, VALUE1);
-        mTestObj.put(VALUE2, VALUE2);
-        mTestObj.put(VALUE3, VALUE3);
+        testObj.put(VALUE1, VALUE1);
+        testObj.put(VALUE2, VALUE2);
+        testObj.put(VALUE3, VALUE3);
         copy.put(VALUE1, VALUE1);
         copy.put(VALUE2, VALUE2);
         copy.put(VALUE3, VALUE3);

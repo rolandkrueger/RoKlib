@@ -32,34 +32,34 @@ import java.util.List;
 import static junit.framework.Assert.*;
 
 public class TSTMapValuesTest {
-    private Collection<String> mValues;
-    private TernarySearchTreeMap<String> mMap;
-    private Collection<String> mOriginalValues;
+    private Collection<String> values;
+    private TernarySearchTreeMap<String> map;
+    private Collection<String> originalValues;
 
     @Before
     public void setUp() {
-        mMap = new TernarySearchTreeMap<String>();
-        mMap.putAll(MapData.getFiveLowerCaseEntriesOrderingExpected().getData());
-        mValues = mMap.values();
-        mOriginalValues = MapData.getFiveLowerCaseEntriesOrderingExpected().getData().values();
+        map = new TernarySearchTreeMap<String>();
+        map.putAll(MapData.getFiveLowerCaseEntriesOrderingExpected().getData());
+        values = map.values();
+        originalValues = MapData.getFiveLowerCaseEntriesOrderingExpected().getData().values();
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testAddAllFail() {
         List<String> l = new ArrayList<String>();
         l.add("");
-        mValues.addAll(l);
+        values.addAll(l);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testAddFail() {
-        mValues.add("");
+        values.add("");
     }
 
     @Test
     public void testClear() {
-        mValues.clear();
-        assertTrue(mMap.isEmpty());
+        values.clear();
+        assertTrue(map.isEmpty());
     }
 
     @Test
@@ -67,48 +67,48 @@ public class TSTMapValuesTest {
         Collection<String> c = MapData.getFiveLowerCaseEntriesOrderingExpected().getData().values();
 
         for (String s : c) {
-            assertTrue(mValues.contains(s));
+            assertTrue(values.contains(s));
         }
     }
 
     @Test
     public void testContainsAll() {
-        assertTrue(mValues.containsAll(mOriginalValues));
+        assertTrue(values.containsAll(originalValues));
     }
 
     @Test
     public void testContainsAllFails() {
-        List<String> values = new ArrayList<String>(mOriginalValues);
+        List<String> values = new ArrayList<String>(originalValues);
         values.add("extra");
-        assertFalse(mValues.containsAll(values));
+        assertFalse(this.values.containsAll(values));
     }
 
     @Test
     public void testEquals() {
-        assertTrue(mValues.equals(MapData.getFiveLowerCaseEntriesOrderingExpected().getData().values()));
+        assertTrue(values.equals(MapData.getFiveLowerCaseEntriesOrderingExpected().getData().values()));
     }
 
     @Test
     public void testIsEmpty() {
-        mValues.clear();
-        assertTrue(mValues.isEmpty());
+        values.clear();
+        assertTrue(values.isEmpty());
     }
 
     @Test
     public void testIterator() {
-        for (Iterator<String> it = mValues.iterator(); it.hasNext(); ) {
-            assertTrue(mMap.containsValue(it.next()));
+        for (Iterator<String> it = values.iterator(); it.hasNext(); ) {
+            assertTrue(map.containsValue(it.next()));
         }
     }
 
     @Test
     public void testRemove() {
-        assertTrue(mValues.remove(mOriginalValues.iterator().next()));
-        assertEquals(mOriginalValues.size() - 1, mMap.size());
-        mOriginalValues.remove(mOriginalValues.iterator().next());
-        assertEquals(mValues, mOriginalValues);
-        assertFalse(mValues.remove("not in map"));
-        assertEquals(mOriginalValues.size(), mMap.size());
+        assertTrue(values.remove(originalValues.iterator().next()));
+        assertEquals(originalValues.size() - 1, map.size());
+        originalValues.remove(originalValues.iterator().next());
+        assertEquals(values, originalValues);
+        assertFalse(values.remove("not in map"));
+        assertEquals(originalValues.size(), map.size());
     }
 
     @Test
@@ -117,29 +117,29 @@ public class TSTMapValuesTest {
         notInMap.add("not");
         notInMap.add("in");
         notInMap.add("map");
-        assertFalse(mValues.removeAll(notInMap));
-        assertEquals(mOriginalValues.size(), mValues.size());
+        assertFalse(values.removeAll(notInMap));
+        assertEquals(originalValues.size(), values.size());
 
         Collection<String> inMap = new ArrayList<String>();
-        Iterator<String> it = mOriginalValues.iterator();
+        Iterator<String> it = originalValues.iterator();
         inMap.add(it.next());
         inMap.add(it.next());
-        assertTrue(mValues.removeAll(inMap));
-        assertEquals(mOriginalValues.size() - 2, mValues.size());
+        assertTrue(values.removeAll(inMap));
+        assertEquals(originalValues.size() - 2, values.size());
     }
 
     @Test
     public void testRetainAll() {
         Collection<String> inMap = new ArrayList<String>();
-        Iterator<String> it = mOriginalValues.iterator();
+        Iterator<String> it = originalValues.iterator();
         inMap.add(it.next());
         inMap.add(it.next());
-        assertTrue(mValues.retainAll(inMap));
-        assertEquals(inMap.size(), mValues.size());
+        assertTrue(values.retainAll(inMap));
+        assertEquals(inMap.size(), values.size());
     }
 
     @Test
     public void testRetainAllMapWillNotChange() {
-        assertFalse(mValues.retainAll(mOriginalValues));
+        assertFalse(values.retainAll(originalValues));
     }
 }

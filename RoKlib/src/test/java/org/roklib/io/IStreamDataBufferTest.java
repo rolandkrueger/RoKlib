@@ -28,9 +28,9 @@ import java.io.*;
 import static junit.framework.Assert.*;
 
 public abstract class IStreamDataBufferTest {
-    private IStreamDataBuffer mTestObj;
+    private StreamDataBuffer mTestObj;
 
-    public abstract IStreamDataBuffer createObjectUnderTest() throws IOException;
+    public abstract StreamDataBuffer createObjectUnderTest() throws IOException;
 
     @Before
     public void setUp() throws IOException {

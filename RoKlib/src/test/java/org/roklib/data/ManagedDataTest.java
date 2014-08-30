@@ -22,7 +22,6 @@ package org.roklib.data;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.roklib.data.ManagedData.StatusEnum;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
@@ -37,7 +36,7 @@ public class ManagedDataTest {
 
     @Test
     public void testDefaultConstructor() {
-        assertTrue(mValue.getState() == StatusEnum.UNDEFINED);
+        assertTrue(mValue.getState() == ManagedData.Status.UNDEFINED);
         assertFalse(mValue.canRead());
         assertTrue(mValue.isUndefined());
     }
@@ -85,7 +84,7 @@ public class ManagedDataTest {
     @Test
     public void testValueConstructor() {
         ManagedData<Integer> obj = new ManagedData<Integer>(17);
-        assertTrue(obj.getState() == StatusEnum.SET);
+        assertTrue(obj.getState() == ManagedData.Status.SET);
         assertTrue(obj.isSet());
         assertThat(obj.getValue(), equalTo(17));
     }

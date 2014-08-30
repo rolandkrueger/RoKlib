@@ -24,7 +24,7 @@ public class AndOperation extends AbstractBinaryBooleanOperation {
     private static final long serialVersionUID = -1716064083548567207L;
 
     public boolean execute() {
-        return mLeft && mRight;
+        return left && right;
     }
 
     public boolean canShortCircuit(boolean firstOperand) {

@@ -31,7 +31,7 @@ import java.util.Map.Entry;
 import static org.junit.Assert.assertEquals;
 
 public class PrefixSubtreeIteratorTest {
-    private final static String ABIBOR = "Abigor";
+    private final static String ABIGOR = "Abigor";
     private final static String ABORTED = "Aborted";
     private final static String AMON_AMARTH = "Amon Amarth";
     private final static String AMORPHIS = "Amorphis";
@@ -47,7 +47,7 @@ public class PrefixSubtreeIteratorTest {
     @Before
     public void setUp() {
         map = new TernarySearchTreeMap<String>();
-        map.put(ABIBOR, ABIBOR);
+        map.put(ABIGOR, ABIGOR);
         map.put(ABORTED, ABORTED);
         map.put(AMON_AMARTH, AMON_AMARTH);
         map.put(AMORPHIS, AMORPHIS);
@@ -67,7 +67,7 @@ public class PrefixSubtreeIteratorTest {
 
     @Test
     public void testInversePrefixSearchWithExactPrefix() {
-        String[] result = {ABIBOR, ABORTED, AMON_AMARTH, AMORPHIS, BLACK_DESTINY, BLACKFIELD, OPERA_IX, PORCUPINE_TREE,
+        String[] result = {ABIGOR, ABORTED, AMON_AMARTH, AMORPHIS, BLACK_DESTINY, BLACKFIELD, OPERA_IX, PORCUPINE_TREE,
                 PORTISHEAD};
         compareResults(map.getPrefixSubtreeIterator(OPETH, true), result);
     }
@@ -75,7 +75,7 @@ public class PrefixSubtreeIteratorTest {
     @Test
     public void testInversePrefixSearchWithShortPrefix() {
         map.put("Op", "");
-        String[] result = {ABIBOR, ABORTED, AMON_AMARTH, AMORPHIS, BLACK_DESTINY, BLACKFIELD, "Op", PORCUPINE_TREE,
+        String[] result = {ABIGOR, ABORTED, AMON_AMARTH, AMORPHIS, BLACK_DESTINY, BLACKFIELD, "Op", PORCUPINE_TREE,
                 PORTISHEAD};
         compareResults(map.getPrefixSubtreeIterator("Ope", true), result);
     }
@@ -83,7 +83,7 @@ public class PrefixSubtreeIteratorTest {
     @Test
     public void testInversePrefixSearchWithEmptyStringInMap() {
         map.put("", "");
-        String[] result = {"", ABIBOR, ABORTED, AMORPHIS, BLACK_DESTINY, BLACKFIELD, OPERA_IX, OPETH, PORCUPINE_TREE,
+        String[] result = {"", ABIGOR, ABORTED, AMORPHIS, BLACK_DESTINY, BLACKFIELD, OPERA_IX, OPETH, PORCUPINE_TREE,
                 PORTISHEAD};
         compareResults(map.getPrefixSubtreeIterator("Amon", true), result);
     }
@@ -91,20 +91,20 @@ public class PrefixSubtreeIteratorTest {
     @Test
     public void testInversePrefixSearchWithKeyNotInMapWithEmptyStringInMap() {
         map.put("", "");
-        String[] result = {"", ABIBOR, ABORTED, AMON_AMARTH, AMORPHIS, BLACK_DESTINY, BLACKFIELD, OPERA_IX, OPETH,
+        String[] result = {"", ABIGOR, ABORTED, AMON_AMARTH, AMORPHIS, BLACK_DESTINY, BLACKFIELD, OPERA_IX, OPETH,
                 PORCUPINE_TREE, PORTISHEAD};
         compareResults(map.getPrefixSubtreeIterator("xxx", true), result);
     }
 
     @Test
     public void testInversePrefixSearch() {
-        String[] result = {ABIBOR, ABORTED, BLACK_DESTINY, BLACKFIELD, OPERA_IX, OPETH, PORCUPINE_TREE, PORTISHEAD};
+        String[] result = {ABIGOR, ABORTED, BLACK_DESTINY, BLACKFIELD, OPERA_IX, OPETH, PORCUPINE_TREE, PORTISHEAD};
         compareResults(map.getPrefixSubtreeIterator("Amo", true), result);
     }
 
     @Test
     public void testInversePrefixSearchWithKeyNotInMap() {
-        String[] result = {ABIBOR, ABORTED, AMON_AMARTH, AMORPHIS, BLACK_DESTINY, BLACKFIELD, OPERA_IX, OPETH,
+        String[] result = {ABIGOR, ABORTED, AMON_AMARTH, AMORPHIS, BLACK_DESTINY, BLACKFIELD, OPERA_IX, OPETH,
                 PORCUPINE_TREE, PORTISHEAD};
         compareResults(map.getPrefixSubtreeIterator("xxx", true), result);
     }
@@ -129,7 +129,7 @@ public class PrefixSubtreeIteratorTest {
 
     @Test
     public void testMatchAtMapsBeginning() {
-        String[] result = {ABIBOR, ABORTED};
+        String[] result = {ABIGOR, ABORTED};
         compareResults(map.getPrefixSubtreeIterator("Ab"), result);
     }
 
@@ -141,7 +141,7 @@ public class PrefixSubtreeIteratorTest {
 
     @Test
     public void testMatchEmptyPrefix() {
-        String[] result = {ABIBOR, ABORTED, AMON_AMARTH, AMORPHIS, BLACK_DESTINY, BLACKFIELD, OPERA_IX, OPETH,
+        String[] result = {ABIGOR, ABORTED, AMON_AMARTH, AMORPHIS, BLACK_DESTINY, BLACKFIELD, OPERA_IX, OPETH,
                 PORCUPINE_TREE, PORTISHEAD};
         compareResults(map.getPrefixSubtreeIterator(""), result);
     }

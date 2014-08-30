@@ -20,24 +20,24 @@
  */
 package org.roklib.conditional.engine.conditions;
 
-import org.roklib.conditional.bool.IBooleanValueProvider;
+import org.roklib.conditional.bool.BooleanValueProvider;
 import org.roklib.state.State;
 import org.roklib.state.State.StateValue;
 import org.roklib.util.helper.CheckForNull;
 
-public class HasState<S extends State<?>> implements IBooleanValueProvider {
+public class HasState<S extends State<?>> implements BooleanValueProvider {
     private static final long serialVersionUID = -232946455411913695L;
 
-    private final State<S> mState;
-    private final StateValue<S> mStateValue;
+    private final State<S> state;
+    private final StateValue<S> stateValue;
 
     public HasState(State<S> state, StateValue<S> stateValue) {
         CheckForNull.check(state, stateValue);
-        mState = state;
-        mStateValue = stateValue;
+        this.state = state;
+        this.stateValue = stateValue;
     }
 
     public boolean getBooleanValue() {
-        return mState.hasState(mStateValue);
+        return state.hasState(stateValue);
     }
 }

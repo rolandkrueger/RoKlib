@@ -43,51 +43,51 @@ import static org.junit.Assert.assertThat;
  * @author Roland Krueger
  */
 public class CompareTSTMapToTreeMapTest {
-    private TreeMap<CharSequence, String> mTreeMap;
-    private TernarySearchTreeMap<String> mTSTMap;
+    private TreeMap<CharSequence, String> treeMap;
+    private TernarySearchTreeMap<String> tstMap;
 
     @Before
     public void setUp() {
-        mTreeMap = new TreeMap<CharSequence, String>();
-        mTSTMap = new TernarySearchTreeMap<String>();
+        treeMap = new TreeMap<CharSequence, String>();
+        tstMap = new TernarySearchTreeMap<String>();
     }
 
     private void fillWithFiveLowerCaseEntriesOrderingExpected() {
         MapData.TestDataFixture testData = MapData.getFiveLowerCaseEntriesOrderingExpected();
-        mTreeMap.putAll(testData.getData());
-        mTSTMap.putAll(testData.getData());
+        treeMap.putAll(testData.getData());
+        tstMap.putAll(testData.getData());
     }
 
     @Test
     public void testFirstKey() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        assertEquals(mTreeMap.firstKey(), mTSTMap.firstKey());
+        assertEquals(treeMap.firstKey(), tstMap.firstKey());
     }
 
     @Test
     public void testLastKey() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        assertEquals(mTreeMap.lastKey(), mTSTMap.lastKey());
+        assertEquals(treeMap.lastKey(), tstMap.lastKey());
     }
 
     @Test
     public void testContainsFail() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
         String key = "not in map";
-        assertEquals(mTreeMap.containsKey(key), mTSTMap.containsKey(key));
+        assertEquals(treeMap.containsKey(key), tstMap.containsKey(key));
     }
 
     @Test
     public void testContains() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
         String key = "sweden";
-        assertEquals(mTreeMap.containsKey(key), mTSTMap.containsKey(key));
+        assertEquals(treeMap.containsKey(key), tstMap.containsKey(key));
     }
 
     @Test
     public void testEntrySet() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        assertEquals(mTreeMap.entrySet(), mTSTMap.entrySet());
+        assertEquals(treeMap.entrySet(), tstMap.entrySet());
     }
 
     @Test
@@ -95,7 +95,7 @@ public class CompareTSTMapToTreeMapTest {
         MapData.TestDataFixture testData = MapData.getFiveLowerCaseEntriesOrderingExpected();
         fillWithFiveLowerCaseEntriesOrderingExpected();
         for (CharSequence key : testData.getData().keySet()) {
-            assertEquals(mTreeMap.get(key), mTSTMap.get(key));
+            assertEquals(treeMap.get(key), tstMap.get(key));
         }
     }
 
@@ -104,62 +104,62 @@ public class CompareTSTMapToTreeMapTest {
         MapData.TestDataFixtureMapMap testData = MapData.getFiveLowerCaseEntriesOrderingExpected();
         fillWithFiveLowerCaseEntriesOrderingExpected();
         for (String key : testData.getData().values()) {
-            assertEquals(mTreeMap.get(key), mTSTMap.get(key));
+            assertEquals(treeMap.get(key), tstMap.get(key));
         }
     }
 
     @Test
     public void testTSTMapGetWithArbitraryClass() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        assertThat(mTSTMap.get(new GermanyTestClass()), equalTo("sauerkraut"));
+        assertThat(tstMap.get(new GermanyTestClass()), equalTo("sauerkraut"));
     }
 
     @Test(expected = ClassCastException.class)
     public void testJavaMapGetWithArbitraryClassFails() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        mTreeMap.get(new GermanyTestClass());
+        treeMap.get(new GermanyTestClass());
     }
 
     @Test
     public void testTSTMapKeySetContainsWithArbitraryClass() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        assertThat(mTSTMap.keySet().contains(new GermanyTestClass()), equalTo(true));
+        assertThat(tstMap.keySet().contains(new GermanyTestClass()), equalTo(true));
     }
 
     @Test(expected = ClassCastException.class)
     public void testJavaMapKeySetContainsWithArbitraryClassFails() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        mTreeMap.keySet().contains(new GermanyTestClass());
+        treeMap.keySet().contains(new GermanyTestClass());
     }
 
     @Test(expected = ClassCastException.class)
     public void testTSTMapRemoveWithArbitraryClassFails() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        mTreeMap.remove(new GermanyTestClass());
+        treeMap.remove(new GermanyTestClass());
     }
 
     @Test
     public void testJavaMapRemoveWithArbitraryClass() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        assertThat(mTSTMap.remove(new GermanyTestClass()), equalTo("sauerkraut"));
+        assertThat(tstMap.remove(new GermanyTestClass()), equalTo("sauerkraut"));
     }
 
     @Test
     public void testEquals() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        assertEquals(mTreeMap, mTSTMap);
+        assertEquals(treeMap, tstMap);
     }
 
     @Test
     public void testHashCode() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        assertEquals(mTreeMap.hashCode(), mTSTMap.hashCode());
+        assertEquals(treeMap.hashCode(), tstMap.hashCode());
     }
 
     @Test
     public void testKeySet() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        assertEquals(mTreeMap.keySet(), mTSTMap.keySet());
+        assertEquals(treeMap.keySet(), tstMap.keySet());
     }
 
     @Test
@@ -167,8 +167,8 @@ public class CompareTSTMapToTreeMapTest {
         MapData.TestDataFixtureMapMap testData = MapData.getFiveLowerCaseEntriesOrderingExpected();
         fillWithFiveLowerCaseEntriesOrderingExpected();
         for (CharSequence key : testData.getData().keySet()) {
-            assertEquals(mTreeMap.remove(key), mTSTMap.remove(key));
-            assertEquals(mTreeMap.size(), mTSTMap.size());
+            assertEquals(treeMap.remove(key), tstMap.remove(key));
+            assertEquals(treeMap.size(), tstMap.size());
         }
     }
 
@@ -178,30 +178,30 @@ public class CompareTSTMapToTreeMapTest {
         SimpleEntry<CharSequence, String> entryNotInMap = new SimpleEntry<CharSequence, String>("sverige", "surstromming");
         SimpleEntry<CharSequence, String> entryInMap = new SimpleEntry<CharSequence, String>("deutschland", "sauerkraut");
 
-        mTreeMap.entrySet().remove(entryNotInMap);
-        mTreeMap.entrySet().remove(entryInMap);
-        mTSTMap.entrySet().remove(entryNotInMap);
-        mTSTMap.entrySet().remove(entryInMap);
-        assertEquals(mTreeMap, mTSTMap);
+        treeMap.entrySet().remove(entryNotInMap);
+        treeMap.entrySet().remove(entryInMap);
+        tstMap.entrySet().remove(entryNotInMap);
+        tstMap.entrySet().remove(entryInMap);
+        assertEquals(treeMap, tstMap);
     }
 
     // TESTS OF THE COLLECTION RETURNED BY values()
     @Test
     public void testValues() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        assertEquals(mTSTMap.values(), mTreeMap.values());
+        assertEquals(tstMap.values(), treeMap.values());
     }
 
     @Test
     public void testValues_toArray() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        assertThat(mTreeMap.values(), contains(mTSTMap.values().toArray()));
+        assertThat(treeMap.values(), contains(tstMap.values().toArray()));
     }
 
     @Test
     public void testValues_toArrayArrayParam() {
         fillWithFiveLowerCaseEntriesOrderingExpected();
-        assertThat(mTreeMap.values(), contains(mTSTMap.values().toArray()));
+        assertThat(treeMap.values(), contains(tstMap.values().toArray()));
     }
 
     private class GermanyTestClass implements Comparable<GermanyTestClass> {

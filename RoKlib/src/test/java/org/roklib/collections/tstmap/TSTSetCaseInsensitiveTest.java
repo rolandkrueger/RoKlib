@@ -30,57 +30,57 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TSTSetCaseInsensitiveTest {
-    private TernarySearchTreeSet mTestObj;
+    private TernarySearchTreeSet testObj;
 
     @Before
     public void setUp() {
-        mTestObj = new TernarySearchTreeSet(TSTSetTest.STRINGS, true);
+        testObj = new TernarySearchTreeSet(TSTSetTest.STRINGS, true);
     }
 
     @Test
     public void testContains() {
-        for (CharSequence element : mTestObj) {
-            assertTrue(mTestObj.contains(element.toString().toUpperCase(Locale.getDefault())));
+        for (CharSequence element : testObj) {
+            assertTrue(testObj.contains(element.toString().toUpperCase(Locale.getDefault())));
         }
     }
 
     @Test
     public void testRemove() {
-        for (CharSequence element : mTestObj) {
-            assertTrue(mTestObj.remove(element.toString().toUpperCase(Locale.getDefault())));
+        for (CharSequence element : testObj) {
+            assertTrue(testObj.remove(element.toString().toUpperCase(Locale.getDefault())));
         }
-        assertTrue(mTestObj.isEmpty());
+        assertTrue(testObj.isEmpty());
     }
 
     @Test
     public void testIndexOf() {
-        for (int index = 0; index < mTestObj.size(); ++index) {
+        for (int index = 0; index < testObj.size(); ++index) {
             assertEquals(index,
-                    mTestObj.indexOf(mTestObj.getElementAt(index).toString().toUpperCase(Locale.getDefault())));
+                    testObj.indexOf(testObj.getElementAt(index).toString().toUpperCase(Locale.getDefault())));
         }
     }
 
     @Test
     public void testPredecessor() {
-        SortedSet<CharSequence> compareSet = new TreeSet<CharSequence>(mTestObj);
+        SortedSet<CharSequence> compareSet = new TreeSet<CharSequence>(testObj);
         Iterator<CharSequence> compareIterator = compareSet.iterator();
         compareIterator.next();
         int index = 0;
         while (compareIterator.hasNext()) {
-            assertEquals(mTestObj.getElementAt(index),
-                    mTestObj.predecessor(compareIterator.next().toString().toUpperCase(Locale.getDefault())));
+            assertEquals(testObj.getElementAt(index),
+                    testObj.predecessor(compareIterator.next().toString().toUpperCase(Locale.getDefault())));
             index++;
         }
     }
 
     @Test
     public void testSuccessor() {
-        SortedSet<CharSequence> compareSet = new TreeSet<CharSequence>(mTestObj);
+        SortedSet<CharSequence> compareSet = new TreeSet<CharSequence>(testObj);
         Iterator<CharSequence> compareIterator = compareSet.iterator();
         int index = 1;
-        while (index < mTestObj.size()) {
-            assertEquals(mTestObj.getElementAt(index),
-                    mTestObj.successor(compareIterator.next().toString().toUpperCase(Locale.getDefault())));
+        while (index < testObj.size()) {
+            assertEquals(testObj.getElementAt(index),
+                    testObj.successor(compareIterator.next().toString().toUpperCase(Locale.getDefault())));
             index++;
         }
     }
@@ -89,7 +89,7 @@ public class TSTSetCaseInsensitiveTest {
     public void testPrefixMatch() {
         CharSequence[] expectedValues = new CharSequence[]{"artichoke", "avocado"};
         int index = 0;
-        for (CharSequence string : mTestObj.getPrefixMatch("A")) {
+        for (CharSequence string : testObj.getPrefixMatch("A")) {
             assertEquals(expectedValues[index], string);
             index++;
         }
@@ -97,16 +97,16 @@ public class TSTSetCaseInsensitiveTest {
 
     @Test
     public void testArrayConstructor() {
-        mTestObj = new TernarySearchTreeSet(new String[]{"a", "B", "c"}, true);
-        assertEquals(3, mTestObj.size());
-        assertEquals("[a, B, c]", mTestObj.toString());
+        testObj = new TernarySearchTreeSet(new String[]{"a", "B", "c"}, true);
+        assertEquals(3, testObj.size());
+        assertEquals("[a, B, c]", testObj.toString());
     }
 
     @Test
     public void testSortedSetConstructor() {
         SortedSet<CharSequence> set = new TreeSet<CharSequence>(Arrays.asList("a", "B", "c"));
-        mTestObj = new TernarySearchTreeSet(set, true);
-        assertEquals(3, mTestObj.size());
-        assertEquals("[a, B, c]", mTestObj.toString());
+        testObj = new TernarySearchTreeSet(set, true);
+        assertEquals(3, testObj.size());
+        assertEquals("[a, B, c]", testObj.toString());
     }
 }

@@ -28,93 +28,93 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class RadioComponentGroupManagerTest {
-    private TestRadioComponent mComponent1;
-    private TestRadioComponent mComponent2;
-    private TestRadioComponent mComponent3;
-    private RadioComponentGroupManager.RadioComponentSwitch mSwitch1;
-    private RadioComponentGroupManager.RadioComponentSwitch mSwitch2;
-    private RadioComponentGroupManager.RadioComponentSwitch mSwitch3;
-    private RadioComponentGroupManager mTestObj;
+    private TestRadioComponent component1;
+    private TestRadioComponent component2;
+    private TestRadioComponent component3;
+    private RadioComponentGroupManager.RadioComponentSwitch switch1;
+    private RadioComponentGroupManager.RadioComponentSwitch switch2;
+    private RadioComponentGroupManager.RadioComponentSwitch switch3;
+    private RadioComponentGroupManager rcgManager;
 
     @Before
     public void setUp() {
-        mComponent1 = new TestRadioComponent();
-        mComponent2 = new TestRadioComponent();
-        mComponent3 = new TestRadioComponent();
-        mComponent1.setEnabled(false);
-        mComponent1.setVisible(false);
-        mComponent2.setEnabled(false);
-        mComponent2.setVisible(false);
-        mComponent3.setEnabled(false);
-        mComponent3.setVisible(false);
+        component1 = new TestRadioComponent();
+        component2 = new TestRadioComponent();
+        component3 = new TestRadioComponent();
+        component1.setEnabled(false);
+        component1.setVisible(false);
+        component2.setEnabled(false);
+        component2.setVisible(false);
+        component3.setEnabled(false);
+        component3.setVisible(false);
     }
 
     private void setUpTestObj(Mode mode) {
-        mTestObj = new RadioComponentGroupManager(mode);
-        mSwitch1 = mTestObj.addComponent("group1", mComponent1);
-        mSwitch2 = mTestObj.addComponent("group2", mComponent2);
-        mSwitch3 = mTestObj.addComponent("group3", mComponent3);
+        rcgManager = new RadioComponentGroupManager(mode);
+        switch1 = rcgManager.addComponent("group1", component1);
+        switch2 = rcgManager.addComponent("group2", component2);
+        switch3 = rcgManager.addComponent("group3", component3);
     }
 
     @Test
     public void testEnablingMode() {
         setUpTestObj(Mode.ENABLING);
 
-        mSwitch1.select();
-        assertTrue(mComponent1.isEnabled());
-        assertFalse(mComponent1.isVisible());
-        assertFalse(mComponent2.isEnabled());
-        assertFalse(mComponent2.isVisible());
-        assertFalse(mComponent3.isEnabled());
-        assertFalse(mComponent3.isVisible());
+        switch1.select();
+        assertTrue(component1.isEnabled());
+        assertFalse(component1.isVisible());
+        assertFalse(component2.isEnabled());
+        assertFalse(component2.isVisible());
+        assertFalse(component3.isEnabled());
+        assertFalse(component3.isVisible());
 
-        mSwitch2.select();
-        assertTrue(mComponent2.isEnabled());
-        assertFalse(mComponent2.isVisible());
-        assertFalse(mComponent1.isEnabled());
-        assertFalse(mComponent1.isVisible());
-        assertFalse(mComponent3.isEnabled());
-        assertFalse(mComponent3.isVisible());
+        switch2.select();
+        assertTrue(component2.isEnabled());
+        assertFalse(component2.isVisible());
+        assertFalse(component1.isEnabled());
+        assertFalse(component1.isVisible());
+        assertFalse(component3.isEnabled());
+        assertFalse(component3.isVisible());
 
-        mSwitch3.select();
-        assertTrue(mComponent3.isEnabled());
-        assertFalse(mComponent3.isVisible());
-        assertFalse(mComponent2.isEnabled());
-        assertFalse(mComponent2.isVisible());
-        assertFalse(mComponent1.isEnabled());
-        assertFalse(mComponent1.isVisible());
+        switch3.select();
+        assertTrue(component3.isEnabled());
+        assertFalse(component3.isVisible());
+        assertFalse(component2.isEnabled());
+        assertFalse(component2.isVisible());
+        assertFalse(component1.isEnabled());
+        assertFalse(component1.isVisible());
     }
 
     @Test
     public void testVisibilityMode() {
         setUpTestObj(Mode.VISIBILITY);
 
-        mSwitch1.select();
-        assertTrue(mComponent1.isVisible());
-        assertFalse(mComponent1.isEnabled());
-        assertFalse(mComponent2.isVisible());
-        assertFalse(mComponent2.isEnabled());
-        assertFalse(mComponent3.isVisible());
-        assertFalse(mComponent3.isEnabled());
+        switch1.select();
+        assertTrue(component1.isVisible());
+        assertFalse(component1.isEnabled());
+        assertFalse(component2.isVisible());
+        assertFalse(component2.isEnabled());
+        assertFalse(component3.isVisible());
+        assertFalse(component3.isEnabled());
 
-        mSwitch2.select();
-        assertTrue(mComponent2.isVisible());
-        assertFalse(mComponent2.isEnabled());
-        assertFalse(mComponent1.isVisible());
-        assertFalse(mComponent1.isEnabled());
-        assertFalse(mComponent3.isVisible());
-        assertFalse(mComponent3.isEnabled());
+        switch2.select();
+        assertTrue(component2.isVisible());
+        assertFalse(component2.isEnabled());
+        assertFalse(component1.isVisible());
+        assertFalse(component1.isEnabled());
+        assertFalse(component3.isVisible());
+        assertFalse(component3.isEnabled());
 
-        mSwitch3.select();
-        assertTrue(mComponent3.isVisible());
-        assertFalse(mComponent3.isEnabled());
-        assertFalse(mComponent1.isVisible());
-        assertFalse(mComponent1.isEnabled());
-        assertFalse(mComponent2.isVisible());
-        assertFalse(mComponent2.isEnabled());
+        switch3.select();
+        assertTrue(component3.isVisible());
+        assertFalse(component3.isEnabled());
+        assertFalse(component1.isVisible());
+        assertFalse(component1.isEnabled());
+        assertFalse(component2.isVisible());
+        assertFalse(component2.isEnabled());
     }
 
-    private class TestRadioComponent implements IVisibilityEnablingConfigurable {
+    private class TestRadioComponent implements VisibilityEnablingConfigurable {
         private static final long serialVersionUID = -1878281356099704091L;
 
         private boolean mEnabled;

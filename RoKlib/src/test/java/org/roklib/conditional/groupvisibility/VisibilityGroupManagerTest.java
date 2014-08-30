@@ -26,46 +26,46 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class VisibilityGroupManagerTest {
-    private VisibilityGroupManager mTestObj;
-    private VisibilityEnablingConfigurableTestClass mGroupMember1 = new VisibilityEnablingConfigurableTestClass();
-    private VisibilityEnablingConfigurableTestClass mGroupMember2 = new VisibilityEnablingConfigurableTestClass();
+    private VisibilityGroupManager visibilityGroupManager;
+    private VisibilityEnablingConfigurableTestClass groupMember1 = new VisibilityEnablingConfigurableTestClass();
+    private VisibilityEnablingConfigurableTestClass groupMember2 = new VisibilityEnablingConfigurableTestClass();
 
     @Before
     public void setUp() {
-        mTestObj = new VisibilityGroupManager();
-        mTestObj.addGroupMember("group1", mGroupMember1);
-        mTestObj.addGroupMember("group2", mGroupMember2);
+        visibilityGroupManager = new VisibilityGroupManager();
+        visibilityGroupManager.addGroupMember("group1", groupMember1);
+        visibilityGroupManager.addGroupMember("group2", groupMember2);
 
     }
 
     @Test
     public void testAddGroupMember() {
-        assertEquals(2, mTestObj.getGroupCount());
-        assertTrue(mTestObj.getVisibilityGroup("group1").getGroupMembers().contains(mGroupMember1));
-        assertTrue(mTestObj.getVisibilityGroup("group2").getGroupMembers().contains(mGroupMember2));
-        assertFalse(mTestObj.getVisibilityGroup("group2").getGroupMembers().contains(mGroupMember1));
-        assertFalse(mTestObj.getVisibilityGroup("group1").getGroupMembers().contains(mGroupMember2));
+        assertEquals(2, visibilityGroupManager.getGroupCount());
+        assertTrue(visibilityGroupManager.getVisibilityGroup("group1").getGroupMembers().contains(groupMember1));
+        assertTrue(visibilityGroupManager.getVisibilityGroup("group2").getGroupMembers().contains(groupMember2));
+        assertFalse(visibilityGroupManager.getVisibilityGroup("group2").getGroupMembers().contains(groupMember1));
+        assertFalse(visibilityGroupManager.getVisibilityGroup("group1").getGroupMembers().contains(groupMember2));
     }
 
     @Test
     public void testSetGroupVisible() {
-        assertTrue(mTestObj.getVisibilityGroup("group2").isVisible());
-        assertTrue(mTestObj.setGroupVisible("group2", false));
-        assertFalse(mTestObj.getVisibilityGroup("group2").isVisible());
-        mTestObj.setGroupVisible("group2", true);
-        assertTrue(mTestObj.getVisibilityGroup("group2").isVisible());
+        assertTrue(visibilityGroupManager.getVisibilityGroup("group2").isVisible());
+        assertTrue(visibilityGroupManager.setGroupVisible("group2", false));
+        assertFalse(visibilityGroupManager.getVisibilityGroup("group2").isVisible());
+        visibilityGroupManager.setGroupVisible("group2", true);
+        assertTrue(visibilityGroupManager.getVisibilityGroup("group2").isVisible());
 
-        assertFalse(mTestObj.setGroupVisible("non-existing group", false));
+        assertFalse(visibilityGroupManager.setGroupVisible("non-existing group", false));
     }
 
     @Test
     public void testSetGroupEnabled() {
-        assertTrue(mTestObj.getVisibilityGroup("group2").isEnabled());
-        assertTrue(mTestObj.setGroupEnabled("group2", false));
-        assertFalse(mTestObj.getVisibilityGroup("group2").isEnabled());
-        mTestObj.setGroupEnabled("group2", true);
-        assertTrue(mTestObj.getVisibilityGroup("group2").isEnabled());
+        assertTrue(visibilityGroupManager.getVisibilityGroup("group2").isEnabled());
+        assertTrue(visibilityGroupManager.setGroupEnabled("group2", false));
+        assertFalse(visibilityGroupManager.getVisibilityGroup("group2").isEnabled());
+        visibilityGroupManager.setGroupEnabled("group2", true);
+        assertTrue(visibilityGroupManager.getVisibilityGroup("group2").isEnabled());
 
-        assertFalse(mTestObj.setGroupEnabled("non-existing group", false));
+        assertFalse(visibilityGroupManager.setGroupEnabled("non-existing group", false));
     }
 }

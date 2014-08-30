@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2007 Roland Krueger
+ * Created on 21.10.2009
  *
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -17,17 +18,8 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.io;
+package org.roklib.conditional.engine;
 
-
-import java.io.IOException;
-
-/**
- * @author Roland Krueger
- */
-public class ByteArrayStreamDataBufferTest extends IStreamDataBufferTest {
-    @Override
-    public StreamDataBuffer createObjectUnderTest() throws IOException {
-        return new ByteArrayStreamDataBuffer();
-    }
+public interface ConditionListener {
+    public void conditionChanged(AbstractCondition source);
 }

@@ -62,7 +62,7 @@ public class BooleanOperationTest {
         assertTrue(listener.conditionChanged);
     }
 
-    private class ConditionListenerTestClass implements IConditionListener {
+    private class ConditionListenerTestClass implements ConditionListener {
         private boolean conditionChanged = false;
 
         public void conditionChanged(AbstractCondition source) {

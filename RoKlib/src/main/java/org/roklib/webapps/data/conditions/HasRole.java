@@ -20,11 +20,11 @@
  */
 package org.roklib.webapps.data.conditions;
 
-import org.roklib.conditional.bool.IBooleanValueProvider;
+import org.roklib.conditional.bool.BooleanValueProvider;
 import org.roklib.webapps.data.usermgmt.GenericUser;
 import org.roklib.webapps.data.usermgmt.UserRole;
 
-public class HasRole<KeyClass, UserData> implements IBooleanValueProvider {
+public class HasRole<KeyClass, UserData> implements BooleanValueProvider {
     private static final long serialVersionUID = -3841669716191027492L;
 
     private GenericUser<KeyClass, UserData> user;

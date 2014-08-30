@@ -21,46 +21,46 @@
 package org.roklib.conditional.engine;
 
 
-import org.roklib.conditional.bool.IBooleanValueProvider;
+import org.roklib.conditional.bool.BooleanValueProvider;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class AbstractCondition implements IBooleanValueProvider {
+public abstract class AbstractCondition implements BooleanValueProvider {
     private static final long serialVersionUID = 6265626147474145199L;
 
-    private List<IConditionListener> mListeners;
+    private List<ConditionListener> listeners;
 
-    public void addConditionListener(IConditionListener listener) {
-        if (mListeners == null)
-            mListeners = new LinkedList<IConditionListener>();
-        mListeners.add(listener);
+    public void addConditionListener(ConditionListener listener) {
+        if (listeners == null)
+            listeners = new LinkedList<ConditionListener>();
+        listeners.add(listener);
     }
 
-    public void removeConditionListener(IConditionListener listener) {
-        if (mListeners == null)
+    public void removeConditionListener(ConditionListener listener) {
+        if (listeners == null)
             return;
-        mListeners.remove(listener);
+        listeners.remove(listener);
     }
 
     protected void fireConditionChanged() {
-        if (mListeners == null)
+        if (listeners == null)
             return;
-        for (IConditionListener listener : new ArrayList<IConditionListener>(mListeners)) {
+        for (ConditionListener listener : new ArrayList<ConditionListener>(listeners)) {
             listener.conditionChanged(this);
         }
     }
 
     protected int getListenerCount() {
-        if (mListeners == null)
+        if (listeners == null)
             return 0;
-        return mListeners.size();
+        return listeners.size();
     }
 
     public void clearConditionListeners() {
-        if (mListeners == null)
+        if (listeners == null)
             return;
-        mListeners.clear();
+        listeners.clear();
     }
 }

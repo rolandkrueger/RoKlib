@@ -27,7 +27,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
 
-public class TernarySearchTreeMapCaseInsensitive<V> implements ITernarySearchTreeMap<V> {
+public class TernarySearchTreeMapCaseInsensitive<V> implements TernarySearchTreeMapInterface<V> {
     private static final long serialVersionUID = 6106815305526987949L;
 
     private final TernarySearchTreeMap<Map.Entry<CharSequence, V>> mData;

@@ -31,21 +31,21 @@ import java.util.Map;
 public class VisibilityGroupManager implements Serializable {
     private static final long serialVersionUID = 4836663644491428361L;
 
-    private final Map<String, VisibilityGroup> mGroups;
+    private final Map<String, VisibilityGroup> groups;
 
     public VisibilityGroupManager(int numberOfManagedObjects) {
-        mGroups = new Hashtable<String, VisibilityGroup>(numberOfManagedObjects);
+        groups = new Hashtable<String, VisibilityGroup>(numberOfManagedObjects);
     }
 
     public VisibilityGroupManager() {
-        mGroups = new Hashtable<String, VisibilityGroup>();
+        groups = new Hashtable<String, VisibilityGroup>();
     }
 
     /**
      * Returns the number of {@link VisibilityGroup}s which are managed by this {@link VisibilityGroupManager}.
      */
     public int getGroupCount() {
-        return mGroups.size();
+        return groups.size();
     }
 
     /**
@@ -57,7 +57,7 @@ public class VisibilityGroupManager implements Serializable {
      * @return the {@link VisibilityGroup} object for the given group name. The provided component has beed added to this
      * group.
      */
-    public VisibilityGroup addGroupMember(String groupName, IVisibilityEnablingConfigurable groupMember) {
+    public VisibilityGroup addGroupMember(String groupName, VisibilityEnablingConfigurable groupMember) {
         CheckForNull.check(groupName, groupMember);
         VisibilityGroup group = createGroupIfNecessary(groupName);
         group.addVisibilityEnablingConfigurable(groupMember);
@@ -65,10 +65,10 @@ public class VisibilityGroupManager implements Serializable {
     }
 
     private VisibilityGroup createGroupIfNecessary(String groupName) {
-        VisibilityGroup group = mGroups.get(groupName);
+        VisibilityGroup group = groups.get(groupName);
         if (group == null) {
             group = new VisibilityGroup(groupName);
-            mGroups.put(groupName, group);
+            groups.put(groupName, group);
         }
         return group;
     }
@@ -83,14 +83,14 @@ public class VisibilityGroupManager implements Serializable {
      * not exist
      */
     public VisibilityGroup getVisibilityGroup(String groupName) {
-        return mGroups.get(groupName);
+        return groups.get(groupName);
     }
 
     /**
      * Checks if a {@link VisibilityGroup} object for the given name is managed by this {@link VisibilityGroupManager}.
      */
     public boolean doesGroupExist(String groupName) {
-        return groupName != null && mGroups.containsKey(groupName);
+        return groupName != null && groups.containsKey(groupName);
     }
 
     /**
@@ -125,7 +125,7 @@ public class VisibilityGroupManager implements Serializable {
 
     /**
      * Makes all components which are members of the given component group visible or invisible by calling their
-     * {@link IVisibilityEnablingConfigurable#setVisible(boolean)} method.
+     * {@link VisibilityEnablingConfigurable#setVisible(boolean)} method.
      *
      * @param groupName name of the {@link VisibilityGroup}
      * @param visible   <code>true</code> if the components should be made visible, <code>false</code> otherwise
@@ -135,7 +135,7 @@ public class VisibilityGroupManager implements Serializable {
     public boolean setGroupVisible(String groupName, boolean visible) {
         CheckForNull.check(groupName);
 
-        VisibilityGroup group = mGroups.get(groupName);
+        VisibilityGroup group = groups.get(groupName);
         if (group == null)
             return false;
         group.setVisible(visible);
@@ -144,11 +144,11 @@ public class VisibilityGroupManager implements Serializable {
 
     /**
      * Enables or disabled all components which are members of the given component group by calling their
-     * {@link IVisibilityEnablingConfigurable#setEnabled(boolean)} method.
+     * {@link VisibilityEnablingConfigurable#setEnabled(boolean)} method.
      *
      * @param groupName name of the {@link VisibilityGroup}
      * @param enabled   <code>true</code> if all components of the specified group shall be enabled. This argument is passed
-     *                  through to the {@link IVisibilityEnablingConfigurable#setEnabled(boolean)} method of each component in the
+     *                  through to the {@link VisibilityEnablingConfigurable#setEnabled(boolean)} method of each component in the
      *                  specified group.
      * @return <code>false</code> if the specified {@link VisibilityGroup} does not exist in this
      * {@link VisibilityGroupManager}
@@ -156,7 +156,7 @@ public class VisibilityGroupManager implements Serializable {
     public boolean setGroupEnabled(String groupName, boolean enabled) {
         CheckForNull.check(groupName);
 
-        VisibilityGroup group = mGroups.get(groupName);
+        VisibilityGroup group = groups.get(groupName);
         if (group == null)
             return false;
         group.setEnabled(enabled);

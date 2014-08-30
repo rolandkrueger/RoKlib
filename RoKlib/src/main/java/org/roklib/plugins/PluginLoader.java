@@ -37,15 +37,15 @@ import java.util.jar.Manifest;
 public class PluginLoader<P extends AbstractPlugin> {
     public final static String PLUGIN_MAINCLASS_PROPERTY = "PluginMainClass";
 
-    private final Set<String> mPropertiesToLoad;
+    private final Set<String> propertiesToLoad;
 
     public PluginLoader() {
-        mPropertiesToLoad = new HashSet<String>();
-        mPropertiesToLoad.add(PLUGIN_MAINCLASS_PROPERTY);
+        propertiesToLoad = new HashSet<String>();
+        propertiesToLoad.add(PLUGIN_MAINCLASS_PROPERTY);
     }
 
     public void getPropertyFromManifest(String propertyName) {
-        mPropertiesToLoad.add(propertyName);
+        propertiesToLoad.add(propertyName);
     }
 
     public void getPropertiesFromManifest(Collection<String> propertyNames) {
@@ -80,7 +80,7 @@ public class PluginLoader<P extends AbstractPlugin> {
 
         Attributes attributes = manifest.getMainAttributes();
         Map<String, String> properties = new HashMap<String, String>();
-        for (String propertyName : mPropertiesToLoad) {
+        for (String propertyName : propertiesToLoad) {
             String value = attributes.getValue(propertyName);
             if (value != null) {
                 properties.put(propertyName, value);

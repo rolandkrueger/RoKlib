@@ -28,8 +28,8 @@ package org.roklib.system;
  * @author Roland Krueger
  */
 public abstract class AbstractMemorySwappingDetectionThread extends Thread {
-    private final MemorySwappingEventListener mListener;
-    private boolean mStopRequest = false; // true if thread is supposed to stop
+    private final MemorySwappingEventListener listener;
+    private boolean stopRequest = false; // true if thread is supposed to stop
 
     /**
      * Initializes this thread with the given listener.
@@ -38,7 +38,7 @@ public abstract class AbstractMemorySwappingDetectionThread extends Thread {
      *                 events
      */
     public AbstractMemorySwappingDetectionThread(MemorySwappingEventListener listener) {
-        mListener = listener;
+        this.listener = listener;
     }
 
     /**
@@ -63,7 +63,7 @@ public abstract class AbstractMemorySwappingDetectionThread extends Thread {
      */
     @Override
     public void run() {
-        while (!mStopRequest) {
+        while (!stopRequest) {
             if (isSwapEventDetected()) {
                 notifyListenerOfSwappingEvent();
             }
@@ -74,14 +74,14 @@ public abstract class AbstractMemorySwappingDetectionThread extends Thread {
      * If a swapping event was detected, this method notifies the {@link MemorySwappingEventListener} of that.
      */
     protected void notifyListenerOfSwappingEvent() {
-        mListener.memorySwappingDetected();
+        listener.memorySwappingDetected();
     }
 
     /**
      * Stop this thread.
      */
     public final void stopThread() {
-        mStopRequest = true;
+        stopRequest = true;
         stopThreadImpl();
     }
 }

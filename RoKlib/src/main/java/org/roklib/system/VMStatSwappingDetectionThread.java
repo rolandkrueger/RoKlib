@@ -43,7 +43,7 @@ import java.util.regex.Pattern;
  * @author Roland Krueger
  */
 public class VMStatSwappingDetectionThread extends AbstractMemorySwappingDetectionThread {
-    protected static final Logger sLogger = Logger.getLogger(VMStatSwappingDetectionThread.class.getPackage()
+    protected static final Logger LOG = Logger.getLogger(VMStatSwappingDetectionThread.class.getPackage()
             .getName());
     private final static String CMD_STRING = "%s %d";
 
@@ -52,10 +52,10 @@ public class VMStatSwappingDetectionThread extends AbstractMemorySwappingDetecti
      */
     private final static Pattern SWAP_PATTERN = Pattern.compile("^(?:\\s*\\d+){6}\\s*(\\d+)\\s*(\\d+).*$");
 
-    private final String mVMStatBinaryLocation;
-    private int mSamplingRate;
-    private Process mVMStatProcess;
-    private BufferedReader mProcessReader;
+    private final String vmStatBinaryLocation;
+    private int samplingRate;
+    private Process vmStatProcess;
+    private BufferedReader processReader;
 
     /**
      * Constructor.
@@ -67,16 +67,16 @@ public class VMStatSwappingDetectionThread extends AbstractMemorySwappingDetecti
     public VMStatSwappingDetectionThread(MemorySwappingEventListener listener, String vmstatBinaryLocation,
                                          int samplingRate) {
         super(listener);
-        mVMStatBinaryLocation = vmstatBinaryLocation;
-        if (mVMStatBinaryLocation.matches("\\s"))
+        vmStatBinaryLocation = vmstatBinaryLocation;
+        if (vmStatBinaryLocation.matches("\\s"))
             throw new IllegalArgumentException(
                     "Using a whitespace character in the vmstat binary location string is not allowed.");
 
-        File vmstatBinary = new File(mVMStatBinaryLocation);
+        File vmstatBinary = new File(vmStatBinaryLocation);
         if (!vmstatBinary.canRead())
             throw new IllegalArgumentException("Unable to read the given file for the vmstat binary.");
 
-        mSamplingRate = samplingRate;
+        this.samplingRate = samplingRate;
         if (samplingRate <= 0)
             throw new IllegalArgumentException("Sampling rate must be at least 1.");
     }
@@ -88,15 +88,15 @@ public class VMStatSwappingDetectionThread extends AbstractMemorySwappingDetecti
      */
     public synchronized boolean startProcess() {
         // start vmstat and parse its output
-        ProcessBuilder procBuilder = new ProcessBuilder(String.format(CMD_STRING, mVMStatBinaryLocation, mSamplingRate)
+        ProcessBuilder procBuilder = new ProcessBuilder(String.format(CMD_STRING, vmStatBinaryLocation, samplingRate)
                 .split(" "));
         procBuilder.redirectErrorStream(true);
 
         try {
-            mVMStatProcess = procBuilder.start();
-            mProcessReader = new BufferedReader(new InputStreamReader(mVMStatProcess.getInputStream()));
+            vmStatProcess = procBuilder.start();
+            processReader = new BufferedReader(new InputStreamReader(vmStatProcess.getInputStream()));
         } catch (IOException ioExc) {
-            sLogger.warning("Unable to start vmstat process with binary :" + mVMStatBinaryLocation);
+            LOG.warning("Unable to start vmstat process with binary :" + vmStatBinaryLocation);
             return false;
         }
         super.start();
@@ -105,13 +105,13 @@ public class VMStatSwappingDetectionThread extends AbstractMemorySwappingDetecti
 
     @Override
     protected boolean isSwapEventDetected() {
-        if (mProcessReader == null)
+        if (processReader == null)
             throw new IllegalStateException("Thread must be started with startProcess().");
         final String mLine;
         try {
-            mLine = mProcessReader.readLine();
+            mLine = processReader.readLine();
             if (mLine == null) {
-                sLogger.info("vmstat process has finished.");
+                LOG.info("vmstat process has finished.");
                 stopThread();
                 return false;
             }
@@ -131,9 +131,9 @@ public class VMStatSwappingDetectionThread extends AbstractMemorySwappingDetecti
 
     @Override
     protected void stopThreadImpl() {
-        if (mVMStatProcess != null) {
-            sLogger.info("Stopping vmstat process.");
-            mVMStatProcess.destroy();
+        if (vmStatProcess != null) {
+            LOG.info("Stopping vmstat process.");
+            vmStatProcess.destroy();
         }
     }
 

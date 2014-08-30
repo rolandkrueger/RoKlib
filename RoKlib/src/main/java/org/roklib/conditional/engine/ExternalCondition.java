@@ -20,7 +20,7 @@
  */
 package org.roklib.conditional.engine;
 
-import org.roklib.conditional.bool.IBooleanValueProvider;
+import org.roklib.conditional.bool.BooleanValueProvider;
 import org.roklib.util.helper.CheckForNull;
 
 /**
@@ -32,15 +32,15 @@ import org.roklib.util.helper.CheckForNull;
 public class ExternalCondition extends AbstractCondition {
     private static final long serialVersionUID = 1133757473871960974L;
 
-    private final IBooleanValueProvider mValueProvider;
+    private final BooleanValueProvider valueProvider;
 
-    public ExternalCondition(IBooleanValueProvider valueProvider) {
+    public ExternalCondition(BooleanValueProvider valueProvider) {
         super();
         CheckForNull.check(valueProvider);
-        mValueProvider = valueProvider;
+        this.valueProvider = valueProvider;
     }
 
     public boolean getBooleanValue() {
-        return mValueProvider.getBooleanValue();
+        return valueProvider.getBooleanValue();
     }
 }

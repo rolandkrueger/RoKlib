@@ -26,30 +26,30 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class VisibilityGroupTest {
-    private VisibilityGroup mTestObj;
+    private VisibilityGroup visibilityGroup;
 
     @Before
     public void setUp() {
-        mTestObj = new VisibilityGroup("group");
+        visibilityGroup = new VisibilityGroup("group");
     }
 
     @Test
     public void testAddVisibilityEnablingConfigurable() {
         VisibilityEnablingConfigurableTestClass testObj = new VisibilityEnablingConfigurableTestClass();
-        mTestObj.addVisibilityEnablingConfigurable(new VisibilityEnablingConfigurableTestClass());
-        mTestObj.addVisibilityEnablingConfigurable(testObj);
-        mTestObj.addVisibilityEnablingConfigurable(testObj);
+        visibilityGroup.addVisibilityEnablingConfigurable(new VisibilityEnablingConfigurableTestClass());
+        visibilityGroup.addVisibilityEnablingConfigurable(testObj);
+        visibilityGroup.addVisibilityEnablingConfigurable(testObj);
 
-        assertEquals(2, mTestObj.getSize());
+        assertEquals(2, visibilityGroup.getSize());
     }
 
     @Test
     public void testRemoveVisibilityEnablingConfigurable() {
         VisibilityEnablingConfigurableTestClass testObj = new VisibilityEnablingConfigurableTestClass();
-        mTestObj.addVisibilityEnablingConfigurable(testObj);
-        assertEquals(1, mTestObj.getSize());
-        boolean result = mTestObj.removeVisibilityEnablingConfigurable(testObj);
-        assertEquals(0, mTestObj.getSize());
+        visibilityGroup.addVisibilityEnablingConfigurable(testObj);
+        assertEquals(1, visibilityGroup.getSize());
+        boolean result = visibilityGroup.removeVisibilityEnablingConfigurable(testObj);
+        assertEquals(0, visibilityGroup.getSize());
         assertTrue(result);
     }
 
@@ -57,66 +57,66 @@ public class VisibilityGroupTest {
     public void testSetVisible() {
         VisibilityEnablingConfigurableTestClass testObj1 = new VisibilityEnablingConfigurableTestClass();
         VisibilityEnablingConfigurableTestClass testObj2 = new VisibilityEnablingConfigurableTestClass();
-        mTestObj.addVisibilityEnablingConfigurable(testObj1);
-        mTestObj.addVisibilityEnablingConfigurable(testObj2);
+        visibilityGroup.addVisibilityEnablingConfigurable(testObj1);
+        visibilityGroup.addVisibilityEnablingConfigurable(testObj2);
         assertTrue(testObj1.isEnabled());
         assertTrue(testObj2.isEnabled());
         assertTrue(testObj1.isVisible());
         assertTrue(testObj2.isVisible());
-        assertTrue(mTestObj.isEnabled());
-        assertTrue(mTestObj.isVisible());
+        assertTrue(visibilityGroup.isEnabled());
+        assertTrue(visibilityGroup.isVisible());
 
-        mTestObj.setVisible(false);
+        visibilityGroup.setVisible(false);
         assertTrue(testObj1.isEnabled());
         assertTrue(testObj2.isEnabled());
         assertFalse(testObj1.isVisible());
         assertFalse(testObj2.isVisible());
-        assertTrue(mTestObj.isEnabled());
-        assertFalse(mTestObj.isVisible());
+        assertTrue(visibilityGroup.isEnabled());
+        assertFalse(visibilityGroup.isVisible());
     }
 
     @Test
     public void testSetEnabled() {
         VisibilityEnablingConfigurableTestClass testObj1 = new VisibilityEnablingConfigurableTestClass();
         VisibilityEnablingConfigurableTestClass testObj2 = new VisibilityEnablingConfigurableTestClass();
-        mTestObj.addVisibilityEnablingConfigurable(testObj1);
-        mTestObj.addVisibilityEnablingConfigurable(testObj2);
+        visibilityGroup.addVisibilityEnablingConfigurable(testObj1);
+        visibilityGroup.addVisibilityEnablingConfigurable(testObj2);
         assertTrue(testObj1.isEnabled());
         assertTrue(testObj2.isEnabled());
         assertTrue(testObj1.isVisible());
         assertTrue(testObj2.isVisible());
-        assertTrue(mTestObj.isEnabled());
-        assertTrue(mTestObj.isVisible());
+        assertTrue(visibilityGroup.isEnabled());
+        assertTrue(visibilityGroup.isVisible());
 
-        mTestObj.setEnabled(false);
+        visibilityGroup.setEnabled(false);
         assertFalse(testObj1.isEnabled());
         assertFalse(testObj2.isEnabled());
         assertTrue(testObj1.isVisible());
         assertTrue(testObj2.isVisible());
-        assertFalse(mTestObj.isEnabled());
-        assertTrue(mTestObj.isVisible());
+        assertFalse(visibilityGroup.isEnabled());
+        assertTrue(visibilityGroup.isVisible());
     }
 
     @Test
     public void testIsEnabled() {
-        assertTrue(mTestObj.isEnabled());
-        mTestObj.setEnabled(false);
-        assertFalse(mTestObj.isEnabled());
-        mTestObj.setEnabled(true);
-        assertTrue(mTestObj.isEnabled());
+        assertTrue(visibilityGroup.isEnabled());
+        visibilityGroup.setEnabled(false);
+        assertFalse(visibilityGroup.isEnabled());
+        visibilityGroup.setEnabled(true);
+        assertTrue(visibilityGroup.isEnabled());
     }
 
     @Test
     public void testIsVisible() {
-        assertTrue(mTestObj.isVisible());
-        mTestObj.setVisible(false);
-        assertFalse(mTestObj.isVisible());
-        mTestObj.setVisible(true);
-        assertTrue(mTestObj.isVisible());
+        assertTrue(visibilityGroup.isVisible());
+        visibilityGroup.setVisible(false);
+        assertFalse(visibilityGroup.isVisible());
+        visibilityGroup.setVisible(true);
+        assertTrue(visibilityGroup.isVisible());
     }
 
     @Test
     public void testGetName() {
-        assertEquals("group", mTestObj.getName());
+        assertEquals("group", visibilityGroup.getName());
     }
 }

@@ -30,41 +30,41 @@ import java.util.*;
 import static junit.framework.Assert.*;
 
 public class TSTKeySetTest {
-    private TernarySearchTreeMap<String> mMap;
-    private TestDataFixture mTestData = MapData.getFiveLowerCaseEntriesOrderingExpected();
-    private Set<CharSequence> mKeySet;
-    private Map<CharSequence, String> mComparisonMap;
+    private TernarySearchTreeMap<String> map;
+    private TestDataFixture testData = MapData.getFiveLowerCaseEntriesOrderingExpected();
+    private Set<CharSequence> keySet;
+    private Map<CharSequence, String> comparisonMap;
 
     @Before
     public void setUp() {
-        mMap = new TernarySearchTreeMap<String>();
-        mTestData = MapData.getFiveLowerCaseEntriesOrderingExpected();
-        mMap.putAll(mTestData.getData());
-        mKeySet = mMap.keySet();
-        mComparisonMap = new TreeMap<CharSequence, String>(mTestData.getData());
+        map = new TernarySearchTreeMap<String>();
+        testData = MapData.getFiveLowerCaseEntriesOrderingExpected();
+        map.putAll(testData.getData());
+        keySet = map.keySet();
+        comparisonMap = new TreeMap<CharSequence, String>(testData.getData());
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testAdd() {
-        mKeySet.add("test");
+        keySet.add("test");
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testAddAll() {
-        mKeySet.addAll(new TreeSet<CharSequence>());
+        keySet.addAll(new TreeSet<CharSequence>());
     }
 
     @Test
     public void testClear() {
-        mKeySet.clear();
-        assertEquals(0, mMap.size());
-        assertTrue(mKeySet.isEmpty());
+        keySet.clear();
+        assertEquals(0, map.size());
+        assertTrue(keySet.isEmpty());
     }
 
     @Test
     public void testContains() {
-        assertTrue(mKeySet.contains("sverige"));
-        assertFalse(mKeySet.contains("russia"));
+        assertTrue(keySet.contains("sverige"));
+        assertFalse(keySet.contains("russia"));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class TSTKeySetTest {
         Set<CharSequence> data = new TreeSet<CharSequence>();
         data.add("deutschland");
         data.add("france");
-        assertTrue(mKeySet.containsAll(data));
+        assertTrue(keySet.containsAll(data));
     }
 
     @Test
@@ -81,30 +81,30 @@ public class TSTKeySetTest {
         data.add("deutschland");
         data.add("france");
         data.add("belgium");
-        assertFalse(mKeySet.containsAll(data));
+        assertFalse(keySet.containsAll(data));
 
         data.clear();
         data.add("norge");
         data.add("danmark");
-        assertFalse(mKeySet.containsAll(data));
+        assertFalse(keySet.containsAll(data));
     }
 
     @Test
     public void testRemove() {
         boolean changed;
-        changed = mKeySet.remove("deutschland");
-        mComparisonMap.remove("deutschland");
+        changed = keySet.remove("deutschland");
+        comparisonMap.remove("deutschland");
         assertTrue(changed);
-        assertEquals(mComparisonMap, mMap);
+        assertEquals(comparisonMap, map);
     }
 
     @Test
     public void testRemoveNothingRemoved() {
         boolean changed;
-        changed = mKeySet.remove("not in map");
-        mComparisonMap.remove("not in map");
+        changed = keySet.remove("not in map");
+        comparisonMap.remove("not in map");
         assertFalse(changed);
-        assertEquals(mComparisonMap, mMap);
+        assertEquals(comparisonMap, map);
     }
 
     @Test
@@ -114,10 +114,10 @@ public class TSTKeySetTest {
         data.add("deutschland");
         data.add("france");
 
-        changed = mKeySet.removeAll(data);
+        changed = keySet.removeAll(data);
         assertTrue(changed);
-        mComparisonMap.keySet().removeAll(data);
-        assertEquals(mComparisonMap, mMap);
+        comparisonMap.keySet().removeAll(data);
+        assertEquals(comparisonMap, map);
     }
 
     @Test
@@ -127,10 +127,10 @@ public class TSTKeySetTest {
         data.add("not in");
         data.add("map");
 
-        changed = mKeySet.removeAll(data);
+        changed = keySet.removeAll(data);
         assertFalse(changed);
-        mComparisonMap.keySet().removeAll(data);
-        assertEquals(mComparisonMap, mMap);
+        comparisonMap.keySet().removeAll(data);
+        assertEquals(comparisonMap, map);
     }
 
     @Test
@@ -141,19 +141,19 @@ public class TSTKeySetTest {
         data.add("france");
         data.add("not in map");
 
-        changed = mKeySet.retainAll(data);
+        changed = keySet.retainAll(data);
         assertTrue(changed);
-        mComparisonMap.keySet().retainAll(data);
-        assertEquals(mComparisonMap, mMap);
-        assertEquals(2, mMap.size());
+        comparisonMap.keySet().retainAll(data);
+        assertEquals(comparisonMap, map);
+        assertEquals(2, map.size());
     }
 
     @Test
     public void testIterator_Remove() {
-        Iterator<CharSequence> it = mKeySet.iterator();
+        Iterator<CharSequence> it = keySet.iterator();
         it.next();
         it.remove();
-        mComparisonMap.remove("deutschland");
-        assertEquals(mComparisonMap.keySet(), mKeySet);
+        comparisonMap.remove("deutschland");
+        assertEquals(comparisonMap.keySet(), keySet);
     }
 }

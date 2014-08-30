@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2007 Roland Krueger
+ * Created on 09.02.2010
  *
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -17,17 +18,13 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.io;
+package org.roklib.conditional.bool;
 
-
-import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * @author Roland Krueger
  */
-public class ByteArrayStreamDataBufferTest extends IStreamDataBufferTest {
-    @Override
-    public StreamDataBuffer createObjectUnderTest() throws IOException {
-        return new ByteArrayStreamDataBuffer();
-    }
+public interface BooleanValueProvider extends Serializable {
+    public boolean getBooleanValue();
 }
