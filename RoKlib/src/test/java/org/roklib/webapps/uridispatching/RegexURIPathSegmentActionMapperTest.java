@@ -65,8 +65,8 @@ public class RegexURIPathSegmentActionMapperTest {
         middleActionHandler = new DispatchingURIPathSegmentActionMapper("middle");
         middleActionHandler.setActionCommand(middleActionCommand);
 
-        regexActionHandler2.addSubHandler(middleActionHandler);
-        middleActionHandler.addSubHandler(lastActionHandler);
+        regexActionHandler2.addSubMapper(middleActionHandler);
+        middleActionHandler.addSubMapper(lastActionHandler);
 
         dispatcher.addURIPathSegmentMapper(regexActionHandler1);
         dispatcher.addURIPathSegmentMapper(testActionHandler);

@@ -62,15 +62,15 @@ public class AbstractURIPathSegmentActionMapperTest {
         testHandler3 = new TURIPathSegmentActionMapper("cmd", testCommand1);
         dispatchingHandler = new DispatchingURIPathSegmentActionMapper("test");
         dispatcher.addURIPathSegmentMapper(dispatchingHandler);
-        dispatchingHandler.addSubHandler(testHandler1);
-        dispatchingHandler.addSubHandler(testHandler2);
-        dispatchingHandler.addSubHandler(testHandler3);
+        dispatchingHandler.addSubMapper(testHandler1);
+        dispatchingHandler.addSubMapper(testHandler2);
+        dispatchingHandler.addSubMapper(testHandler3);
 
         caseSensitiveTestHandler1 = new TURIPathSegmentActionMapper("ABC", testCommand1);
         caseSensitiveTestHandler1.registerURLParameterForTest(urlParameter, true);
         caseSensitiveDispatchingHandler = new DispatchingURIPathSegmentActionMapper("TEST");
-        caseSensitiveDispatcher.getRootActionHandler().addSubHandler(caseSensitiveDispatchingHandler);
-        caseSensitiveDispatchingHandler.addSubHandler(caseSensitiveTestHandler1);
+        caseSensitiveDispatcher.getRootActionHandler().addSubMapper(caseSensitiveDispatchingHandler);
+        caseSensitiveDispatchingHandler.addSubMapper(caseSensitiveTestHandler1);
     }
 
     @Test
@@ -323,7 +323,7 @@ public class AbstractURIPathSegmentActionMapperTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddSubHandlerTwice() {
-        testHandler1.addSubHandler(testHandler2);
+        testHandler1.addSubMapper(testHandler2);
     }
 
     @Test

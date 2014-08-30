@@ -33,21 +33,21 @@ import java.util.TreeMap;
 public class DispatchingURIPathSegmentActionMapper extends AbstractURIPathSegmentActionMapper {
     private static final long serialVersionUID = -777810072366030611L;
 
-    private AbstractURIActionCommand missingSubHandlerCommand;
+    private AbstractURIActionCommand missingSubMapperCommand;
     private Map<String, AbstractURIPathSegmentActionMapper> subMappers;
 
     /**
-     * Create a dispatching action handler with the provided action name. The action name is the part of the URI that is
-     * handled by this action handler.
+     * Create a dispatching action mapper with the provided action name. The action name is the part of the URI that is
+     * handled by this action mapper.
      *
-     * @param actionName the action name for this dispatching action handler
+     * @param actionName the action name for this dispatching action mapper
      */
     public DispatchingURIPathSegmentActionMapper(String actionName) {
         super(actionName);
     }
 
-    public void setMissingSubHandlerCommand(AbstractURIActionCommand missingSubHandlerCommand) {
-        this.missingSubHandlerCommand = missingSubHandlerCommand;
+    public void setMissingSubMapperCommand(AbstractURIActionCommand missingSubMapperCommand) {
+        this.missingSubMapperCommand = missingSubMapperCommand;
     }
 
     @Override
@@ -62,34 +62,34 @@ public class DispatchingURIPathSegmentActionMapper extends AbstractURIPathSegmen
 
     private AbstractURIActionCommand forwardToSubHandler(String currentActionName, List<String> uriTokens,
                                                                Map<String, List<String>> parameters, ParameterMode parameterMode) {
-        AbstractURIPathSegmentActionMapper subHandler = getResponsibleSubHandlerForActionName(currentActionName);
-        if (subHandler == null) {
-            return missingSubHandlerCommand;
+        AbstractURIPathSegmentActionMapper subMapper = getResponsibleSubMapperForActionName(currentActionName);
+        if (subMapper == null) {
+            return missingSubMapperCommand;
         }
 
-        return subHandler.handleURI(uriTokens, parameters, parameterMode);
+        return subMapper.handleURI(uriTokens, parameters, parameterMode);
     }
 
     /**
-     * Tries to find the next action handler in line which is responsible for handling the current URI token. If such a
-     * handler is found, the responsibility for interpreting the current URI is passed to this handler. Note that a
-     * specific precedence rule applies to the registered sub-handlers as described in the class description.
+     * Tries to find the next action mapper in line which is responsible for handling the current URI token. If such a
+     * mapper is found, the responsibility for interpreting the current URI is passed to this mapper. Note that a
+     * specific precedence rule applies to the registered sub-mappers as described in the class description.
      *
      * @param currentActionName the currently interpreted URI token
      * @return {@link AbstractURIPathSegmentActionMapper} that is responsible for handling the current URI token or
-     * <code>null</code> if no such handler could be found.
+     * <code>null</code> if no such mapper could be found.
      */
-    private AbstractURIPathSegmentActionMapper getResponsibleSubHandlerForActionName(String currentActionName) {
+    private AbstractURIPathSegmentActionMapper getResponsibleSubMapperForActionName(String currentActionName) {
         String actionName = isCaseSensitive() ? currentActionName : currentActionName.toLowerCase(getLocale());
 
-        AbstractURIPathSegmentActionMapper responsibleSubHandler = getSubHandlerMap().get(actionName);
-        if (responsibleSubHandler != null) {
-            return responsibleSubHandler;
+        AbstractURIPathSegmentActionMapper responsibleSubMapper = getSubMapperMap().get(actionName);
+        if (responsibleSubMapper != null) {
+            return responsibleSubMapper;
         }
 
-        for (AbstractURIPathSegmentActionMapper subhandler : getSubHandlerMap().values()) {
-            if (subhandler.isResponsibleForToken(actionName)) {
-                return subhandler;
+        for (AbstractURIPathSegmentActionMapper subMapper : getSubMapperMap().values()) {
+            if (subMapper.isResponsibleForToken(actionName)) {
+                return subMapper;
             }
         }
         return null;
@@ -97,7 +97,7 @@ public class DispatchingURIPathSegmentActionMapper extends AbstractURIPathSegmen
 
     /**
      * <p>
-     * Registers a sub-handler to this {@link DispatchingURIPathSegmentActionMapper}. Sub-handlers form the links of the URI
+     * Registers a sub-mapper to this {@link DispatchingURIPathSegmentActionMapper}. Sub-mappers form the links of the URI
      * interpretation chain in that each of them is responsible for interpreting one particular fragment of a URI.
      * </p>
      * <p>
@@ -108,31 +108,31 @@ public class DispatchingURIPathSegmentActionMapper extends AbstractURIPathSegmen
      * http://www.example.com/myapp/articles/showArticle
      * </pre>
      * <p/>
-     * then the URI action handler for fragment <code>articles</code> has to be a {@link DispatchingURIPathSegmentActionMapper}
-     * since it needs two sub-handlers for <code>list</code> and <code>showArticle</code>. These two fragments may be
+     * then the URI action mapper for fragment <code>articles</code> has to be a {@link DispatchingURIPathSegmentActionMapper}
+     * since it needs two sub-mappers for <code>list</code> and <code>showArticle</code>. These two fragments may be
      * handled by {@link DispatchingURIPathSegmentActionMapper}s themselves if they in turn allow sub-directories in the URI
      * structure. They could also be {@link SimpleURIPathSegmentActionMapper}s that simply return an
      * {@link AbstractURIActionCommand} when being evaluated.
      * </p>
      * <p>
-     * The case sensitivity of this action handler is inherited to the sub-handler.
+     * The case sensitivity of this action mapper is inherited to the sub-mapper.
      * </p>
      *
-     * @param subHandler the sub-handler to be added to this {@link DispatchingURIPathSegmentActionMapper}
-     * @throws IllegalArgumentException if the passed action handler alread has been added as sub-handler to another
-     *                                  {@link DispatchingURIPathSegmentActionMapper}. In other words, if the passed sub-handler already has a parent
-     *                                  handler.
+     * @param subMapper the sub-mapper to be added to this {@link DispatchingURIPathSegmentActionMapper}
+     * @throws IllegalArgumentException if the passed action mapper alread has been added as sub-mapper to another
+     *                                  {@link DispatchingURIPathSegmentActionMapper}. In other words, if the passed sub-mapper already has a parent
+     *                                  mapper.
      */
-    public final void addSubHandler(AbstractURIPathSegmentActionMapper subHandler) {
-        CheckForNull.check(subHandler);
-        if (subHandler.parentHandler != null)
-            throw new IllegalArgumentException(String.format("This sub-handler instance has "
-                            + "already been added to another action handler. This handler = '%s'; sub-handler = '%s'", actionName,
-                    subHandler.actionName));
-        subHandler.parentHandler = this;
-        setSubhandlersActionURI(subHandler);
-        getSubHandlerMap().put(subHandler.actionName, subHandler);
-        subHandler.setCaseSensitive(isCaseSensitive());
+    public final void addSubMapper(AbstractURIPathSegmentActionMapper subMapper) {
+        CheckForNull.check(subMapper);
+        if (subMapper.parentMapper != null)
+            throw new IllegalArgumentException(String.format("This sub-mapper instance has "
+                            + "already been added to another action mapper. This mapper = '%s'; sub-mapper = '%s'", actionName,
+                    subMapper.actionName));
+        subMapper.parentMapper = this;
+        setSubhandlersActionURI(subMapper);
+        getSubMapperMap().put(subMapper.actionName, subMapper);
+        subMapper.setCaseSensitive(isCaseSensitive());
     }
 
     /**
@@ -144,28 +144,28 @@ public class DispatchingURIPathSegmentActionMapper extends AbstractURIPathSegmen
     protected void setCaseSensitive(boolean caseSensitive) {
         super.setCaseSensitive(caseSensitive);
         if (isCaseSensitive() & subMappers != null) {
-            rebuildSubhandlerMap(caseSensitive);
-            for (AbstractURIPathSegmentActionMapper subhandler : subMappers.values()) {
-                subhandler.setCaseSensitive(caseSensitive);
+            rebuildSubMapperMap(caseSensitive);
+            for (AbstractURIPathSegmentActionMapper subMapper : subMappers.values()) {
+                subMapper.setCaseSensitive(caseSensitive);
             }
         }
     }
 
-    private void rebuildSubhandlerMap(boolean caseSensitive) {
-        Map<String, AbstractURIPathSegmentActionMapper> subHandlers = this.subMappers;
+    private void rebuildSubMapperMap(boolean caseSensitive) {
+        Map<String, AbstractURIPathSegmentActionMapper> subMappers = this.subMappers;
         this.subMappers = null;
-        this.subMappers = getSubHandlerMap();
+        this.subMappers = getSubMapperMap();
 
-        for (AbstractURIPathSegmentActionMapper subHandler : subHandlers.values()) {
-            String actionName = caseSensitive ? subHandler.getActionName() : subHandler.getCaseInsensitiveActionName();
-            this.subMappers.put(actionName, subHandler);
+        for (AbstractURIPathSegmentActionMapper subMapper : subMappers.values()) {
+            String actionName = caseSensitive ? subMapper.getActionName() : subMapper.getCaseInsensitiveActionName();
+            this.subMappers.put(actionName, subMapper);
         }
     }
 
     /**
      * {@inheritDoc}
      */
-    protected Map<String, AbstractURIPathSegmentActionMapper> getSubHandlerMap() {
+    protected Map<String, AbstractURIPathSegmentActionMapper> getSubMapperMap() {
         if (subMappers == null) {
             if (!isCaseSensitive()) {
                 subMappers = new TreeMap<String, AbstractURIPathSegmentActionMapper>(String.CASE_INSENSITIVE_ORDER);

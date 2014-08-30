@@ -48,7 +48,7 @@ public class StartsWithURIPathSegmentActionMapperTest {
 
         lastActionCommand = new TURIActionCommand();
         lastActionHandler = new TURIPathSegmentActionMapper("last", lastActionCommand);
-        startsWithActionHandler.addSubHandler(lastActionHandler);
+        startsWithActionHandler.addSubMapper(lastActionHandler);
 
         dispatcher.addURIPathSegmentMapper(startsWithActionHandler);
         dispatcher.addURIPathSegmentMapper(testActionHandler);

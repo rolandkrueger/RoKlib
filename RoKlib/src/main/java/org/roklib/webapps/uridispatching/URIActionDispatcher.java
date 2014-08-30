@@ -296,6 +296,6 @@ public class URIActionDispatcher implements Serializable {
      * @throws IllegalArgumentException if the given sub-handler has already been added to another parent handler
      */
     public final void addURIPathSegmentMapper(AbstractURIPathSegmentActionMapper subHandler) {
-        getRootActionHandler().addSubHandler(subHandler);
+        getRootActionHandler().addSubMapper(subHandler);
     }
 }

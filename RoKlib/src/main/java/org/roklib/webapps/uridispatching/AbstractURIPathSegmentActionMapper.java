@@ -45,7 +45,7 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
     private List<String> actionArgumentOrder;
     protected List<URIPathSegmentActionMapper> handlerChain;
     private Map<String, List<Serializable>> actionArgumentMap;
-    protected AbstractURIPathSegmentActionMapper parentHandler;
+    protected AbstractURIPathSegmentActionMapper parentMapper;
     private AbstractURIActionCommand actionCommand;
 
     /**
@@ -105,29 +105,25 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
     }
 
     /**
-     * Sets the action command for this action mapper. This is the {@link AbstractURIActionCommand} which will
+     * Sets the action command for this action mapper. This is the given {@link AbstractURIActionCommand} which will
      * be returned when the token list to be interpreted by this mapper is empty. This is the case when a URI is being
      * interpreted that directly points to this {@link AbstractURIPathSegmentActionMapper}. For example, if the following URI is
      * passed to the URI action handling framework
      * <p/>
      * <pre>
      * http://www.example.com/myapp/home/
+     *                       \____/
+     *                context path
+     *                             \___/ URI path interpreted by the URI action framework
      * </pre>
      * <p/>
-     * where the URI action mapper for token <code>home</code> is a {@link DispatchingURIPathSegmentActionMapper}, then this
-     * mapper's root command is used as the outcome of the URI interpretation. This command could then provide some
-     * default logic for the interpreted URI, such as redirecting to the correct home screen for the currently signed in
-     * user. If instead the following URI is interpreted
-     * <p/>
-     * <pre>
-     * http://www.example.com/myapp/home/manager
-     * </pre>
-     * <p/>
-     * then the <code>home</code> dispatcher will pass the URI token handling to its sub-mapper which is responsible for
-     * the <code>manager</code> token.
+     * where the URI action mapper for token <code>home</code> is a sub-class of {@link AbstractURIPathSegmentActionMapper}, then this
+     * mapper's action command is used as the outcome of the URI interpretation. This command could then provide some
+     * logic for the interpreted URI, such as redirecting to the correct home screen for the currently signed in
+     * user, or performing some other action.
      *
      * @param command action command to be used when interpreting a URI which points directly to this action mapper. Can be
-     *                    <code>null</code>.
+     *                <code>null</code>.
      */
     public void setActionCommand(AbstractURIActionCommand command) {
         actionCommand = command;
@@ -304,7 +300,7 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
      * @param parent the parent mapper for this action mapper
      */
     protected final void setParent(AbstractURIPathSegmentActionMapper parent) {
-        parentHandler = parent;
+        parentMapper = parent;
     }
 
     public URI getParameterizedHashbangActionURI(boolean clearParametersAfterwards) {
@@ -461,7 +457,7 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
         }
         if (buf.length() > 0)
             targetList.add(buf.toString());
-        for (AbstractURIPathSegmentActionMapper subHandler : getSubHandlerMap().values()) {
+        for (AbstractURIPathSegmentActionMapper subHandler : getSubMapperMap().values()) {
             subHandler.getActionURIOverview(targetList);
         }
     }
@@ -473,12 +469,12 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
      *
      * @return map containing a mapping of URI tokens on the corresponding sub-mappers that handle these tokens.
      */
-    protected Map<String, AbstractURIPathSegmentActionMapper> getSubHandlerMap() {
+    protected Map<String, AbstractURIPathSegmentActionMapper> getSubMapperMap() {
         return Collections.emptyMap();
     }
 
     public boolean hasSubHandlers() {
-        return !getSubHandlerMap().isEmpty();
+        return !getSubMapperMap().isEmpty();
     }
 
     protected void setSubhandlersActionURI(AbstractURIPathSegmentActionMapper subHandler) {
@@ -489,8 +485,8 @@ public abstract class AbstractURIPathSegmentActionMapper implements URIPathSegme
     }
 
     protected void updateActionURIs() {
-        setActionURI(parentHandler.getActionURI() + "/" + actionName);
-        for (AbstractURIPathSegmentActionMapper subHandler : getSubHandlerMap().values()) {
+        setActionURI(parentMapper.getActionURI() + "/" + actionName);
+        for (AbstractURIPathSegmentActionMapper subHandler : getSubMapperMap().values()) {
             setSubhandlersActionURI(subHandler);
         }
     }
