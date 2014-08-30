@@ -22,8 +22,8 @@ package org.roklib.util.authorization;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.webapps.authorization.AdmissionTicket;
 import org.roklib.webapps.authorization.AdmissionTicketContainer;
-import org.roklib.webapps.authorization.IAdmissionTicket;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -31,7 +31,7 @@ import static org.junit.Assert.assertTrue;
 public class AdmissionTicketContainerTest {
     private AdmissionTicketContainer mTestObj;
 
-    private class TTicket implements IAdmissionTicket {
+    private class TTicket implements AdmissionTicket {
         private static final long serialVersionUID = -2680076196174728564L;
         private String mName;
 

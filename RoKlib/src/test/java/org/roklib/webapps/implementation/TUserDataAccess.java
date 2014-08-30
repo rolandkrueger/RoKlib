@@ -21,13 +21,13 @@
 package org.roklib.webapps.implementation;
 
 
-import org.roklib.webapps.data.access.IUserDataAccess;
+import org.roklib.webapps.data.access.UserDataAccess;
 import org.roklib.webapps.state.GenericUserState;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class TUserDataAccess implements IUserDataAccess<Long, String, TUser> {
+public class TUserDataAccess implements UserDataAccess<Long, String, TUser> {
     private static final long serialVersionUID = 329146749772283339L;
 
     public final static String UNKNOWN_USER = "unknown";
@@ -36,42 +36,42 @@ public class TUserDataAccess implements IUserDataAccess<Long, String, TUser> {
     public final static String OTHER_USER = "other";
     public final static String CONFIRMATION_PENDING_FOR_USER = "pending";
 
-    private Map<String, TUser> mUserDatabase;
+    private Map<String, TUser> userDatabase;
     public TUser persistedUser;
     public boolean transactionStarted = false;
     public boolean committed = false;
     public boolean rolledBack = false;
 
     public TUserDataAccess() {
-        mUserDatabase = new HashMap<String, TUser>();
+        userDatabase = new HashMap<String, TUser>();
         TUser user = new TUser(ACTIVE_USER, ACTIVE_USER);
         user.setState(GenericUserState.REGISTERED);
-        mUserDatabase.put(ACTIVE_USER, user);
+        userDatabase.put(ACTIVE_USER, user);
 
         user = new TUser(DEACTIVATED_USER, DEACTIVATED_USER);
         user.setState(GenericUserState.DEACTIVATED);
-        mUserDatabase.put(DEACTIVATED_USER, user);
+        userDatabase.put(DEACTIVATED_USER, user);
 
         user = new TUser(OTHER_USER, OTHER_USER);
         user.setState(GenericUserState.REGISTERED);
-        mUserDatabase.put(OTHER_USER, user);
+        userDatabase.put(OTHER_USER, user);
 
         user = new TUser(CONFIRMATION_PENDING_FOR_USER, CONFIRMATION_PENDING_FOR_USER);
         user.setState(GenericUserState.REGISTRATION_CONFIRMATION_PENDING);
-        mUserDatabase.put(CONFIRMATION_PENDING_FOR_USER, user);
+        userDatabase.put(CONFIRMATION_PENDING_FOR_USER, user);
     }
 
     public TUser getUserWithLogin(String username) {
-        return mUserDatabase.get(username);
+        return userDatabase.get(username);
     }
 
     public void persistUser(TUser user) {
         persistedUser = user;
-        mUserDatabase.put(user.getLoginName(), user);
+        userDatabase.put(user.getLoginName(), user);
     }
 
     public TUser getUserForRegistrationKey(String registrationKey) {
-        for (TUser user : mUserDatabase.values()) {
+        for (TUser user : userDatabase.values()) {
             if (user.getRegistrationStatus() != null
                     && user.getRegistrationStatus().getRegistrationKey().equals(registrationKey))
                 return user;

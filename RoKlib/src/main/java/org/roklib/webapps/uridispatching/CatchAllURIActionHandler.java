@@ -59,7 +59,7 @@ public class CatchAllURIActionHandler extends RegexURIActionHandler {
      */
     @Override
     protected boolean isResponsibleForToken(String uriToken) {
-        mMatchedTokenFragments = new String[]{uriToken};
+        matchedTokenFragments = new String[]{uriToken};
         return true;
     }
 }

@@ -21,12 +21,12 @@
 package org.roklib.webapps.actions;
 
 
-import org.roklib.webapps.actions.interfaces.IPasswordHashGenerator;
+import org.roklib.webapps.actions.interfaces.PasswordHashGenerator;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class DefaultPasswordMD5HashGenerator implements IPasswordHashGenerator {
+public class DefaultPasswordMD5HashGenerator implements PasswordHashGenerator {
     private static final long serialVersionUID = -4098113757797776880L;
 
     public String createPasswordHash(String password) {

@@ -26,47 +26,47 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class CatchAllURIActionHandlerTest {
-    private URIActionDispatcher mDispatcher;
-    private TURIActionHandler mTestActionHandler;
-    private TURIActionCommand mTestActionCommand;
-    private CatchAllURIActionHandler mCatchAllActionHandler;
-    private TURIActionCommand mCatchAllActionCommand;
-    private TURIActionHandler mLastActionHandler;
-    private TURIActionCommand mLastActionCommand;
+    private URIActionDispatcher dispatcher;
+    private TURIActionHandler testActionHandler;
+    private TURIActionCommand testActionCommand;
+    private CatchAllURIActionHandler catchAllActionHandler;
+    private TURIActionCommand catchAllActionCommand;
+    private TURIActionHandler lastActionHandler;
+    private TURIActionCommand lastActionCommand;
 
     @Before
     public void setUp() {
-        mDispatcher = new URIActionDispatcher(false);
+        dispatcher = new URIActionDispatcher(false);
 
-        mTestActionCommand = new TURIActionCommand();
-        mTestActionHandler = new TURIActionHandler("test", mTestActionCommand);
+        testActionCommand = new TURIActionCommand();
+        testActionHandler = new TURIActionHandler("test", testActionCommand);
 
-        mCatchAllActionHandler = new CatchAllURIActionHandler();
-        mCatchAllActionCommand = new TURIActionCommand();
-        mCatchAllActionHandler.setRootCommand(mCatchAllActionCommand);
+        catchAllActionHandler = new CatchAllURIActionHandler();
+        catchAllActionCommand = new TURIActionCommand();
+        catchAllActionHandler.setRootCommand(catchAllActionCommand);
 
-        mLastActionCommand = new TURIActionCommand();
-        mLastActionHandler = new TURIActionHandler("last", mLastActionCommand);
-        mCatchAllActionHandler.addSubHandler(mLastActionHandler);
+        lastActionCommand = new TURIActionCommand();
+        lastActionHandler = new TURIActionHandler("last", lastActionCommand);
+        catchAllActionHandler.addSubHandler(lastActionHandler);
 
-        mDispatcher.addHandler(mCatchAllActionHandler);
-        mDispatcher.addHandler(mTestActionHandler);
+        dispatcher.addHandler(catchAllActionHandler);
+        dispatcher.addHandler(testActionHandler);
     }
 
     @Test
     public void test() {
-        mDispatcher.handleURIAction("/test");
-        assertActionCommandWasExecuted(mTestActionCommand);
+        dispatcher.handleURIAction("/test");
+        assertActionCommandWasExecuted(testActionCommand);
         resetActionCommands();
 
-        mDispatcher.handleURIAction("/someurlfragment");
-        assertActionCommandWasExecuted(mCatchAllActionCommand);
-        assertEquals("someurlfragment", mCatchAllActionHandler.getCurrentURIToken());
+        dispatcher.handleURIAction("/someurlfragment");
+        assertActionCommandWasExecuted(catchAllActionCommand);
+        assertEquals("someurlfragment", catchAllActionHandler.getCurrentURIToken());
         resetActionCommands();
 
-        mDispatcher.handleURIAction("/anything/last");
-        assertActionCommandWasExecuted(mLastActionCommand);
-        assertEquals("anything", mCatchAllActionHandler.getCurrentURIToken());
+        dispatcher.handleURIAction("/anything/last");
+        assertActionCommandWasExecuted(lastActionCommand);
+        assertEquals("anything", catchAllActionHandler.getCurrentURIToken());
     }
 
     private void assertActionCommandWasExecuted(TURIActionCommand command) {
@@ -74,7 +74,7 @@ public class CatchAllURIActionHandlerTest {
     }
 
     private void resetActionCommands() {
-        mTestActionCommand.mExecuted = false;
-        mCatchAllActionCommand.mExecuted = false;
+        testActionCommand.mExecuted = false;
+        catchAllActionCommand.mExecuted = false;
     }
 }

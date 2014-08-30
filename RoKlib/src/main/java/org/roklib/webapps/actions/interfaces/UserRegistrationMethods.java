@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Roland Krueger
- * Created on 20.03.2010
+ * Created on 05.02.2010
  *
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -18,12 +18,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.webapps.data;
+package org.roklib.webapps.actions.interfaces;
+
+
+import org.roklib.webapps.data.usermgmt.GenericUser;
 
 import java.io.Serializable;
 
-public interface GenericPersistableObject<KeyClass> extends Serializable {
-    public KeyClass getKey();
-
-    public void setKey(KeyClass key);
+public interface UserRegistrationMethods<KeyClass, UserData, U extends GenericUser<KeyClass, UserData>> extends
+        Serializable {
+    public boolean sendRegistrationNotification(U registeredUser);
 }

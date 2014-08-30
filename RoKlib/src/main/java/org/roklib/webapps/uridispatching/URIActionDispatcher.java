@@ -21,7 +21,7 @@
 package org.roklib.webapps.uridispatching;
 
 import org.roklib.webapps.data.DownloadInfo;
-import org.roklib.webapps.uridispatching.IURIActionHandler.ParameterMode;
+import org.roklib.webapps.uridispatching.URIActionHandler.ParameterMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,24 +60,25 @@ import java.util.*;
 public class URIActionDispatcher implements Serializable {
     private static final long serialVersionUID = 7151587763812706383L;
     private static final Logger LOG = LoggerFactory.getLogger(URIActionDispatcher.class);
-    private final Map<String, List<String>> mCurrentParameters;
-    private String mRelativeUriOriginal;
-    private Map<String, String[]> mCurrentParametersOriginalValues;
-    private AbstractURIActionCommand mDefaultCommand;
-    private final DispatchingURIActionHandler mRootDispatcher;
-    private IURIActionDispatcherListener mListener;
-    private ParameterMode mParameterMode = ParameterMode.QUERY;
-    private boolean mIgnoreExclamationMark;
+
+    private final Map<String, List<String>> currentParameters;
+    private String relativeUriOriginal;
+    private Map<String, String[]> currentParametersOriginalValues;
+    private AbstractURIActionCommand defaultCommand;
+    private final DispatchingURIActionHandler rootDispatcher;
+    private URIActionDispatcherListener listener;
+    private ParameterMode parameterMode = ParameterMode.QUERY;
+    private boolean ignoreExclamationMark;
 
     public URIActionDispatcher(boolean useCaseSensitiveURIs) {
         if (useCaseSensitiveURIs) {
-            mCurrentParameters = new HashMap<String, List<String>>();
+            currentParameters = new HashMap<String, List<String>>();
         } else {
-            mCurrentParameters = new TreeMap<String, List<String>>(String.CASE_INSENSITIVE_ORDER);
+            currentParameters = new TreeMap<String, List<String>>(String.CASE_INSENSITIVE_ORDER);
         }
-        mRootDispatcher = new DispatchingURIActionHandler("");
-        mRootDispatcher.setCaseSensitive(useCaseSensitiveURIs);
-        mRootDispatcher.setParent(new AbstractURIActionHandler("") {
+        rootDispatcher = new DispatchingURIActionHandler("");
+        rootDispatcher.setCaseSensitive(useCaseSensitiveURIs);
+        rootDispatcher.setParent(new AbstractURIActionHandler("") {
             private static final long serialVersionUID = 3744506992900879054L;
 
             protected AbstractURIActionCommand handleURIImpl(List<String> uriTokens, Map<String, List<String>> parameters,
@@ -115,15 +116,15 @@ public class URIActionDispatcher implements Serializable {
      *                              ignored
      */
     public void setIgnoreExclamationMark(boolean ignoreExclamationMark) {
-        mIgnoreExclamationMark = ignoreExclamationMark;
+        this.ignoreExclamationMark = ignoreExclamationMark;
     }
 
     public boolean isCaseSensitive() {
-        return mRootDispatcher.isCaseSensitive();
+        return rootDispatcher.isCaseSensitive();
     }
 
     public void setCaseSensitive(boolean caseSensitive) {
-        mRootDispatcher.setCaseSensitive(caseSensitive);
+        rootDispatcher.setCaseSensitive(caseSensitive);
     }
 
     /**
@@ -138,11 +139,11 @@ public class URIActionDispatcher implements Serializable {
      * @see #addHandler(AbstractURIActionHandler)
      */
     public DispatchingURIActionHandler getRootActionHandler() {
-        return mRootDispatcher;
+        return rootDispatcher;
     }
 
-    public void setURIActionDispatcherListener(IURIActionDispatcherListener listener) {
-        mListener = listener;
+    public void setURIActionDispatcherListener(URIActionDispatcherListener listener) {
+        this.listener = listener;
     }
 
     /**
@@ -153,7 +154,7 @@ public class URIActionDispatcher implements Serializable {
      * @param defaultCommand command to be executed for an unknown relative URI, may be <code>null</code>
      */
     public void setDefaultCommand(AbstractURIActionCommand defaultCommand) {
-        mDefaultCommand = defaultCommand;
+        this.defaultCommand = defaultCommand;
     }
 
     /**
@@ -163,25 +164,25 @@ public class URIActionDispatcher implements Serializable {
      * @return
      */
     protected Map<String, List<String>> getParameters() {
-        return mCurrentParameters;
+        return currentParameters;
     }
 
     /**
      * Clears the set of parameter values that has been set with {@link #handleParameters(Map)}.
      */
     public void clearParameters() {
-        mCurrentParameters.clear();
+        currentParameters.clear();
     }
 
     public void handleParameters(Map<String, String[]> parameters) {
         if (parameters == null)
             return;
-        mCurrentParameters.clear();
-        mCurrentParametersOriginalValues = parameters;
+        currentParameters.clear();
+        currentParametersOriginalValues = parameters;
         for (String key : parameters.keySet()) {
             List<String> params = new ArrayList<String>(Arrays.asList(parameters.get(key)));
             if (!params.isEmpty())
-                mCurrentParameters.put(key, params);
+                currentParameters.put(key, params);
         }
     }
 
@@ -191,7 +192,7 @@ public class URIActionDispatcher implements Serializable {
      * @param parameterMode {@link ParameterMode} which will be used by {@link #handleURIAction(String)}
      */
     public void setParameterMode(ParameterMode parameterMode) {
-        mParameterMode = parameterMode;
+        this.parameterMode = parameterMode;
     }
 
     /**
@@ -201,7 +202,7 @@ public class URIActionDispatcher implements Serializable {
      * @see #handleURIAction(String, ParameterMode)
      */
     public DownloadInfo handleURIAction(String relativeUri) {
-        return handleURIAction(relativeUri, mParameterMode);
+        return handleURIAction(relativeUri, parameterMode);
     }
 
     /**
@@ -218,51 +219,51 @@ public class URIActionDispatcher implements Serializable {
     public DownloadInfo handleURIAction(String relativeUri, ParameterMode parameterMode) {
         AbstractURIActionCommand action = getActionForURI(relativeUri, parameterMode);
         if (action == null) {
-            LOG.info("No registered URI action handler for: " + mRelativeUriOriginal + "?" + mCurrentParameters);
-            if (mDefaultCommand != null) {
-                mDefaultCommand.execute();
+            LOG.info("No registered URI action handler for: " + relativeUriOriginal + "?" + currentParameters);
+            if (defaultCommand != null) {
+                defaultCommand.execute();
             }
             return null;
         } else {
             action.execute();
-            if (mListener != null) {
-                mListener.handleURIActionCommand(action);
+            if (listener != null) {
+                listener.handleURIActionCommand(action);
             }
             return action.getDownloadStream();
         }
     }
 
     public AbstractURIActionCommand getActionForURI(String relativeUri) {
-        return getActionForURI(relativeUri, mParameterMode);
+        return getActionForURI(relativeUri, parameterMode);
     }
 
     public AbstractURIActionCommand getActionForURI(String relativeUri, ParameterMode parameterMode) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Finding action for URI '" + relativeUri + "'");
         }
-        mRelativeUriOriginal = relativeUri;
+        relativeUriOriginal = relativeUri;
 
         ignoreSlashAtBeginningOfRelativeURI();
         ignoreExclamationMarkIfNecessary();
 
-        List<String> uriTokens = new ArrayList<String>(Arrays.asList(mRelativeUriOriginal.split("/")));
+        List<String> uriTokens = new ArrayList<String>(Arrays.asList(relativeUriOriginal.split("/")));
 
         if (LOG.isTraceEnabled()) {
-            LOG.trace(String.format("Dispatching URI: '%s', params: '%s'", mRelativeUriOriginal, mCurrentParameters));
+            LOG.trace(String.format("Dispatching URI: '%s', params: '%s'", relativeUriOriginal, currentParameters));
         }
 
-        return mRootDispatcher.handleURI(uriTokens, mCurrentParameters, parameterMode);
+        return rootDispatcher.handleURI(uriTokens, currentParameters, parameterMode);
     }
 
     private void ignoreExclamationMarkIfNecessary() {
-        if (mIgnoreExclamationMark && mRelativeUriOriginal.startsWith("!")) {
-            mRelativeUriOriginal = mRelativeUriOriginal.substring(1);
+        if (ignoreExclamationMark && relativeUriOriginal.startsWith("!")) {
+            relativeUriOriginal = relativeUriOriginal.substring(1);
         }
     }
 
     private void ignoreSlashAtBeginningOfRelativeURI() {
-        if (mRelativeUriOriginal.startsWith("/")) {
-            mRelativeUriOriginal = mRelativeUriOriginal.substring(1);
+        if (relativeUriOriginal.startsWith("/")) {
+            relativeUriOriginal = relativeUriOriginal.substring(1);
         }
     }
 
@@ -271,12 +272,12 @@ public class URIActionDispatcher implements Serializable {
      * {@link #handleURIAction(String, ParameterMode)} is called.
      */
     public String getCurrentlyHandledURI() {
-        return mRelativeUriOriginal;
+        return relativeUriOriginal;
     }
 
     public DownloadInfo replayCurrentAction() {
-        handleParameters(mCurrentParametersOriginalValues);
-        return handleURIAction(mRelativeUriOriginal);
+        handleParameters(currentParametersOriginalValues);
+        return handleURIAction(relativeUriOriginal);
     }
 
     /**

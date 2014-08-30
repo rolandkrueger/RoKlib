@@ -24,40 +24,40 @@ import java.io.InputStream;
 import java.io.Serializable;
 
 public class DownloadInfo implements Serializable {
-    private InputStream mDataStream;
-    private String mFilename;
-    private String mContentType;
+    private InputStream dataStream;
+    private String filename;
+    private String contentType;
 
     public DownloadInfo() {
     }
 
     public DownloadInfo(InputStream pDataStream, String pFilename, String pContentType) {
-        mDataStream = pDataStream;
-        mFilename = pFilename;
-        mContentType = pContentType;
+        dataStream = pDataStream;
+        filename = pFilename;
+        contentType = pContentType;
     }
 
     public InputStream getDataStream() {
-        return mDataStream;
+        return dataStream;
     }
 
     public void setDataStream(InputStream pDataStream) {
-        mDataStream = pDataStream;
+        dataStream = pDataStream;
     }
 
     public String getFilename() {
-        return mFilename;
+        return filename;
     }
 
     public void setFilename(String pFilename) {
-        mFilename = pFilename;
+        filename = pFilename;
     }
 
     public String getContentType() {
-        return mContentType;
+        return contentType;
     }
 
     public void setContentType(String pContentType) {
-        mContentType = pContentType;
+        contentType = pContentType;
     }
 }

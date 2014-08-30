@@ -53,7 +53,7 @@ public class SingleFloatURIParameter extends AbstractSingleURIParameter<Float> {
             setValue(Float.valueOf(stringValue));
             return true;
         } catch (NumberFormatException nfExc) {
-            mError = EnumURIParameterErrors.CONVERSION_ERROR;
+            error = EnumURIParameterErrors.CONVERSION_ERROR;
             return false;
         }
     }

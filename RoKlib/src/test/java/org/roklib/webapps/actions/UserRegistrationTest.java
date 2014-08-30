@@ -32,71 +32,71 @@ import org.roklib.webapps.state.GenericUserState;
 import static org.junit.Assert.*;
 
 public class UserRegistrationTest {
-    private UserRegistration<Long, String, TUser> mTestObj;
-    private TUserRegistrationMethods mUserRegistrationMethods;
-    private TUserDataAccess mUserDataAccess;
+    private UserRegistration<Long, String, TUser> testObj;
+    private TUserRegistrationMethods userRegistrationMethods;
+    private TUserDataAccess userDataAccess;
 
     @Before
     public void setUp() {
-        mUserDataAccess = new TUserDataAccess();
-        mUserRegistrationMethods = new TUserRegistrationMethods();
-        mTestObj = new UserRegistration<Long, String, TUser>(mUserDataAccess, mUserRegistrationMethods);
+        userDataAccess = new TUserDataAccess();
+        userRegistrationMethods = new TUserRegistrationMethods();
+        testObj = new UserRegistration<Long, String, TUser>(userDataAccess, userRegistrationMethods);
     }
 
     @Test
     public void testRegisterNewUser() {
         TUser user = new TUser("newuser", "password");
-        RegistrationOutcome result = mTestObj.registerNewUser(user);
+        RegistrationOutcome result = testObj.registerNewUser(user);
         assertEquals(RegistrationOutcome.OK, result);
-        assertTrue(mUserRegistrationMethods.registrationSent);
-        assertTrue(user == mUserDataAccess.persistedUser);
-        assertTrue(mUserDataAccess.transactionStarted);
-        assertTrue(mUserDataAccess.committed);
+        assertTrue(userRegistrationMethods.registrationSent);
+        assertTrue(user == userDataAccess.persistedUser);
+        assertTrue(userDataAccess.transactionStarted);
+        assertTrue(userDataAccess.committed);
         assertNotNull(user.getRegistrationStatus().getRegistrationKey());
         assertTrue(user.getState().hasState(GenericUserState.REGISTRATION_CONFIRMATION_PENDING));
     }
 
     @Test
     public void testRegisterNewUser_ErrorDuringRegistration() {
-        mUserRegistrationMethods.setSendRegistrationSuccessful(false);
+        userRegistrationMethods.setSendRegistrationSuccessful(false);
         TUser user = new TUser("newuser", "password");
-        RegistrationOutcome result = mTestObj.registerNewUser(user);
+        RegistrationOutcome result = testObj.registerNewUser(user);
         assertEquals(RegistrationOutcome.ERROR_DURING_REGISTRATION, result);
-        assertTrue(mUserDataAccess.rolledBack);
-        assertNull(mUserDataAccess.persistedUser);
+        assertTrue(userDataAccess.rolledBack);
+        assertNull(userDataAccess.persistedUser);
         assertNull(user.getRegistrationStatus());
     }
 
     @Test
     public void testRegisterNewUser_UserNameExists() {
         TUser user = new TUser("active", "password");
-        RegistrationOutcome result = mTestObj.registerNewUser(user);
+        RegistrationOutcome result = testObj.registerNewUser(user);
         assertEquals(RegistrationOutcome.USERNAME_ALREADY_REGISTERED, result);
-        assertFalse(mUserRegistrationMethods.registrationSent);
-        assertFalse(mUserDataAccess.transactionStarted);
-        assertNull(mUserDataAccess.persistedUser);
+        assertFalse(userRegistrationMethods.registrationSent);
+        assertFalse(userDataAccess.transactionStarted);
+        assertNull(userDataAccess.persistedUser);
         assertNull(user.getRegistrationStatus());
     }
 
     @Test
     public void testCompleteRegistration() {
         TUser user = new TUser("newuser", "password");
-        mTestObj.registerNewUser(user);
-        UserRegistration<Long, String, TUser>.RegistrationConfirmationResult result = mTestObj.completeRegistration(user
+        testObj.registerNewUser(user);
+        UserRegistration<Long, String, TUser>.RegistrationConfirmationResult result = testObj.completeRegistration(user
                 .getRegistrationStatus().getRegistrationKey());
         assertEquals(RegistrationConfirmationOutcome.OK, result.getOutcome());
         assertTrue(user.getState().hasState(GenericUserState.REGISTERED));
         assertTrue(user == result.getUser());
-        assertTrue(mUserDataAccess.transactionStarted);
-        assertTrue(mUserDataAccess.committed);
+        assertTrue(userDataAccess.transactionStarted);
+        assertTrue(userDataAccess.committed);
     }
 
     @Test
     public void testCompleteRegistration_Fail() {
-        UserRegistration<Long, String, TUser>.RegistrationConfirmationResult result = mTestObj
+        UserRegistration<Long, String, TUser>.RegistrationConfirmationResult result = testObj
                 .completeRegistration("unknown_key");
         assertEquals(RegistrationConfirmationOutcome.REGISTRATION_KEY_UNKNOWN, result.getOutcome());
         assertNull(result.getUser());
-        assertFalse(mUserDataAccess.transactionStarted);
+        assertFalse(userDataAccess.transactionStarted);
     }
 }

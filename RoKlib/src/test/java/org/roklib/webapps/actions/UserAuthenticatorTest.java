@@ -30,16 +30,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class UserAuthenticatorTest {
-    private UserAuthenticator<Long, String, TUser> mTestObj;
+    private UserAuthenticator<Long, String, TUser> testObj;
 
     @Before
     public void setUp() {
-        mTestObj = new UserAuthenticator<Long, String, TUser>(new TUserDataAccess());
+        testObj = new UserAuthenticator<Long, String, TUser>(new TUserDataAccess());
     }
 
     @Test
     public void testSuccessfulAuthentication() {
-        UserAuthenticator<Long, String, TUser>.AuthenticationResult result = mTestObj.authenticate(
+        UserAuthenticator<Long, String, TUser>.AuthenticationResult result = testObj.authenticate(
                 TUserDataAccess.ACTIVE_USER, TUserDataAccess.ACTIVE_USER);
         assertEquals(AuthenticationOutcome.USER_AUTHENTICATED, result.getOutcome());
         assertEquals(TUserDataAccess.ACTIVE_USER, result.getUser().getLoginName());
@@ -47,7 +47,7 @@ public class UserAuthenticatorTest {
 
     @Test
     public void testIncorrectPassword() {
-        UserAuthenticator<Long, String, TUser>.AuthenticationResult result = mTestObj.authenticate(
+        UserAuthenticator<Long, String, TUser>.AuthenticationResult result = testObj.authenticate(
                 TUserDataAccess.ACTIVE_USER, "inc0rrect");
         assertEquals(AuthenticationOutcome.INCORRECT_PASSWORD, result.getOutcome());
         assertEquals(TUserDataAccess.ACTIVE_USER, result.getUser().getLoginName());
@@ -55,7 +55,7 @@ public class UserAuthenticatorTest {
 
     @Test
     public void testUnknownUser() {
-        UserAuthenticator<Long, String, TUser>.AuthenticationResult result = mTestObj.authenticate(
+        UserAuthenticator<Long, String, TUser>.AuthenticationResult result = testObj.authenticate(
                 TUserDataAccess.UNKNOWN_USER, "somePassword");
         assertEquals(AuthenticationOutcome.UNKNOWN_USER, result.getOutcome());
         assertNull(result.getUser());
@@ -63,7 +63,7 @@ public class UserAuthenticatorTest {
 
     @Test
     public void testUserWithConfirmationPending() {
-        UserAuthenticator<Long, String, TUser>.AuthenticationResult result = mTestObj.authenticate(
+        UserAuthenticator<Long, String, TUser>.AuthenticationResult result = testObj.authenticate(
                 TUserDataAccess.CONFIRMATION_PENDING_FOR_USER, TUserDataAccess.CONFIRMATION_PENDING_FOR_USER);
         assertEquals(AuthenticationOutcome.CONFIRMATION_PENDING_FOR_USER, result.getOutcome());
         assertEquals(TUserDataAccess.CONFIRMATION_PENDING_FOR_USER, result.getUser().getLoginName());
@@ -71,7 +71,7 @@ public class UserAuthenticatorTest {
 
     @Test
     public void testDeactivatedUser() {
-        UserAuthenticator<Long, String, TUser>.AuthenticationResult result = mTestObj.authenticate(
+        UserAuthenticator<Long, String, TUser>.AuthenticationResult result = testObj.authenticate(
                 TUserDataAccess.DEACTIVATED_USER, TUserDataAccess.DEACTIVATED_USER);
         assertEquals(AuthenticationOutcome.USER_DEACTIVATED, result.getOutcome());
         assertEquals(TUserDataAccess.DEACTIVATED_USER, result.getUser().getLoginName());

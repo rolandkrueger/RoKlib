@@ -20,14 +20,14 @@
  */
 package org.roklib.webapps.data.usermgmt;
 
-import org.roklib.webapps.authorization.IAdmissionTicket;
-import org.roklib.webapps.data.GenericPersistableObject;
+import org.roklib.webapps.authorization.AdmissionTicket;
+import org.roklib.webapps.data.GenericPersistableObjectImpl;
 
-public class UserRole<KeyClass> extends GenericPersistableObject<KeyClass> implements IAdmissionTicket {
+public class UserRole<KeyClass> extends GenericPersistableObjectImpl<KeyClass> implements AdmissionTicket {
     private static final long serialVersionUID = 467091219897410434L;
 
-    private String mRoleName;
-    private String mDescription;
+    private String roleName;
+    private String description;
 
     public UserRole() {
         super();
@@ -47,23 +47,23 @@ public class UserRole<KeyClass> extends GenericPersistableObject<KeyClass> imple
     }
 
     public void setName(String roleName) {
-        mRoleName = roleName;
+        this.roleName = roleName;
     }
 
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     public void setDescription(String description) {
-        mDescription = description;
+        this.description = description;
     }
 
     @Override
     public String toString() {
-        return mRoleName;
+        return roleName;
     }
 
     public String getName() {
-        return mRoleName;
+        return roleName;
     }
 }

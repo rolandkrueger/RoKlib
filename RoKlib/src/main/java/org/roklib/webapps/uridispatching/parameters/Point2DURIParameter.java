@@ -34,17 +34,17 @@ import java.util.Map;
 public class Point2DURIParameter extends AbstractURIParameter<Point2D.Double> {
     private static final long serialVersionUID = -8452255745085323681L;
 
-    private final List<String> mParameterNames;
-    private final SingleDoubleURIParameter mXURIParameter;
-    private final SingleDoubleURIParameter mYURIParameter;
+    private final List<String> parameterNames;
+    private final SingleDoubleURIParameter xURIParameter;
+    private final SingleDoubleURIParameter yURIParameter;
 
     public Point2DURIParameter(String xParamName, String yParamName) {
         CheckForNull.check(xParamName, yParamName);
-        mParameterNames = new ArrayList<String>(2);
-        mParameterNames.add(xParamName);
-        mParameterNames.add(yParamName);
-        mXURIParameter = new SingleDoubleURIParameter(xParamName);
-        mYURIParameter = new SingleDoubleURIParameter(yParamName);
+        parameterNames = new ArrayList<String>(2);
+        parameterNames.add(xParamName);
+        parameterNames.add(yParamName);
+        xURIParameter = new SingleDoubleURIParameter(xParamName);
+        yURIParameter = new SingleDoubleURIParameter(yParamName);
     }
 
     public AbstractURIActionCommand getErrorCommandIfInvalid() {
@@ -52,10 +52,10 @@ public class Point2DURIParameter extends AbstractURIParameter<Point2D.Double> {
     }
 
     public void parameterizeURIHandler(AbstractURIActionHandler handler) {
-        mXURIParameter.setValue(getValue().getX());
-        mYURIParameter.setValue(getValue().getY());
-        mXURIParameter.parameterizeURIHandler(handler);
-        mYURIParameter.parameterizeURIHandler(handler);
+        xURIParameter.setValue(getValue().getX());
+        yURIParameter.setValue(getValue().getY());
+        xURIParameter.parameterizeURIHandler(handler);
+        yURIParameter.parameterizeURIHandler(handler);
     }
 
     public int getSingleValueCount() {
@@ -63,15 +63,15 @@ public class Point2DURIParameter extends AbstractURIParameter<Point2D.Double> {
     }
 
     public List<String> getParameterNames() {
-        return mParameterNames;
+        return parameterNames;
     }
 
     @Override
     protected boolean consumeImpl(Map<String, List<String>> parameters) {
-        boolean result = mXURIParameter.consume(parameters);
-        result &= mYURIParameter.consume(parameters);
+        boolean result = xURIParameter.consume(parameters);
+        result &= yURIParameter.consume(parameters);
         if (result) {
-            setValue(new Point2D.Double(mXURIParameter.getValue(), mYURIParameter.getValue()));
+            setValue(new Point2D.Double(xURIParameter.getValue(), yURIParameter.getValue()));
         }
         return result;
     }
@@ -80,10 +80,10 @@ public class Point2DURIParameter extends AbstractURIParameter<Point2D.Double> {
     protected boolean consumeListImpl(String[] values) {
         if (values == null || values.length != 2)
             return false;
-        boolean result = mXURIParameter.consumeList(Arrays.copyOfRange(values, 0, 1));
-        result &= mYURIParameter.consumeList(Arrays.copyOfRange(values, 1, 2));
+        boolean result = xURIParameter.consumeList(Arrays.copyOfRange(values, 0, 1));
+        result &= yURIParameter.consumeList(Arrays.copyOfRange(values, 1, 2));
         if (result) {
-            setValue(new Point2D.Double(mXURIParameter.getValue(), mYURIParameter.getValue()));
+            setValue(new Point2D.Double(xURIParameter.getValue(), yURIParameter.getValue()));
         }
         return result;
     }

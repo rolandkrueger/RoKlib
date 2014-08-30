@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2007 Roland Krueger
- * Created on 20.03.2010
+ * Copyright (C) 2007 - 2010 Roland Krueger
+ * Created on 08.04.2010
  *
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -18,12 +18,17 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.webapps.data;
+package org.roklib.webapps.uridispatching;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
-public interface GenericPersistableObject<KeyClass> extends Serializable {
-    public KeyClass getKey();
+public interface URIActionHandler extends Serializable {
+    public enum ParameterMode {
+        QUERY, DIRECTORY, DIRECTORY_WITH_NAMES
+    }
 
-    public void setKey(KeyClass key);
+    public abstract AbstractURIActionCommand handleURI(List<String> uriTokens, Map<String, List<String>> parameters,
+                                                       ParameterMode parameterMode);
 }

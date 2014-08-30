@@ -33,9 +33,8 @@ import java.util.TreeMap;
 public class DispatchingURIActionHandler extends AbstractURIActionHandler {
     private static final long serialVersionUID = -777810072366030611L;
 
-    private AbstractURIActionCommand mRootCommand;
-
-    private Map<String, AbstractURIActionHandler> mSubHandlers;
+    private AbstractURIActionCommand rootCommand;
+    private Map<String, AbstractURIActionHandler> subHandlers;
 
     /**
      * Create a dispatching action handler with the provided action name. The action name is the part of the URI that is
@@ -73,14 +72,14 @@ public class DispatchingURIActionHandler extends AbstractURIActionHandler {
      *                    <code>null</code>.
      */
     public void setRootCommand(AbstractURIActionCommand rootCommand) {
-        mRootCommand = rootCommand;
+        this.rootCommand = rootCommand;
     }
 
     @Override
     protected AbstractURIActionCommand handleURIImpl(List<String> uriTokens, Map<String, List<String>> parameters,
                                                      ParameterMode parameterMode) {
         if (uriTokens == null || uriTokens.isEmpty() || "".equals(uriTokens.get(0))) {
-            return mRootCommand;
+            return rootCommand;
         }
         String currentActionName = uriTokens.remove(0);
         return forwardToSubHandler(currentActionName, uriTokens, parameters, parameterMode);
@@ -151,13 +150,13 @@ public class DispatchingURIActionHandler extends AbstractURIActionHandler {
      */
     public final void addSubHandler(AbstractURIActionHandler subHandler) {
         CheckForNull.check(subHandler);
-        if (subHandler.mParentHandler != null)
+        if (subHandler.parentHandler != null)
             throw new IllegalArgumentException(String.format("This sub-handler instance has "
-                            + "already been added to another action handler. This handler = '%s'; sub-handler = '%s'", mActionName,
-                    subHandler.mActionName));
-        subHandler.mParentHandler = this;
+                            + "already been added to another action handler. This handler = '%s'; sub-handler = '%s'", actionName,
+                    subHandler.actionName));
+        subHandler.parentHandler = this;
         setSubhandlersActionURI(subHandler);
-        getSubHandlerMap().put(subHandler.mActionName, subHandler);
+        getSubHandlerMap().put(subHandler.actionName, subHandler);
         subHandler.setCaseSensitive(isCaseSensitive());
     }
 
@@ -169,22 +168,22 @@ public class DispatchingURIActionHandler extends AbstractURIActionHandler {
     @Override
     protected void setCaseSensitive(boolean caseSensitive) {
         super.setCaseSensitive(caseSensitive);
-        if (isCaseSensitive() & mSubHandlers != null) {
+        if (isCaseSensitive() & subHandlers != null) {
             rebuildSubhandlerMap(caseSensitive);
-            for (AbstractURIActionHandler subhandler : mSubHandlers.values()) {
+            for (AbstractURIActionHandler subhandler : subHandlers.values()) {
                 subhandler.setCaseSensitive(caseSensitive);
             }
         }
     }
 
     private void rebuildSubhandlerMap(boolean caseSensitive) {
-        Map<String, AbstractURIActionHandler> subHandlers = mSubHandlers;
-        mSubHandlers = null;
-        mSubHandlers = getSubHandlerMap();
+        Map<String, AbstractURIActionHandler> subHandlers = this.subHandlers;
+        this.subHandlers = null;
+        this.subHandlers = getSubHandlerMap();
 
         for (AbstractURIActionHandler subHandler : subHandlers.values()) {
             String actionName = caseSensitive ? subHandler.getActionName() : subHandler.getCaseInsensitiveActionName();
-            mSubHandlers.put(actionName, subHandler);
+            this.subHandlers.put(actionName, subHandler);
         }
     }
 
@@ -192,13 +191,13 @@ public class DispatchingURIActionHandler extends AbstractURIActionHandler {
      * {@inheritDoc}
      */
     protected Map<String, AbstractURIActionHandler> getSubHandlerMap() {
-        if (mSubHandlers == null) {
+        if (subHandlers == null) {
             if (!isCaseSensitive()) {
-                mSubHandlers = new TreeMap<String, AbstractURIActionHandler>(String.CASE_INSENSITIVE_ORDER);
+                subHandlers = new TreeMap<String, AbstractURIActionHandler>(String.CASE_INSENSITIVE_ORDER);
             } else {
-                mSubHandlers = new HashMap<String, AbstractURIActionHandler>(4);
+                subHandlers = new HashMap<String, AbstractURIActionHandler>(4);
             }
         }
-        return mSubHandlers;
+        return subHandlers;
     }
 }

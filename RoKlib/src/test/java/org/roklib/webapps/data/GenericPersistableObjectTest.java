@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 public class GenericPersistableObjectTest {
     @Test
     public void testSetID() {
-        GenericPersistableObject<Long> testObj = new GenericPersistableObject<Long>();
+        GenericPersistableObjectImpl<Long> testObj = new GenericPersistableObjectImpl<Long>();
         testObj.setKey(12345L);
         assertThat(testObj.getKey(), equalTo(12345L));
         Long id = new Long(23L);

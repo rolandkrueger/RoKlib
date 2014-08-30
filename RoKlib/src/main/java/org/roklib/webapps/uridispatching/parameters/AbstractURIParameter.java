@@ -27,31 +27,31 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractURIParameter<V extends Serializable> implements IURIParameter<V> {
+public abstract class AbstractURIParameter<V extends Serializable> implements URIParameter<V> {
     private static final long serialVersionUID = 2304452724109724238L;
 
-    protected EnumURIParameterErrors mError;
-    protected V mValue;
-    private V mDefaultValue = null;
-    private boolean mOptional = false;
+    protected EnumURIParameterErrors error;
+    protected V value;
+    private V defaultValue = null;
+    private boolean optional = false;
 
     protected abstract boolean consumeImpl(Map<String, List<String>> parameters);
 
     protected abstract boolean consumeListImpl(String[] values);
 
     public AbstractURIParameter() {
-        mError = EnumURIParameterErrors.NO_ERROR;
+        error = EnumURIParameterErrors.NO_ERROR;
     }
 
     public final boolean consume(Map<String, List<String>> parameters) {
-        mError = EnumURIParameterErrors.NO_ERROR;
+        error = EnumURIParameterErrors.NO_ERROR;
         boolean result = consumeImpl(parameters);
         postConsume();
         return result;
     }
 
     public boolean consumeList(String[] values) {
-        mError = EnumURIParameterErrors.NO_ERROR;
+        error = EnumURIParameterErrors.NO_ERROR;
         boolean result = consumeListImpl(values);
         postConsume();
         return result;
@@ -59,29 +59,29 @@ public abstract class AbstractURIParameter<V extends Serializable> implements IU
 
     private void postConsume() {
         if (!hasValue())
-            mValue = mDefaultValue;
-        if (!hasValue() && !mOptional && mError == EnumURIParameterErrors.NO_ERROR)
-            mError = EnumURIParameterErrors.PARAMETER_NOT_FOUND;
+            value = defaultValue;
+        if (!hasValue() && !optional && error == EnumURIParameterErrors.NO_ERROR)
+            error = EnumURIParameterErrors.PARAMETER_NOT_FOUND;
     }
 
     public void setDefaultValue(V defaultValue) {
-        mDefaultValue = defaultValue;
+        this.defaultValue = defaultValue;
     }
 
     protected void setError(EnumURIParameterErrors error) {
-        mError = error;
+        this.error = error;
     }
 
     public EnumURIParameterErrors getError() {
-        return mError;
+        return error;
     }
 
     public V getValue() {
-        return mValue;
+        return value;
     }
 
     public void setValue(V value) {
-        mValue = value;
+        this.value = value;
     }
 
     public void setValueAndParameterizeURIHandler(V value, AbstractURIActionHandler handler) {
@@ -90,19 +90,19 @@ public abstract class AbstractURIParameter<V extends Serializable> implements IU
     }
 
     public void clearValue() {
-        mError = EnumURIParameterErrors.NO_ERROR;
-        mValue = null;
+        error = EnumURIParameterErrors.NO_ERROR;
+        value = null;
     }
 
     public boolean hasValue() {
-        return mError == EnumURIParameterErrors.NO_ERROR && mValue != null;
+        return error == EnumURIParameterErrors.NO_ERROR && value != null;
     }
 
     public void setOptional(boolean optional) {
-        mOptional = optional;
+        this.optional = optional;
     }
 
     public boolean isOptional() {
-        return mOptional;
+        return optional;
     }
 }

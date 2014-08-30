@@ -35,7 +35,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public abstract class AbstractSingleURIParameterTest<V extends Serializable> extends AbstractURIParameterTest<V> {
-    private AbstractSingleURIParameter<V> mTestSingleURIParameter;
+    private AbstractSingleURIParameter<V> testSingleURIParameter;
 
     public abstract AbstractSingleURIParameter<V> getTestSingleURIParameter(String parameterName);
 
@@ -44,7 +44,7 @@ public abstract class AbstractSingleURIParameterTest<V extends Serializable> ext
     @Before
     public void setUp() {
         super.setUp();
-        mTestSingleURIParameter = getTestSingleURIParameter("test");
+        testSingleURIParameter = getTestSingleURIParameter("test");
     }
 
     public AbstractURIParameter<V> getTestURIParameter() {
@@ -54,9 +54,9 @@ public abstract class AbstractSingleURIParameterTest<V extends Serializable> ext
     public void testConsume(String testValue) {
         Map<String, List<String>> parameters = new HashMap<String, List<String>>();
         parameters.put("test", Arrays.asList(testValue));
-        mTestSingleURIParameter.consume(parameters);
-        assertEquals(EnumURIParameterErrors.NO_ERROR, mTestSingleURIParameter.getError());
-        assertEquals(getTestValue(), mTestSingleURIParameter.getValue());
+        testSingleURIParameter.consume(parameters);
+        assertEquals(EnumURIParameterErrors.NO_ERROR, testSingleURIParameter.getError());
+        assertEquals(getTestValue(), testSingleURIParameter.getValue());
     }
 
     @Test
@@ -65,9 +65,9 @@ public abstract class AbstractSingleURIParameterTest<V extends Serializable> ext
     }
 
     public void testConsumeList(String value) {
-        mTestSingleURIParameter.consumeList(new String[]{value});
-        assertEquals(EnumURIParameterErrors.NO_ERROR, mTestSingleURIParameter.getError());
-        assertEquals(getTestValue(), mTestSingleURIParameter.getValue());
+        testSingleURIParameter.consumeList(new String[]{value});
+        assertEquals(EnumURIParameterErrors.NO_ERROR, testSingleURIParameter.getError());
+        assertEquals(getTestValue(), testSingleURIParameter.getValue());
     }
 
     @Test
@@ -79,32 +79,32 @@ public abstract class AbstractSingleURIParameterTest<V extends Serializable> ext
     public void testConsumeFail() {
         Map<String, List<String>> parameters = new HashMap<String, List<String>>();
         parameters.put("test", Arrays.asList("xxx"));
-        mTestSingleURIParameter.consume(parameters);
-        assertEquals(EnumURIParameterErrors.CONVERSION_ERROR, mTestSingleURIParameter.getError());
+        testSingleURIParameter.consume(parameters);
+        assertEquals(EnumURIParameterErrors.CONVERSION_ERROR, testSingleURIParameter.getError());
 
         parameters.clear();
-        mTestSingleURIParameter.consume(parameters);
-        assertEquals(EnumURIParameterErrors.PARAMETER_NOT_FOUND, mTestSingleURIParameter.getError());
+        testSingleURIParameter.consume(parameters);
+        assertEquals(EnumURIParameterErrors.PARAMETER_NOT_FOUND, testSingleURIParameter.getError());
     }
 
     @Test
     public void testParameterizeURIHandler() {
         T2URIActionHandler<V> handler = new T2URIActionHandler<V>("test", getTestValue());
-        mTestSingleURIParameter.parameterizeURIHandler(handler);
-        mTestSingleURIParameter.setValue(getTestValue());
+        testSingleURIParameter.parameterizeURIHandler(handler);
+        testSingleURIParameter.setValue(getTestValue());
         handler = new T2URIActionHandler<V>("test", null);
-        mTestSingleURIParameter.clearValue();
-        mTestSingleURIParameter.parameterizeURIHandler(handler);
+        testSingleURIParameter.clearValue();
+        testSingleURIParameter.parameterizeURIHandler(handler);
     }
 
     @Override
     public void testGetSingleValueCount() {
-        assertEquals(1, mTestSingleURIParameter.getSingleValueCount());
+        assertEquals(1, testSingleURIParameter.getSingleValueCount());
     }
 
     @Override
     public void testGetParameterNames() {
-        assertEquals(1, mTestSingleURIParameter.getParameterNames().size());
+        assertEquals(1, testSingleURIParameter.getParameterNames().size());
     }
 
     @SuppressWarnings("serial")

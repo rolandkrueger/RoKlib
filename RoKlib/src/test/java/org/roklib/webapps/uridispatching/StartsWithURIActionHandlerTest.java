@@ -27,56 +27,56 @@ import java.util.Arrays;
 import static org.junit.Assert.assertTrue;
 
 public class StartsWithURIActionHandlerTest {
-    private URIActionDispatcher mDispatcher;
-    private TURIActionHandler mTestActionHandler;
-    private TURIActionCommand mTestActionCommand;
-    private StartsWithURIActionHandler mStartsWithActionHandler;
-    private TURIActionCommand mStartsWithActionCommand;
-    private TURIActionHandler mLastActionHandler;
-    private TURIActionCommand mLastActionCommand;
+    private URIActionDispatcher dispatcher;
+    private TURIActionHandler testActionHandler;
+    private TURIActionCommand testActionCommand;
+    private StartsWithURIActionHandler startsWithActionHandler;
+    private TURIActionCommand startsWithActionCommand;
+    private TURIActionHandler lastActionHandler;
+    private TURIActionCommand lastActionCommand;
 
     @Before
     public void setUp() {
-        mDispatcher = new URIActionDispatcher(false);
+        dispatcher = new URIActionDispatcher(false);
 
-        mTestActionCommand = new TURIActionCommand();
-        mTestActionHandler = new TURIActionHandler("testhandler", mTestActionCommand);
+        testActionCommand = new TURIActionCommand();
+        testActionHandler = new TURIActionHandler("testhandler", testActionCommand);
 
-        mStartsWithActionHandler = new StartsWithURIActionHandler("test");
-        mStartsWithActionCommand = new TURIActionCommand();
-        mStartsWithActionHandler.setRootCommand(mStartsWithActionCommand);
+        startsWithActionHandler = new StartsWithURIActionHandler("test");
+        startsWithActionCommand = new TURIActionCommand();
+        startsWithActionHandler.setRootCommand(startsWithActionCommand);
 
-        mLastActionCommand = new TURIActionCommand();
-        mLastActionHandler = new TURIActionHandler("last", mLastActionCommand);
-        mStartsWithActionHandler.addSubHandler(mLastActionHandler);
+        lastActionCommand = new TURIActionCommand();
+        lastActionHandler = new TURIActionHandler("last", lastActionCommand);
+        startsWithActionHandler.addSubHandler(lastActionHandler);
 
-        mDispatcher.addHandler(mStartsWithActionHandler);
-        mDispatcher.addHandler(mTestActionHandler);
+        dispatcher.addHandler(startsWithActionHandler);
+        dispatcher.addHandler(testActionHandler);
     }
 
     @Test
     public void testDispatching() {
-        mDispatcher.handleURIAction("/testvalue/last");
-        assertActionCommandWasExecuted(mLastActionCommand);
+        dispatcher.handleURIAction("/testvalue/last");
+        assertActionCommandWasExecuted(lastActionCommand);
     }
 
     @Test
     public void testPrecedence() {
-        mDispatcher.handleURIAction("/testhandler");
-        assertActionCommandWasExecuted(mTestActionCommand);
+        dispatcher.handleURIAction("/testhandler");
+        assertActionCommandWasExecuted(testActionCommand);
     }
 
     @Test
     public void testCaseSensitive() {
-        mDispatcher.setCaseSensitive(true);
-        mDispatcher.handleURIAction("/testvalue");
+        dispatcher.setCaseSensitive(true);
+        dispatcher.handleURIAction("/testvalue");
         assertOutcome();
     }
 
     @Test
     public void testCaseInsensitive() {
-        mDispatcher.setCaseSensitive(false);
-        mDispatcher.handleURIAction("/TESTvalue");
+        dispatcher.setCaseSensitive(false);
+        dispatcher.handleURIAction("/TESTvalue");
         assertOutcome();
     }
 
@@ -86,8 +86,8 @@ public class StartsWithURIActionHandlerTest {
     }
 
     private void assertOutcome() {
-        assertActionCommandWasExecuted(mStartsWithActionCommand);
-        assertMatchedTokenFragments(mStartsWithActionHandler, new String[]{"value"});
+        assertActionCommandWasExecuted(startsWithActionCommand);
+        assertMatchedTokenFragments(startsWithActionHandler, new String[]{"value"});
     }
 
     private void assertActionCommandWasExecuted(TURIActionCommand command) {

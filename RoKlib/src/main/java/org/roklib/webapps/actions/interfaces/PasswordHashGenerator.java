@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007 Roland Krueger
- * Created on 20.03.2010
+ * Created on 29.01.2010
  *
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -18,12 +18,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.webapps.data;
+package org.roklib.webapps.actions.interfaces;
 
 import java.io.Serializable;
 
-public interface GenericPersistableObject<KeyClass> extends Serializable {
-    public KeyClass getKey();
-
-    public void setKey(KeyClass key);
+public interface PasswordHashGenerator extends Serializable {
+    public String createPasswordHash(String password);
 }

@@ -30,16 +30,16 @@ import java.util.Date;
 public class UserRegistrationStatus implements Serializable {
     private static final long serialVersionUID = 325123813003034741L;
 
-    private Date mRegisteredSince;
-    private String mRegistrationKey;
+    private Date registeredSince;
+    private String registrationKey;
 
     public UserRegistrationStatus() {
     }
 
     public UserRegistrationStatus(Date registeredSince, String registrationKey) {
         CheckForNull.check(registeredSince, registrationKey);
-        mRegisteredSince = registeredSince;
-        mRegistrationKey = registrationKey;
+        this.registeredSince = registeredSince;
+        this.registrationKey = registrationKey;
     }
 
     public UserRegistrationStatus(int registrationKeyLength) {
@@ -47,18 +47,18 @@ public class UserRegistrationStatus implements Serializable {
     }
 
     public String getRegistrationKey() {
-        return mRegistrationKey;
+        return registrationKey;
     }
 
     public void setRegistrationKey(String registrationKey) {
-        mRegistrationKey = registrationKey;
+        this.registrationKey = registrationKey;
     }
 
     public Date getRegisteredSince() {
-        return mRegisteredSince;
+        return registeredSince;
     }
 
     public void setRegisteredSince(Date registeredSince) {
-        mRegisteredSince = registeredSince;
+        this.registeredSince = registeredSince;
     }
 }

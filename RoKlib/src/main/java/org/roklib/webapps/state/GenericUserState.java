@@ -25,18 +25,18 @@ import org.roklib.state.State;
 public class GenericUserState extends State<GenericUserState> {
     private static final long serialVersionUID = 7603305865808291485L;
 
-    private final static String sPrefix = GenericUserState.class
+    private final static String PREFIX = GenericUserState.class
             .getCanonicalName();
 
     public final static StateValue<GenericUserState> UNKNOWN = new StateValue<GenericUserState>(
-            sPrefix + ".UNKNOWN");
+            PREFIX + ".UNKNOWN");
     public final static StateValue<GenericUserState> REGISTERED = new StateValue<GenericUserState>(
-            sPrefix + ".REGISTERED");
+            PREFIX + ".REGISTERED");
     public final static StateValue<GenericUserState> REGISTRATION_CONFIRMATION_PENDING = new StateValue<GenericUserState>(
-            sPrefix
+            PREFIX
                     + ".REGISTRATION_CONFIRMATION_PENDING");
     public final static StateValue<GenericUserState> DEACTIVATED = new StateValue<GenericUserState>(
-            sPrefix + ".DEACTIVATED");
+            PREFIX + ".DEACTIVATED");
 
     public GenericUserState() {
         super();
@@ -47,6 +47,6 @@ public class GenericUserState extends State<GenericUserState> {
     }
 
     public String getFullStateValueNameFor(String stateValue) {
-        return sPrefix + "." + stateValue;
+        return PREFIX + "." + stateValue;
     }
 }

@@ -26,22 +26,22 @@ import java.util.Date;
 public class UserOnlineStatus implements Serializable {
     private static final long serialVersionUID = -4054866399984707095L;
 
-    private boolean mOnline;
-    private Date mOnlineSince;
+    private boolean online;
+    private Date onlineSince;
 
     public void setOnline(boolean online) {
-        mOnline = online;
+        this.online = online;
         if (online)
-            mOnlineSince = new Date();
+            onlineSince = new Date();
         else
-            mOnlineSince = null;
+            onlineSince = null;
     }
 
     public boolean isOnline() {
-        return mOnline;
+        return online;
     }
 
     public Date getOnlineSince() {
-        return mOnlineSince;
+        return onlineSince;
     }
 }

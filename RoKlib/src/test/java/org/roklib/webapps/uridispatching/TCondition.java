@@ -24,17 +24,17 @@ import org.roklib.conditional.engine.AbstractCondition;
 
 @SuppressWarnings("serial")
 public class TCondition extends AbstractCondition {
-    private boolean mValue;
+    private boolean value;
 
     public TCondition(boolean value) {
-        mValue = value;
+        this.value = value;
     }
 
     public void setValue(boolean value) {
-        mValue = value;
+        this.value = value;
     }
 
     public boolean getBooleanValue() {
-        return mValue;
+        return value;
     }
 }

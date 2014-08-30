@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2007 Roland Krueger
- * Created on 20.03.2010
+ * Copyright (C) 2007 - 2010 Roland Krueger
+ * Created on 07.04.2010
  *
  * Author: Roland Krueger (www.rolandkrueger.info)
  *
@@ -18,12 +18,8 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.roklib.webapps.data;
+package org.roklib.webapps.uridispatching;
 
-import java.io.Serializable;
-
-public interface GenericPersistableObject<KeyClass> extends Serializable {
-    public KeyClass getKey();
-
-    public void setKey(KeyClass key);
+public interface URIActionDispatcherListener {
+    public void handleURIActionCommand(AbstractURIActionCommand command);
 }

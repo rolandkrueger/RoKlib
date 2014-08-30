@@ -31,7 +31,7 @@ import java.util.List;
 public abstract class AbstractSingleURIParameter<V extends Serializable> extends AbstractURIParameter<V> {
     private static final long serialVersionUID = -4048110873045678896L;
 
-    private final List<String> mParameterName;
+    private final List<String> parameterName;
 
     public AbstractSingleURIParameter(String parameterName, boolean optional) {
         this(parameterName);
@@ -40,12 +40,12 @@ public abstract class AbstractSingleURIParameter<V extends Serializable> extends
 
     public AbstractSingleURIParameter(String parameterName) {
         CheckForNull.check(parameterName);
-        mParameterName = new LinkedList<String>();
-        mParameterName.add(parameterName);
+        this.parameterName = new LinkedList<String>();
+        this.parameterName.add(parameterName);
     }
 
     protected String getParameterName() {
-        return mParameterName.get(0);
+        return parameterName.get(0);
     }
 
     public int getSingleValueCount() {
@@ -53,17 +53,17 @@ public abstract class AbstractSingleURIParameter<V extends Serializable> extends
     }
 
     public List<String> getParameterNames() {
-        return mParameterName;
+        return parameterName;
     }
 
     public void parameterizeURIHandler(AbstractURIActionHandler handler) {
-        if (mValue != null) {
-            handler.addActionArgument(mParameterName.get(0), mValue);
+        if (value != null) {
+            handler.addActionArgument(parameterName.get(0), value);
         }
     }
 
     @Override
     public String toString() {
-        return "{" + getClass().getSimpleName() + ": " + mParameterName.get(0) + "}";
+        return "{" + getClass().getSimpleName() + ": " + parameterName.get(0) + "}";
     }
 }

@@ -27,19 +27,19 @@ import org.roklib.webapps.data.usermgmt.UserRole;
 public class HasRole<KeyClass, UserData> implements IBooleanValueProvider {
     private static final long serialVersionUID = -3841669716191027492L;
 
-    private GenericUser<KeyClass, UserData> mUser;
-    private final UserRole<KeyClass> mRole;
+    private GenericUser<KeyClass, UserData> user;
+    private final UserRole<KeyClass> role;
 
     public HasRole(GenericUser<KeyClass, UserData> user, UserRole<KeyClass> role) {
-        mUser = user;
-        mRole = role;
+        this.user = user;
+        this.role = role;
     }
 
     public void setUser(GenericUser<KeyClass, UserData> user) {
-        mUser = user;
+        this.user = user;
     }
 
     public boolean getBooleanValue() {
-        return !(mUser == null || mRole == null) && mUser.hasRole(mRole);
+        return !(user == null || role == null) && user.hasRole(role);
     }
 }

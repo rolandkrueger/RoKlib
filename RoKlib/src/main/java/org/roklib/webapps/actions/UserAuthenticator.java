@@ -22,7 +22,7 @@ package org.roklib.webapps.actions;
 
 
 import org.roklib.util.helper.CheckForNull;
-import org.roklib.webapps.data.access.IUserDataAccess;
+import org.roklib.webapps.data.access.UserDataAccess;
 import org.roklib.webapps.data.usermgmt.GenericUser;
 import org.roklib.webapps.state.GenericUserState;
 
@@ -56,16 +56,16 @@ public class UserAuthenticator<KeyClass, UserData, U extends GenericUser<KeyClas
         }
     }
 
-    private final IUserDataAccess<KeyClass, UserData, U> mDataAccess;
+    private final UserDataAccess<KeyClass, UserData, U> dataAccess;
 
-    public UserAuthenticator(IUserDataAccess<KeyClass, UserData, U> dataAccess) {
+    public UserAuthenticator(UserDataAccess<KeyClass, UserData, U> dataAccess) {
         CheckForNull.check(dataAccess);
-        mDataAccess = dataAccess;
+        this.dataAccess = dataAccess;
     }
 
     public AuthenticationResult authenticate(String userLogin, String password) {
         CheckForNull.check(userLogin, password);
-        U user = mDataAccess.getUserWithLogin(userLogin);
+        U user = dataAccess.getUserWithLogin(userLogin);
         if (user == null)
             return new AuthenticationResult(null, AuthenticationOutcome.UNKNOWN_USER);
         GenericUserState userState = user.getState();

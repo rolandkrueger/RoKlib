@@ -53,7 +53,7 @@ public class SingleDoubleURIParameter extends AbstractSingleURIParameter<Double>
             setValue(Double.valueOf(stringValue));
             return true;
         } catch (NumberFormatException nfExc) {
-            mError = EnumURIParameterErrors.CONVERSION_ERROR;
+            error = EnumURIParameterErrors.CONVERSION_ERROR;
             return false;
         }
     }

@@ -27,15 +27,15 @@ import java.io.Serializable;
 public abstract class AbstractURIActionCommand implements Serializable {
     private static final long serialVersionUID = 9020047185322723866L;
 
-    private DownloadInfo mDownloadInfo;
+    private DownloadInfo downloadInfo;
 
     public abstract void execute();
 
     public void setDownloadStream(DownloadInfo pDownloadInfo) {
-        mDownloadInfo = pDownloadInfo;
+        downloadInfo = pDownloadInfo;
     }
 
     public DownloadInfo getDownloadStream() {
-        return mDownloadInfo;
+        return downloadInfo;
     }
 }

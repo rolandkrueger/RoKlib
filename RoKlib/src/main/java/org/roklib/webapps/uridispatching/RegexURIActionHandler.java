@@ -78,13 +78,13 @@ public class RegexURIActionHandler extends DispatchingURIActionHandler {
      *
      * @see Matcher
      */
-    protected String[] mMatchedTokenFragments;
+    protected String[] matchedTokenFragments;
 
     /**
      * The pattern object of this {@link RegexURIActionHandler}. It is compiled in the constructor and each time the case
      * sensitivity is changed.
      */
-    private Pattern mPattern;
+    private Pattern pattern;
 
     /**
      * Creates a new {@link RegexURIActionHandler} with the provided regular expression. This regex will be applied to the
@@ -100,7 +100,7 @@ public class RegexURIActionHandler extends DispatchingURIActionHandler {
         if ("".equals(regex.trim())) {
             throw new IllegalArgumentException("regex must not be the empty string or all whitespaces");
         }
-        mPattern = Pattern.compile(regex);
+        pattern = Pattern.compile(regex);
     }
 
     /**
@@ -112,7 +112,7 @@ public class RegexURIActionHandler extends DispatchingURIActionHandler {
      * responsible for handling any of the tokens of the currently interpreted URI.
      */
     public String[] getMatchedTokenFragments() {
-        return mMatchedTokenFragments;
+        return matchedTokenFragments;
     }
 
     /**
@@ -123,7 +123,7 @@ public class RegexURIActionHandler extends DispatchingURIActionHandler {
      * @see #getMatchedTokenFragments()
      */
     public int getMatchedTokenFragmentCount() {
-        return mMatchedTokenFragments == null ? 0 : mMatchedTokenFragments.length;
+        return matchedTokenFragments == null ? 0 : matchedTokenFragments.length;
     }
 
     /**
@@ -139,7 +139,7 @@ public class RegexURIActionHandler extends DispatchingURIActionHandler {
             return;
         }
         super.setCaseSensitive(caseSensitive);
-        mPattern = Pattern.compile(mActionName, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE);
+        pattern = Pattern.compile(actionName, caseSensitive ? 0 : Pattern.CASE_INSENSITIVE);
     }
 
     /**
@@ -158,8 +158,8 @@ public class RegexURIActionHandler extends DispatchingURIActionHandler {
         } catch (UnsupportedEncodingException ueExc) {
             throw new RuntimeException("UTF-8 encoding not supported by URLDecoder.", ueExc);
         }
-        mMatchedTokenFragments = null;
-        Matcher matcher = mPattern.matcher(uriToken);
+        matchedTokenFragments = null;
+        Matcher matcher = pattern.matcher(uriToken);
         if (matcher.matches()) {
             identifyMatchedTokenFragments(matcher);
             return true;
@@ -171,9 +171,9 @@ public class RegexURIActionHandler extends DispatchingURIActionHandler {
      * Retrieves the matched values from the capturing groups of this {@link RegexURIActionHandler}'s regular expression.
      */
     private void identifyMatchedTokenFragments(Matcher matcher) {
-        mMatchedTokenFragments = new String[matcher.groupCount()];
+        matchedTokenFragments = new String[matcher.groupCount()];
         for (int index = 1; index < matcher.groupCount() + 1; ++index) {
-            mMatchedTokenFragments[index - 1] = matcher.group(index);
+            matchedTokenFragments[index - 1] = matcher.group(index);
         }
     }
 
@@ -206,10 +206,10 @@ public class RegexURIActionHandler extends DispatchingURIActionHandler {
      */
     public void setURIToken(String uriToken) {
         CheckForNull.check(uriToken);
-        if (!mPattern.matcher(uriToken).matches()) {
+        if (!pattern.matcher(uriToken).matches()) {
             throw new IllegalArgumentException("action URI must match with the regular expression of this action handler");
         }
-        mActionName = uriToken;
+        actionName = uriToken;
         updateActionURIs();
     }
 }

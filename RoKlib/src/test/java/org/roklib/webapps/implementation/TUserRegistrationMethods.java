@@ -20,10 +20,10 @@
  */
 package org.roklib.webapps.implementation;
 
-import org.roklib.webapps.actions.interfaces.IUserRegistrationMethods;
+import org.roklib.webapps.actions.interfaces.UserRegistrationMethods;
 
 @SuppressWarnings("serial")
-public class TUserRegistrationMethods implements IUserRegistrationMethods<Long, String, TUser> {
+public class TUserRegistrationMethods implements UserRegistrationMethods<Long, String, TUser> {
     public TUser notificationRecipient;
     public boolean registrationSent = false;
     private boolean sendRegistrationSuccessful = true;

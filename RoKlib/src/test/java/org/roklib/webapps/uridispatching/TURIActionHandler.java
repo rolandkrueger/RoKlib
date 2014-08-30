@@ -21,7 +21,7 @@
 package org.roklib.webapps.uridispatching;
 
 
-import org.roklib.webapps.uridispatching.parameters.IURIParameter;
+import org.roklib.webapps.uridispatching.parameters.URIParameter;
 
 import java.util.List;
 import java.util.Map;
@@ -29,20 +29,20 @@ import java.util.Map;
 public class TURIActionHandler extends DispatchingURIActionHandler {
     private static final long serialVersionUID = 6202866717473440168L;
 
-    private TURIActionCommand mCommand;
+    private TURIActionCommand command;
 
     public TURIActionHandler(String actionName, TURIActionCommand command) {
         super(actionName);
-        mCommand = command;
+        this.command = command;
     }
 
     @Override
     protected AbstractURIActionCommand handleURIImpl(List<String> uriTokens, Map<String, List<String>> parameters,
                                                      ParameterMode parameterMode) {
-        return mCommand;
+        return command;
     }
 
-    public void registerURLParameterForTest(IURIParameter<?> parameter, boolean optional) {
+    public void registerURLParameterForTest(URIParameter<?> parameter, boolean optional) {
         registerURIParameter(parameter, optional);
     }
 

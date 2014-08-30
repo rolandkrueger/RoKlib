@@ -24,9 +24,9 @@ package org.roklib.webapps.data.usermgmt;
 import org.roklib.state.State.StateValue;
 import org.roklib.util.helper.CheckForNull;
 import org.roklib.webapps.actions.DefaultPasswordMD5HashGenerator;
-import org.roklib.webapps.actions.interfaces.IPasswordHashGenerator;
+import org.roklib.webapps.actions.interfaces.PasswordHashGenerator;
 import org.roklib.webapps.authorization.AdmissionTicketContainer;
-import org.roklib.webapps.data.GenericPersistableObject;
+import org.roklib.webapps.data.GenericPersistableObjectImpl;
 import org.roklib.webapps.state.GenericUserState;
 
 import java.io.Serializable;
@@ -34,129 +34,129 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-public class GenericUser<KeyClass, UserData> extends GenericPersistableObject<KeyClass> {
+public class GenericUser<KeyClass, UserData> extends GenericPersistableObjectImpl<KeyClass> {
     private static final long serialVersionUID = -8767507542975979387L;
 
     private final Serializable STATE_LOCK = new Serializable() {
         private static final long serialVersionUID = 1098724371435032386L;
     };
 
-    private String mLoginName;
-    private String mPasswordHash;
-    protected UserData mUserData;
-    private final Set<UserRole<KeyClass>> mUserRoles;
-    private final AdmissionTicketContainer mRoleHandler;
-    private final GenericUserState mState;
-    private UserOnlineStatus mOnlineStatus;
-    private UserRegistrationStatus mRegistrationStatus;
-    private IPasswordHashGenerator mPasswordHashGenerator;
+    private String loginName;
+    private String passwordHash;
+    protected UserData userData;
+    private final Set<UserRole<KeyClass>> userRoles;
+    private final AdmissionTicketContainer roleHandler;
+    private final GenericUserState state;
+    private UserOnlineStatus onlineStatus;
+    private UserRegistrationStatus registrationStatus;
+    private PasswordHashGenerator passwordHashGenerator;
 
     public GenericUser() {
-        mUserRoles = new HashSet<UserRole<KeyClass>>();
-        mState = new GenericUserState(GenericUserState.UNKNOWN);
-        mState.lock(STATE_LOCK);
-        mOnlineStatus = new UserOnlineStatus();
-        mPasswordHashGenerator = new DefaultPasswordMD5HashGenerator();
-        mRoleHandler = new AdmissionTicketContainer();
+        userRoles = new HashSet<UserRole<KeyClass>>();
+        state = new GenericUserState(GenericUserState.UNKNOWN);
+        state.lock(STATE_LOCK);
+        onlineStatus = new UserOnlineStatus();
+        passwordHashGenerator = new DefaultPasswordMD5HashGenerator();
+        roleHandler = new AdmissionTicketContainer();
     }
 
-    public void setPasswordHashGenerator(IPasswordHashGenerator generator) {
+    public void setPasswordHashGenerator(PasswordHashGenerator generator) {
         CheckForNull.check(generator);
-        mPasswordHashGenerator = generator;
+        passwordHashGenerator = generator;
     }
 
-    public IPasswordHashGenerator getPasswordHashGenerator() {
-        return mPasswordHashGenerator;
+    public PasswordHashGenerator getPasswordHashGenerator() {
+        return passwordHashGenerator;
     }
 
     public GenericUser(UserData userData) {
         this();
-        mUserData = userData;
+        this.userData = userData;
     }
 
     public Set<? extends UserRole<KeyClass>> getUserRoles() {
-        return mUserRoles;
+        return userRoles;
     }
 
     protected void setUserRoles(Set<? extends UserRole<KeyClass>> userRoles) {
         CheckForNull.check(userRoles);
-        mUserRoles.clear();
-        mUserRoles.addAll(userRoles);
+        this.userRoles.clear();
+        this.userRoles.addAll(userRoles);
         for (UserRole<KeyClass> role : userRoles) {
-            mRoleHandler.addTicket(role);
+            roleHandler.addTicket(role);
         }
     }
 
     public <R extends UserRole<KeyClass>> void addRole(R newRole) {
         CheckForNull.check(newRole);
-        mUserRoles.add(newRole);
-        mRoleHandler.addTicket(newRole);
+        userRoles.add(newRole);
+        roleHandler.addTicket(newRole);
     }
 
     public <R extends UserRole<KeyClass>> void removeRole(R role) {
-        mUserRoles.remove(role);
-        mRoleHandler.removeTicket(role);
+        userRoles.remove(role);
+        roleHandler.removeTicket(role);
     }
 
     public <R extends UserRole<KeyClass>> boolean hasRole(R role) {
-        return mRoleHandler.hasTicket(role);
+        return roleHandler.hasTicket(role);
     }
 
     public GenericUserState getState() {
-        return mState;
+        return state;
     }
 
     public boolean hasState(StateValue<GenericUserState> state) {
-        return mState.hasState(state);
+        return this.state.hasState(state);
     }
 
     public void setState(StateValue<GenericUserState> newState) {
-        mState.setStateValue(newState, STATE_LOCK);
+        state.setStateValue(newState, STATE_LOCK);
     }
 
     public UserOnlineStatus getOnlineStatus() {
-        return mOnlineStatus;
+        return onlineStatus;
     }
 
     public void setOnlineStatus(UserOnlineStatus onlineStatus) {
         CheckForNull.check(onlineStatus);
-        mOnlineStatus = onlineStatus;
+        this.onlineStatus = onlineStatus;
     }
 
     public UserRegistrationStatus getRegistrationStatus() {
-        return mRegistrationStatus;
+        return registrationStatus;
     }
 
     public void setRegistrationStatus(UserRegistrationStatus registrationStatus) {
-        mRegistrationStatus = registrationStatus;
+        this.registrationStatus = registrationStatus;
     }
 
     public String getLoginName() {
-        return mLoginName;
+        return loginName;
     }
 
     public void setLoginName(String loginName) {
-        mLoginName = loginName;
+        this.loginName = loginName;
     }
 
     public String getPasswordHash() {
-        return mPasswordHash;
+        return passwordHash;
     }
 
     public void setPassword(String password) {
-        setPasswordHash(mPasswordHashGenerator.createPasswordHash(password));
+        setPasswordHash(passwordHashGenerator.createPasswordHash(password));
     }
 
     public void setPasswordHash(String passwordHash) {
-        mPasswordHash = passwordHash;
+        this.passwordHash = passwordHash;
     }
 
     public UserData getUserData() {
-        return mUserData;
+        return userData;
     }
 
     public void setUserData(UserData userData) {
-        mUserData = userData;
+        this.userData = userData;
     }
 
     /**
@@ -164,9 +164,9 @@ public class GenericUser<KeyClass, UserData> extends GenericPersistableObject<Ke
      * @see org.roklib.webapps.data.usermgmt.UserRegistrationStatus#getRegisteredSince()
      */
     public Date getRegisteredSince() {
-        if (mRegistrationStatus == null)
+        if (registrationStatus == null)
             return null;
-        return mRegistrationStatus.getRegisteredSince();
+        return registrationStatus.getRegisteredSince();
     }
 
     /**
@@ -174,9 +174,9 @@ public class GenericUser<KeyClass, UserData> extends GenericPersistableObject<Ke
      * @see org.roklib.webapps.data.usermgmt.UserRegistrationStatus#getRegistrationKey()
      */
     public String getRegistrationKey() {
-        if (mRegistrationStatus == null)
+        if (registrationStatus == null)
             return null;
-        return mRegistrationStatus.getRegistrationKey();
+        return registrationStatus.getRegistrationKey();
     }
 
     /**
@@ -186,9 +186,9 @@ public class GenericUser<KeyClass, UserData> extends GenericPersistableObject<Ke
     public void setRegisteredSince(Date registeredSince) {
         if (registeredSince == null)
             return;
-        if (mRegistrationStatus == null)
-            mRegistrationStatus = new UserRegistrationStatus();
-        mRegistrationStatus.setRegisteredSince(registeredSince);
+        if (registrationStatus == null)
+            registrationStatus = new UserRegistrationStatus();
+        registrationStatus.setRegisteredSince(registeredSince);
     }
 
     /**
@@ -198,8 +198,8 @@ public class GenericUser<KeyClass, UserData> extends GenericPersistableObject<Ke
     public void setRegistrationKey(String registrationKey) {
         if (registrationKey == null)
             return;
-        if (mRegistrationStatus == null)
-            mRegistrationStatus = new UserRegistrationStatus();
-        mRegistrationStatus.setRegistrationKey(registrationKey);
+        if (registrationStatus == null)
+            registrationStatus = new UserRegistrationStatus();
+        registrationStatus.setRegistrationKey(registrationKey);
     }
 }

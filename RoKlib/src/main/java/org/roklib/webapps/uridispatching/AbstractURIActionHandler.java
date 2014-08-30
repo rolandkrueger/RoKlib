@@ -23,7 +23,7 @@ package org.roklib.webapps.uridispatching;
 import org.roklib.conditional.engine.AbstractCondition;
 import org.roklib.util.helper.CheckForNull;
 import org.roklib.webapps.uridispatching.parameters.EnumURIParameterErrors;
-import org.roklib.webapps.uridispatching.parameters.IURIParameter;
+import org.roklib.webapps.uridispatching.parameters.URIParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,28 +35,28 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.*;
 
-public abstract class AbstractURIActionHandler implements IURIActionHandler {
+public abstract class AbstractURIActionHandler implements URIActionHandler {
     private static final long serialVersionUID = 8450975393827044559L;
 
     private static final String[] STRING_ARRAY_PROTOTYPE = new String[]{};
     private static final Logger LOG = LoggerFactory
             .getLogger(AbstractURIActionHandler.class);
-    private List<CommandForCondition> mCommandsForCondition;
-    private List<IURIParameter<?>> mURIParameters;
-    private List<String> mActionArgumentOrder;
-    protected List<IURIActionHandler> mHandlerChain;
-    private Map<String, List<Serializable>> mActionArgumentMap;
-    protected AbstractURIActionHandler mParentHandler;
-    private AbstractURIActionCommand mDefaultCommand;
+    private List<CommandForCondition> commandsForCondition;
+    private List<URIParameter<?>> uriParameters;
+    private List<String> actionArgumentOrder;
+    protected List<URIActionHandler> handlerChain;
+    private Map<String, List<Serializable>> actionArgumentMap;
+    protected AbstractURIActionHandler parentHandler;
+    private AbstractURIActionCommand defaultCommand;
 
     /**
      * The name of the URI portion for which this action handler is responsible.
      */
-    protected String mActionName;
-    private String mActionURI;
-    private boolean mCaseSensitive = false;
-    private boolean mUseHashExclamationMarkNotation = false;
-    private Locale mLocale;
+    protected String actionName;
+    private String actionURI;
+    private boolean caseSensitive = false;
+    private boolean useHashExclamationMarkNotation = false;
+    private Locale locale;
 
     /**
      * Creates a new action handler with the given action name. The action name must not be <code>null</code>. This name
@@ -73,13 +73,13 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
      */
     public AbstractURIActionHandler(String actionName) {
         CheckForNull.check(actionName);
-        mActionName = actionName;
-        mActionURI = actionName;
-        mDefaultCommand = null;
+        this.actionName = actionName;
+        actionURI = actionName;
+        defaultCommand = null;
     }
 
     protected void setUseHashExclamationMarkNotation(boolean useHashExclamationMarkNotation) {
-        mUseHashExclamationMarkNotation = useHashExclamationMarkNotation;
+        this.useHashExclamationMarkNotation = useHashExclamationMarkNotation;
     }
 
     /**
@@ -91,49 +91,49 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
      * </p>
      */
     protected void setCaseSensitive(boolean caseSensitive) {
-        mCaseSensitive = caseSensitive;
+        this.caseSensitive = caseSensitive;
     }
 
     public boolean isCaseSensitive() {
-        return mCaseSensitive;
+        return caseSensitive;
     }
 
     public String getActionName() {
-        return mActionName;
+        return actionName;
     }
 
     public String getCaseInsensitiveActionName() {
-        return mActionName.toLowerCase(getLocale());
+        return actionName.toLowerCase(getLocale());
     }
 
     public void setDefaultActionCommand(AbstractURIActionCommand command) {
-        mDefaultCommand = command;
+        defaultCommand = command;
     }
 
     protected AbstractURIActionCommand getDefaultCommand() {
-        return mDefaultCommand;
+        return defaultCommand;
     }
 
-    protected void registerURIParameter(IURIParameter<?> parameter) {
+    protected void registerURIParameter(URIParameter<?> parameter) {
         if (parameter == null)
             return;
-        if (mURIParameters == null)
-            mURIParameters = new LinkedList<IURIParameter<?>>();
-        if (!mURIParameters.contains(parameter))
-            mURIParameters.add(parameter);
+        if (uriParameters == null)
+            uriParameters = new LinkedList<URIParameter<?>>();
+        if (!uriParameters.contains(parameter))
+            uriParameters.add(parameter);
     }
 
-    protected void registerURIParameter(IURIParameter<?> parameter, boolean isOptional) {
+    protected void registerURIParameter(URIParameter<?> parameter, boolean isOptional) {
         registerURIParameter(parameter);
         parameter.setOptional(isOptional);
     }
 
     protected boolean haveRegisteredURIParametersErrors() {
-        if (mURIParameters == null)
+        if (uriParameters == null)
             return false;
         boolean result = false;
 
-        for (IURIParameter<?> parameter : mURIParameters) {
+        for (URIParameter<?> parameter : uriParameters) {
             result |= parameter.getError() != EnumURIParameterErrors.NO_ERROR;
         }
 
@@ -142,21 +142,21 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
 
     public final AbstractURIActionCommand handleURI(List<String> pUriTokens, Map<String, List<String>> pParameters,
                                                     ParameterMode pParameterMode) {
-        if (mCommandsForCondition != null) {
-            for (CommandForCondition cfc : mCommandsForCondition) {
+        if (commandsForCondition != null) {
+            for (CommandForCondition cfc : commandsForCondition) {
                 if (cfc.mCondition.getBooleanValue())
                     return cfc.mDefaultCommandForCondition;
             }
         }
-        if (mURIParameters != null) {
+        if (uriParameters != null) {
             if (pParameterMode == ParameterMode.QUERY) {
-                for (IURIParameter<?> parameter : mURIParameters) {
+                for (URIParameter<?> parameter : uriParameters) {
                     parameter.clearValue();
                     parameter.consume(pParameters);
                 }
             } else {
                 List<String> parameterNames = new LinkedList<String>();
-                for (IURIParameter<?> parameter : mURIParameters) {
+                for (URIParameter<?> parameter : uriParameters) {
                     parameterNames.addAll(parameter.getParameterNames());
                 }
                 if (pParameterMode == ParameterMode.DIRECTORY_WITH_NAMES) {
@@ -190,13 +190,13 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
                             values.add(value);
                         }
                     }
-                    for (IURIParameter<?> parameter : mURIParameters) {
+                    for (URIParameter<?> parameter : uriParameters) {
                         parameter.clearValue();
                         parameter.consume(parameters);
                     }
                 } else {
                     List<String> valueList = new LinkedList<String>();
-                    for (IURIParameter<?> parameter : mURIParameters) {
+                    for (URIParameter<?> parameter : uriParameters) {
                         parameter.clearValue();
                         if (pUriTokens.isEmpty())
                             continue;
@@ -219,10 +219,10 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
             }
         }
 
-        if (mHandlerChain != null) {
-            for (IURIActionHandler chainedHandler : mHandlerChain) {
+        if (handlerChain != null) {
+            for (URIActionHandler chainedHandler : handlerChain) {
                 if (LOG.isTraceEnabled()) {
-                    LOG.trace("Executing chained handler " + chainedHandler + " (" + mHandlerChain.size()
+                    LOG.trace("Executing chained handler " + chainedHandler + " (" + handlerChain.size()
                             + " chained handler(s) in list)");
                 }
                 AbstractURIActionCommand commandFromChain = chainedHandler.handleURI(pUriTokens, pParameters, pParameterMode);
@@ -239,9 +239,9 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
 
     protected boolean isResponsibleForToken(String uriToken) {
         if (isCaseSensitive()) {
-            return mActionName.equals(uriToken);
+            return actionName.equals(uriToken);
         } else {
-            return mActionName.equalsIgnoreCase(uriToken);
+            return actionName.equalsIgnoreCase(uriToken);
         }
     }
 
@@ -271,7 +271,7 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
      * action handler's action name is <code>languageSettings</code>).
      */
     public String getActionURI() {
-        return mActionURI;
+        return actionURI;
     }
 
     /**
@@ -281,7 +281,7 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
      * @param parent the parent handler for this action handler
      */
     protected final void setParent(AbstractURIActionHandler parent) {
-        mParentHandler = parent;
+        parentHandler = parent;
     }
 
     public URI getParameterizedHashbangActionURI(boolean clearParametersAfterwards) {
@@ -303,7 +303,7 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
     public URI getParameterizedActionURI(boolean clearParametersAfterwards, ParameterMode parameterMode,
                                          boolean addHashMark) {
         return getParameterizedActionURI(clearParametersAfterwards, parameterMode, addHashMark,
-                mUseHashExclamationMarkNotation);
+                useHashExclamationMarkNotation);
     }
 
     private URI getParameterizedActionURI(boolean clearParametersAfterwards, ParameterMode parameterMode,
@@ -320,11 +320,11 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
         }
 
         boolean removeLastCharacter = false;
-        if (mActionArgumentMap != null && !mActionArgumentMap.isEmpty()) {
+        if (actionArgumentMap != null && !actionArgumentMap.isEmpty()) {
             if (parameterMode == ParameterMode.QUERY) {
                 buf.append('?');
-                for (String argument : mActionArgumentOrder) {
-                    for (Serializable value : mActionArgumentMap.get(argument)) {
+                for (String argument : actionArgumentOrder) {
+                    for (Serializable value : actionArgumentMap.get(argument)) {
                         buf.append(urlEncode(argument)).append('=').append(urlEncode(value.toString()));
                         buf.append('&');
                         removeLastCharacter = true;
@@ -332,8 +332,8 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
                 }
             } else {
                 buf.append('/');
-                for (String argument : mActionArgumentOrder) {
-                    for (Serializable value : mActionArgumentMap.get(argument)) {
+                for (String argument : actionArgumentOrder) {
+                    for (Serializable value : actionArgumentMap.get(argument)) {
                         if (parameterMode == ParameterMode.DIRECTORY_WITH_NAMES) {
                             buf.append(urlEncode(argument)).append('/');
                         }
@@ -361,20 +361,20 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
 
     public final void addDefaultCommandForCondition(AbstractURIActionCommand command, AbstractCondition condition) {
         CheckForNull.check(command, condition);
-        if (mCommandsForCondition == null)
-            mCommandsForCondition = new LinkedList<CommandForCondition>();
+        if (commandsForCondition == null)
+            commandsForCondition = new LinkedList<CommandForCondition>();
         CommandForCondition cfc = new CommandForCondition();
         cfc.mDefaultCommandForCondition = command;
         cfc.mCondition = condition;
-        mCommandsForCondition.add(cfc);
+        commandsForCondition.add(cfc);
     }
 
-    public void addToHandlerChain(IURIActionHandler handler) {
+    public void addToHandlerChain(URIActionHandler handler) {
         CheckForNull.check(handler);
-        if (mHandlerChain == null) {
-            mHandlerChain = new LinkedList<IURIActionHandler>();
+        if (handlerChain == null) {
+            handlerChain = new LinkedList<URIActionHandler>();
         }
-        mHandlerChain.add(handler);
+        handlerChain.add(handler);
     }
 
     /**
@@ -385,36 +385,36 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
      */
     public void addActionArgument(String argumentName, Serializable... argumentValues) {
         CheckForNull.check(argumentName);
-        if (mActionArgumentMap == null) {
-            mActionArgumentMap = new HashMap<String, List<Serializable>>(4);
-            mActionArgumentOrder = new LinkedList<String>();
+        if (actionArgumentMap == null) {
+            actionArgumentMap = new HashMap<String, List<Serializable>>(4);
+            actionArgumentOrder = new LinkedList<String>();
         }
 
-        List<Serializable> valueList = mActionArgumentMap.get(argumentName);
+        List<Serializable> valueList = actionArgumentMap.get(argumentName);
         if (valueList == null) {
             valueList = new LinkedList<Serializable>();
-            mActionArgumentMap.put(argumentName, valueList);
+            actionArgumentMap.put(argumentName, valueList);
         }
         for (Serializable value : argumentValues) {
             if (value != null)
                 valueList.add(value);
         }
         if (valueList.isEmpty()) {
-            mActionArgumentMap.remove(argumentName);
-        } else if (!mActionArgumentOrder.contains(argumentName)) {
-            mActionArgumentOrder.add(argumentName);
+            actionArgumentMap.remove(argumentName);
+        } else if (!actionArgumentOrder.contains(argumentName)) {
+            actionArgumentOrder.add(argumentName);
         }
     }
 
     public void clearActionArguments() {
-        if (mActionArgumentMap != null) {
-            mActionArgumentMap.clear();
-            mActionArgumentOrder.clear();
+        if (actionArgumentMap != null) {
+            actionArgumentMap.clear();
+            actionArgumentOrder.clear();
         }
     }
 
     public final void clearDefaultCommands() {
-        mCommandsForCondition.clear();
+        commandsForCondition.clear();
     }
 
     private static class CommandForCondition implements Serializable {
@@ -429,9 +429,9 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
         StringBuilder buf = new StringBuilder();
         buf.append(getActionURI());
 
-        if (mURIParameters != null && mURIParameters.size() > 0) {
+        if (uriParameters != null && uriParameters.size() > 0) {
             buf.append(" ? ");
-            for (IURIParameter<?> parameter : mURIParameters) {
+            for (URIParameter<?> parameter : uriParameters) {
                 buf.append(parameter).append(", ");
             }
             buf.setLength(buf.length() - 2);
@@ -459,33 +459,33 @@ public abstract class AbstractURIActionHandler implements IURIActionHandler {
     }
 
     protected void setSubhandlersActionURI(AbstractURIActionHandler subHandler) {
-        subHandler.setActionURI(String.format("%s%s%s", getActionURI(), "/", urlEncode(subHandler.mActionName)));
+        subHandler.setActionURI(String.format("%s%s%s", getActionURI(), "/", urlEncode(subHandler.actionName)));
         if (subHandler.hasSubHandlers()) {
             subHandler.updateActionURIs();
         }
     }
 
     protected void updateActionURIs() {
-        setActionURI(mParentHandler.getActionURI() + "/" + mActionName);
+        setActionURI(parentHandler.getActionURI() + "/" + actionName);
         for (AbstractURIActionHandler subHandler : getSubHandlerMap().values()) {
             setSubhandlersActionURI(subHandler);
         }
     }
 
     public void setLocale(Locale locale) {
-        mLocale = locale;
+        this.locale = locale;
     }
 
     public Locale getLocale() {
-        return mLocale == null ? Locale.getDefault() : mLocale;
+        return locale == null ? Locale.getDefault() : locale;
     }
 
     protected void setActionURI(String actionURI) {
-        mActionURI = actionURI;
+        this.actionURI = actionURI;
     }
 
     @Override
     public String toString() {
-        return String.format("%s='%s'", getClass().getSimpleName(), mActionName);
+        return String.format("%s='%s'", getClass().getSimpleName(), actionName);
     }
 }

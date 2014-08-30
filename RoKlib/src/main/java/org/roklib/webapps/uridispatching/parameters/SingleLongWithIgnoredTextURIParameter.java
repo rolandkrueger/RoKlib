@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 public class SingleLongWithIgnoredTextURIParameter extends SingleLongURIParameter {
     private static final long serialVersionUID = 7990237721421647271L;
 
-    private static final Pattern sPattern = Pattern.compile("^(\\d+).*?");
+    private static final Pattern PATTERN = Pattern.compile("^(\\d+).*?");
 
     public SingleLongWithIgnoredTextURIParameter(String parameterName, Long defaultValue) {
         super(parameterName, defaultValue);
@@ -53,7 +53,7 @@ public class SingleLongWithIgnoredTextURIParameter extends SingleLongURIParamete
     }
 
     private String convertValue(String value) {
-        Matcher m = sPattern.matcher(value);
+        Matcher m = PATTERN.matcher(value);
         if (m.find()) {
             return m.group(1);
         }

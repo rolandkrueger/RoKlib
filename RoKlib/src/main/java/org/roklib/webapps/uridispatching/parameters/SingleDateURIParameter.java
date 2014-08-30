@@ -55,7 +55,7 @@ public class SingleDateURIParameter extends AbstractSingleURIParameter<Date> {
             setValue(new Date(Long.valueOf(valueString)));
             return true;
         } catch (NumberFormatException nfExc) {
-            mError = EnumURIParameterErrors.CONVERSION_ERROR;
+            error = EnumURIParameterErrors.CONVERSION_ERROR;
             return false;
         }
     }

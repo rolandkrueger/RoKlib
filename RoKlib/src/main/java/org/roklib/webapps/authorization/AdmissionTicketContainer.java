@@ -28,31 +28,31 @@ import java.util.Map;
 public class AdmissionTicketContainer implements Serializable {
     private static final long serialVersionUID = -297124992997707673L;
 
-    private Map<String, IAdmissionTicket> mAdmissionTickets;
+    private Map<String, AdmissionTicket> admissionTickets;
 
-    public boolean hasTicket(IAdmissionTicket ticket) {
-        return mAdmissionTickets != null && mAdmissionTickets.containsKey(ticket.getName());
+    public boolean hasTicket(AdmissionTicket ticket) {
+        return admissionTickets != null && admissionTickets.containsKey(ticket.getName());
     }
 
-    public void addTicket(IAdmissionTicket ticket) {
-        if (mAdmissionTickets == null)
-            mAdmissionTickets = new HashMap<String, IAdmissionTicket>();
-        mAdmissionTickets.put(ticket.getName(), ticket);
+    public void addTicket(AdmissionTicket ticket) {
+        if (admissionTickets == null)
+            admissionTickets = new HashMap<String, AdmissionTicket>();
+        admissionTickets.put(ticket.getName(), ticket);
     }
 
-    public boolean removeTicket(IAdmissionTicket ticket) {
-        return mAdmissionTickets != null && mAdmissionTickets.remove(ticket.getName()) != null;
+    public boolean removeTicket(AdmissionTicket ticket) {
+        return admissionTickets != null && admissionTickets.remove(ticket.getName()) != null;
     }
 
-    public Map<String, IAdmissionTicket> getTickets() {
-        if (mAdmissionTickets == null)
+    public Map<String, AdmissionTicket> getTickets() {
+        if (admissionTickets == null)
             return Collections.emptyMap();
-        return Collections.unmodifiableMap(mAdmissionTickets);
+        return Collections.unmodifiableMap(admissionTickets);
     }
 
     public void clear() {
-        if (mAdmissionTickets == null)
+        if (admissionTickets == null)
             return;
-        mAdmissionTickets.clear();
+        admissionTickets.clear();
     }
 }

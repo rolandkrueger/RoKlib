@@ -22,8 +22,8 @@ package org.roklib.webapps.actions;
 
 
 import org.roklib.util.helper.CheckForNull;
-import org.roklib.webapps.actions.interfaces.IUserRegistrationMethods;
-import org.roklib.webapps.data.access.IUserDataAccess;
+import org.roklib.webapps.actions.interfaces.UserRegistrationMethods;
+import org.roklib.webapps.data.access.UserDataAccess;
 import org.roklib.webapps.data.usermgmt.GenericUser;
 import org.roklib.webapps.data.usermgmt.UserRegistrationStatus;
 import org.roklib.webapps.state.GenericUserState;
@@ -41,24 +41,24 @@ public class UserRegistration<KeyClass, UserData, U extends GenericUser<KeyClass
         REGISTRATION_KEY_UNKNOWN, OK
     }
 
-    private IUserDataAccess<KeyClass, UserData, U> mDataAccess;
-    private IUserRegistrationMethods<KeyClass, UserData, U> mRegistrationMethods;
-    private int mRegistrationKeyLength;
+    private UserDataAccess<KeyClass, UserData, U> dataAccess;
+    private UserRegistrationMethods<KeyClass, UserData, U> registrationMethods;
+    private int registrationKeyLength;
 
-    public UserRegistration(IUserDataAccess<KeyClass, UserData, U> dataAccess,
-                            IUserRegistrationMethods<KeyClass, UserData, U> registrationMethods) {
+    public UserRegistration(UserDataAccess<KeyClass, UserData, U> dataAccess,
+                            UserRegistrationMethods<KeyClass, UserData, U> registrationMethods) {
         this(dataAccess, registrationMethods, 30);
     }
 
-    public UserRegistration(IUserDataAccess<KeyClass, UserData, U> dataAccess,
-                            IUserRegistrationMethods<KeyClass, UserData, U> registrationMethods, int registrationKeyLength) {
+    public UserRegistration(UserDataAccess<KeyClass, UserData, U> dataAccess,
+                            UserRegistrationMethods<KeyClass, UserData, U> registrationMethods, int registrationKeyLength) {
         CheckForNull.check(dataAccess, registrationMethods);
         if (registrationKeyLength < 5)
             throw new IllegalArgumentException("Registration key length is too small (< 5)");
 
-        mDataAccess = dataAccess;
-        mRegistrationMethods = registrationMethods;
-        mRegistrationKeyLength = registrationKeyLength;
+        this.dataAccess = dataAccess;
+        this.registrationMethods = registrationMethods;
+        this.registrationKeyLength = registrationKeyLength;
     }
 
     public RegistrationOutcome registerNewUser(U user) {
@@ -67,12 +67,12 @@ public class UserRegistration<KeyClass, UserData, U extends GenericUser<KeyClass
 
     public RegistrationOutcome registerNewUser(U user, boolean requireConfirmation) {
         CheckForNull.check(user);
-        if (mDataAccess.getUserWithLogin(user.getLoginName()) != null)
+        if (dataAccess.getUserWithLogin(user.getLoginName()) != null)
             return RegistrationOutcome.USERNAME_ALREADY_REGISTERED;
 
-        mDataAccess.startTransaction();
+        dataAccess.startTransaction();
 
-        user.setRegistrationStatus(new UserRegistrationStatus(mRegistrationKeyLength));
+        user.setRegistrationStatus(new UserRegistrationStatus(registrationKeyLength));
         if (requireConfirmation) {
             user.setState(GenericUserState.REGISTRATION_CONFIRMATION_PENDING);
         } else {
@@ -80,28 +80,28 @@ public class UserRegistration<KeyClass, UserData, U extends GenericUser<KeyClass
             user.getRegistrationStatus().setRegistrationKey("");
         }
 
-        mDataAccess.persistUser(user);
-        if (requireConfirmation && !mRegistrationMethods.sendRegistrationNotification(user)) {
-            mDataAccess.rollback();
+        dataAccess.persistUser(user);
+        if (requireConfirmation && !registrationMethods.sendRegistrationNotification(user)) {
+            dataAccess.rollback();
             user.setRegistrationStatus(null);
             return RegistrationOutcome.ERROR_DURING_REGISTRATION;
         }
 
-        mDataAccess.commit();
+        dataAccess.commit();
         return RegistrationOutcome.OK;
     }
 
     public RegistrationConfirmationResult completeRegistration(String registrationKey) {
-        U user = mDataAccess.getUserForRegistrationKey(registrationKey);
+        U user = dataAccess.getUserForRegistrationKey(registrationKey);
         if (user == null)
             return new RegistrationConfirmationResult(RegistrationConfirmationOutcome.REGISTRATION_KEY_UNKNOWN, null);
 
         user.setState(GenericUserState.REGISTERED);
         user.getRegistrationStatus().setRegistrationKey("");
 
-        mDataAccess.startTransaction();
-        mDataAccess.updateUser(user);
-        mDataAccess.commit();
+        dataAccess.startTransaction();
+        dataAccess.updateUser(user);
+        dataAccess.commit();
         return new RegistrationConfirmationResult(RegistrationConfirmationOutcome.OK, user);
     }
 

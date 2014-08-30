@@ -34,7 +34,7 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 public abstract class AbstractURIParameterTest<V extends Serializable> {
-    private AbstractURIParameter<V> mTestObj;
+    private AbstractURIParameter<V> testObj;
 
     public abstract AbstractURIParameter<V> getTestURIParameter();
 
@@ -48,29 +48,29 @@ public abstract class AbstractURIParameterTest<V extends Serializable> {
 
     @Before
     public void setUp() {
-        mTestObj = getTestURIParameter();
+        testObj = getTestURIParameter();
     }
 
     @Test
     public void testSetGetValue() {
         V value = getTestValue();
-        mTestObj.setValue(value);
-        assertEquals(value, mTestObj.getValue());
+        testObj.setValue(value);
+        assertEquals(value, testObj.getValue());
     }
 
     @Test
     public void testHasValue() {
         V value = getTestValue();
-        assertFalse(mTestObj.hasValue());
-        mTestObj.setValue(value);
-        assertTrue(mTestObj.hasValue());
+        assertFalse(testObj.hasValue());
+        testObj.setValue(value);
+        assertTrue(testObj.hasValue());
     }
 
     @Test
     public void testClearValue() {
-        mTestObj.setValue(getTestValue());
-        mTestObj.clearValue();
-        assertNull(mTestObj.getValue());
+        testObj.setValue(getTestValue());
+        testObj.clearValue();
+        assertNull(testObj.getValue());
     }
 
     @Test
@@ -84,10 +84,10 @@ public abstract class AbstractURIParameterTest<V extends Serializable> {
 
     @Test
     public void testSetOptional() {
-        mTestObj.setOptional(true);
-        assertTrue(mTestObj.isOptional());
-        mTestObj.setOptional(false);
-        assertFalse(mTestObj.isOptional());
+        testObj.setOptional(true);
+        assertTrue(testObj.isOptional());
+        testObj.setOptional(false);
+        assertFalse(testObj.isOptional());
     }
 
     @SuppressWarnings("serial")
