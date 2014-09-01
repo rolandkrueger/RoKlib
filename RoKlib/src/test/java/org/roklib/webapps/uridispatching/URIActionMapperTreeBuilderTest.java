@@ -33,6 +33,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNull.notNullValue;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.roklib.webapps.uridispatching.URIActionMapperTree.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -62,6 +63,8 @@ public class URIActionMapperTreeBuilderTest {
            .build();
         // @formatter:on
 
+        assertThat(mapperTree.getRootActionMapper("undefined"), nullValue());
+
         assert_number_of_root_path_segment_mappers(mapperTree, 2);
         assert_that_mapper_is_correct(mapperTree.getRootActionMapper("home"), "home", SimpleURIPathSegmentActionMapper.class, homeCommandMock);
         assert_that_mapper_is_correct(mapperTree.getRootActionMapper("admin"), "admin", SimpleURIPathSegmentActionMapper.class, adminCommandMock);
@@ -85,6 +88,17 @@ public class URIActionMapperTreeBuilderTest {
         assertThat(subtreeMapperMap.size(), is(2));
         assert_that_mapper_is_correct(subtreeMapperMap.get("home"), "home", SimpleURIPathSegmentActionMapper.class, homeCommandMock);
         assert_that_mapper_is_correct(subtreeMapperMap.get("admin"), "admin", SimpleURIPathSegmentActionMapper.class, adminCommandMock);
+    }
+
+    @Test
+    public void test_set_action_command_to_subtree_mapper() {
+        // formatter:off
+        final URIActionMapperTree mapperTree = create().map(
+                pathSegment("admin").on(subtree().withActionCommand(adminCommandMock))
+        ).build();
+        // formatter:on
+
+        assertThat(mapperTree.getRootActionMapper("admin").getActionCommand(), is(adminCommandMock));
     }
 
     private void assert_that_mapper_is_correct(final AbstractURIPathSegmentActionMapper actualMapper, String expectedSegmentName, Class<?> expectedClass, AbstractURIActionCommand expectedCommand) {

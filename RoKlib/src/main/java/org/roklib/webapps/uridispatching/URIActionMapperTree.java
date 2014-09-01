@@ -128,16 +128,33 @@ public class URIActionMapperTree {
 
     public static class SubtreeActionMapperBuilder {
         private List<URIPathSegmentActionMapperBuilder> builders = new LinkedList<>();
+        private AbstractURIActionCommand actionCommand;
 
         private AbstractURIPathSegmentActionMapper build(final DispatchingURIPathSegmentActionMapper mapper) {
+            addSubMappers(mapper);
+            setActionCommandIfDefined(mapper);
+            return mapper;
+        }
+
+        private void setActionCommandIfDefined(final DispatchingURIPathSegmentActionMapper mapper) {
+            if (actionCommand != null) {
+                mapper.setActionCommand(actionCommand);
+            }
+        }
+
+        private void addSubMappers(final DispatchingURIPathSegmentActionMapper mapper) {
             for (URIPathSegmentActionMapperBuilder builder : builders) {
                 mapper.addSubMapper(builder.getMapper());
             }
-            return mapper;
         }
 
         public SubtreeActionMapperBuilder map(URIPathSegmentActionMapperBuilder pathSegmentBuilder) {
             builders.add(pathSegmentBuilder);
+            return this;
+        }
+
+        public SubtreeActionMapperBuilder withActionCommand(final AbstractURIActionCommand actionCommand) {
+            this.actionCommand = actionCommand;
             return this;
         }
     }
