@@ -41,8 +41,8 @@ public class URIActionMapperTree {
         return new URIActionMapperTreeBuilder();
     }
 
-    public static URIPathSegmentActionMapperBuilder pathSegment(String segment) {
-        return new URIPathSegmentActionMapperBuilder(segment);
+    public static URIPathSegmentBuilder pathSegment(String segment) {
+        return new URIPathSegmentBuilder(segment);
     }
 
     public static URIActionCommandBuilder action(final AbstractURIActionCommand command) {
@@ -79,24 +79,33 @@ public class URIActionMapperTree {
         }
     }
 
-    public static class URIPathSegmentActionMapperBuilder {
+    public static class URIPathSegmentBuilder {
         private String segmentName;
-        private AbstractURIPathSegmentActionMapper mapper;
 
-        public URIPathSegmentActionMapperBuilder(final String segmentName) {
+        public URIPathSegmentBuilder(final String segmentName) {
             CheckForNull.check(segmentName);
             this.segmentName = segmentName;
         }
 
         public URIPathSegmentActionMapperBuilder on(final URIActionCommandBuilder actionBuilder) {
-            mapper = new SimpleURIPathSegmentActionMapper(segmentName);
-            mapper.setActionCommand(actionBuilder.getCommand());
-            return this;
+            return new URIPathSegmentActionMapperBuilder(segmentName, actionBuilder);
         }
 
         public URIPathSegmentActionMapperBuilder on(final SubtreeActionMapperBuilder subtreeBuilder) {
+            return new URIPathSegmentActionMapperBuilder(segmentName, subtreeBuilder);
+        }
+    }
+
+    public static class URIPathSegmentActionMapperBuilder {
+        private AbstractURIPathSegmentActionMapper mapper;
+
+        public URIPathSegmentActionMapperBuilder(final String segmentName, final URIActionCommandBuilder actionBuilder) {
+            mapper = new SimpleURIPathSegmentActionMapper(segmentName);
+            mapper.setActionCommand(actionBuilder.getCommand());
+        }
+
+        public URIPathSegmentActionMapperBuilder(final String segmentName, final SubtreeActionMapperBuilder subtreeBuilder) {
             mapper = subtreeBuilder.build(new DispatchingURIPathSegmentActionMapper(segmentName));
-            return this;
         }
 
         public AbstractURIPathSegmentActionMapper getMapper() {
