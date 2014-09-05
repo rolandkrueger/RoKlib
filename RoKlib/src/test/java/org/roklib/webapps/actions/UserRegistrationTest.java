@@ -24,9 +24,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.roklib.webapps.actions.UserRegistration.RegistrationConfirmationOutcome;
 import org.roklib.webapps.actions.UserRegistration.RegistrationOutcome;
-import org.roklib.webapps.implementation.TUser;
-import org.roklib.webapps.implementation.TUserDataAccess;
-import org.roklib.webapps.implementation.TUserRegistrationMethods;
+import org.roklib.webapps.testhelper.TUser;
+import org.roklib.webapps.testhelper.TUserDataAccess;
+import org.roklib.webapps.testhelper.TUserRegistrationMethods;
 import org.roklib.webapps.state.GenericUserState;
 
 import static org.junit.Assert.*;

@@ -23,8 +23,8 @@ package org.roklib.webapps.actions;
 import org.junit.Before;
 import org.junit.Test;
 import org.roklib.webapps.actions.UserAuthenticator.AuthenticationOutcome;
-import org.roklib.webapps.implementation.TUser;
-import org.roklib.webapps.implementation.TUserDataAccess;
+import org.roklib.webapps.testhelper.TUser;
+import org.roklib.webapps.testhelper.TUserDataAccess;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
