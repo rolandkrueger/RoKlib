@@ -20,22 +20,10 @@
  */
 package org.roklib.webapps.uridispatching;
 
-import org.roklib.webapps.data.DownloadInfo;
-
 import java.io.Serializable;
 
 public abstract class AbstractURIActionCommand implements Serializable {
     private static final long serialVersionUID = 9020047185322723866L;
 
-    private DownloadInfo downloadInfo;
-
     public abstract void execute();
-
-    public void setDownloadStream(DownloadInfo pDownloadInfo) {
-        downloadInfo = pDownloadInfo;
-    }
-
-    public DownloadInfo getDownloadStream() {
-        return downloadInfo;
-    }
 }

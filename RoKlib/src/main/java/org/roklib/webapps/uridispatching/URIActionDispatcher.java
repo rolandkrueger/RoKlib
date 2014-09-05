@@ -20,13 +20,10 @@
 
 package org.roklib.webapps.uridispatching;
 
-import org.roklib.webapps.data.DownloadInfo;
 import org.roklib.webapps.uridispatching.URIPathSegmentActionMapper.ParameterMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.*;
 
@@ -174,8 +171,8 @@ public class URIActionDispatcher implements Serializable {
      *
      * @see #handleURIAction(String, ParameterMode)
      */
-    public DownloadInfo handleURIAction(String relativeUri) {
-        return handleURIAction(relativeUri, parameterMode);
+    public void handleURIAction(String relativeUri) {
+        handleURIAction(relativeUri, parameterMode);
     }
 
     /**
@@ -185,24 +182,19 @@ public class URIActionDispatcher implements Serializable {
      *                      <code>/admin/configuration/settings/language/de</code>
      * @param parameterMode {@link ParameterMode} to be used for interpreting possible parameter values contained in the given
      *                      relative URI
-     * @return an object containing all necessary data for a file download. This return value is optional and may be
-     * <code>null</code>. If a {@link DownloadInfo} object is returned, the contained {@link InputStream} should
-     * be written to the {@link OutputStream} of the HTTP response.
      */
-    public DownloadInfo handleURIAction(String relativeUri, ParameterMode parameterMode) {
+    public void handleURIAction(String relativeUri, ParameterMode parameterMode) {
         AbstractURIActionCommand action = getActionForURI(relativeUri, parameterMode);
         if (action == null) {
             LOG.info("No registered URI action handler for: " + relativeUriOriginal + "?" + currentParameters);
             if (defaultCommand != null) {
                 defaultCommand.execute();
             }
-            return null;
         } else {
             action.execute();
             if (listener != null) {
                 listener.handleURIActionCommand(action);
             }
-            return action.getDownloadStream();
         }
     }
 
@@ -240,9 +232,9 @@ public class URIActionDispatcher implements Serializable {
         return relativeUriOriginal;
     }
 
-    public DownloadInfo replayCurrentAction() {
+    public void replayCurrentAction() {
         handleParameters(currentParametersOriginalValues);
-        return handleURIAction(relativeUriOriginal);
+        handleURIAction(relativeUriOriginal);
     }
 
     /**
