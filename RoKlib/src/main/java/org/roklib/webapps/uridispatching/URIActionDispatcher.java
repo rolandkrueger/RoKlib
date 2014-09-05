@@ -214,9 +214,7 @@ public class URIActionDispatcher implements Serializable {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Finding action for URI '" + relativeUri + "'");
         }
-        relativeUriOriginal = relativeUri;
-
-        ignoreSlashAtBeginningOfRelativeURI();
+        relativeUriOriginal = removeLeadingSlash(relativeUri);
 
         List<String> uriTokens = new ArrayList<String>(Arrays.asList(relativeUriOriginal.split("/")));
 
@@ -227,10 +225,11 @@ public class URIActionDispatcher implements Serializable {
         return rootDispatcher.handleURI(uriTokens, currentParameters, parameterMode);
     }
 
-    private void ignoreSlashAtBeginningOfRelativeURI() {
-        if (relativeUriOriginal.startsWith("/")) {
-            relativeUriOriginal = relativeUriOriginal.substring(1);
+    private String removeLeadingSlash(String relativeUri) {
+        if (relativeUri.startsWith("/")) {
+            return relativeUri.substring(1);
         }
+        return relativeUri;
     }
 
     /**
