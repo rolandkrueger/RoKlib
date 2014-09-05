@@ -332,13 +332,4 @@ public class AbstractURIPathSegmentActionMapperTest {
         assertEquals("/test/123", testHandler2.getActionURI());
         assertEquals("/test", dispatchingHandler.getActionURI());
     }
-
-    @Test
-    public void testIgnoreExclamationMark() {
-        caseSensitiveDispatcher.handleURIAction("!TEST/ABC");
-        assertFalse(testCommand1.executed);
-        caseSensitiveDispatcher.setIgnoreExclamationMark(true);
-        caseSensitiveDispatcher.handleURIAction("!TEST/ABC");
-        assertTrue(testCommand1.executed);
-    }
 }
