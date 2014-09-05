@@ -61,6 +61,10 @@ public class URIActionMapperTree {
         return dispatcher.getRootActionMapper().getSubMapperMap().get(segmentName); // TODO: refactor
     }
 
+    public void interpretFragment(final String fragment) {
+        dispatcher.handleURIAction(fragment);
+    }
+
     public static class URIActionMapperTreeBuilder {
         private SubtreeActionMapperBuilder subtreeActionMapperBuilder = new SubtreeActionMapperBuilder();
 
