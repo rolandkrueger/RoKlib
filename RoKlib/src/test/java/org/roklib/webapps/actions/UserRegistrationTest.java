@@ -22,12 +22,13 @@ package org.roklib.webapps.actions;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.webapps.actions.UserRegistration;
 import org.roklib.webapps.actions.UserRegistration.RegistrationConfirmationOutcome;
 import org.roklib.webapps.actions.UserRegistration.RegistrationOutcome;
+import org.roklib.webapps.state.GenericUserState;
 import org.roklib.webapps.testhelper.TUser;
 import org.roklib.webapps.testhelper.TUserDataAccess;
 import org.roklib.webapps.testhelper.TUserRegistrationMethods;
-import org.roklib.webapps.state.GenericUserState;
 
 import static org.junit.Assert.*;
 

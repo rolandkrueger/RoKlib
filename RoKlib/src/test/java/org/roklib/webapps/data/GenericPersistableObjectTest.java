@@ -21,6 +21,7 @@
 package org.roklib.webapps.data;
 
 import org.junit.Test;
+import org.roklib.webapps.data.GenericPersistableObjectImpl;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;

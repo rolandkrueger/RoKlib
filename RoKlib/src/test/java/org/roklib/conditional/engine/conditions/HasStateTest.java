@@ -23,10 +23,11 @@ package org.roklib.conditional.engine.conditions;
 import org.junit.Test;
 import org.roklib.webapps.state.GenericUserState;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 public class HasStateTest {
+
     @Test
     public void testGetBooleanValue() {
         GenericUserState state = new GenericUserState();

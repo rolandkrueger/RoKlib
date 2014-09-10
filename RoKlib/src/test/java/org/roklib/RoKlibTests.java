@@ -25,10 +25,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.roklib.util.UtilsTests;
-import org.roklib.webapps.WebappsTest;
-import org.roklib.webapps.uridispatching.URIDispatchingTests;
 
 @RunWith(Suite.class)
-@SuiteClasses({UtilsTests.class, WebappsTest.class, URIDispatchingTests.class})
+@SuiteClasses({UtilsTests.class})
 public class RoKlibTests {
 }

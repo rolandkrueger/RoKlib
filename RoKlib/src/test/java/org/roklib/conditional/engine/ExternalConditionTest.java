@@ -24,10 +24,10 @@ import org.junit.Test;
 import org.roklib.conditional.engine.conditions.HasState;
 import org.roklib.webapps.state.GenericUserState;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ExternalConditionTest {
+
     @Test
     public void testGetBooleanValue() {
         GenericUserState state = new GenericUserState();

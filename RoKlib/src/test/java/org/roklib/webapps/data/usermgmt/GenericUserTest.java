@@ -22,6 +22,8 @@ package org.roklib.webapps.data.usermgmt;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.roklib.webapps.data.usermgmt.GenericUser;
+import org.roklib.webapps.data.usermgmt.UserRole;
 import org.roklib.webapps.state.GenericUserState;
 
 import static org.junit.Assert.*;
