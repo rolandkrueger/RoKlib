@@ -1,0 +1,31 @@
+URIActionMapperTree:
+  create(), 
+  subtree(), 
+  action(), 
+  pathSegment()
+
+
+create()
+   .map(pathSegment("home").on(
+      subtree().map(
+	               pathSegment("profile").on(action(...)))
+	           .map(
+			       pathSegment("admin").on(action(...)))
+   ))
+   .map(pathSegment("show").on(
+      action()
+   ))
+
+URIActionMapperTree.pathSegment(String): erzeugt URIPathSegmentActionMapperBuilder
+URIPathSegmentActionMapperBuilder.on(...): liefert konfigurierten URIPathSegmentActionMapperBuilder
+
+URIActionMapperTreeBuilder.map(URIPathSegmentActionMapperBuilder): fügt gebauten path segment action mapper des Builders hinzu, liefert URIActionMapperTreeBuilder zurück
+
+action(...): erzeugt URIActionCommandBuilder
+subtree(...): erzeugt SubtreeActionMapperBuilder
+
+
+-- home
+    +-- profile
+	+-- admin
+-- show
