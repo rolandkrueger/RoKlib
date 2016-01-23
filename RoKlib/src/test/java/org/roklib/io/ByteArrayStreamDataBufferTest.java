@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * @author Roland Krueger
  */
-public class ByteArrayStreamDataBufferTest extends IStreamDataBufferTest {
+public class ByteArrayStreamDataBufferTest extends AbstractStreamDataBufferTest {
     @Override
     public StreamDataBuffer createObjectUnderTest() throws IOException {
         return new ByteArrayStreamDataBuffer();

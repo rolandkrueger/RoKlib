@@ -26,6 +26,6 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({StreamUtilitiesTest.class, IStreamDataBufferTest.class, ByteArrayStreamDataBufferTest.class})
+@SuiteClasses({StreamUtilitiesTest.class, AbstractStreamDataBufferTest.class, ByteArrayStreamDataBufferTest.class})
 public class IOTests {
 }
