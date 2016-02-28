@@ -10,7 +10,7 @@
 
 	<modules>
 		<module>RoKlib</module>
-		<module>RoKlib-Demo</module>
+		<!--<module>RoKlib-Demo</module>-->
 		<module>RoKlib-Doc</module>
 	</modules>
 
